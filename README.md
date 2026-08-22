@@ -283,13 +283,21 @@ The current development is dimension-generic and proves:
 - a compatible nontrivial second factor in the generic collision algebra
   descends, by flatness of $K=\mathrm{Frac}(B)$, to
   $\mathrm{Obs}(F)\ne0$ and $I_R(F)\subsetneq I_\Delta$;
-- under explicit residual-field, degree-three, marked-normal-closure,
-  marked-embedding compatibility, and nontrivial-fixing-subgroup
-  conditions, the same residual field $N$ satisfies
+- cubic nonnormality implies irreducibility of the quadratic residual
+  polynomial, identifies its residual algebra with the marked normal
+  closure, and proves nontriviality of the subgroup fixing the marked
+  cubic field;
+- the lower-level generic witness builder takes explicit residual-field,
+  degree-three, marked-normal-closure, marked-embedding compatibility, and
+  nontrivial-fixing-subgroup data and concludes
   $\mathrm{Gal}(N/K)\simeq S_3$;
+- classical Keller--Galois rigidity is represented by the explicit
+  theorem-target proposition `ComplexKellerGaloisRigidity`; it is neither
+  installed as an axiom nor proved in Lean;
 - for $F:\mathbb A^3_{\mathbb C}\to\mathbb A^3_{\mathbb C}$, the theorem
-  `complexThreeCubicS3Collision` takes the Keller condition as an explicit
-  hypothesis and packages the generic decomposition
+  `complexThreeCubicS3Collision` takes the Keller condition and the
+  nonnormal cubic branch as explicit hypotheses, constructs the residual
+  normal-closure identification, and packages the generic decomposition
   $K\otimes_BC_F\simeq L\times N$, the identification
   $\operatorname{Gal}(N/K)\simeq S_3$,
   `IsComplexThreeJacobianCounterexample F`, nonemptiness of
@@ -718,7 +726,7 @@ F(u)=F(v)\Longrightarrow u=v.
 ```
 
 The dimension-three specialization is organized under `ComplexThree.Cubic`:
-`FunctionField`, `GaloisGroup`, `S3Collision`, and `Main`.
+`FunctionField`, `GaloisGroup`, `Branch`, `S3Collision`, and `Main`.
 
 This is a conditional cubic-extension statement.  It is neither a
 universal assertion that every three-dimensional off-diagonal collision locus has

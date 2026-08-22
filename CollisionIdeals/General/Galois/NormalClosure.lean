@@ -81,6 +81,40 @@ theorem fixedField_intermediateFixingSubgroup
   exact IsGalois.fixedField_fixingSubgroup D.intermediateField
 
 /--
+If the marked extension `L / K` is not normal, then the subgroup of the
+normal-closure Galois group fixing the marked copy of `L` is nontrivial.
+
+Indeed, a trivial fixing subgroup would have fixed field all of `N`.
+Galois correspondence identifies that fixed field with the marked copy of
+`L`, making the distinguished embedding `L →ₐ[K] N` an equivalence.  Normality
+of the normal closure would then transfer back to `L / K`.
+-/
+theorem intermediateFixingSubgroup_ne_bot_of_not_normal
+    [PerfectField K]
+    (D : NormalClosureData K L N)
+    (hNotNormal : ¬ Normal K L) :
+    D.intermediateFixingSubgroup ≠ ⊥ := by
+  intro hFixing
+  have hIntermediate : D.intermediateField = ⊤ := by
+    calc
+      D.intermediateField =
+          IntermediateField.fixedField D.intermediateFixingSubgroup :=
+        D.fixedField_intermediateFixingSubgroup.symm
+      _ = IntermediateField.fixedField
+          (⊥ : Subgroup D.galoisGroup) := by rw [hFixing]
+      _ = ⊤ := IntermediateField.fixedField_bot
+  have hSurjective : Function.Surjective D.embedding := by
+    intro z
+    rw [← AlgHom.mem_fieldRange]
+    change z ∈ D.intermediateField
+    rw [hIntermediate]
+    trivial
+  let e : L ≃ₐ[K] N :=
+    AlgEquiv.ofBijective D.embedding
+      ⟨D.embedding.injective, hSurjective⟩
+  exact hNotNormal ((e.transfer_normal).mpr D.normal)
+
+/--
 Because `N` is the actual normal closure of the marked copy of `L`, the
 action of `Gal(N/K)` on its conjugate sheets is faithful. Equivalently,
 the subgroup fixing `L` is core-free.

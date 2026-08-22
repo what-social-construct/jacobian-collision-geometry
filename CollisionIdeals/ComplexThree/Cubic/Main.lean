@@ -1,7 +1,7 @@
 import CollisionIdeals.ComplexThree.Cubic.FunctionField
 import CollisionIdeals.ComplexThree.Statements.JacobianConjecture
 import CollisionIdeals.ComplexThree.OffDiagonal
-import CollisionIdeals.ComplexThree.Cubic.S3Collision
+import CollisionIdeals.ComplexThree.Cubic.Branch
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -20,8 +20,8 @@ The structural dimension-three conclusion, without choosing coordinates
 for a particular counterexample.
 
 For a complex three-dimensional Keller map whose induced extension is
-cubic and whose chosen normal-closure realization is the nonnormal
-`S₃` case, the generic collision algebra is
+cubic and whose chosen normal-closure realization is in the nonnormal
+cubic case, the generic collision algebra is
 
 `K ⊗_B C_F ≃ L × N`.
 
@@ -33,7 +33,8 @@ generic factor descends to a nonzero affine obstruction:
 
 The Keller hypothesis records the geometric setting.  The algebraic
 factorization itself is supplied by the explicit generic, cubic,
-normal-closure, and residual-field data below.
+normal-closure, and nonnormality data below; the residual-field
+identification is constructed internally from the nonnormal cubic branch.
 -/
 theorem complexThreeCubicS3Collision
     (F : ComplexThreePolynomialMap)
@@ -66,13 +67,10 @@ theorem complexThreeCubicS3Collision
         (ComplexThreeBaseFunctionField F)
         ComplexThreeSourceFunctionField)
     (hdegree : pb.dim = 3)
-    (residualEquiv :
-      CubicResidualAlgebra
-          (ComplexThreeBaseFunctionField F)
-          ComplexThreeSourceFunctionField
-          pb ≃ₐ[ComplexThreeSourceFunctionField] N)
-    (hnontrivial :
-      normalClosure.intermediateFixingSubgroup ≠ ⊥) :
+    (hNotNormal :
+      ¬ Normal
+        (ComplexThreeBaseFunctionField F)
+        ComplexThreeSourceFunctionField) :
     letI : Algebra
         (polynomialMapImageAlgebra F) (CollisionRing F) :=
       polynomialImageCollisionAlgebra F
@@ -93,6 +91,15 @@ theorem complexThreeCubicS3Collision
   letI : Algebra
       (polynomialMapImageAlgebra F) (CollisionRing F) :=
     polynomialImageCollisionAlgebra F
+  let residualEquiv :
+      CubicResidualAlgebra
+          (ComplexThreeBaseFunctionField F)
+          ComplexThreeSourceFunctionField
+          pb ≃ₐ[ComplexThreeSourceFunctionField] N :=
+    cubicResidualEquivNormalClosureOfNotNormal
+      (ComplexThreeBaseFunctionField F)
+      ComplexThreeSourceFunctionField N normalClosure hmarked pb hdegree
+      hNotNormal
   have hObstruction : obstructionIdeal F ≠ ⊥ :=
     polynomial_obstructionIdeal_ne_bot_of_cubicResidual
       F N hsurj pb residualEquiv
@@ -116,7 +123,8 @@ theorem complexThreeCubicS3Collision
     ⟨hCounterexample, hObstruction, hStrict, hOffDiagonal,
       exists_polynomialCubicS3CollisionWitness_of_normalClosure
         F N normalClosure hmarked hsurj pb hdegree residualEquiv
-          hnontrivial⟩
+          (normalClosure.intermediateFixingSubgroup_ne_bot_of_not_normal
+            hNotNormal)⟩
 
 end
 

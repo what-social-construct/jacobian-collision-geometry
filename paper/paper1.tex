@@ -19,7 +19,7 @@
   {\normalfont\Large\bfseries}{\thesubsection}{1em}{}
 
 \hypersetup{
-  pdftitle={Cubic Collision Geometry and the S3 Sheet},
+  pdftitle={Generic Degree Three in JC(3): Collision Geometry and Galois Group S3},
   pdfauthor={Chloe van der Vlugt},
   colorlinks=true,
   linkcolor=blue!55!black,
@@ -70,26 +70,22 @@
 We study possible counterexamples to the complex three-dimensional
 Jacobian conjecture.  For a polynomial self-map
 \(F\colon\A^n_{\C}\to\A^n_{\C}\), we consider the coordinate ring \(C_F\)
-of the scheme of pairs with the same image.  Restriction to the diagonal
-has kernel \(\Obs(F)\), whose vanishing over \(\C\) characterizes polynomial
-automorphisms.  For a counterexample of generic degree three, we find that
-the residual factor of the generic collision algebra is the normal closure
-\(N\) of \(L/K\), whose Galois group is \(S_3\).
+of the scheme of pairs with the same image; its diagonal is defined by an
+ideal \(\Obs(F)\subseteq C_F\).  Put
+\(K=\C(F_1,\dots,F_n)\) and \(L=\C(x_1,\dots,x_n)\).
+When \(n=3\) and \([L:K]=3\), the map is not a polynomial automorphism.
+Thus every Keller map in this stratum is a counterexample to \(JC(3)\).
 
-Indeed, generic base change identifies \(K\otimes_BC_F\) with
-\(L\otimes_KL\).  For a finite separable extension and a primitive generator
-\(\alpha\), the marked-root decomposition gives
-\[
-  L\otimes_KL\simeq_L L\times D_\alpha,
-\]
-with tensor multiplication equal to first projection.  In degree three,
-\(D_\alpha\) is split in the normal branch and is the normal closure in
-the nonnormal branch.  A degree-three map is already nonautomorphic, so on
-this stratum the counterexample condition is equivalent to the Keller
-condition.  Classical Galois rigidity excludes the normal branch and yields
-the stated \(S_3\)-description.  The marked-root decomposition itself is
-Keller-free.  No existence assertion is made, and counterexamples of other
-generic degrees are not classified.
+After generic base change, the collision algebra is \(L\otimes_K L\).  It
+splits into its diagonal \(L\)-factor and a quadratic residual
+\(L\)-algebra.  For a Keller map, classical Galois rigidity excludes the
+split normal branch.  The residual algebra is therefore a field containing
+the other two conjugate roots of the cubic extension, hence is
+\(L\)-isomorphic to its normal closure \(N\).  Now
+\([N:K]=[N:L][L:K]=6\), and \(\Gal(N/K)\) acts faithfully on the three
+\(K\)-embeddings of \(L\); hence \(\Gal(N/K)\simeq S_3\).  No existence
+assertion is made, and counterexamples of other generic degrees are not
+classified.
 \end{abstract}
 
 \begin{center}
@@ -661,8 +657,9 @@ and Wright \cite{Campbell1973,Razar1979,Wright1981}.
 \leanpath{CollisionIdeals/General/FiberProduct/Polynomial.lean},
 \leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean},
 \leanpath{CollisionIdeals/General/GenericFiber/MarkedRootDecomposition.lean},
-\leanpath{CollisionIdeals/General/Keller/Interfaces.lean}, and
-\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean}.  The Lean form of
+\leanpath{CollisionIdeals/General/Keller/Interfaces.lean},
+\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean}, and
+\leanpath{CollisionIdeals/General/Automorphism/GaloisRigidity.lean}.  The Lean form of
 Theorem~\ref{thm:generic-collision-base-change} takes surjectivity of
 \(\theta\) as a parameter; the proof above derives it from generic
 finiteness.  The predicates \leanpath{KellerEtaleBridge} and
@@ -1046,19 +1043,27 @@ the ordered-root normal closure.
 \begin{leanfiles}
 \leanpath{CollisionIdeals/ComplexThree/Cubic/GaloisGroup.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/S3Collision.lean},
+\leanpath{CollisionIdeals/ComplexThree/Cubic/Branch.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/Main.lean}, and
 \leanpath{CollisionIdeals/ComplexThree/Statements/JacobianConjecture.lean}.  The
 generic product-annihilator quotient is formalized in
-\leanpath{CollisionIdeals/General/GenericFiber/DiagonalObstruction.lean}.  The
-Lean cubic witness takes the residual-field isomorphism and
-\(H\neq1\) as explicit inputs.  It proves obstruction nonvanishing before
+\leanpath{CollisionIdeals/General/GenericFiber/DiagonalObstruction.lean}.
+The generic Lean cubic witness builder takes the residual-field isomorphism and
+\(H\neq1\) as explicit inputs.  The cubic branch module now derives both
+from nonnormality: the dimension-independent normal-closure API gives
+\(H\neq1\), and the cubic normal-closure/Galois-action and dimension-count
+argument constructs the marked residual-field isomorphism.  The
+dimension-three wrapper uses these two
+implications.  It proves obstruction nonvanishing before
 using the Keller hypothesis solely to assemble the counterexample
 statement; the exact generic-degree-three equivalence displayed above is
 not yet packaged as a separate Lean theorem.  In the manuscript the two
 field-theoretic inputs follow from
 Proposition~\ref{prop:cubic-tensor-decomposition} and Corollary
-\ref{cor:cubic-counterexample-locus}; the use of classical Galois
-rigidity in that corollary is not yet formalized.  Hidden inertia is formalized
+\ref{cor:cubic-counterexample-locus}.  Classical Galois rigidity is
+represented by the theorem-target proposition
+\leanpath{ComplexKellerGaloisRigidity}, but is neither assumed as an axiom
+nor proved in Lean.  Hidden inertia is formalized
 separately in
 \leanpath{CollisionIdeals/ComplexThree/Cubic/HiddenInertia.lean}, so the cubic
 core has no normalization or ramification dependency.
