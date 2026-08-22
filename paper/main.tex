@@ -1170,13 +1170,30 @@ so \(\Obs(F)=0\).
 \end{proof}
 
 \begin{leanfiles}
+\leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
+\leanpath{CollisionIdeals/General/Collision/Ideal.lean},
 \leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
+\leanpath{CollisionIdeals/General/FiberProduct/Polynomial.lean},
 \leanpath{CollisionIdeals/General/ResidualCollision/Scheme.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean}, and
-\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean}.  The Lean form of
+\leanpath{CollisionIdeals/General/GenericFiber/FunctionField.lean},
+\leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean},
+\leanpath{CollisionIdeals/General/GenericFiber/MarkedRootDecomposition.lean},
+\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean},
+\leanpath{CollisionIdeals/General/Automorphism/GenericDegreeOne.lean},
+\leanpath{CollisionIdeals/General/Galois/NormalClosure.lean},
+\leanpath{CollisionIdeals/General/Galois/Sheets.lean},
+\leanpath{CollisionIdeals/General/Galois/DecompositionSheets.lean},
+\leanpath{CollisionIdeals/General/Normalization/Polynomial.lean},
+\leanpath{CollisionIdeals/General/Normalization/Diagram.lean}, and
+\leanpath{CollisionIdeals/General/Normalization/VisibleRamification.lean}.
+The Lean form of
 Theorem~\ref{thm:generic-collision-base-change} takes surjectivity of
 \(\theta\) as a parameter; the proof above derives it from generic
-finiteness.
+finiteness.  The normal-closure and group-theoretic sheet objects are
+formalized, while the displayed coset--embedding correspondence is not yet
+packaged.  Geometric centers and the equality between group-theoretic and
+valuation-theoretic ramification indices remain supplied comparison data
+through the normalization-diagram and ramification-realization interfaces.
 \end{leanfiles}
 
 \section{Planar vanishing}
@@ -1588,7 +1605,7 @@ factors uniquely through the off-diagonal algebra:
     \bigl(C_F\twoheadrightarrow C_F^\circ\bigr).
 \]
 
-Equivalently, every collision cocone into a domain which moves at least one
+Equivalently, every collision map pair into a domain which moves at least one
 of the two planar coordinates annihilates \(I_{\mathrm{off}}\).
 \end{proposition}
 
@@ -3596,52 +3613,74 @@ identify its unbounded source and finite target, while
 solution would establish its height-one premise.
 
 \begin{leanfiles}
-The stable API formalizes the canonical ideals
-\leanpath{fixedLocusIdeal}, \leanpath{movingBoundaryIdeal}, and
-\leanpath{fixedMovingBoundaryIdeal}, together with
-\leanpath{PlanarBoundarySeparation}, the pulled-back conjugate boundaries,
-their valuation-theoretic containment at ramified divisors, and the ensuing
-purity endgame.  It takes planar Ax--Grothendieck, branch purity, finite-
-\'etale rigidity, and a supplied \leanpath{PlanarKellerCollisionModel F} as
-explicit interfaces.  The Lean separation predicate currently quantifies
-over every nontrivial subgroup; formalizing its prime-order Cauchy reduction
-is a remaining routine API task.
+The stable modules
+\leanpath{CollisionIdeals/Planar/Boundary/Separation.lean} and
+\leanpath{CollisionIdeals/Planar/Rigidity/Consequences.lean} formalize the
+canonical ideals \leanpath{fixedLocusIdeal},
+\leanpath{movingBoundaryIdeal}, and \leanpath{fixedMovingBoundaryIdeal},
+together with \leanpath{PlanarBoundarySeparation}, the pulled-back
+conjugate boundaries, their valuation-theoretic containment at ramified
+divisors, and the hypothesis-parametrized purity endgame.  That endgame
+takes branch purity, finite-\'etale rigidity, and a supplied
+\leanpath{PlanarKellerCollisionModel F} explicitly.  The proposition types
+are in \leanpath{CollisionIdeals/Planar/External/Interfaces.lean};
+\leanpath{CollisionIdeals/Planar/External/Assumptions.lean} supplies default
+branch-purity, finite-\'etale, and planar Ax--Grothendieck witnesses as
+axioms.  Ax--Grothendieck is needed only for the terminal automorphism
+statement, not for obstruction vanishing.  The Lean separation predicate
+currently quantifies over every nontrivial subgroup; formalizing its
+prime-order Cauchy reduction is a remaining routine API task.
 
-The general object \leanpath{BoundaryPrincipalParts} and its canonical
-specialization \leanpath{FixedMovingBoundaryPrincipalParts} are defined.
+The boundary object \leanpath{BoundaryPrincipalParts} is defined in
+\leanpath{CollisionIdeals/Planar/Boundary/PrincipalParts.lean}; its canonical
+specialization \leanpath{FixedMovingBoundaryPrincipalParts} is in
+\leanpath{CollisionIdeals/Planar/Research/FixedMovingBoundaryPrincipalParts.lean}.
 The local-cohomology localization, DVR computation, and \(S_2\)-vanishing
-used in Statement~I are not yet formalized.  The research layer defines the
-generic \leanpath{TraceIntegralSubmodule} and
+used in Statement~I are not yet formalized.  The research module
+\leanpath{CollisionIdeals/Planar/Research/PrincipalPartsStrategy.lean}
+defines \leanpath{TraceIntegralSubmodule} and
 \leanpath{boundedStageComparisonIdeal}; it proves the former equal to
 Mathlib's \leanpath{Submodule.traceDual} on the unit order.  The opt-in
-modules \leanpath{Planar.Research.TateReconstruction} and
-\leanpath{Planar.Research.MonogenicTraceDual} now formalize the finite Tate
-sum, the monogenic trace-dual formula, and the overorder
-conductor--codifferent identity.  Trace-dual/Hom finiteness and the local
-inverse-different assertion of Statement~II remain unfinished in the planar
-specialization.  Secant evaluation on a generic collision cocone and its
-canonical factorization through the off-diagonal quotient are formalized in
-\leanpath{CollisionIdeals/Planar/ConjugateSecantEvaluation.lean}; the actual
-Galois \((g,\sigma g)\)-overlap specialization and coefficient family remain
-missing.  The
-choice-free telescoping coefficients and polynomial Keller frame are in
-\leanpath{Planar.ExplicitSecant} and \leanpath{Planar.KellerFrame}.  The
-research theorem \leanpath{finiteCoefficientDenominatorIdeal_ne_bot}
+modules \leanpath{CollisionIdeals/Planar/Research/TateReconstruction.lean}
+and \leanpath{CollisionIdeals/Planar/Research/MonogenicTraceDual.lean}
+formalize the finite Tate sum, the monogenic trace-dual formula, and the
+overorder conductor--codifferent identity.  Trace-dual/Hom finiteness and
+the local inverse-different assertion of Statement~II remain unfinished in
+the planar specialization.
+
+Secant evaluation on a generic collision map pair and its canonical
+factorization through the off-diagonal quotient are formalized in
+\leanpath{CollisionIdeals/Planar/ConjugateSecantEvaluation.lean}.  The actual
+Galois \((g,\sigma g)\) map pair and its planar off-diagonal specialization
+are in
+\leanpath{CollisionIdeals/General/Galois/PolynomialCollisionPair.lean} and
+\leanpath{CollisionIdeals/Planar/GaloisCollisionPair.lean}; the relative-
+\(C\) coevaluation, overlap-section-ring specialization, and evaluated
+coefficient family remain missing.  The choice-free telescoping
+coefficients and polynomial Keller frame are in
+\leanpath{CollisionIdeals/Planar/ExplicitSecant.lean} and
+\leanpath{CollisionIdeals/Planar/KellerFrame.lean}.  The theorem
+\leanpath{finiteCoefficientDenominatorIdeal_ne_bot} in
+\leanpath{CollisionIdeals/Planar/Research/SecantFrameDenominator.lean}
 formalizes finite denominator clearing, but the actual conjugate evaluated
-family is missing.  The opt-in module
-\leanpath{Planar.Research.MonogenicOrder} directly reuses Mathlib's
-\leanpath{Algebra.adjoin}, \leanpath{Algebra.adjoin.powerBasis'},
-\leanpath{minpoly.equivAdjoin}, and \leanpath{conductor} for the monogenic
-comparison order.  The module \leanpath{Planar.Research.MonogenicLanding}
-defines the conductor bounded stage and its transporter and proves an
-abstract landing-to-endgame implication from a supplied pole witness.  The
+family is missing.
+
+The opt-in module
+\leanpath{CollisionIdeals/Planar/Research/MonogenicOrder.lean} directly
+reuses Mathlib's \leanpath{Algebra.adjoin},
+\leanpath{Algebra.adjoin.powerBasis'}, \leanpath{minpoly.equivAdjoin}, and
+\leanpath{conductor} for the monogenic comparison order.  The module
+\leanpath{CollisionIdeals/Planar/Research/MonogenicLanding.lean} defines the
+conductor bounded stage and its transporter and proves an abstract
+landing-to-endgame implication from a supplied pole witness.  The
 open-section algebra \(R_C\), its common embedding with the bounded stage in
 \(N/T\), the concrete conjugate evaluated secant--frame family, the
 specialization of the generic finite-overring theorem to \(R_C\), and the
-ideal containment
-\((\mathrm{SFTL}_C)\) remain to be formalized.  All these research objects
-remain behind \leanpath{CollisionIdeals/Planar/Research.lean}, outside the
-stable import spine.
+ideal containment \((\mathrm{SFTL}_C)\) remain to be formalized.  These
+fixed-moving, trace, denominator, and monogenic landing modules remain
+behind \leanpath{CollisionIdeals/Planar/Research.lean}; the secant, frame,
+Galois-pair, conjugate-evaluation, and basic boundary modules named above
+belong to the stable \leanpath{CollisionIdeals/Planar.lean} import spine.
 \end{leanfiles}
 
 \begin{remark}[Exact remaining content of classical \(JC(2)\)]
@@ -4062,15 +4101,20 @@ the ordered-root normal closure.
 \end{remark}
 
 \begin{leanfiles}
+\leanpath{CollisionIdeals/ComplexThree/Cubic/FunctionField.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/GaloisGroup.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/S3Collision.lean},
+\leanpath{CollisionIdeals/ComplexThree/Cubic/Branch.lean},
 \leanpath{CollisionIdeals/ComplexThree/OffDiagonal.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/Main.lean}, and
 \leanpath{CollisionIdeals/ComplexThree/Statements/JacobianConjecture.lean}.  The
-Lean cubic witness takes the residual-field isomorphism and
-\(H\neq1\) as explicit inputs; Proposition~\ref{prop:cubic-tensor-decomposition}
-derives them here from nonnormality.  Hidden inertia is formalized
-pointwise at a supplied ramified divisor.
+lower-level generic Lean witness builder takes the residual-field
+isomorphism and \(H\neq1\) as explicit inputs.  The cubic branch module now
+derives both from nonnormality, and the dimension-three wrapper uses those
+derived inputs.  Hidden inertia is formalized separately, pointwise at a
+supplied ramified divisor and conditional on a supplied Keller
+collision--normalization model and \(H\neq1\), in
+\leanpath{CollisionIdeals/ComplexThree/Cubic/HiddenInertia.lean}.
 \end{leanfiles}
 
 \begin{remark}[Exact relation with classical complex \(JC(3)\)]

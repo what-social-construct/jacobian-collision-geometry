@@ -137,8 +137,10 @@ $C_F$, is the diagonal.  Thus $\mathrm{Obs}(F)=0$ says that the
 self-fiber product is scheme-theoretically only the diagonal.
 Write
 $C_F^\circ:=S/(I_R:I_\Delta)$ and
-$R_F^\circ:=\operatorname{Spec}(C_F^\circ)$ for the affine off-diagonal
-factor.
+$R_F^\circ:=\operatorname{Spec}(C_F^\circ)$ for the affine first-colon
+residual scheme.  It is the complementary off-diagonal factor when the
+diagonal is clopen; no such product decomposition is implicit in the
+definition.
 
 ## Universal property
 
@@ -715,9 +717,11 @@ roots determine the third.  Thus the residual factor is
 the normal closure $N/K$, whose Galois group is $S_3$.  The formal theorem
 requires that the marked
 embedding in `NormalClosureData` agree with the $L$-algebra structure
-used for this residual factor.  It identifies $N$ at the generic
-base-changed level; it does not assert an equivalence
-$\mathrm{Frac}(C_F^\circ)\simeq N$.
+used for this residual factor.  It identifies $N$ as the second factor at
+generic base change; together with the generic product--annihilator lemma,
+this identifies $N$ with the intrinsic residual quotient.  It does not
+identify $K\otimes_B C_F^\circ$ with $N$; that would require the missing
+localization--colon comparison.
 The nonzero generic kernel nevertheless descends to the affine
 obstruction and records the failure of
 

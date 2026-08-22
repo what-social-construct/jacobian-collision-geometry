@@ -58,6 +58,8 @@ The status distinction in the paper is intentional:
 - repository-wide manuscript/Lean parity and the deletion gates for legacy or
   optional research objects are recorded in `../SEMANTIC-PARITY.md`;
 - the dimension-three theorem is an abstract implication from explicit
-  cubic residual-field and marked-normal-closure data.  It concludes
-  `IsComplexThreeJacobianCounterexample F`, but does not instantiate those
+  generic-source surjectivity, cubic power-basis, nonnormality, and marked
+  normal-closure data.  It now constructs the residual normal-closure
+  equivalence and the nontrivial fixing subgroup internally.  It concludes
+  `IsComplexThreeJacobianCounterexample F`, but does not instantiate these
   conditions with a concrete polynomial map.

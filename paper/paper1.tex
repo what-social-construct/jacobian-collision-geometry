@@ -70,22 +70,22 @@
 We study possible counterexamples to the complex three-dimensional
 Jacobian conjecture.  For a polynomial self-map
 \(F\colon\A^n_{\C}\to\A^n_{\C}\), we consider the coordinate ring \(C_F\)
-of the scheme of pairs with the same image; its diagonal is defined by an
+of the scheme of pairs with the same image and define its diagonal by the
 ideal \(\Obs(F)\subseteq C_F\).  Put
-\(K=\C(F_1,\dots,F_n)\) and \(L=\C(x_1,\dots,x_n)\).
-When \(n=3\) and \([L:K]=3\), the map is not a polynomial automorphism.
-Thus every Keller map in this stratum is a counterexample to \(JC(3)\).
+\(B=\C[F_1,\dots,F_n]\), \(K=\Frac(B)\), and
+\(L=\C(x_1,\dots,x_n)\).
+We show that when \(n=3\) and \([L:K]=3\), every Keller map is a
+counterexample to \(JC(3)\).
 
-After generic base change, the collision algebra is \(L\otimes_K L\).  It
-splits into its diagonal \(L\)-factor and a quadratic residual
-\(L\)-algebra.  For a Keller map, classical Galois rigidity excludes the
-split normal branch.  The residual algebra is therefore a field containing
-the other two conjugate roots of the cubic extension, hence is
-\(L\)-isomorphic to its normal closure \(N\).  Now
-\([N:K]=[N:L][L:K]=6\), and \(\Gal(N/K)\) acts faithfully on the three
-\(K\)-embeddings of \(L\); hence \(\Gal(N/K)\simeq S_3\).  No existence
-assertion is made, and counterexamples of other generic degrees are not
-classified.
+For every such map, the generic collision algebra decomposes as
+\[
+  K\otimes_B C_F\simeq L\times N,
+  \qquad
+  \Gal(N/K)\simeq S_3.
+\]
+Here \(N\) is the normal closure of \(L/K\).  This describes every possible
+generic-degree-three counterexample; it neither asserts existence nor
+classifies counterexamples of other generic degrees.
 \end{abstract}
 
 \begin{center}
@@ -140,7 +140,7 @@ degree of a counterexample.
 
 This paper studies that first degree in dimension three.  Since polynomial
 automorphisms have generic degree one, every map with \([L:K]=3\) is already
-nonautomorphic.  On this stratum,
+nonautomorphic.  In this generic-degree-three case,
 \[
   F\text{ is a counterexample to }JC(3)
   \quad\Longleftrightarrow\quad
@@ -653,19 +653,29 @@ and Wright \cite{Campbell1973,Razar1979,Wright1981}.
 \end{proof}
 
 \begin{leanfiles}
+\leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
+\leanpath{CollisionIdeals/General/Collision/Ideal.lean},
 \leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
 \leanpath{CollisionIdeals/General/FiberProduct/Polynomial.lean},
+\leanpath{CollisionIdeals/General/ResidualCollision/Scheme.lean},
+\leanpath{CollisionIdeals/General/GenericFiber/FunctionField.lean},
 \leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean},
 \leanpath{CollisionIdeals/General/GenericFiber/MarkedRootDecomposition.lean},
 \leanpath{CollisionIdeals/General/Keller/Interfaces.lean},
 \leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean}, and
-\leanpath{CollisionIdeals/General/Automorphism/GaloisRigidity.lean}.  The Lean form of
+\leanpath{CollisionIdeals/General/Automorphism/GaloisRigidity.lean}.
+The polynomial fiber-product module uses the abstract target polynomial
+ring; the equivalence over the actual image algebra
+\(B=\C[F_1,\ldots,F_n]\) and its generic base change are owned by the
+generic-function-field module.  The Lean form of
 Theorem~\ref{thm:generic-collision-base-change} takes surjectivity of
 \(\theta\) as a parameter; the proof above derives it from generic
 finiteness.  The predicates \leanpath{KellerEtaleBridge} and
 \leanpath{KellerFlatBridge} expose parts of Proposition
 \ref{prop:keller-generic-geometry} as theorem targets; Lean does not yet
 derive them, generic finiteness, or separability from \leanpath{IsKeller}.
+Ax--Grothendieck also remains an explicit parameter of the Lean
+automorphism equivalence.
 \end{leanfiles}
 
 % The planar specialization is retained in main.tex and reserved for Paper II.
@@ -719,7 +729,9 @@ generic degree three:
   [L:K]=3.
 \]
 Because \(K\) has characteristic zero, \(L/K\) is separable.  Choose a
-primitive element \(\alpha\) \cite{StacksPrimitiveElement}, so that
+primitive element \(\alpha\)
+\cite[\href{https://stacks.math.columbia.edu/tag/030N}{Tag~030N}]{StacksProject},
+so that
 \(L=K(\alpha)\) with power basis
 \(1,\alpha,\alpha^2\).
 If \(m_\alpha\in K[T]\) is the minimal polynomial of \(\alpha\), let
@@ -735,7 +747,10 @@ diagonal factor with
 \]
 a finite \(L\)-algebra of degree two.
 Let \(N/K\) be the normal closure of \(L/K\), containing \(L\) through
-the marked inclusion.  Let
+the marked inclusion.  Since \(L/K\) is finite separable, \(N/K\) is
+Galois
+\cite[\href{https://stacks.math.columbia.edu/tag/0EXM}{Tag~0EXM}]{StacksProject}.
+Let
 \[
   G=\Gal(N/K),
   \qquad
@@ -783,7 +798,11 @@ Write
 \[
   m_\alpha(T)=T^3+a_2T^2+a_1T+a_0.
 \]
-The quadratic \(h_\alpha\) is separable.  If it is irreducible, then
+The quadratic \(h_\alpha\) is separable, so \(D_\alpha\) is finite
+\'etale over \(L\); finite \'etale algebras over a field are finite
+products of finite separable field extensions
+\cite[\href{https://stacks.math.columbia.edu/tag/00U3}{Tag~00U3}]{StacksProject}.
+If \(h_\alpha\) is irreducible, then
 \(D_\alpha\) is a field and hence has connected spectrum.  If it is
 reducible, it is a product of two distinct linear factors; the Chinese
 remainder theorem then gives \(D_\alpha\simeq L\times L\), whose spectrum
@@ -796,8 +815,9 @@ Separability gives \(\beta\neq\alpha\), and the third root is
   \gamma=-a_2-\alpha-\beta\in L.
 \]
 Thus \(m_\alpha\) would split over \(L\).  Since
-\(L=K(\alpha)\), the extension \(L/K\) would then be the splitting
-field of the separable polynomial \(m_\alpha\), hence normal.  Conversely,
+\(L=K(\alpha)\), the standard generator criterion for normality
+\cite[\href{https://stacks.math.columbia.edu/tag/0BR3}{Tag~0BR3}]{StacksProject}
+shows that \(L/K\) would be normal.  Conversely,
 if \(L/K\) is normal, then \(m_\alpha\) splits over \(L\), so
 \(h_\alpha\) is reducible.  Hence \textup{(iii)} and \textup{(iv)} are
 equivalent.
@@ -809,7 +829,9 @@ Assume these equivalent conditions, and let \(\beta\) denote the image of
 \]
 of \(m_\alpha\), and is generated over \(L\) by \(\beta\).  It is
 therefore the splitting field of \(m_\alpha\), which is the normal
-closure \(N\) of \(L/K\).  Choose the resulting \(L\)-algebra
+closure \(N\) of \(L/K\)
+\cite[\href{https://stacks.math.columbia.edu/tag/09DT}{Tag~09DT}]{StacksProject}.
+Choose the resulting \(L\)-algebra
 isomorphism
 \[
   \varphi\colon D_\alpha\xrightarrow{\sim}_L N.
@@ -874,6 +896,9 @@ the degree-two field \(D_\alpha\) over \(L\).  Hence
 \[
   |H|=[N:L]=2.
 \]
+Here we use the fixed-field degree formula from the fundamental theorem of
+Galois theory
+\cite[\href{https://stacks.math.columbia.edu/tag/09DW}{Tag~09DW}]{StacksProject}.
 The normal-closure identities recalled above give
 \[
   \core_G(H)=1,
@@ -1041,6 +1066,7 @@ the ordered-root normal closure.
 \end{remark}
 
 \begin{leanfiles}
+\leanpath{CollisionIdeals/ComplexThree/Cubic/FunctionField.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/GaloisGroup.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/S3Collision.lean},
 \leanpath{CollisionIdeals/ComplexThree/Cubic/Branch.lean},
@@ -1048,6 +1074,8 @@ the ordered-root normal closure.
 \leanpath{CollisionIdeals/ComplexThree/Statements/JacobianConjecture.lean}.  The
 generic product-annihilator quotient is formalized in
 \leanpath{CollisionIdeals/General/GenericFiber/DiagonalObstruction.lean}.
+The marked normal-closure object and fixing subgroup are in
+\leanpath{CollisionIdeals/General/Galois/NormalClosure.lean}.
 The generic Lean cubic witness builder takes the residual-field isomorphism and
 \(H\neq1\) as explicit inputs.  The cubic branch module now derives both
 from nonnormality: the dimension-independent normal-closure API gives
@@ -1057,16 +1085,20 @@ dimension-three wrapper uses these two
 implications.  It proves obstruction nonvanishing before
 using the Keller hypothesis solely to assemble the counterexample
 statement; the exact generic-degree-three equivalence displayed above is
-not yet packaged as a separate Lean theorem.  In the manuscript the two
+not yet packaged as a separate Lean theorem.  The full connectedness,
+field, irreducibility, and nonnormality equivalence is likewise not yet
+packaged: the branch module proves the nonnormal-to-irreducible direction
+and the residual normal-closure identification.  In the manuscript the two
 field-theoretic inputs follow from
 Proposition~\ref{prop:cubic-tensor-decomposition} and Corollary
 \ref{cor:cubic-counterexample-locus}.  Classical Galois rigidity is
 represented by the theorem-target proposition
 \leanpath{ComplexKellerGaloisRigidity}, but is neither assumed as an axiom
-nor proved in Lean.  Hidden inertia is formalized
-separately in
-\leanpath{CollisionIdeals/ComplexThree/Cubic/HiddenInertia.lean}, so the cubic
-core has no normalization or ramification dependency.
+nor proved in Lean.  Hidden inertia is formalized separately, pointwise at
+a supplied ramified divisor and conditional on a supplied Keller
+collision--normalization model and \(H\neq1\), in
+\leanpath{CollisionIdeals/ComplexThree/Cubic/HiddenInertia.lean}.  Thus the
+cubic core has no scheme-normalization or ramification dependency.
 \end{leanfiles}
 
 \begin{remark}[Exact relation with classical complex \(JC(3)\)]

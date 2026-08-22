@@ -12,7 +12,8 @@ elements `g` and `σ`, this file constructs the two source maps
 
 The dimension-independent ground-field algebra, conjugate source maps,
 stabilizer distinctness theorem, and Galois collision map pair are constructed
-in `PolynomialGaloisCollisionPair`.  This file supplies only the planar
+by `polynomialGaloisCollisionPair` in
+`CollisionIdeals.General.Galois.PolynomialCollisionPair`.  This file supplies only the planar
 off-diagonal specializations.
 -/
 
