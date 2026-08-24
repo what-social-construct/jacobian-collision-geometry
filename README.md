@@ -1,6 +1,6 @@
-# Collision ideals and diagonal ideals
+# Collision Geometry and the Jacobian Conjecture
 
-**[Read the paper (PDF)](Collision%20Ideals%20and%20Off-Diagonal%20Sheets.pdf)** · [LaTeX source](paper/)
+**[Read the paper (PDF)](Collision%20Geometry%20and%20the%20Jacobian%20Conjecture.pdf)** · [LaTeX source](paper/)
 
 Let
 
@@ -741,5 +741,5 @@ counterexample to the three-dimensional Jacobian conjecture.
 
 The Lean source and other software in this repository are available under
 the [MIT License](LICENSE).  The manuscript PDF
-[`Collision Ideals and Off-Diagonal Sheets.pdf`](Collision%20Ideals%20and%20Off-Diagonal%20Sheets.pdf) and other non-code material
+[`Collision Geometry and the Jacobian Conjecture.pdf`](Collision%20Geometry%20and%20the%20Jacobian%20Conjecture.pdf) and other non-code material
 in [`paper/`](paper/) are available under [CC BY 4.0](paper/LICENSE).
