@@ -50,7 +50,10 @@
    \textit{Lean correspondence.}\ }
   {\par\endgroup\medskip}
 
-\title{Generic Degree Three in \(JC(3)\): Collision Geometry and Galois Group \(S_3\)}
+\title{\texorpdfstring
+  {Generic Degree Three in \(JC(3)\): Collision Geometry\\
+   and Galois Group \(S_3\)}
+  {Generic Degree Three in JC(3): Collision Geometry and Galois Group S3}}
 \author{Chloe van der Vlugt}
 \date{\today}
 
@@ -647,7 +650,7 @@ Assume that \(F\) has generic degree three:
 \]
 Because \(K\) has characteristic zero, \(L/K\) is separable.  Choose a
 primitive element \(\alpha\)
-\cite[\href{https://stacks.math.columbia.edu/tag/030N}{Tag~030N}]{StacksProject},
+\cite{StacksPrimitiveElement},
 so that
 \(L=K(\alpha)\) with power basis
 \(1,\alpha,\alpha^2\).
@@ -666,7 +669,7 @@ Since \([L:K]=3\), it has dimension two over \(L\).
 Let \(N/K\) be the normal closure of \(L/K\), containing \(L\) through
 the marked inclusion.  Since \(L/K\) is finite separable, \(N/K\) is
 Galois
-\cite[\href{https://stacks.math.columbia.edu/tag/0EXM}{Tag~0EXM}]{StacksProject}.
+\cite{StacksNormalClosureGalois}.
 Let
 \[
   G=\Gal(N/K),
@@ -718,7 +721,7 @@ Write
 The quadratic \(h_\alpha\) is separable, so \(D_\alpha\) is finite
 \'etale over \(L\); finite \'etale algebras over a field are finite
 products of finite separable field extensions
-\cite[\href{https://stacks.math.columbia.edu/tag/00U3}{Tag~00U3}]{StacksProject}.
+\cite{StacksEtaleAlgebrasField}.
 If \(h_\alpha\) is irreducible, then
 \(D_\alpha\) is a field and hence has connected spectrum.  If it is
 reducible, it is a product of two distinct linear factors; the Chinese
@@ -733,7 +736,7 @@ Separability gives \(\beta\neq\alpha\), and the third root is
 \]
 Thus \(m_\alpha\) would split over \(L\).  Since
 \(L=K(\alpha)\), the standard generator criterion for normality
-\cite[\href{https://stacks.math.columbia.edu/tag/0BR3}{Tag~0BR3}]{StacksProject}
+\cite{StacksNormalGeneratorCriterion}
 shows that \(L/K\) would be normal.  Conversely,
 if \(L/K\) is normal, then \(m_\alpha\) splits over \(L\), so
 \(h_\alpha\) is reducible.  Hence \textup{(iii)} and \textup{(iv)} are
@@ -747,7 +750,7 @@ Assume these equivalent conditions, and let \(\beta\) denote the image of
 of \(m_\alpha\), and is generated over \(L\) by \(\beta\).  It is
 therefore the splitting field of \(m_\alpha\), which is the normal
 closure \(N\) of \(L/K\)
-\cite[\href{https://stacks.math.columbia.edu/tag/09DT}{Tag~09DT}]{StacksProject}.
+\cite{StacksNormalClosureExistence}.
 Choose the resulting \(L\)-algebra
 isomorphism
 \[
@@ -880,7 +883,7 @@ But
 \]
 so this embedding is an isomorphism \(G\cong S_3\).  We use here the
 fixed-field degree formula from the fundamental theorem of Galois theory
-\cite[\href{https://stacks.math.columbia.edu/tag/09DW}{Tag~09DW}]{StacksProject}.
+\cite{StacksFundamentalGaloisTheory}.
 \end{proof}
 
 \begin{remark}[Ordered roots]
@@ -1024,12 +1027,15 @@ one---equivalently, by Galois rigidity and the automorphism criterion, that
 its collision scheme collapses to the diagonal.
 
 \paragraph{Acknowledgment.}
-OpenAI Codex (GPT-5.6 Sol) assisted with Lean formalization and manuscript
-editing.  The
+OpenAI Codex (GPT-5.6 Sol) assisted with the Lean formalization and
+manuscript.  The
 author reviewed and takes responsibility for all statements, proofs,
 citations, and formalization code.
 
+\begingroup
+\small
 \bibliographystyle{alpha}
 \bibliography{references}
+\endgroup
 
 \end{document}
