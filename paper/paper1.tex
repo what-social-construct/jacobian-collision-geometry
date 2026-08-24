@@ -148,11 +148,11 @@ For a Keller map, the \(F_i\) are algebraically independent, so \(F^*\)
 identifies the target coordinate ring with \(B\).  Thus
 \(K=\C(F_1,\dots,F_n)\subseteq L=\C(x_1,\dots,x_n)\) is the induced
 finite separable extension of function fields, and \([L:K]\) is the
-generic degree.  Classical Galois rigidity makes such a map an automorphism
-whenever \(L/K\) is normal.  Since extensions of degree one and separable
-extensions of degree two are normal, Galois rigidity excludes both degrees.
-Generic degree three is therefore the first possible degree of a
-counterexample.
+generic degree.  If \(L/K\) is normal, the classical Galois case of the
+Jacobian conjecture implies that \(F\) is a polynomial automorphism.  Since
+extensions of degree one and separable extensions of degree two are normal,
+neither degree can occur for a counterexample.  Generic degree three is
+therefore the first possible counterexample degree.
 
 We henceforth study polynomial maps
 \(F\colon\A^3_{\C}\to\A^3_{\C}\) with generic degree \([L:K]=3\).
@@ -623,9 +623,12 @@ degree three it is either split,
 corresponding to a normal cubic extension, or connected, corresponding to
 a nonnormal cubic extension.  Degree three already rules out polynomial
 automorphy, so the counterexamples to \(JC(3)\) in generic degree three are
-precisely the Keller maps.  Classical Galois rigidity then rules out the
-split branch.  The residual factor is therefore the normal closure, whose
-Galois group is \(S_3\).
+precisely the Keller maps.  For a Keller map, however, the split branch is
+impossible: it makes \(L/K\) normal and hence, by
+Theorem~\ref{thm:classical-galois-rigidity}, forces \(F\) to be a polynomial
+automorphism, contradicting \([L:K]=3\).  Hence only the connected branch
+remains; its residual factor is the normal closure, with Galois group
+\(S_3\).
 
 \subsection{The cubic extension and its normal closure}
 \label{sec:cubic-extension}
