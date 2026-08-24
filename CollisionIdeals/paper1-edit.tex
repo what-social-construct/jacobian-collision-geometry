@@ -8,7 +8,6 @@
 \usepackage{enumitem}
 \usepackage{microtype}
 \usepackage{xcolor}
-\usepackage{booktabs}
 \usepackage{array}
 \usepackage{titlesec}
 \usepackage{hyperref}
@@ -29,19 +28,14 @@
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
 
 \DeclareMathOperator{\Spec}{Spec}
 \DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\Aut}{Aut}
-\DeclareMathOperator{\Ram}{Ram}
 \DeclareMathOperator{\Norm}{Norm}
 \DeclareMathOperator{\core}{core}
 
@@ -49,7 +43,6 @@
 \newcommand{\C}{\mathbb C}
 \newcommand{\Obs}{\operatorname{Obs}}
 \newcommand{\id}{\mathrm{id}}
-\newcommand{\qedbox}{\hfill$\square$}
 \newcommand{\leanpath}[1]{\texttt{\nolinkurl{#1}}}
 
 \newenvironment{leanfiles}
@@ -83,7 +76,7 @@ counterexample to \(JC(3)\).
 
 For every such map, the generic collision algebra decomposes as
 \[
-  K\otimes_B C_F\simeq L\times N,
+  K\otimes_B C_F\simeq_K L\times N,
 \]
 where \(N\) is the normal closure of \(L/K\).  Consequently, the normal
 closure of the function-field extension attached to every
@@ -174,16 +167,16 @@ Keller condition.  For a map of generic degree three, the generic collision
 algebra has a diagonal factor \(L\) and a quadratic residual factor
 \(D_\alpha\):
 \[
-  K\otimes_BC_F\simeq L\times D_\alpha.
+  K\otimes_BC_F\simeq_K L\times D_\alpha.
 \]
 The quadratic residual factor is split in the normal branch and is a field
 in the nonnormal branch.  In the latter case it is \(L\)-isomorphic to the
 normal closure \(N\).  Galois rigidity excludes the normal branch for Keller
 maps, so every generic-degree-three counterexample to \(JC(3)\) has
 \[
-  K\otimes_BC_F\simeq L\times N,
+  K\otimes_BC_F\simeq_K L\times N,
   \qquad
-  \Gal(N/K)\simeq S_3.
+  \Gal(N/K)\cong S_3.
 \]
 Section~\ref{sec:general-construction} develops the dimension-independent
 collision obstruction, generic base change, marked-root decomposition, and
@@ -212,6 +205,8 @@ Throughout the paper, the base field is \(\C\).  Let
 \]
 be a polynomial map, and let
 \[
+  A=\C[x_1,\dots,x_n],
+  \qquad
   S=\C[x_1,\dots,x_n,y_1,\dots,y_n].
 \]
 The map \(F\) is Keller if
@@ -224,7 +219,9 @@ Define
   \qquad
   I_\Delta=(x_i-y_i)_{i=1}^{n},
   \qquad
-  C_F:=S/I_R(F).
+  C_F:=S/I_R(F),
+  \qquad
+  R_F:=\Spec C_F.
 \]
 For a fixed map \(F\), we abbreviate \(I_R(F)\) to \(I_R\).
 
@@ -237,26 +234,24 @@ For every polynomial map \(F\),
 \end{proposition}
 
 \begin{proof}
-For \(H\in\C[x_1,\dots,x_n]\), the difference \(H(x)-H(y)\) belongs to
-\((x_1-y_1,\dots,x_n-y_n)\).  This follows by induction on \(H\), or by
+For \(P\in\C[x_1,\dots,x_n]\), the difference \(P(x)-P(y)\) belongs to
+\((x_1-y_1,\dots,x_n-y_n)\).  This follows by induction on \(P\), or by
 telescoping each monomial one coordinate at a time.  Apply the statement
 to each coordinate \(F_i\).
 \end{proof}
 
-Let \(q_F\colon S\twoheadrightarrow C_F\) be the quotient map.  The
-containment \(I_R\subseteq I_\Delta\) allows us to define the obstruction
-ideal
+Let \(q_F\colon S\twoheadrightarrow C_F\) be the quotient map.  Diagonal
+substitution \(S\twoheadrightarrow A\), given by
+\(s(x,y)\mapsto s(x,x)\), has kernel \(I_\Delta\).  Since
+\(I_R\subseteq I_\Delta\), it descends uniquely to a surjection
 \[
-  \Obs(F):=q_F(I_\Delta)=I_\Delta/I_R\subseteq C_F.
-\]
-Let \(A:=\C[x_1,\dots,x_n]\).  Diagonal evaluation
-\(S\to A\), given by \(s(x,y)\mapsto s(x,x)\), is surjective with kernel
-\(I_\Delta\).  Since \(I_R\subseteq I_\Delta\), it factors canonically as
-\[
-  S\xrightarrow{\ q_F\ }C_F
-  \xrightarrow{\ \bar\mu_F\ } A,
+  \bar\mu_F\colon C_F\twoheadrightarrow A,
   \qquad
   [s]_{I_R}\longmapsto s(x,x).
+\]
+We define the ideal of the diagonal in \(R_F\) by
+\[
+  \Obs(F):=q_F(I_\Delta)=I_\Delta/I_R\subseteq C_F.
 \]
 
 \begin{proposition}[The diagonal kernel]
@@ -308,40 +303,28 @@ The homomorphisms
 
 \begin{theorem}[Fiber-product interpretation]
 \label{thm:collision-tensor-product}
-There is a canonical \(B\)-algebra equivalence and its dual
-affine-scheme equivalence
+There is a canonical isomorphism
 \[
-  C_F\cong A\otimes_B A,
-  \qquad
-  R_F:=\Spec C_F\cong X\times_YX.
+  R_F\cong X\times_YX
 \]
-Under the first equivalence, \(\bar\mu_F\) is tensor multiplication
+under which \(\Spec(\bar\mu_F)\colon X\to R_F\) is the relative diagonal
+\(\Delta_{X/Y}\).  Dually, there is a canonical \(B\)-algebra isomorphism
 \[
-  A\otimes_BA\longrightarrow A,\qquad a\otimes a'\longmapsto aa'.
+  C_F\xrightarrow{\sim}_B A\otimes_BA
 \]
-Its dual morphism is the diagonal
-\[
-  \Delta_{X/Y}\colon X\longrightarrow X\times_YX.
-\]
+under which \(\bar\mu_F\) is tensor multiplication
+\(a\otimes a'\mapsto aa'\).
 \end{theorem}
 
 \begin{proof}
-A map \(C_F\to T\) to a commutative \(\C\)-algebra \(T\) is equivalent
-to a pair of maps \(f,g\colon A\rightrightarrows T\) satisfying
-\[
-  f(F_i)=g(F_i)\qquad(1\leq i\leq n).
-\]
-Since the \(F_i\) generate \(B\), this is precisely the universal
-property of \(A\otimes_BA\).  Applying \(\Spec\) to this equivalence and
-using
-\[
-  \Spec(A\otimes_BA)
-  \cong
-  \Spec A\times_{\Spec B}\Spec A
-\]
-gives the asserted fiber-product equivalence.
-The statements about multiplication and the diagonal follow on pure
-tensors.
+For every commutative \(\C\)-algebra \(T\), maps from either \(C_F\) or
+\(A\otimes_BA\) to \(T\) are pairs
+\(f,g\colon A\rightrightarrows T\) agreeing on \(B\).  In the presentation
+of \(C_F\), this agreement is imposed by the relations
+\(F_i(x)=F_i(y)\), since the \(F_i\) generate \(B\).  The common universal
+property gives the algebra isomorphism, and applying \(\Spec\) gives the
+scheme isomorphism.  Tensor multiplication corresponds to
+\(\bar\mu_F\), so its dual is the relative diagonal.
 \end{proof}
 
 On complex points,
@@ -361,10 +344,8 @@ vanishing.
 \subsection{Generic fibers and marked-root decomposition}
 \label{sec:generic-galois-bridge}
 
-Let \(F\) be a polynomial map, and let
+Let \(F\) be a polynomial map.  Retain \(A\), and set
 \[
-  A=\C[x_1,\dots,x_n],
-  \qquad
   B=\C[F_1,\dots,F_n]\subseteq A.
 \]
 Let
@@ -415,14 +396,21 @@ generically finite.  Let
   \qquad
   \lambda\otimes a\longmapsto\lambda a.
 \]
+Let
+\[
+  \mu_L\colon L\otimes_KL\longrightarrow L,
+  \qquad
+  \ell\otimes\ell'\longmapsto\ell\ell',
+\]
+denote tensor multiplication.
 
 \begin{theorem}[Generic collision bridge]
 \label{thm:generic-collision-base-change}
 The map \(\theta\) is an isomorphism.  Consequently, there is a
 \(K\)-algebra isomorphism
 \[
-  K\otimes_BC_F
-  \cong
+  \Phi_F\colon K\otimes_BC_F
+  \xrightarrow{\sim}_K
   L\otimes_KL,
 \]
 and the following square commutes:
@@ -431,7 +419,7 @@ and the following square commutes:
     K\otimes_BC_F
       &\xrightarrow{\ 1\otimes\bar\mu_F\ }&
     K\otimes_BA\\
-    {\scriptstyle\sim}\downarrow
+    {\scriptstyle\Phi_F}\downarrow
       &&\downarrow{\scriptstyle\theta\ \sim}\\
     L\otimes_KL
       &\xrightarrow{\ \mu_L\ }&
@@ -455,7 +443,7 @@ contains \(A\), so it contains \(\Frac(A)=L\).  Thus \(U^{-1}A=L\), and
 \(\theta\) is an isomorphism.
 
 Using Theorem~\ref{thm:collision-tensor-product} and standard tensor base
-change gives
+change, define \(\Phi_F\) by the composite
 \[
   K\otimes_BC_F
   \cong
@@ -477,49 +465,47 @@ of \(\alpha\), and let \(h_\alpha(T)\in L[T]\) be determined by
   m_\alpha(T)=(T-\alpha)h_\alpha(T)
   \qquad\text{in }L[T].
 \]
+Set
+\[
+  D_\alpha:=L[T]/(h_\alpha).
+\]
 
 \begin{theorem}[Marked-root tensor decomposition]
 \label{thm:marked-root-tensor-decomposition}
 Give \(L\otimes_KL\) its \(L\)-algebra structure through the left tensor
-factor.  There is an \(L\)-algebra equivalence
+factor.  There is an \(L\)-algebra isomorphism
 \[
-  L\otimes_KL
-  \cong
-  L\times L[T]/(h_\alpha),
+  \Phi_\alpha\colon L\otimes_KL
+  \xrightarrow{\sim}_L
+  L\times D_\alpha,
 \]
-under which tensor multiplication \(L\otimes_KL\to L\) is projection
-onto the first factor.
+under which \(\mu_L\) is the first-coordinate map.
 \end{theorem}
 
 \begin{proof}
-Via the power basis, scalar extension identifies
+View \(m_\alpha\) in \(L[T]\).  Separability gives
+\(h_\alpha(\alpha)=m_\alpha'(\alpha)\neq0\), so \(T-\alpha\) and
+\(h_\alpha\) are coprime.  The power-basis isomorphism and the Chinese
+remainder theorem give the composite
 \[
   L\otimes_KL
-  \xrightarrow{\sim}
-  L[T]/(m_\alpha),
-  \qquad
-  \ell\otimes p(\alpha)\longmapsto[\ell p(T)],
+  \xrightarrow{\sim}_L L[T]/(m_\alpha)
+  \xrightarrow{\sim}_L
+  L[T]/(T-\alpha)\times L[T]/(h_\alpha)
+  \xrightarrow{\sim}_L L\times D_\alpha.
 \]
-where \(m_\alpha\) is viewed in \(L[T]\).  Separability gives
-\(h_\alpha(\alpha)=m_\alpha'(\alpha)\neq0\), so \(T-\alpha\) and
-\(h_\alpha\) are coprime.  The Chinese remainder theorem therefore gives
-\[
-  L[T]/(m_\alpha)
-  \cong L[T]/(T-\alpha)\times L[T]/(h_\alpha)
-  \cong L\times L[T]/(h_\alpha).
-\]
-Under the first identification, tensor multiplication is evaluation at
-\(T=\alpha\); under the Chinese remainder isomorphism this is projection
-onto \(L[T]/(T-\alpha)\cong L\), the first factor.
+The first coordinate of the composite is evaluation at \(T=\alpha\),
+which is precisely \(\mu_L\).
 \end{proof}
 
 Together with Theorem~\ref{thm:generic-collision-base-change}, this gives
 \[
   K\otimes_BC_F
-  \cong
-  L\times L[T]/(h_\alpha),
+  \simeq_K
+  L\times D_\alpha,
 \]
-where the first projection is the generic diagonal.
+with the base-changed diagonal evaluation equal to the first-coordinate
+map.
 
 \subsection{Automorphism detection}
 \label{sec:automorphism-detection}
@@ -638,9 +624,6 @@ precisely the Keller maps.  Classical Galois rigidity rules out the split
 branch on that counterexample locus.  Its residual factor is therefore the
 normal closure, whose Galois group is \(S_3\).
 
-Let \(S_3=\operatorname{Perm}(\{1,2,3\})\) be the symmetric group on
-three letters.
-
 \subsection{The cubic extension and its normal closure}
 \label{sec:cubic-extension}
 
@@ -668,18 +651,18 @@ primitive element \(\alpha\)
 so that
 \(L=K(\alpha)\) with power basis
 \(1,\alpha,\alpha^2\).
-If \(m_\alpha\in K[T]\) is the minimal polynomial of \(\alpha\), let
-\(h_\alpha\in L[T]\) be determined by
+Retain the notation of
+Theorem~\ref{thm:marked-root-tensor-decomposition}: if \(m_\alpha\in K[T]\)
+is the minimal polynomial of \(\alpha\), then
 \[
   m_\alpha(T)=(T-\alpha)h_\alpha(T)
   \qquad\text{in }L[T].
 \]
-The marked-root decomposition identifies the algebra remaining after the
-diagonal factor with
+The residual factor in the marked-root decomposition is
 \[
-  D_\alpha:=L[T]/(h_\alpha),
+  D_\alpha=L[T]/(h_\alpha).
 \]
-a finite \(L\)-algebra of degree two.
+Since \([L:K]=3\), it has dimension two over \(L\).
 Let \(N/K\) be the normal closure of \(L/K\), containing \(L\) through
 the marked inclusion.  Since \(L/K\) is finite separable, \(N/K\) is
 Galois
@@ -688,8 +671,9 @@ Let
 \[
   G=\Gal(N/K),
   \qquad
-  H=\Gal(N/L).
+  H=\Gal(N/L)=\{g\in G:g|_L=\id_L\},
 \]
+where \(H\) fixes the marked copy of \(L\) in \(N\).
 Restriction of automorphisms gives a bijection
 \[
   G/H\xrightarrow{\sim}\Hom_K(L,N),
@@ -717,16 +701,13 @@ The following conditions are equivalent:
 \end{enumerate}
 When they hold, there is an \(L\)-algebra isomorphism
 \[
-  \varphi\colon D_\alpha\xrightarrow{\sim}_L N.
+  \varphi_\alpha\colon D_\alpha\xrightarrow{\sim}_L N.
 \]
 Consequently,
 \[
-  \Psi\colon L\otimes_KL\xrightarrow{\sim}_L L\times N,
-  \qquad
-  \operatorname{pr}_1\circ\Psi=\mu_L.
+  \Psi_\alpha\colon L\otimes_KL\xrightarrow{\sim}_L L\times N,
 \]
-Here \(\operatorname{pr}_1\colon L\times N\to L\),
-\((\ell,n)\mapsto\ell\), is projection onto the first factor.
+under which \(\mu_L\) is the first-coordinate map.
 \end{proposition}
 
 \begin{proof}
@@ -741,7 +722,7 @@ products of finite separable field extensions
 If \(h_\alpha\) is irreducible, then
 \(D_\alpha\) is a field and hence has connected spectrum.  If it is
 reducible, it is a product of two distinct linear factors; the Chinese
-remainder theorem then gives \(D_\alpha\simeq L\times L\), whose spectrum
+remainder theorem then gives \(D_\alpha\simeq_L L\times L\), whose spectrum
 is disconnected.  This proves the equivalence of \textup{(i)},
 \textup{(ii)}, and \textup{(iii)}.
 
@@ -770,7 +751,7 @@ closure \(N\) of \(L/K\)
 Choose the resulting \(L\)-algebra
 isomorphism
 \[
-  \varphi\colon D_\alpha\xrightarrow{\sim}_L N.
+  \varphi_\alpha\colon D_\alpha\xrightarrow{\sim}_L N.
 \]
 
 Let
@@ -781,21 +762,20 @@ Let
   L\times D_\alpha
 \]
 be the marked-root decomposition of
-Theorem~\ref{thm:marked-root-tensor-decomposition}.  It satisfies
+Theorem~\ref{thm:marked-root-tensor-decomposition}.  Under this
+isomorphism, \(\mu_L\) is the first-coordinate map.
+Composing its second factor with \(\varphi_\alpha\), let
 \[
-  \operatorname{pr}_1\circ\Phi_\alpha=\mu_L.
+  \Psi_\alpha=(\id_L\times\varphi_\alpha)\circ\Phi_\alpha.
 \]
-Composing its second factor with \(\varphi\), let
-\[
-  \Psi=(\id_L\times\varphi)\circ\Phi_\alpha.
-\]
-Since \(\id_L\times\varphi\) leaves the first factor unchanged,
-\(\operatorname{pr}_1\circ\Psi=\mu_L\).
+Since \(\id_L\times\varphi_\alpha\) leaves the first factor unchanged,
+the same description of \(\mu_L\) holds under \(\Psi_\alpha\).
 \end{proof}
 
 \begin{corollary}[The generic-degree-three counterexample locus]
 \label{cor:cubic-counterexample-locus}
-The map \(F\) is not a polynomial automorphism.  Consequently,
+The map \(F\) is not a polynomial automorphism.  Equivalently, on this
+generic-degree-three locus,
 \[
   F\text{ is a counterexample to }JC(3)
   \quad\Longleftrightarrow\quad
@@ -818,147 +798,89 @@ again contradicting \([L:K]=3\).  Proposition
 connectedness of \(\Spec D_\alpha\).
 \end{proof}
 
-\begin{theorem}[Galois group of the connected residual factor]
-\label{thm:index-three-core-free-s3}
-If \(\Spec D_\alpha\) is connected, then
+\begin{theorem}[Generic cubic \(S_3\) collision]
+\label{thm:cubic-s3-collision}
+Assume that \(\Spec D_\alpha\) is connected.  There is a \(K\)-algebra
+isomorphism
 \[
-  \Gal(N/K)\cong S_3.
+  \Psi_F\colon K\otimes_BC_F\xrightarrow{\sim}_K L\times N
 \]
-\end{theorem}
-
-\begin{proof}
-Proposition~\ref{prop:cubic-tensor-decomposition} identifies \(N\) with
-the degree-two field \(D_\alpha\) over \(L\).  Hence
+under which, after the identification \(K\otimes_BA\simeq_K L\) of
+Theorem~\ref{thm:generic-collision-base-change}, the base-changed diagonal
+evaluation
 \[
-  |H|=[N:L]=2.
+  1\otimes\bar\mu_F
+  \colon K\otimes_BC_F\longrightarrow K\otimes_BA
 \]
-Here we use the fixed-field degree formula from the fundamental theorem of
-Galois theory
-\cite[\href{https://stacks.math.columbia.edu/tag/09DW}{Tag~09DW}]{StacksProject}.
-The normal-closure identities recalled above give
-\[
-  \core_G(H)=1,
-  \qquad
-  [G:H]=[L:K]=3.
-\]
-Hence the action of \(G\) on the three cosets of \(H\) gives
-\[
-  \rho\colon G\longrightarrow\operatorname{Perm}(G/H)\cong S_3,
-  \qquad
-  \ker\rho=\core_G(H)=1.
-\]
-Core-freeness therefore makes \(\rho\) injective, so
-\[
-  |G|\leq |S_3|=6.
-\]
-The index formula gives
-\[
-  |G|=[G:H]|H|=3\cdot2=6.
-\]
-Thus \(|G|=6\), and the injective homomorphism \(\rho\) is an
-isomorphism \(G\cong S_3\).
-\end{proof}
-
-\subsection{The cubic residual factor}
-
-Retain the cubic data of Section~\ref{sec:cubic-extension} and suppose
-that \(F\) lies in the counterexample locus of Corollary
-\ref{cor:cubic-counterexample-locus}.  Equivalently, \(F\) is Keller;
-the same corollary shows that \(D_\alpha\) is connected and \(L/K\) is
-nonnormal.  Proposition
-\ref{prop:cubic-tensor-decomposition} then identifies \(D_\alpha\) with
-\(N\).  Thus
-\[
-  B=\C[F_1,F_2,F_3]\subseteq A=\C[x_1,x_2,x_3],
-  \qquad
-  K=\Frac(B)\subseteq L=\Frac(A)=K(\alpha)\subseteq N,
-\]
-where \([L:K]=3\) and \(N/K\) is the normal closure.  Let
-\[
-  \theta\colon K\otimes_BA\xrightarrow{\sim}L,
-  \qquad
-  \lambda\otimes a\longmapsto\lambda a.
-\]
-
-\begin{corollary}[Generic cubic \(S_3\) collision]
-\label{cor:cubic-s3-collision}
-There is a \(K\)-algebra isomorphism
-\[
-  \Psi_F\colon
-  K\otimes_BC_F\xrightarrow{\sim}_K L\times N,
-  \qquad
-  \operatorname{pr}_1\circ\Psi_F
-  =
-  \theta\circ(1\otimes\bar\mu_F).
-\]
-It satisfies
+is the first-coordinate map.  In particular,
 \[
   \Psi_F\!\left(
-    \ker\bigl(\theta\circ(1\otimes\bar\mu_F)\bigr)
+    \ker(1\otimes\bar\mu_F)
   \right)
-  =
-  0\times N,
+  =0\times N,
   \qquad
-  \Gal(N/K)\cong S_3.
+  \Gal(N/K)\cong S_3,
 \]
-In particular,
+and
 \[
   \Obs(F)\neq0,
   \qquad
   I_R\subsetneq I_\Delta.
 \]
-\end{corollary}
+By Corollary~\ref{cor:cubic-counterexample-locus}, the connectedness
+hypothesis holds whenever \(F\) is Keller; in generic degree three these
+Keller maps are precisely the counterexamples to \(JC(3)\).
+\end{theorem}
 
 \begin{proof}
-Theorem~\ref{thm:generic-collision-base-change} gives a \(K\)-algebra
+Proposition~\ref{prop:cubic-tensor-decomposition} gives an \(L\)-algebra
 isomorphism
+\[
+  \Psi_\alpha\colon L\otimes_KL\xrightarrow{\sim}_L L\times N
+\]
+under which \(\mu_L\) is the first-coordinate map.  Theorem
+\ref{thm:generic-collision-base-change} gives a \(K\)-algebra isomorphism
 \[
   \Phi_F\colon K\otimes_BC_F\xrightarrow{\sim}_K L\otimes_KL
 \]
-such that
+which carries the base-changed diagonal evaluation to \(\mu_L\).
+After restricting \(\Psi_\alpha\) from \(L\) to \(K\), let
 \[
-  \mu_L\circ\Phi_F
-  =
-  \theta\circ(1\otimes\bar\mu_F).
+  \Psi_F=\Psi_\alpha\circ\Phi_F.
 \]
-Proposition~\ref{prop:cubic-tensor-decomposition} gives
+The asserted description of diagonal evaluation follows, and hence
 \[
-  \Psi\colon L\otimes_KL\xrightarrow{\sim}_L L\times N,
-  \qquad
-  \operatorname{pr}_1\circ\Psi=\mu_L.
-\]
-After restricting \(\Psi\) from \(L\) to \(K\), let
-\[
-  \Psi_F=\Psi\circ\Phi_F.
-\]
-It follows that
-\[
-  \operatorname{pr}_1\circ\Psi_F
-  =
-  \theta\circ(1\otimes\bar\mu_F),
-  \qquad
   \Psi_F\!\left(
-    \ker\bigl(\theta\circ(1\otimes\bar\mu_F)\bigr)
+    \ker(1\otimes\bar\mu_F)
   \right)
-  =
-  0\times N\neq0.
+  =0\times N\neq0.
 \]
-Suppose that the diagonal-evaluation homomorphism
-\(\bar\mu_F\colon C_F\to A\) were injective.  Since \(K\) is a
-localization of \(B\), it is flat over
-\(B\), so \(1\otimes\bar\mu_F\) would also be injective.
-Theorem~\ref{thm:generic-collision-base-change} shows that \(\theta\)
-is an isomorphism.  Therefore
-\(\theta\circ(1\otimes\bar\mu_F)\) would be injective, contradicting
-the nonzero kernel \(0\times N\) above.  Hence
-\(\ker(\bar\mu_F)\neq0\), and
-Proposition~\ref{prop:obstruction-kernel} gives
-\(\Obs(F)\neq0\).  Proposition
-\ref{prop:collision-contained-in-diagonal} shows that
-\(I_R\subseteq I_\Delta\) is strict.
+If \(\bar\mu_F\colon C_F\to A\) were injective, flat base change along
+the localization \(B\to K\) would make \(1\otimes\bar\mu_F\) injective.
+This would contradict the displayed kernel.  Thus
+\(\ker(\bar\mu_F)\neq0\), so Proposition
+\ref{prop:obstruction-kernel} gives \(\Obs(F)\neq0\), and Proposition
+\ref{prop:collision-contained-in-diagonal} gives
+\(I_R\subsetneq I_\Delta\).
 
-Finally, Theorem~\ref{thm:index-three-core-free-s3} identifies
-\(\Gal(N/K)\) with \(S_3\).
+For the Galois group, Proposition
+\ref{prop:cubic-tensor-decomposition} identifies \(N\) with the
+degree-two field \(D_\alpha\) over \(L\).  The fixed-field degree formula
+therefore gives
+\[
+  |H|=[N:L]=2,
+  \qquad
+  [G:H]=[L:K]=3.
+\]
+The normal-closure identities recalled above give \(\core_G(H)=1\).
+Thus the action on the three cosets of \(H\) embeds \(G\) into \(S_3\).
+But
+\[
+  |G|=[G:H]|H|=3\cdot2=6,
+\]
+so this embedding is an isomorphism \(G\cong S_3\).  We use here the
+fixed-field degree formula from the fundamental theorem of Galois theory
+\cite[\href{https://stacks.math.columbia.edu/tag/09DW}{Tag~09DW}]{StacksProject}.
 \end{proof}
 
 \begin{remark}[Ordered roots]
@@ -982,78 +904,23 @@ the ordered-root normal closure.
 \end{remark}
 
 \begin{leanfiles}
-\leanpath{CollisionIdeals/ComplexThree/Cubic/FunctionField.lean},
-\leanpath{CollisionIdeals/ComplexThree/Cubic/GaloisGroup.lean},
-\leanpath{CollisionIdeals/ComplexThree/Cubic/S3Collision.lean},
-\leanpath{CollisionIdeals/ComplexThree/Cubic/Branch.lean},
-\leanpath{CollisionIdeals/ComplexThree/Cubic/Main.lean}, and
-\leanpath{CollisionIdeals/ComplexThree/Statements/JacobianConjecture.lean}.
-The descent from a nontrivial generic residual factor to
-\(\Obs(F)\neq0\) is formalized in
-\leanpath{CollisionIdeals/General/GenericFiber/DiagonalObstruction.lean}.
-The marked normal-closure object and fixing subgroup are in
+The cubic formalization is collected in
+\leanpath{CollisionIdeals/ComplexThree/Cubic.lean}, using the generic
+collision descent in
+\leanpath{CollisionIdeals/General/GenericFiber/DiagonalObstruction.lean}
+and the normal-closure API in
 \leanpath{CollisionIdeals/General/Galois/NormalClosure.lean}.
-The generic Lean cubic witness builder takes the residual-field isomorphism and
-\(H\neq1\) as explicit inputs.  The cubic branch module now derives both
-from nonnormality: the dimension-independent normal-closure API gives
-\(H\neq1\), and the cubic normal-closure/Galois-action and dimension-count
-argument constructs the marked residual-field isomorphism.  The
-dimension-three wrapper uses these two
-implications.  It proves obstruction nonvanishing before
-using the Keller hypothesis solely to assemble the counterexample
-statement; the exact generic-degree-three equivalence displayed above is
-not yet packaged as a separate Lean theorem.  The full connectedness,
-field, irreducibility, and nonnormality equivalence is likewise not yet
-packaged: the branch module proves the nonnormal-to-irreducible direction
-and the residual normal-closure identification.  In the manuscript the two
-field-theoretic inputs follow from
-Proposition~\ref{prop:cubic-tensor-decomposition} and Corollary
-\ref{cor:cubic-counterexample-locus}.  Classical Galois rigidity is
-represented by the theorem-target proposition
-\leanpath{ComplexKellerGaloisRigidity}, but is neither assumed as an axiom
-nor proved in Lean.  Hidden inertia is formalized separately, pointwise at
-a supplied ramified divisor and conditional on a supplied Keller
-collision--normalization model and \(H\neq1\), in
-\leanpath{CollisionIdeals/ComplexThree/Cubic/HiddenInertia.lean}.  Thus the
-cubic core has no scheme-normalization or ramification dependency.
+From supplied separability, generic-source surjectivity, a cubic power
+basis, marked normal-closure data, and nonnormality, Lean constructs
+\(D_\alpha\simeq_L N\), proves \(H\neq1\) and
+\(\Gal(N/K)\cong S_3\), and descends the residual factor to
+\(\Obs(F)\neq0\).  The Keller hypothesis is then used only to package the
+counterexample statement.  General inputs from the literature are isolated
+as theorem interfaces rather than reproved in Lean; in particular,
+classical Keller--Galois rigidity is recorded as
+\leanpath{ComplexKellerGaloisRigidity}.  Detailed object-level parity is
+maintained in \leanpath{SEMANTIC-PARITY.md}.
 \end{leanfiles}
-
-\begin{remark}[Exact relation with classical complex \(JC(3)\)]
-\label{rem:exact-relation-jc3}
-The traditional complex three-dimensional Jacobian conjecture asserts that
-every polynomial map
-\[
-  F\colon\A^3_{\C}\longrightarrow\A^3_{\C},
-  \qquad
-  \det JF\in\C^\times,
-\]
-is a polynomial automorphism; equivalently, every such map satisfies
-\(\Obs(F)=0\).  In generic degree three, Corollary
-\ref{cor:cubic-counterexample-locus} instead gives
-\[
-  \begin{gathered}
-    [L:K]=3
-    \quad\Longrightarrow\quad
-    \Obs(F)\neq0,\qquad
-    F\notin\Aut_{\mathrm{poly}}(\A^3_{\C}),\\
-    F\text{ is a counterexample to }JC(3)
-    \quad\Longleftrightarrow\quad
-    \det JF\in\C^\times,\\
-    F\text{ is a counterexample}
-    \quad\Longrightarrow\quad
-    \Spec D_\alpha\text{ connected},\qquad
-    \Gal(N/K)\cong S_3.
-  \end{gathered}
-\]
-The first line is independent of the Keller condition.  The additional
-content on the counterexample locus is that Theorem
-\ref{thm:classical-galois-rigidity} excludes the normal cubic branch,
-after which the residual algebra itself produces the normal closure and
-its Galois group \(S_3\).  Thus \(JC(3)\) implies that the
-generic-degree-three counterexample locus is empty.
-This section does not construct such a map, and it does not assert that
-every possible counterexample to \(JC(3)\) has generic degree three.
-\end{remark}
 
 \section{Further directions}
 \label{sec:further-directions}
@@ -1115,9 +982,10 @@ rigidity enter only after that boundary statement is established.
 \section{Conclusion}
 \label{sec:conclusion}
 
-The collision ideal turns injectivity into a scheme-theoretic equality.  The
-obstruction \(\Obs(F)\) is precisely the kernel of diagonal evaluation,
-and it vanishes exactly when the collision relation equals the diagonal.
+The collision construction encodes injectivity by the ideal
+\(\Obs(F)\subseteq C_F\).  This ideal is the kernel of diagonal evaluation,
+and its vanishing is equivalent to the scheme-theoretic equality
+\(R_F=\Delta\).
 After passage to the generic fiber, that diagonal becomes the
 multiplication factor of \(L\otimes_KL\), while the remaining factors
 record the other embeddings of \(L\).
@@ -1129,13 +997,12 @@ locus the classical Galois case rules out the split, normal branch; hence
 the residual algebra is connected, it is the normal closure \(N\), its
 Galois group is \(S_3\), and
 \[
-  K\otimes_BC_F\simeq L\times N.
+  K\otimes_BC_F\simeq_K L\times N.
 \]
 Its nonzero residual factor gives \(\Obs(F)\neq0\).  Hence every map in
 the generic-degree-three counterexample locus has the normal-closure factor
-\(N\), with \(\Gal(N/K)\cong S_3\).  The theorem does not assert that this
-locus is nonempty or classify counterexamples of other generic degrees.
-The normalization principle
+\(N\), with \(\Gal(N/K)\cong S_3\).  Counterexamples of other generic degrees
+lie outside the present analysis.  The normalization principle
 of Section~\ref{sec:further-directions} explains how the same conjugate
 sheet geometry leads to boundary questions, which are reserved for the
 planar sequel.
@@ -1172,8 +1039,8 @@ one---equivalently, by Galois rigidity and the automorphism criterion, that
 its collision scheme collapses to the diagonal.
 
 \paragraph{Acknowledgment.}
-OpenAI Codex (GPT-5.6 Sol) assisted with Lean proof engineering,
-mathematical and bibliographic checking, and manuscript editing.  The
+OpenAI Codex (GPT-5.6 Sol) assisted with Lean formalization and manuscript
+editing.  The
 author reviewed and takes responsibility for all statements, proofs,
 citations, and formalization code.
 
