@@ -1,10 +1,13 @@
-# Paper
+# Manuscripts
 
-Build the paper from this directory with:
+Build the standalone papers from this directory with:
 
 ```bash
-latexmk -pdf main.tex
+latexmk -pdf paper1.tex
+latexmk -pdf paper2.tex
 ```
+
+`main.tex` is the earlier combined manuscript retained for comparison.
 
 The paper follows the Lean dependency spine.  Every mathematical section
 ends with the corresponding Lean source files.
