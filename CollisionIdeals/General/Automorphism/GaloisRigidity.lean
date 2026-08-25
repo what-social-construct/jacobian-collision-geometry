@@ -47,6 +47,47 @@ theorem ComplexKellerGaloisRigidity.not_normal_of_counterexample
   intro hNormal
   exact hF.2 (hRigidity F hF.1 hNormal)
 
+/--
+Keller--Galois rigidity settles the generic-degree-two locus: a quadratic
+function-field extension is normal, so a Keller map inducing one is a
+polynomial automorphism.
+-/
+theorem ComplexKellerGaloisRigidity.isPolynomialAutomorphism_of_finrank_eq_two
+    {n : ℕ}
+    (hRigidity : ComplexKellerGaloisRigidity n)
+    (F : ComplexPolynomialSelfMap n)
+    (hKeller : IsKeller F)
+    (hDegree :
+      Module.finrank
+          (PolynomialBaseFunctionField F)
+          (PolynomialSourceFunctionField (R := ℂ) (ι := Fin n)) =
+        2) :
+    IsPolynomialAutomorphism F := by
+  letI : Algebra.IsQuadraticExtension
+      (PolynomialBaseFunctionField F)
+      (PolynomialSourceFunctionField (R := ℂ) (ι := Fin n)) :=
+    { finrank_eq_two' := hDegree }
+  exact hRigidity F hKeller inferInstance
+
+/--
+Under Keller--Galois rigidity, a map of generic degree two cannot be a
+Jacobian-conjecture counterexample.
+-/
+theorem ComplexKellerGaloisRigidity.not_counterexample_of_finrank_eq_two
+    {n : ℕ}
+    (hRigidity : ComplexKellerGaloisRigidity n)
+    (F : ComplexPolynomialSelfMap n)
+    (hDegree :
+      Module.finrank
+          (PolynomialBaseFunctionField F)
+          (PolynomialSourceFunctionField (R := ℂ) (ι := Fin n)) =
+        2) :
+    ¬ IsComplexJacobianCounterexample F := by
+  intro hCounterexample
+  exact hCounterexample.2
+    (hRigidity.isPolynomialAutomorphism_of_finrank_eq_two
+      F hCounterexample.1 hDegree)
+
 end
 
 end CollisionIdeals

@@ -7,7 +7,8 @@ latexmk -pdf paper1.tex
 latexmk -pdf paper2.tex
 ```
 
-`main.tex` is the earlier combined manuscript retained for comparison.
+The earlier combined manuscript and the former Paper I editing mirror are
+retained as inactive historical artifacts in [`../manuscript-archive/`](../manuscript-archive/).
 
 The paper follows the Lean dependency spine.  Every mathematical section
 ends with the corresponding Lean source files.
@@ -28,9 +29,10 @@ The status distinction in the paper is intentional:
   `BoundaryCoherenceBridge` and `RamificationRigidityBridge`, while
   moving-sheet coverage and boundary separation are alternative explicit
   codimension-one hypotheses;
-- the manuscript proves the classical normal/Galois case by boundary-divisor
-  rigidity and consequently excludes generic degree two; this argument is
-  not yet part of the Lean development;
+- classical Keller--Galois rigidity remains a named literature input in Lean;
+  relative to it, `Planar.GenericDegreeTwo` now proves that a planar Keller map
+  cannot have generic degree two and packages the corresponding collision
+  vanishing statements;
 - branch purity is applied only after every height-one point has been shown
   unramified; finite-étale rigidity then gives $N=K$, and collision descent
   gives $q_F=0$ and $I_R=I_\Delta$;

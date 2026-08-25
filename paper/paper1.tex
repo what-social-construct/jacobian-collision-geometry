@@ -65,19 +65,30 @@
 We study possible counterexamples to the complex three-dimensional
 Jacobian conjecture.  For a polynomial map
 \(F\colon\A^n_{\C}\to\A^n_{\C}\), let \(R_F\) be the scheme of pairs
-\((x,y)\) satisfying \(F(x)=F(y)\), and let \(C_F\) be its coordinate
-ring.  The pairs \((x,x)\) form a closed diagonal in \(R_F\), whose
-defining ideal in \(C_F\) we denote by \(\Obs(F)\).  The coordinate
-functions of \(F\) generate
+\((x,y)\) satisfying \(F(x)=F(y)\).  In
+\(S=\C[x_1,\dots,x_n,y_1,\dots,y_n]\), the collision scheme and its
+diagonal are defined respectively by
+\[
+  I_R(F)=\bigl(F_i(x)-F_i(y)\bigr)_{i=1}^n,
+  \qquad
+  I_\Delta=(x_i-y_i)_{i=1}^n.
+\]
+Since \(I_R(F)\subseteq I_\Delta\), the quotient
+\[
+  \Obs(F):=I_\Delta/I_R(F)\subseteq C_F:=S/I_R(F)
+\]
+defines the diagonal inside \(R_F\).  Over \(\C\), the map \(F\) is a
+polynomial automorphism precisely when \(I_R(F)=I_\Delta\), equivalently
+when \(\Obs(F)=0\).  The coordinate functions of \(F\) generate
 \[
   B=\C[F_1,\dots,F_n]\subseteq A=\C[x_1,\dots,x_n],
 \]
 and hence a function-field extension
 \(K=\Frac(B)\subseteq L=\Frac(A)\).
-We prove that every three-dimensional Keller map with \([L:K]=3\) is a
-counterexample to \(JC(3)\).
+When \(n=3\) and \([L:K]=3\), the map \(F\) is a counterexample to
+\(JC(3)\) precisely when it is Keller.
 
-For every such map, the generic collision algebra decomposes as
+For every such counterexample, the generic collision algebra decomposes as
 \[
   K\otimes_B C_F\simeq_K L\times N,
 \]
@@ -106,33 +117,53 @@ has a polynomial inverse.  Such an \(F\) is called a Keller map.  The
 Jacobian condition makes \(F\) an \'etale morphism; the conjecture asks
 whether this local condition forces global invertibility.
 
+Put
+\[
+  S=\C[x_1,\dots,x_n,y_1,\dots,y_n].
+\]
 The equations
 \[
   F_i(x)-F_i(y)=0\qquad(1\leq i\leq n)
 \]
-define a closed collision scheme
+generate the collision ideal, while the equations of the diagonal generate
+the diagonal ideal:
 \[
-  R_F\subseteq\A^n_{\C}\times\A^n_{\C}.
+  I_R(F)=\bigl(F_i(x)-F_i(y)\bigr)_{i=1}^n,
+  \qquad
+  I_\Delta=(x_i-y_i)_{i=1}^n.
 \]
-Its complex points are the pairs \((x,y)\) with \(F(x)=F(y)\);
+Thus the collision scheme is
+\[
+  R_F=\Spec C_F,
+  \qquad
+  C_F=S/I_R(F).
+\]
+Its complex points are precisely the pairs \((x,y)\) with \(F(x)=F(y)\);
 equivalently, \(R_F\) is the fiber square of \(F\).  It contains the
-diagonal \(\Delta\), consisting of the pairs \((x,x)\).  If \(C_F\) is
-the coordinate ring of \(R_F\), restriction to the diagonal gives
+diagonal \(\Delta\), consisting of the pairs \((x,x)\).  Since every
+collision equation vanishes on the diagonal,
 \[
-  \bar\mu_F\colon C_F\longrightarrow A,
-  \qquad A=\C[x_1,\dots,x_n],
+  I_R(F)\subseteq I_\Delta.
 \]
-and we write \(\Obs(F)=\ker(\bar\mu_F)\).  By Ax--Grothendieck,
+Its image in \(C_F\) is the ideal
 \[
+  \Obs(F):=I_\Delta/I_R(F)\subseteq C_F,
+\]
+which defines the diagonal inside \(R_F\).  By Ax--Grothendieck,
+\[
+  I_R(F)=I_\Delta
+  \quad\Longleftrightarrow\quad
   \Obs(F)=0
   \quad\Longleftrightarrow\quad
   R_F=\Delta
   \quad\Longleftrightarrow\quad
   F\text{ is a polynomial automorphism}.
 \]
+Thus, among Keller maps, strict containment
+\(I_R(F)\subsetneq I_\Delta\), equivalently \(\Obs(F)\neq0\), is precisely
+the counterexample condition.
 
-A possible counterexample must therefore remain globally noninvertible
-despite being \'etale.  We organize this failure by generic degree.  On
+We organize this possible strict containment by generic degree.  On
 coordinate rings, \(F\) induces
 \[
   F^*\colon\C[t_1,\dots,t_n]\longrightarrow A,
@@ -165,17 +196,17 @@ nonautomorphic.  In this generic-degree-three case,
   \quad\Longleftrightarrow\quad
   F\text{ is Keller}.
 \]
-The residual decomposition itself is field-theoretic and does not use the
-Keller condition.  For a map of generic degree three, the generic collision
-algebra has a diagonal factor \(L\) and a quadratic residual factor
-\(D_\alpha\):
+Once \([L:K]=3\) is assumed, the residual decomposition is field-theoretic.
+The generic collision algebra has a diagonal factor \(L\) and a quadratic
+residual factor \(D_\alpha\):
 \[
   K\otimes_BC_F\simeq_K L\times D_\alpha.
 \]
 The quadratic residual factor is split in the normal branch and is a field
 in the nonnormal branch.  In the latter case it is \(L\)-isomorphic to the
-normal closure \(N\).  Galois rigidity excludes the normal branch for Keller
-maps, so every generic-degree-three counterexample to \(JC(3)\) has
+normal closure \(N\).  The Keller condition identifies the counterexample
+locus and, through Galois rigidity, excludes the normal branch.  Hence every
+generic-degree-three counterexample to \(JC(3)\) has
 \[
   K\otimes_BC_F\simeq_K L\times N,
   \qquad
@@ -192,11 +223,12 @@ records the precise handoff to that paper.
 \section{General construction}
 \label{sec:general-construction}
 
-For a fixed dimension \(n\), where can \(JC(n)\) fail?  To answer this, we
-attach to an arbitrary polynomial map the scheme of pairs with the same image
-and the ideal defining its diagonal.  A Keller map is a counterexample to
-\(JC(n)\) precisely when this ideal is nonzero.  The construction itself is
-dimension-independent and does not require the Keller condition.
+For a fixed dimension \(n\), where can \(JC(n)\) fail?  We begin with an
+arbitrary polynomial map.  Its collision ideal is canonically contained in
+the diagonal ideal, and \(\Obs(F)=I_\Delta/I_R(F)\) measures their failure to
+agree.  Once \(F\) is assumed Keller, strict containment is exactly the
+counterexample condition.  No Keller hypothesis enters the collision
+construction.
 
 \subsection{The two ideals and their obstruction}
 \label{sec:collision-ideals}
@@ -211,10 +243,6 @@ be a polynomial map, and let
   A=\C[x_1,\dots,x_n],
   \qquad
   S=\C[x_1,\dots,x_n,y_1,\dots,y_n].
-\]
-The map \(F\) is Keller if
-\[
-  \det JF\in\C^\times.
 \]
 Define
 \[
@@ -609,7 +637,7 @@ Ax--Grothendieck also remains an explicit parameter of the Lean
 automorphism equivalence.
 \end{leanfiles}
 
-% The planar specialization is retained in main.tex and reserved for Paper II.
+% The planar specialization is developed in the companion Paper II.
 
 \section{\texorpdfstring{The cubic \(S_3\) obstruction in dimension three}
   {The cubic S3 obstruction in dimension three}}

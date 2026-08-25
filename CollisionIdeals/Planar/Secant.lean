@@ -137,6 +137,53 @@ theorem nonempty_planarSecantData
     exists_planarSecantCoefficients p
   exact ⟨⟨a, b, hab, ha, hb⟩⟩
 
+/-- The determinant attached to any two choices of planar secant data
+annihilates the diagonal ideal modulo the corresponding collision ideal. -/
+theorem secantDataDet_mul_diagonalIdeal_mem_collisionIdeal
+    (F : Fin 2 → SourceRing R (Fin 2))
+    (d₀ : PlanarSecantData (F 0))
+    (d₁ : PlanarSecantData (F 1))
+    (z : PairRing R (Fin 2))
+    (hz : z ∈ diagonalIdeal (R := R) (ι := Fin 2)) :
+    secantDet d₀.first d₀.second d₁.first d₁.second * z ∈
+      collisionIdeal F := by
+  have hz' :
+      z ∈ Ideal.span
+        ({diagonalGenerator (R := R) 0,
+          diagonalGenerator (R := R) 1} :
+          Set (PairRing R (Fin 2))) := by
+    rwa [← diagonalIdeal_fin_two_eq_span_pair]
+  have hmem :=
+    secantDet_mul_diagonalIdeal_mem_collisionIdeal
+      d₀.first d₀.second d₁.first d₁.second
+      (diagonalGenerator (R := R) 0)
+      (diagonalGenerator (R := R) 1)
+      z hz'
+  have hzero :
+      d₀.first * diagonalGenerator (R := R) 0 +
+          d₀.second * diagonalGenerator (R := R) 1 =
+        collisionGenerator F 0 := by
+    exact d₀.equation.symm
+  have hone :
+      d₁.first * diagonalGenerator (R := R) 0 +
+          d₁.second * diagonalGenerator (R := R) 1 =
+        collisionGenerator F 1 := by
+    exact d₁.equation.symm
+  rw [hzero, hone] at hmem
+  apply
+    (show
+      Ideal.span
+          ({collisionGenerator F 0, collisionGenerator F 1} :
+            Set (PairRing R (Fin 2))) ≤
+        collisionIdeal F from ?_)
+    hmem
+  rw [Ideal.span_le]
+  intro x hx
+  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
+  rcases hx with rfl | rfl
+  · exact Ideal.subset_span (Set.mem_range_self 0)
+  · exact Ideal.subset_span (Set.mem_range_self 1)
+
 /-- Fix a secant decomposition for each planar polynomial. -/
 noncomputable def planarSecantData
     (p : SourceRing R (Fin 2)) :
@@ -171,47 +218,9 @@ theorem planarSecantDet_mul_diagonalIdeal_mem_collisionIdeal
     (z : PairRing R (Fin 2))
     (hz : z ∈ diagonalIdeal (R := R) (ι := Fin 2)) :
     planarSecantDet F * z ∈ collisionIdeal F := by
-  let a := (planarSecantData (F 0)).first
-  let b := (planarSecantData (F 0)).second
-  let c := (planarSecantData (F 1)).first
-  let d := (planarSecantData (F 1)).second
-  have hz' :
-      z ∈ Ideal.span
-        ({diagonalGenerator (R := R) 0,
-          diagonalGenerator (R := R) 1} :
-          Set (PairRing R (Fin 2))) := by
-    rwa [← diagonalIdeal_fin_two_eq_span_pair]
-  have hmem :=
-    secantDet_mul_diagonalIdeal_mem_collisionIdeal
-      a b c d
-      (diagonalGenerator (R := R) 0)
-      (diagonalGenerator (R := R) 1)
-      z hz'
-  have hzero :
-      a * diagonalGenerator (R := R) 0 +
-          b * diagonalGenerator (R := R) 1 =
-        collisionGenerator F 0 := by
-    exact (planarSecantData (F 0)).equation.symm
-  have hone :
-      c * diagonalGenerator (R := R) 0 +
-          d * diagonalGenerator (R := R) 1 =
-        collisionGenerator F 1 := by
-    exact (planarSecantData (F 1)).equation.symm
-  rw [hzero, hone] at hmem
-  change secantDet a b c d * z ∈ collisionIdeal F
-  apply
-    (show
-      Ideal.span
-          ({collisionGenerator F 0, collisionGenerator F 1} :
-            Set (PairRing R (Fin 2))) ≤
-        collisionIdeal F from ?_)
-    hmem
-  rw [Ideal.span_le]
-  intro x hx
-  simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hx
-  rcases hx with rfl | rfl
-  · exact Ideal.subset_span (Set.mem_range_self 0)
-  · exact Ideal.subset_span (Set.mem_range_self 1)
+  exact
+    secantDataDet_mul_diagonalIdeal_mem_collisionIdeal
+      F (planarSecantData (F 0)) (planarSecantData (F 1)) z hz
 
 /-- Over `ℂ`, the diagonal value of the chosen secant determinant is `planarJacobianDet`. -/
 theorem diagonalEval_planarSecantDet_eq_planarJacobianDet

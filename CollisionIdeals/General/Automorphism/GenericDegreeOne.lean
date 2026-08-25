@@ -1,4 +1,6 @@
+import CollisionIdeals.General.Automorphism.Criteria
 import CollisionIdeals.General.GenericFiber.CollisionDiagonal
+import Mathlib.LinearAlgebra.Dimension.Finite
 import Mathlib.RingTheory.Localization.BaseChange
 
 set_option autoImplicit false
@@ -17,6 +19,64 @@ open MvPolynomial
 
 variable {R : Type u} [CommRing R] [IsDomain R]
 variable {ι κ : Type v}
+
+/--
+A polynomial automorphism induces a trivial extension of function fields.
+-/
+theorem polynomialFunctionFieldExtensionTrivial_of_isPolynomialAutomorphism
+    {F : ι → SourceRing R ι}
+    (hF : IsPolynomialAutomorphism F) :
+    PolynomialFunctionFieldExtensionTrivial F := by
+  intro z
+  obtain ⟨x, y, hy, hxy⟩ :=
+    IsFractionRing.div_surjective
+      (A := SourceRing R ι) z
+  obtain ⟨px, hpx⟩ := hF.2 x
+  obtain ⟨py, hpy⟩ := hF.2 y
+  let bx : polynomialMapImageAlgebra F :=
+    ⟨x, ⟨px, by
+      simpa [coordinateAlgHom, MvPolynomial.aeval_eq_bind₁] using hpx⟩⟩
+  let by' : polynomialMapImageAlgebra F :=
+    ⟨y, ⟨py, by
+      simpa [coordinateAlgHom, MvPolynomial.aeval_eq_bind₁] using hpy⟩⟩
+  refine ⟨
+    algebraMap (polynomialMapImageAlgebra F)
+        (PolynomialBaseFunctionField F) bx /
+      algebraMap (polynomialMapImageAlgebra F)
+        (PolynomialBaseFunctionField F) by',
+    ?_⟩
+  rw [map_div₀]
+  simp only [polynomialBaseFunctionFieldEmbedding,
+    IsFractionRing.lift_algebraMap]
+  change
+    algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) x /
+        algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) y = z
+  exact hxy
+
+/-- A trivial induced function-field extension has generic degree one. -/
+theorem polynomialFunctionField_finrank_eq_one_of_extensionTrivial
+    (F : κ → SourceRing R ι)
+    (hTrivial : PolynomialFunctionFieldExtensionTrivial F) :
+    Module.finrank
+      (PolynomialBaseFunctionField F)
+      (PolynomialSourceFunctionField (R := R) (ι := ι)) = 1 := by
+  apply finrank_eq_one
+    (1 : PolynomialSourceFunctionField (R := R) (ι := ι)) one_ne_zero
+  intro z
+  obtain ⟨c, hc⟩ := hTrivial z
+  exact ⟨c, by simpa [Algebra.smul_def] using hc⟩
+
+/-- A polynomial automorphism has generic degree one. -/
+theorem polynomialFunctionField_finrank_eq_one_of_isPolynomialAutomorphism
+    {F : ι → SourceRing R ι}
+    (hF : IsPolynomialAutomorphism F) :
+    Module.finrank
+      (PolynomialBaseFunctionField F)
+      (PolynomialSourceFunctionField (R := R) (ι := ι)) = 1 :=
+  polynomialFunctionField_finrank_eq_one_of_extensionTrivial F
+    (polynomialFunctionFieldExtensionTrivial_of_isPolynomialAutomorphism hF)
 
 /--
 If the induced function-field extension is trivial, the canonical map

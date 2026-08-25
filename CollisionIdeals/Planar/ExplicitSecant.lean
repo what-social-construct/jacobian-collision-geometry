@@ -243,6 +243,162 @@ theorem diagonalEval_determinant
         pderiv 1 (F 0) * pderiv 0 (F 1) := by
   simp [determinant, secantDet, diagonal_first, diagonal_second]
 
+/-- The explicit secant determinant annihilates the diagonal ideal modulo
+the collision ideal. -/
+theorem determinant_mul_diagonalIdeal_mem_collisionIdeal
+    (F : Fin 2 → SourceRing R (Fin 2))
+    (z : PairRing R (Fin 2))
+    (hz : z ∈ diagonalIdeal (R := R) (ι := Fin 2)) :
+    determinant F * z ∈ collisionIdeal F := by
+  exact
+    secantDataDet_mul_diagonalIdeal_mem_collisionIdeal
+      F (data (F 0)) (data (F 1)) z hz
+
+/-- Over `ℂ`, the diagonal value of the explicit secant determinant is the
+planar Jacobian determinant. -/
+theorem diagonalEval_determinant_eq_planarJacobianDet
+    (F : PlanarPolynomialMap) :
+    diagonalEval (determinant F) = planarJacobianDet F := by
+  simpa only [planarJacobianDet, jacobianDet_fin_two] using
+    diagonalEval_determinant F
+
+/-- If the planar Jacobian is the nonzero constant `c`, the explicit secant
+determinant is congruent to `c` modulo the diagonal ideal. -/
+theorem determinant_sub_constant_mem_diagonalIdeal
+    (F : PlanarPolynomialMap)
+    (c : ℂ)
+    (hJacobian : planarJacobianDet F = C c) :
+    determinant F - C c ∈
+      diagonalIdeal (R := ℂ) (ι := Fin 2) := by
+  rw [← diagonalEval_ker]
+  change diagonalEval (determinant F - C c) = 0
+  rw [map_sub, diagonalEval_determinant_eq_planarJacobianDet,
+    hJacobian]
+  simp [diagonalEval]
+
+/-- The collision equations together with the canonical divided-difference
+determinant. -/
+def explicitSecantIdeal
+    (F : PlanarPolynomialMap) :
+    Ideal (PairRing ℂ (Fin 2)) :=
+  collisionIdeal F ⊔ Ideal.span {determinant F}
+
+/-- The nonzero constant `c`, regarded as a unit of the pair ring. -/
+private noncomputable def pairConstantUnit
+    (c : ℂ) (hc : c ≠ 0) :
+    (PairRing ℂ (Fin 2))ˣ :=
+  Units.map MvPolynomial.C.toMonoidHom (Units.mk0 c hc)
+
+@[simp]
+private theorem pairConstantUnit_val
+    (c : ℂ) (hc : c ≠ 0) :
+    (pairConstantUnit c hc : PairRing ℂ (Fin 2)) = C c := by
+  rfl
+
+/-- For the supplied Keller constant, the canonical first-colon residual
+ideal is the collision ideal together with the explicit secant determinant. -/
+theorem collisionOffDiagonalIdeal_eq_explicitSecantIdeal
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0)
+    (hJacobian : planarJacobianDet F = C c) :
+    collisionOffDiagonalIdeal F = explicitSecantIdeal F := by
+  rw [collisionOffDiagonalIdeal, offDiagonalColonIdeal,
+    explicitSecantIdeal]
+  apply colon_eq_sup_span_singleton_of_secant
+    (collisionIdeal F)
+    (diagonalIdeal (R := ℂ) (ι := Fin 2))
+    (determinant F)
+    (pairConstantUnit c hc)
+  · exact determinant_mul_diagonalIdeal_mem_collisionIdeal F
+  · simpa using
+      determinant_sub_constant_mem_diagonalIdeal F c hJacobian
+
+/-- Vanishing of the obstruction is equivalently the unit-ideal condition
+for the canonical explicit secant ideal. -/
+theorem obstructionIdeal_eq_bot_iff_explicitSecantIdeal_eq_top
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0)
+    (hJacobian : planarJacobianDet F = C c) :
+    obstructionIdeal F = ⊥ ↔ explicitSecantIdeal F = ⊤ := by
+  rw [obstructionIdeal_eq_bot_iff]
+  apply ideal_eq_iff_sup_span_singleton_eq_top_of_secant
+    (collisionIdeal F)
+    (diagonalIdeal (R := ℂ) (ι := Fin 2))
+    (determinant F)
+    (pairConstantUnit c hc)
+    (collisionIdeal_le_diagonalIdeal F)
+  · exact determinant_mul_diagonalIdeal_mem_collisionIdeal F
+  · simpa using
+      determinant_sub_constant_mem_diagonalIdeal F c hJacobian
+
+/-- The constant `c`, regarded as a unit of the collision ring. -/
+noncomputable def collisionConstantUnit
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0) :
+    (CollisionRing F)ˣ :=
+  Units.map
+    (Ideal.Quotient.mk (collisionIdeal F)).toMonoidHom
+    (pairConstantUnit c hc)
+
+@[simp]
+theorem collisionConstantUnit_val
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0) :
+    (collisionConstantUnit F c hc : CollisionRing F) =
+      Ideal.Quotient.mk (collisionIdeal F) (C c) := by
+  rfl
+
+/-- The explicit planar collision projector attached to the constant
+Jacobian value `c`. -/
+noncomputable def collisionProjector
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0) :
+    CollisionRing F :=
+  offDiagonalIdempotent
+    (Ideal.Quotient.mk (collisionIdeal F) (determinant F))
+    (collisionConstantUnit F c hc)
+
+/-- The explicit divided-difference determinant produces an off-diagonal
+collision projector from the supplied Keller constant data. -/
+theorem collisionProjector_isProjector
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0)
+    (hJacobian : planarJacobianDet F = C c) :
+    IsCollisionOffDiagonalProjector F
+      (collisionProjector F c hc) := by
+  let δbar : CollisionRing F :=
+    Ideal.Quotient.mk (collisionIdeal F) (determinant F)
+  let cbar : (CollisionRing F)ˣ :=
+    collisionConstantUnit F c hc
+  have hδann :
+      δbar ∈ (obstructionIdeal F).annihilator := by
+    exact
+      quotient_mk_mem_annihilator_obstruction
+        (collisionIdeal F)
+        (diagonalIdeal (R := ℂ) (ι := Fin 2))
+        (determinant F)
+        (determinant_mul_diagonalIdeal_mem_collisionIdeal F)
+  have hann :
+      ∀ j ∈ obstructionIdeal F, δbar * j = 0 := by
+    intro j hj
+    exact Submodule.mem_annihilator.mp hδann j hj
+  have hmod :
+      δbar - (cbar : CollisionRing F) ∈
+        obstructionIdeal F := by
+    have hsource :=
+      determinant_sub_constant_mem_diagonalIdeal F c hJacobian
+    exact
+      Ideal.mem_map_of_mem
+        (Ideal.Quotient.mk (collisionIdeal F)) hsource
+  change
+    IsCollisionOffDiagonalProjector F
+      (offDiagonalIdempotent δbar cbar)
+  exact
+    ⟨offDiagonalIdempotent_isIdempotent
+        (obstructionIdeal F) δbar cbar hann hmod,
+      ideal_eq_span_offDiagonalIdempotent
+        (obstructionIdeal F) δbar cbar hann hmod⟩
+
 end
 
 

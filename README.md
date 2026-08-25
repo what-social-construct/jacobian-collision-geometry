@@ -1,6 +1,6 @@
 # Collision Geometry and the Jacobian Conjecture
 
-**[Read the paper (PDF)](Collision%20Geometry%20and%20the%20Jacobian%20Conjecture.pdf)** · [LaTeX source](paper/)
+**[Paper I (PDF)](paper/paper1.pdf)** · **[Paper II (PDF)](paper/paper2.pdf)** · [LaTeX sources](paper/) · [Manuscript archive](manuscript-archive/)
 
 Let
 
@@ -194,6 +194,9 @@ At a glance, it includes:
 - the formal implications from supplied moving-sheet coverage, boundary
   separation, no hidden inertia, or `PlanarRamificationRigidity` together
   with its explicit support bridge, to obstruction vanishing;
+- the generic-degree-two exclusion for planar Keller maps, relative only to
+  the named classical Keller--Galois rigidity input, together with vanishing
+  of the collision obstruction, projector, and off-diagonal factor;
 - the off-diagonal decomposition and obstruction in the separable cubic
   $S_3$ case in dimension three.
 
@@ -201,7 +204,10 @@ The source tree follows mathematical ownership.  `CollisionIdeals.General`
 exports the collision, fiber-product, generic-fiber, Galois, normalization,
 Keller, and automorphism infrastructure shared by both applications.
 `CollisionIdeals.ComplexThree` owns the cubic $S_3$ specialization, while
-`CollisionIdeals.Planar` owns the secant, boundary, and rigidity development.
+`CollisionIdeals.Planar` exports the planar secant construction and the
+generic-degree-two rigidity theorem.  The prospective full-$JC(2)$ boundary
+and inertia program remains available through its precise planar modules and
+the separate research umbrella.
 Within each dimension-specific layer, `Statements` names conjectural
 propositions, `Equivalences` contains proved iff characterizations,
 `Interfaces` records explicit comparison obligations, and `Consequences`
@@ -324,9 +330,19 @@ Build the project with:
 lake build
 ```
 
-## Planar dependency spine
+## Planar generic-degree-two spine
 
-The paper has one divisorial endgame with several exact formulations.
+`Planar.GenericDegreeTwo` is the focused endpoint.  Relative to
+`ComplexKellerGaloisRigidity 2`, quadratic normality gives automorphy, while
+the internal automorphism-to-function-field bridge forces generic degree one.
+The same module packages vanishing of the obstruction, the chosen and
+canonical explicit secant projectors, the explicit secant ideal, and the
+affine off-diagonal scheme.
+
+## Separate full-$JC(2)$ boundary research spine
+
+The prospective full planar program has one divisorial endgame with several
+exact formulations.
 `PlanarRamificationRigidity`, moving-sheet coverage, and boundary separation
 are respectively differential, valuation-theoretic, and ideal-theoretic
 descriptions of its codimension-one premise.  After that premise is supplied,
@@ -651,17 +667,19 @@ of the off-diagonal factor.  The single divisorial endgame reaches that
 endpoint after codimension-one unramifiedness; boundary coherence is the
 equivalent global-boundary formulation.
 
-The manuscript also proves the classical normal/Galois marked-extension
-case by boundary-divisor rigidity.  It follows that generic degree two is
-impossible for a nonautomorphic planar Keller map; any unresolved planar
-case has nonnormal function-field extension of degree at least three.  This
-divisor argument is not yet formalized in Lean.
+Relative to the named classical Keller--Galois rigidity input, Lean now proves
+that a planar Keller map cannot have generic degree two.  It also packages the
+resulting vanishing of `Obs(F)`, equality $I_R(F)=I_\Delta$, vanishing of the
+planar collision idempotent, and emptiness of the affine off-diagonal scheme.
+Thus any unresolved planar case has nonnormal function-field extension of
+degree at least three.
 
 ### Public planar modules
 
-`CollisionIdeals.Planar` exports the local `Statements`, `Equivalences`,
-`Rigidity`, and `Boundary` umbrellas alongside the legacy
-no-hidden-inertia API.
+`CollisionIdeals.Planar` exports the local `Statements` and `Equivalences`,
+the explicit secant construction, and `Planar.GenericDegreeTwo`.  Boundary,
+normalization, and rigidity modules remain available through precise imports
+but are no longer part of the focused public umbrella.
 
 Import `CollisionIdeals.Planar.Research` explicitly for the prospective
 principal-parts, conjugate-secant, and completed tame-ramification modules.
@@ -740,6 +758,6 @@ counterexample to the three-dimensional Jacobian conjecture.
 ## License
 
 The Lean source and other software in this repository are available under
-the [MIT License](LICENSE).  The manuscript PDF
-[`Collision Geometry and the Jacobian Conjecture.pdf`](Collision%20Geometry%20and%20the%20Jacobian%20Conjecture.pdf) and other non-code material
-in [`paper/`](paper/) are available under [CC BY 4.0](paper/LICENSE).
+the [MIT License](LICENSE).  The active manuscripts in [`paper/`](paper/)
+and the historical artifacts in [`manuscript-archive/`](manuscript-archive/)
+are available under [CC BY 4.0](paper/LICENSE).

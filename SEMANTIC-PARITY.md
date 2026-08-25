@@ -72,6 +72,7 @@ Until then, classify the object as `retain`, `compatibility`, or
 | \(F\) is Keller | nonzero constant Jacobian determinant | `IsKeller F`; dimension-three alias `IsComplexThreeKeller F` | Exact. It is a condition in the cubic counterexample equivalence, not a consequence of generic degree three. |
 | Keller generic geometry | \(F\) is étale and generically finite; \(L/K\) is finite separable | `KellerEtaleBridge F` and `KellerFlatBridge F` in `General.Keller.Interfaces` | Partial representation. The interfaces encode étaleness and module flatness only; generic finiteness and finite separability are not yet packaged, and the cubic API assumes separability and generic-source surjectivity explicitly. |
 | Keller--Galois rigidity | a Keller map with normal \(L/K\) is a polynomial automorphism | `ComplexKellerGaloisRigidity n` in `General.Automorphism.GaloisRigidity` | Explicit interface. The classical theorem is represented as a proposition, not assumed as an axiom or proved in Lean. |
+| Automorphism \(\Rightarrow L/K\) trivial \(\Rightarrow [L:K]=1\) | function-field consequence of polynomial automorphy | `polynomialFunctionFieldExtensionTrivial_of_isPolynomialAutomorphism` and `polynomialFunctionField_finrank_eq_one_of_isPolynomialAutomorphism` in `General.Automorphism.GenericDegreeOne` | Exact. Only this forward implication is asserted here. |
 | \(F\) is a \(JC(3)\) counterexample | Keller and not a polynomial automorphism | `IsComplexThreeJacobianCounterexample F` in `ComplexThree.Statements.JacobianConjecture` | Exact definition. |
 | \(\operatorname{Gal}(N/K)\cong S_3\) | Galois group of the nonnormal cubic normal closure | `NormalClosureData.galoisGroupEquivPermFinThree`; packaged by `CubicS3CollisionWitness` | Exact over a perfect base from degree three, normal-closure data, and \(H\ne1\). The high-level cubic theorem derives \(H\ne1\) from nonnormality. |
 
@@ -79,13 +80,13 @@ Until then, classify the object as `retain`, `compatibility`, or
 
 | Priority | Manuscript claim | Lean status | Required action |
 |---|---|---|---|
-| P0 | \([L:K]=3\Rightarrow F\) is not a polynomial automorphism | Missing as a standalone theorem | Prove the function-field-degree contradiction in the generic polynomial-map API. |
+| P0 | \([L:K]=3\Rightarrow F\) is not a polynomial automorphism | The general bridge `polynomialFunctionField_finrank_eq_one_of_isPolynomialAutomorphism` proves the needed contradiction; no standalone cubic wrapper is packaged | Add the dimension-three wrapper only if a manuscript-facing theorem consumes it. |
 | P0 | On the generic-degree-three locus, \(F\) is a \(JC(3)\) counterexample iff \(F\) is Keller | Missing as a packaged equivalence; the counterexample definition already contains Keller, and `complexThreeCubicS3Collision` uses Keller only after proving obstruction nonvanishing | Add a dimension-three equivalence theorem depending only on the degree-three nonautomorphism result. Do not encode cubicity as implying Keller. |
 | P0 | \(\operatorname{Spec}D_\alpha\) connected iff \(D_\alpha\) is a field iff \(h_\alpha\) is irreducible iff \(L/K\) is nonnormal | Partially proved: `irreducible_minpolyDiv_of_cubic_of_not_normal` establishes the nonnormal-to-irreducible direction, and the residual rank-two and injective evaluation-map lemmas are in `ComplexThree.Cubic.Branch` | Complete the converse and package the separable quadratic split/field/connectedness equivalences. |
 | P0 | In the nonnormal branch, \(D_\alpha\simeq_LN\) and \(H\ne1\) | Proved by `cubicResidualEquivNormalClosureOfNotNormal` and `NormalClosureData.intermediateFixingSubgroup_ne_bot_of_not_normal`; the high-level cubic theorem derives both from nonnormality | Retain. The generic constructors intentionally remain parameterized. |
-| P0 | Classical Galois rigidity: Keller plus normal \(L/K\) implies automorphism and \(L=K\) | Automorphism conclusion represented by the explicit interface `ComplexKellerGaloisRigidity`; no axiom or proof is installed | Pass the literature theorem through this shared General interface; derive function-field triviality as a separate internal consequence of automorphy. |
+| P0 | Classical Galois rigidity: Keller plus normal \(L/K\) implies automorphism and \(L=K\) | Automorphism conclusion represented by the explicit interface `ComplexKellerGaloisRigidity`; no axiom or proof is installed. Automorphy now internally implies triviality of the induced function-field extension and finrank one. | Continue to pass the literature theorem through this shared General interface. |
 | P0 | Every complex Keller map is étale and generically finite, with finite separable \(L/K\) | Manuscript proves this in the general construction; Lean has only `KellerEtaleBridge` and `KellerFlatBridge` interfaces | Formalize the Jacobian-criterion implication and derive the finite/separable generic-field package used by both papers. |
-| P0 | Every complex Jacobian-conjecture counterexample has generic degree at least three | Manuscript corollary of Keller generic geometry and classical Galois rigidity; missing in Lean | Derive the degree-one and separable quadratic cases after the shared Galois-rigidity interface is available. |
+| P0 | Every complex Jacobian-conjecture counterexample has generic degree at least three | Manuscript corollary of Keller generic geometry and classical Galois rigidity. The degree-two exclusion is now exact relative to the rigidity input via `ComplexKellerGaloisRigidity.not_counterexample_of_finrank_eq_two`; the full lower-bound theorem is not packaged. | Package the degree-one case and the finite-degree lower bound once Keller generic geometry is available. |
 | P1 | Generic finiteness makes \(\theta\colon K\otimes_BA\to L\) surjective | Lean takes `hsurj` explicitly | Package the manuscript localization/algebraicity proof and remove redundant call-site hypotheses. |
 | P1 | \(C_F\simeq_BA\otimes_BA\), with diagonal evaluation equal to multiplication | Exact at ring level through `collisionImageTensorEquiv` and its diagonal theorem | Retain the image-algebra version as the canonical manuscript correspondence; a separate scheme-level wrapper is optional. |
 | P1 | The intrinsic generic residual quotient is \(N\) | Exact via the product-annihilator calculation | Retain. Do not strengthen it to \(K\otimes_BC_F^\circ\simeq N\) without a localization--colon theorem. |
@@ -103,8 +104,8 @@ Until then, classify the object as `retain`, `compatibility`, or
 - Use “diagonal factor” for the \(L\)-factor and “residual generic factor”
   for \(D_\alpha\) or, after the nonnormal identification, \(N\).
 - In Paper I, call \(G/H\) the coset set or the set of marked embeddings.
-  Reserve “conjugate affine sheets” for the normalization geometry of Paper
-  II.  Do not call \(N\) an \(S_3\) sheet: \(N/K\) is the normal closure and
+  Reserve “conjugate affine sheets” for the future full-planar normalization
+  program.  Do not call \(N\) an \(S_3\) sheet: \(N/K\) is the normal closure and
   its Galois group is \(S_3\).
 - Keep the affine colon object \(C_F^\circ\), the quadratic generic factor
   \(D_\alpha\), and the intrinsic quotient
@@ -116,7 +117,28 @@ Until then, classify the object as `retain`, `compatibility`, or
 - Generic degree three implies nonautomorphy, not the Keller condition.  On
   that locus, “counterexample to \(JC(3)\)” is equivalent to “Keller.”
 
-## Paper II: planar boundary reduction
+## Paper II: planar generic degree two
+
+Paper II's focused Lean spine is the generic-degree-two case.  It is
+conditional only on the explicitly supplied literature input
+`ComplexKellerGaloisRigidity 2`; it does not use normalization, boundary, or
+inertia hypotheses.
+
+| Manuscript notation / claim | Lean declaration | Status / guardrail |
+|---|---|---|
+| \(d_F=[L:K]\) | `planarGenericDegree F` in `Planar.GenericDegreeTwo` | Exact planar alias for the function-field finrank. |
+| Keller and \(d_F=2\Rightarrow F\) is a polynomial automorphism | `planarGenericDegreeTwo_isPolynomialAutomorphism` | Exact relative to `ComplexKellerGaloisRigidity 2`; quadratic normality is supplied internally by `Algebra.IsQuadraticExtension.normal`. |
+| A polynomial automorphism has \(d_F=1\) | `planarGenericDegree_eq_one_of_isPolynomialAutomorphism`, using the general function-field bridge | Exact. |
+| No planar Keller map has \(d_F=2\) | `planarGenericDegree_ne_two_of_isKeller`; dual formulation `planarGenericDegreeTwo_not_keller` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
+| A planar map with \(d_F=2\) is not a Jacobian counterexample | `planarGenericDegreeTwo_not_counterexample` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
+| On the hypothetical Keller degree-two locus, \(\operatorname{Obs}(F)=0\), \(I_R=I_\Delta\), \(q_F=0\), and the off-diagonal collision scheme is empty | `planarGenericDegreeTwo_obstructionIdeal_eq_bot`, `planarGenericDegreeTwo_collisionIdeal_eq_diagonalIdeal`, `planarGenericDegreeTwo_collisionIdempotent_eq_zero`, `planarGenericDegreeTwo_explicitCollisionProjector_eq_zero`, `planarGenericDegreeTwo_explicitSecantIdeal_eq_top`, `planarGenericDegreeTwo_offDiagonalRing_subsingleton`, and `planarGenericDegreeTwo_offDiagonalVanishing` | Exact relative to `ComplexKellerGaloisRigidity 2`. These are consequences of automorphy, not an independent boundary argument. |
+
+The focused theorem does **not** prove the full planar Jacobian conjecture:
+nonnormal generic degrees at least three remain outside its scope.  The
+boundary program below concerns that separate full-`JC(2)` problem and must
+not be presented as a dependency or unfinished step of the degree-two paper.
+
+## Separate future research: full planar boundary reduction
 
 The following queue tracks the manuscript's planar reduction as two
 geometric statements, a proved finite Tate--conductor reduction, one missing
@@ -213,7 +235,7 @@ hypothesis.
 | P2 | Finite local freeness of (T/B) | proved from surface CM and miracle flatness | not formalized | prove it or expose a narrowly scoped geometric interface |
 | P2 | Monogenic comparison order (R_{\mathrm{sec}}) | finite-free hypersurface, power basis, Jacobian, and conductor constructed | thin aliases to Mathlib `Algebra.adjoin`, `powerBasis'`, `minpoly.equivAdjoin`, and `conductor` in `Research.MonogenicOrder` | retain the transparent specialization; do not duplicate Mathlib's objects |
 | P2 | Tate--conductor identity (T^\dagger=J_{\mathrm{sec}}^{-1}(R_{\mathrm{sec}}:T)) | proved | generic power-basis reconstruction and monogenic/overorder trace-dual--conductor identities proved in `Research.TateReconstruction` and `Research.MonogenicTraceDual`; concrete normalization specialization not wired | specialize to the normalization data; do not package landing into this theorem |
-| P3 | Explicit divided-difference secant matrix | defined canonically | explicit coefficientwise construction and its identities are proved in `Planar.ExplicitSecant`; legacy chosen data remain in use | migrate downstream secant consumers only after proving equivalence/compatibility |
+| P3 | Explicit divided-difference secant matrix | defined canonically | the coefficientwise construction, determinant annihilation, diagonal restriction, explicit secant ideal, and quotient-ring projector are proved in `Planar.ExplicitSecant`; legacy chosen data remain as a separate presentation | use the explicit API in Paper II; migrate or remove the chosen presentation only after all remaining consumers move |
 | P3 | Conjugate secant evaluation and off-diagonal lift | the \((x,gx)\) two-case formula and the boundary-compatible \((gx,\sigma gx)\) overlap factorization are proved | `General.Galois.PolynomialCollisionPair` constructs the actual dimension-independent \((g,\sigma g)\) map pair and stabilizer-distinctness theorem; the planar specialization factors every moved pair through `OffDiagonalRing` | formalize the relative-\(C\) coevaluation and the evaluated overlap coefficient family; recover the full \(g\in H/g\notin H\) projector formula |
 | P3 | Inverse-Jacobian frame | defined and proved; extension preserves each (A_g), not (T) | polynomial frame and four duality identities are proved in `Planar.KellerFrame`; field extensions are missing | extend to (L,N) and conjugate rings |
 | P3 | Secant--frame denominator candidate | the pairwise \((g,\sigma g)\) first-jet lattice and nonzero denominator are proved; landing is open | generic nonzero finite-family denominator theorem is proved in `Research.SecantFrameDenominator`; the actual evaluated overlap family is missing | construct the conjugate evaluated coefficient family and specialize without adding an existential bridge |
