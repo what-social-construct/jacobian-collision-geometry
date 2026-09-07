@@ -1,25 +1,16 @@
 \documentclass[11pt]{article}
-
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage[margin=1.1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
-\usepackage{enumitem}
-\usepackage{microtype}
-\usepackage{xcolor}
-\usepackage{booktabs}
-\usepackage{array}
-\usepackage{titlesec}
-\usepackage{hyperref}
+\usepackage{microtype,xcolor,titlesec,hyperref}
 
-\titleformat{\section}
-  {\normalfont\LARGE\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}
-  {\normalfont\Large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\section}{\normalfont\LARGE\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\Large\bfseries}{\thesubsection}{1em}{}
 
 \hypersetup{
-  pdftitle={Secant Projectors and Boundary Inertia for Planar Keller Maps},
+  pdftitle={Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity},
   pdfauthor={Chloe van der Vlugt},
   colorlinks=true,
   linkcolor=blue!55!black,
@@ -29,28 +20,14 @@
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
 
-\DeclareMathOperator{\Spec}{Spec}
-\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\Spec}{Spec}\DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
-\DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\Aut}{Aut}
-\DeclareMathOperator{\Ram}{Ram}
-\DeclareMathOperator{\Norm}{Norm}
-\DeclareMathOperator{\Ann}{Ann}
-\DeclareMathOperator{\core}{core}
 
 \newcommand{\A}{\mathbb A}
 \newcommand{\C}{\mathbb C}
 \newcommand{\Obs}{\operatorname{Obs}}
-\newcommand{\id}{\mathrm{id}}
-\newcommand{\qedbox}{\hfill$\square$}
 \newcommand{\leanpath}[1]{\texttt{\nolinkurl{#1}}}
 
 \newenvironment{leanfiles}
@@ -58,40 +35,48 @@
    \textit{Lean correspondence.}\ }
   {\par\endgroup\medskip}
 
-\title{Secant Projectors and Boundary Inertia for Planar Keller Maps}
-\author{Chloe van der Vlugt}
-\date{\today}
+\title{\texorpdfstring
+  {Generic Degree Two in \(JC(2)\):\\
+   Secant Projectors and Galois Rigidity}
+  {Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity}}
+\author{Chloe van der Vlugt}\date{\today}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-Let
-\(F=(P,Q)\colon\A^2_{\C}\to\A^2_{\C}\) satisfy
-\(\det JF=c\in\C^\times\).  A divided-difference secant matrix gives an
-explicit idempotent in the coordinate ring \(C_F\) of the scheme of pairs
-with the same image.  It splits off the diagonal and yields
+We study planar polynomial maps of generic degree two through the scheme of
+pairs with the same image.  For
 \[
-  C_F\cong \C[x_1,x_2]\times C_F^\circ,
-  \qquad
-  C_F^\circ\cong
-  \frac{\C[x_1,x_2,y_1,y_2]}
-       {(P(x)-P(y),\,Q(x)-Q(y),\,\det M_F)}.
+  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
 \]
-We then pass to the normal closure \(N/K\) of the induced function-field
-extension and its finite normalization \(Z\).  Pulling the affine plane
-back along the conjugate embeddings produces canonical boundary ideals
-\(\mathfrak j_g\), while finite subgroups of \(\Gal(N/K)\) give fixed-locus
-ideals \(\mathfrak a_C\).  We identify absence of divisorial ramification
-with the absence of a common height-one component of the corresponding
-fixed--moving boundary loci.  Purity and finite-\'etale rigidity then reduce
-collision vanishing to this boundary condition.  A divisor-class argument
-recovers the known normal/Galois case and excludes generic degree two.
-Universal boundary separation is equivalent to the two-dimensional
-Jacobian conjecture and is not proved here.  Lean formalizes the collision
-and boundary constructions and the conditional divisorial endgame relative
-to explicit normalization and standard geometric interfaces.
+put \(A=\C[x_1,x_2]\), let \(I_R(F)\) be the collision ideal in the
+pair ring \(S=\C[x_1,x_2,y_1,y_2]\), and let \(I_\Delta\) be the diagonal
+ideal.  Set \(C_F=S/I_R(F)\).  Their quotient
+\[
+  \Obs(F)=I_\Delta/I_R(F)\subseteq C_F
+\]
+is the ideal of the diagonal in the collision ring.  When \(F\) is Keller,
+a divided-difference secant matrix produces an explicit idempotent
+\(p_F\in C_F\) with \(\Obs(F)=C_Fp_F\).
+
+Writing \(B=\C[P,Q]\subseteq A\), \(K=\Frac(B)\), and
+\(L=\Frac(A)\), suppose that the induced extension \(L/K\) has degree
+two.  Then the generic collision algebra decomposes compatibly with the
+diagonal as
+\[
+  K\otimes_BC_F\simeq_K L\times L,
+\]
+where diagonal evaluation is first projection.  The second factor forces
+\(\Obs(F)\neq0\), and for the Keller map above, hence \(p_F\neq0\).  On
+the other hand, a separable
+quadratic extension is Galois, and classical Keller--Galois rigidity makes
+a hypothetical degree-two Keller map a polynomial automorphism.  Then
+\(\Obs(F)=0\) and \(p_F=0\), a contradiction.  Thus no planar Keller map
+has generic degree two.  The collision and secant arguments are formalized
+in Lean; the classical rigidity theorem is isolated there as the sole
+external mathematical input to the degree-two exclusion.
 \end{abstract}
 
 \begin{center}
@@ -105,1104 +90,232 @@ to explicit normalization and standard geometric interfaces.
 \section{Introduction}
 \label{sec:introduction}
 
-The complex two-dimensional Jacobian conjecture asks whether every
+The complex two-dimensional Jacobian conjecture \(JC(2)\) asks whether every
 polynomial map
 \[
   F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
   \qquad \det JF\in\C^\times,
 \]
-is a polynomial automorphism.  We study this question through the scheme
-of ordered pairs \((x,y)\) satisfying \(F(x)=F(y)\).  Its diagonal records
-equal source points; the remaining factor records the failure of
-injectivity.
+has a polynomial inverse.  Such an \(F\) is called a \emph{Keller map}.
+The condition on the Jacobian is local, while polynomial invertibility is
+global.  Collision geometry makes the global issue visible by retaining
+pairs \((x,y)\) for which \(F(x)=F(y)\).
 
-In dimension two the Keller condition makes this separation explicit.  A
-divided-difference secant matrix produces an idempotent which splits the
-collision scheme into its diagonal and off-diagonal parts.  The first half
-of the paper develops this projector and its universal factorization
-property.
-
-The second half moves to the induced finite separable function-field
-extension \(L/K\), its normal closure \(N/K\), and the normalization
-\(Z\) of the target in \(N\).  Each conjugate embedding of \(L\) determines
-an affine sheet in \(Z\) and a canonical deleted-boundary ideal.  For a
-ramified divisor \(E\), the inertia group moves at least one conjugate
-sheet.  Because every affine sheet is \'etale over the target, such a moved
-center cannot remain affine; it must lie on the deleted boundary.
-
-This observation yields an exact codimension-one dictionary.  Divisorial
-ramification is absent precisely when no nontrivial fixed locus has a
-common height-one component with all of its moving-sheet boundaries.  Once
-height-one ramification has been eliminated, purity and finite-\'etale
-rigidity trivialize the normal closure and collapse the collision scheme to
-the diagonal.  Universal boundary separation is therefore another form of
-\(JC(2)\); it is not proved here.  A separate divisor-class argument
-recovers the known normal/Galois case and rules out generic degree two.
-
-Section~\ref{sec:general-construction} recalls the collision, off-diagonal,
-and normalization constructions used below.  Section
-\ref{sec:planar-vanishing} gives the planar secant splitting, constructs
-the conjugate boundary ideals, proves the divisorial dictionary, and states
-the resulting boundary forms of \(JC(2)\).  The final part records a
-prospective secant--trace mechanism separately from the completed
-dictionary and endgame.
-
-\section{General construction}
-\label{sec:general-construction}
-
-We recall the dimension-independent constructions needed for the planar
-argument.  The collision ideal encodes pairs with the same image, the
-diagonal ideal defines the distinguished equal-point locus, and the
-normalization diagram organizes conjugate sheets and their inertia.  The
-planar specialization will make the diagonal splitting explicit and locate
-every possible divisorial obstruction on the deleted normalization boundary.
-
-\subsection{The two ideals and their obstruction}
-\label{sec:collision-ideals}
-
-Throughout the paper, the base field is \(\C\).  Let
+The companion paper \cite{VanDerVlugt2026CubicCollision} develops the
+dimension-independent collision construction.  It associates to a
+polynomial map two ideals
 \[
-  F=(F_1,\dots,F_n)\colon
-  X=\A^n_{\C}\longrightarrow\A^n_{\C}
-\]
-be a polynomial map, and let
-\[
-  S=\C[x_1,\dots,x_n,y_1,\dots,y_n].
-\]
-The map \(F\) is Keller if
-\[
-  \det JF\in\C^\times.
-\]
-Define
-\[
-  I_R(F)=\bigl(F_i(x)-F_i(y)\bigr)_{i=1}^{n},
+  I_R(F)=\bigl(F_i(x)-F_i(y)\bigr),
   \qquad
-  I_\Delta=(x_i-y_i)_{i=1}^{n},
-  \qquad
-  \Obs(F):=I_\Delta/I_R(F).
+  I_\Delta=\bigl(x_i-y_i\bigr)
 \]
-The quotient \(\Obs(F)\) is naturally an ideal of the collision ring
-\(C_F:=S/I_R(F)\); we call it the obstruction ideal.
-For a fixed map \(F\), we abbreviate \(I_R(F)\) to \(I_R\).
-
-\begin{proposition}[Canonical containment]
-\label{prop:collision-contained-in-diagonal}
-For every polynomial map \(F\),
+inside the coordinate ring of ordered pairs.  The containment
+\(I_R(F)\subseteq I_\Delta\) induces the obstruction ideal
 \[
-  I_R(F)\subseteq I_\Delta.
+  \Obs(F)=I_\Delta/I_R(F)
 \]
-\end{proposition}
+in the collision ring \(C_F\).  This ideal defines the diagonal inside the
+collision scheme.  Its vanishing says that the collision scheme consists
+only of the diagonal; over \(\C\), this is equivalent to polynomial
+automorphy.
 
-\begin{proof}
-For \(H\in\C[x_1,\dots,x_n]\), the difference \(H(x)-H(y)\) belongs to
-\((x_1-y_1,\dots,x_n-y_n)\).  This follows by induction on \(H\), or by
-telescoping each monomial one coordinate at a time.  Apply the statement
-to each coordinate \(F_i\).
-\end{proof}
-
-Let \(A:=\C[x_1,\dots,x_n]\).  Diagonal evaluation induces a surjective ring
-map
+The same construction has a generic field-theoretic form.  Write
 \[
-  \bar\mu_F\colon C_F\longrightarrow A,
-  \qquad
-  [s]_{I_R}\longmapsto s(x,x).
+  A=\C[x_1,x_2],\qquad
+  B=\C[P,Q]\subseteq A,\qquad
+  K=\Frac(B),\qquad
+  L=\Frac(A).
 \]
-
-\begin{proposition}[The diagonal kernel]
-\label{prop:obstruction-kernel}
-As ideals of \(C_F\),
+For a Keller map, \(L/K\) is finite and separable, and
 \[
-  \ker(\bar\mu_F)
-  =
-  \Obs(F)
-  =
-  I_\Delta/I_R.
+  d_F=[L:K]
 \]
-Consequently,
+is the generic degree of \(F\).  At the generic point, Paper~I gives the
+compatible isomorphism
 \[
-  \ker(\bar\mu_F)=0
-  \quad\Longleftrightarrow\quad
-  \Obs(F)=0
-  \quad\Longleftrightarrow\quad
-  I_R=I_\Delta.
+  K\otimes_BC_F\simeq_KL\otimes_KL,
 \]
-\end{proposition}
+with base-changed diagonal evaluation equal to tensor multiplication.
 
-\begin{proof}
-The kernel of diagonal evaluation \(S\to A\) is \(I_\Delta\).  Passing
-through \(S/I_R\) therefore identifies the displayed kernel with
-\(I_\Delta/I_R\).  Since \(I_R\subseteq I_\Delta\),
+Paper~I already uses classical Galois rigidity to exclude generic degrees
+one and two in every dimension.  The purpose here is to realize the
+quadratic exclusion explicitly in the planar collision ring.
+
+This paper specializes that construction to \(d_F=2\).  There are two
+complementary descriptions of the collision obstruction.  The first is
+geometric and explicit: divided differences produce a secant determinant
+and an idempotent \(p_F\) generating \(\Obs(F)\).  The second is generic
+and field-theoretic: a separable quadratic extension satisfies
 \[
-  I_\Delta/I_R=0
-  \quad\Longleftrightarrow\quad
-  I_R=I_\Delta.
+  L\otimes_KL\simeq_L L\times L,
 \]
-\end{proof}
+and tensor multiplication is projection onto the marked first factor.
+For a Keller map, the second factor is a genuine residual generic
+collision, forcing \(p_F\neq0\).
 
-\subsection{The fiber-product interpretation}
-\label{sec:fiber-product}
+Classical Galois rigidity gives the opposite conclusion.  Since every
+separable quadratic extension is normal, a hypothetical planar Keller map
+with \(d_F=2\) would be a polynomial automorphism
+\cite{Campbell1973,Razar1979,Wright1981}.  Its collision scheme would then
+be the diagonal, so \(p_F=0\).  The contradiction excludes generic degree
+two.
 
-Let
+Section~\ref{sec:collision-inputs} recalls, without reproving, the part of
+the general construction needed here.  Section~\ref{sec:secant-projector}
+constructs the planar secant projector.  Section
+\ref{sec:quadratic-collision} proves quadratic collision nonvanishing, and
+Section~\ref{sec:rigidity-contradiction} combines it with Galois rigidity.
+Section~\ref{sec:lean-status} records the formalization boundary.
+
+This is a generic-degree-two theorem, not a proof of all of \(JC(2)\).
+The remaining possible counterexamples have nonnormal function-field
+extensions of generic degree at least three.  No normalization, boundary,
+or inertia construction is needed below.
+
+\section{Inputs from Paper I}
+\label{sec:collision-inputs}
+
+We use the dimension-independent construction of Paper~I
+\cite{VanDerVlugt2026CubicCollision}.  To keep the two manuscripts
+notationally identical, let
 \[
+  F=(F_1,\dots,F_n)\colon\A^n_{\C}\longrightarrow\A^n_{\C},
+\]
+and put
+\[
+  \begin{gathered}
   A=\C[x_1,\dots,x_n],\qquad
-  B=\C[F_1,\dots,F_n]\subseteq A.
+  S=\C[x_1,\dots,x_n,y_1,\dots,y_n],\\
+  I_R(F)=\bigl(F_i(x)-F_i(y)\bigr)_{i=1}^n,\qquad
+  I_\Delta=\bigl(x_i-y_i\bigr)_{i=1}^n,\\
+  C_F=S/I_R(F),\qquad
+  R_F=\Spec C_F.
+  \end{gathered}
 \]
-Let \(X=\Spec A\), let \(Y=\Spec B\), and let
+Since \(I_R(F)\subseteq I_\Delta\), diagonal substitution descends along
+the quotient map \(q_F\colon S\twoheadrightarrow C_F\) to
 \[
-  f_F\colon X\longrightarrow Y
+  \bar\mu_F\colon C_F\twoheadrightarrow A,
+  \qquad [s]\longmapsto s(x,x).
 \]
-be the morphism induced by \(B\hookrightarrow A\).
-The homomorphisms
-\(\iota_x,\iota_y\colon A\rightrightarrows C_F\), defined by
-\(\iota_x(a)=[a(x)]\) and \(\iota_y(a)=[a(y)]\), agree on \(B\) because
-\([F_i(x)]=[F_i(y)]\) in \(C_F\).  Their common restriction equips
-\(C_F\) with a \(B\)-algebra structure.
+The image of \(I_\Delta\) is the ideal
+\[
+  \Obs(F):=q_F(I_\Delta)=I_\Delta/I_R(F)\subseteq C_F,
+\]
+which defines the diagonal inside \(R_F\).
 
-\begin{theorem}[Fiber-product interpretation]
-\label{thm:collision-tensor-product}
-There is a canonical \(B\)-algebra equivalence and its dual
-affine-scheme equivalence
-\[
-  C_F\cong A\otimes_B A,
-  \qquad
-  R_F:=\Spec C_F\cong X\times_YX.
-\]
-Under the first equivalence, \(\bar\mu_F\) is tensor multiplication
-\[
-  A\otimes_BA\longrightarrow A,\qquad a\otimes a'\longmapsto aa'.
-\]
-Its dual morphism is the diagonal
-\[
-  \Delta_{X/Y}\colon X\longrightarrow X\times_YX.
-\]
-\end{theorem}
+The following two results are quoted from Paper~I; no proof of the general
+collision construction is repeated here.
 
-\begin{proof}
-A map \(C_F\to T\) to a commutative \(\C\)-algebra \(T\) is equivalent
-to a pair of maps \(f,g\colon A\rightrightarrows T\) satisfying
+\begin{theorem}[Diagonal kernel and automorphism detection]
+\label{thm:quoted-diagonal-kernel}
+For every complex polynomial map as above,
 \[
-  f(F_i)=g(F_i)\qquad(1\leq i\leq n).
-\]
-Since the \(F_i\) generate \(B\), this is precisely the universal
-property of \(A\otimes_BA\).  Applying \(\Spec\) to this equivalence and
-using
-\[
-  \Spec(A\otimes_BA)
-  \cong
-  \Spec A\times_{\Spec B}\Spec A
-\]
-gives the asserted fiber-product equivalence.
-The statements about multiplication and the diagonal follow on pure
-tensors.
-\end{proof}
-
-\[
-  R_F(\C)
-  =
-  \{(u,v)\in X(\C)\times X(\C):F(u)=F(v)\}.
-\]
-Inside
-\[
-  X\times X=\Spec S,
-\]
-the ideals \(I_R\) and \(I_\Delta\) define, respectively,
-\(X\times_YX\) and the image of \(\Delta_{X/Y}\).  The
-contravariance of \(I\mapsto V(I)\) therefore gives the equivalences
-\[
-  I_R\subseteq I_\Delta
-  \quad\Longleftrightarrow\quad
-  \Delta_{X/Y}(X)\subseteq X\times_YX
-\]
-and
-\[
-  I_R=I_\Delta
-  \quad\Longleftrightarrow\quad
-  X\times_YX=\Delta_{X/Y}(X)
-\]
-as closed subschemes of \(X\times X\).  Thus the algebraic and
-geometric gaps are two descriptions of the same scheme-theoretic
-containment.
-
-\subsection{The off-diagonal factor and secant projectors}
-\label{sec:secant-projector}
-
-For every polynomial map \(F\), define
-\[
-  I_{\mathrm{off}}:=I_R:I_\Delta,
-  \qquad
-  C_F^\circ:=S/I_{\mathrm{off}},
-  \qquad
-  R_F^\circ:=\Spec C_F^\circ.
-\]
-This definition does not require the diagonal to be clopen.
-
-\begin{corollary}[Off-diagonal emptiness criterion]
-\label{cor:off-diagonal-empty-criterion}
-For every polynomial map \(F\), the following are equivalent:
-\[
-  R_F^\circ=\varnothing
-  \quad\Longleftrightarrow\quad
-  C_F^\circ=0
-  \quad\Longleftrightarrow\quad
-  \Obs(F)=0
-  \quad\Longleftrightarrow\quad
-  I_R=I_\Delta.
-\]
-\end{corollary}
-
-\begin{proof}
-\[
-  R_F^\circ=\varnothing
-  \quad\Longleftrightarrow\quad
-  C_F^\circ=0
-  \quad\Longleftrightarrow\quad
-  I_R:I_\Delta=S.
+  \ker(\bar\mu_F)=\Obs(F)=I_\Delta/I_R(F).
 \]
 Moreover,
 \[
-  I_R:I_\Delta=S
+  F\text{ is a polynomial automorphism}
   \quad\Longleftrightarrow\quad
-  I_\Delta\subseteq I_R
+  I_R(F)=I_\Delta
   \quad\Longleftrightarrow\quad
-  I_R=I_\Delta.
-\]
-The equivalence with \(\Obs(F)=0\) is
-Proposition~\ref{prop:obstruction-kernel}.
-\end{proof}
-
-The idempotent mechanism behind a clopen diagonal is purely
-commutative-algebraic.  Let \(C\) be a commutative ring, \(J\subseteq C\)
-an ideal, \(\delta\in C\), and \(c\in C^\times\).  Suppose
-\[
-  \delta J=0,
-  \qquad
-  \delta-c\in J.
-\]
-Define
-\[
-  q:=1-c^{-1}\delta.
-\]
-
-\begin{theorem}[Abstract off-diagonal projector]
-\label{thm:abstract-off-diagonal-projector}
-The element \(q\) is idempotent and
-\[
-  J=Cq,
-  \qquad
-  \Ann_C(J)=C(1-q).
-\]
-In particular,
-\[
-  J=0\quad\Longleftrightarrow\quad q=0.
+  \Obs(F)=0.
 \]
 \end{theorem}
 
-\begin{proof}
-The congruence \(\delta\equiv c\pmod J\) gives \(q\in J\).  For every
-\(j\in J\),
-\[
-  qj=j-c^{-1}\delta j=j.
-\]
-Taking \(j=q\) proves \(q^2=q\); the same identity gives \(J=Cq\).
-Finally,
-\[
-  aq=0
-  \quad\Longleftrightarrow\quad
-  a=a(1-q),
-\]
-so \(\Ann_C(J)=\Ann_C(Cq)=C(1-q)\).
-\end{proof}
-
-Whenever the theorem is applied with
-\[
-  C=C_F,
-  \qquad
-  J=\Obs(F),
-\]
-the identities \(J=C_Fq\) and \(C_F/J\cong A\) give
-\[
-  C_F
-  \cong
-  A
-  \times
-  C_F/C_F(1-q).
-\]
-Thus the first factor is the diagonal and the second is its
-off-diagonal complement.
-
-\subsection{The generic collision algebra}
-\label{sec:generic-galois-bridge}
-
-Let \(F\) be dominant and generically finite, and let
-\[
-  A=\C[x_1,\dots,x_n],
-  \qquad
-  B=\C[F_1,\dots,F_n]\subseteq A.
-\]
-Let
-\[
-  K=\Frac(B),
-  \qquad
-  L=\Frac(A).
-\]
-Let
-\[
-  \theta\colon K\otimes_BA\longrightarrow L,
-  \qquad
-  \lambda\otimes a\longmapsto\lambda a.
-\]
-
-\begin{theorem}[Generic collision bridge]
-\label{thm:generic-collision-base-change}
-The map \(\theta\) is an isomorphism.  Consequently, there is a
-\(K\)-algebra isomorphism
-\[
-  K\otimes_BC_F
-  \cong
-  L\otimes_KL,
-\]
-and the following square commutes:
-\[
-  \begin{array}{ccc}
-    K\otimes_BC_F
-      &\xrightarrow{\ 1\otimes\bar\mu_F\ }&
-    K\otimes_BA\\
-    {\scriptstyle\sim}\downarrow
-      &&\downarrow{\scriptstyle\theta\ \sim}\\
-    L\otimes_KL
-      &\xrightarrow{\ \mu_L\ }&
-    L.
-  \end{array}
-\]
-\end{theorem}
-
-\begin{proof}
-Let \(U=B\setminus\{0\}\).  Since \(K=U^{-1}B\), localization gives
-\[
-  K\otimes_BA
-  \xrightarrow{\sim}
-  U^{-1}A,
-  \qquad
-  \frac{b}{u}\otimes a\longmapsto\frac{ba}{u}.
-\]
-Since \(A=\C[x_1,\dots,x_n]\) is a domain and \(B\subseteq A\),
-\[
-  B\setminus\{0\}\subseteq A\setminus\{0\}.
-\]
-Hence
-\[
-  U^{-1}A\hookrightarrow\Frac(A)=L,
-  \qquad
-  \frac{a}{u}\longmapsto\frac{a}{u}.
-\]
-Composing this injection with the displayed isomorphism gives
-\(\theta\), so \(\theta\) is injective.
-
-Since \(F\) is generically finite, \(L/K\) is a finite extension.  The
-image of \(U^{-1}A\) in \(L\) is
-\[
-  K[x_1,\dots,x_n].
-\]
-Since each \(x_i\) is algebraic over \(K\), this \(K\)-domain is
-finite-dimensional over \(K\), hence is a field.  Since it contains
-\(A\), it contains \(\Frac(A)=L\); the reverse inclusion is already
-given by its embedding into \(L\).  Therefore
-\[
-  U^{-1}A=L,
-\]
-and \(\theta\) is an isomorphism.
-
-By Theorem~\ref{thm:collision-tensor-product}, identify
-\(C_F\) with \(A\otimes_BA\).  There is a \(K\)-algebra isomorphism
-\[
-  \beta\colon
-  K\otimes_B(A\otimes_BA)
-  \xrightarrow{\sim}
-  (K\otimes_BA)\otimes_K(K\otimes_BA)
-\]
-defined on pure tensors by
-\[
-  \beta\bigl(\lambda\otimes(a\otimes a')\bigr)
-  =
-  (\lambda\otimes a)\otimes(1\otimes a').
-\]
-Its inverse is
-\[
-  (\lambda\otimes a)\otimes(\lambda'\otimes a')
-  \longmapsto
-  \lambda\lambda'\otimes(a\otimes a').
-\]
-The balancing relations over \(B\) and \(K\) show that these formulas
-are well-defined, and the two displayed maps are mutually inverse.
-Composing \(\beta\) with \(\theta\otimes_K\theta\) gives
-\[
-  \Phi_F\colon K\otimes_BC_F\xrightarrow{\sim}L\otimes_KL.
-\]
-
-It remains to identify the diagonal map.  Under
-\(C_F\cong A\otimes_BA\), the homomorphism \(\bar\mu_F\) is
-multiplication.  Therefore, on a pure tensor,
-\[
-  \begin{aligned}
-  (\mu_L\circ\Phi_F)
-    \bigl(\lambda\otimes(a\otimes a')\bigr)
-    &=(\lambda a)a'
-     =\lambda aa',\\
-  \bigl(\theta\circ(1\otimes\bar\mu_F)\bigr)
-    \bigl(\lambda\otimes(a\otimes a')\bigr)
-    &=\theta(\lambda\otimes aa')
-     =\lambda aa'.
-  \end{aligned}
-\]
-Pure tensors generate \(K\otimes_BC_F\), so the two homomorphisms are
-equal.  This proves the commutative square.
-\end{proof}
-
-\subsection{Normalized covers and inertia}
-\label{sec:normalized-covers-inertia}
-
-Let \(L/K\) be finite and separable, and let \(N/K\) be its normal
-closure, with a fixed embedding \(L\hookrightarrow N\).  Let
-\[
-  G=\Gal(N/K),
-  \qquad
-  H=\Gal(N/L).
-\]
-
-\begin{proposition}[Conjugate-embedding action]
-\label{prop:conjugate-embedding-action}
-Restriction induces a bijection
-\[
-  G/H\xrightarrow{\sim}\Hom_K(L,N),
-  \qquad
-  gH\longmapsto g|_L.
-\]
-The induced action of \(G\) on \(G/H\) is faithful; equivalently,
-\[
-  \core_G(H)=\bigcap_{g\in G}gHg^{-1}=1.
-\]
-\end{proposition}
-
-\begin{proof}
-For \(g_1,g_2\in G\),
-\[
-  g_1|_L=g_2|_L
-  \quad\Longleftrightarrow\quad
-  g_2^{-1}g_1\in H
-  \quad\Longleftrightarrow\quad
-  g_1H=g_2H.
-\]
-Every \(K\)-embedding \(L\hookrightarrow N\) extends to an element of
-\(G\), so restriction gives the stated bijection.  Its action kernel is
-\[
-  \ker\!\left(G\curvearrowright G/H\right)
-  =
-  \bigcap_{g\in G}gHg^{-1}
-  =
-  \core_G(H).
-\]
-If \(\sigma\in\core_G(H)\), then
-\[
-  \sigma|_{g(L)}=\id_{g(L)}
-  \quad(g\in G).
-\]
-Since \(N\) is the normal closure,
-\[
-  N=K\bigl(g(L):g\in G\bigr),
-\]
-and therefore \(\sigma=\id_N\).
-\end{proof}
+The implication \(\Obs(F)=0\Rightarrow F\) is a polynomial automorphism
+uses Ax--Grothendieck
+\cite{Ax1969}; below we need only the elementary forward implication.
 
 Let
 \[
-  Y=\Spec B,
-  \qquad
-  \overline X=\Norm_L(Y),
-  \qquad
-  Z=\Norm_N(Y).
-\]
-The marked embedding \(L\hookrightarrow N\) induces a canonical
-commutative triangle
-\[
-  Z\xrightarrow{\pi}\overline X\xrightarrow{\bar\nu}Y,
-  \qquad
-  \nu=\bar\nu\circ\pi\colon Z\longrightarrow Y.
-\]
-Suppose that \(\bar\nu\) and \(\nu\) are finite, and fix an open
-immersion over \(Y\)
-\[
-  j\colon X=\Spec A\hookrightarrow\overline X
-\]
-with \(\bar\nu\circ j=f_F\).  Denote this diagram and its deleted boundary
-by
-\[
-  \mathcal D=
-  \left(
-    Z\xrightarrow{\pi}\overline X\xrightarrow{\bar\nu}Y,\,
-    j\colon X\hookrightarrow\overline X
-  \right),
-  \qquad
-  \partial X=\overline X\setminus j(X).
-\]
-
-Fix \(E\in Z^{(1)}\).  Let \(w_E\) be its divisorial
-valuation, let \(b=\nu(E)\), and let \(v_b=w_E|_K\).
-Let \(D_E\leq G\) and \(I_E\trianglelefteq D_E\) be its decomposition and
-inertia groups.  Let
-\[
-  \mathcal Q_E:=D_E\backslash G/H.
-\]
-For \(\omega=D_EgH\in\mathcal Q_E\), let
-\[
-  u_\omega=(g^{-1}w_E)|_L,
-  \qquad
-  \operatorname{cent}(E,\omega)
-  =\operatorname{cent}_{\overline X}(u_\omega),
+  B=\C[F_1,\dots,F_n]\subseteq A,\qquad
+  K=\Frac(B),\qquad
+  L=\Frac(A),
 \]
 and let
 \[
-  i_E(\omega)=[I_E:I_E\cap gHg^{-1}].
+  \mu_L\colon L\otimes_KL\longrightarrow L,
+  \qquad \ell\otimes\ell'\longmapsto\ell\ell'
 \]
-\begin{proposition}[Conjugate divisors and double cosets]
-\label{prop:conjugate-divisor-double-cosets}
-The assignments above are well-defined, and restriction of valuations
-induces a bijection
-\[
-  \mathcal Q_E
-  \xrightarrow{\sim}
-  \{\text{prime divisors of }\overline X\text{ above }b\},
-  \qquad
-  \omega\longmapsto\operatorname{cent}(E,\omega).
-\]
-\end{proposition}
+be tensor multiplication.
 
-\begin{proof}
-The group \(G\) acts transitively on the extensions of \(v_b\) to \(N\),
-and the stabilizer of \(w_E\) is \(D_E\).  Restricting such a valuation
-to \(L=N^H\) identifies precisely those extensions whose indices differ
-on the right by an element of \(H\).  The resulting orbits are therefore
-indexed by \(D_E\backslash G/H\), giving the stated bijection.
-
-It remains to check independence of representatives.  If
-\(D_Eg'H=D_EgH\), then \(g'=dgh\) for some \(d\in D_E\) and \(h\in H\).
-The element \(d\) fixes \(w_E\), while \(h\) fixes \(L\) pointwise, so
+\begin{theorem}[Generic collision bridge]
+\label{thm:quoted-generic-bridge}
+If \(L/K\) is finite, then
 \[
-  (g'^{-1}w_E)|_L=(g^{-1}w_E)|_L.
+  K\otimes_BA\simeq_KL
 \]
-Moreover, \(I_E\trianglelefteq D_E\), and conjugation by \(d\) identifies
+and there is a \(K\)-algebra isomorphism
 \[
-  I_E\cap g'Hg'^{-1}
-  \quad\text{with}\quad
-  I_E\cap gHg^{-1}.
+  \Phi_F\colon K\otimes_BC_F\xrightarrow{\ \sim\ }L\otimes_KL
 \]
-Thus \(u_\omega\), \(\operatorname{cent}(E,\omega)\), and
-\(i_E(\omega)\) are
-well-defined.
-\end{proof}
-
-We use the notation
+which carries the base-changed diagonal evaluation to \(\mu_L\).
+Furthermore, flatness of the localization \(B\to K\) identifies
 \[
-  e\bigl(\operatorname{cent}(E,\omega)/b\bigr):=e(u_\omega/v_b).
+  K\otimes_B\Obs(F)
+  \simeq
+  \ker(1\otimes\bar\mu_F)
 \]
-Since the residue characteristic is zero,
-\[
-  \Ram^{(1)}(Z/Y)
-  :=
-  \{E\in Z^{(1)}:e(w_E/v_b)>1\}
-  =
-  \{E\in Z^{(1)}:I_E\neq1\}.
-\]
-
-\begin{proposition}[Detection of inertia on a conjugate sheet]
-\label{prop:core-free-sheet-action}
-If \(I_E\neq1\), then there is an \(\omega\in\mathcal Q_E\) with
-\[
-  i_E(\omega)>1.
-\]
-\end{proposition}
-
-\begin{proof}
-Suppose, to the contrary, that \(i_E(\omega)=1\) for every
-\(\omega\in\mathcal Q_E\).  For each \(g\in G\),
-\[
-  1=i_E(D_EgH)=[I_E:I_E\cap gHg^{-1}],
-\]
-so
-\[
-  I_E=I_E\cap gHg^{-1}\subseteq gHg^{-1}
-  \qquad\text{for every }g\in G.
-\]
-Consequently,
-\[
-  I_E
-  \subseteq
-  \bigcap_{g\in G}gHg^{-1}
-  =
-  \core_G(H)
-  =
-  1,
-\]
-contrary to \(I_E\neq1\).
-\end{proof}
-
-\begin{proposition}[Intermediate ramification index]
-\label{prop:intermediate-ramification-index}
-For \(\omega=D_EgH\in\mathcal Q_E\),
-\[
-  e\bigl(\operatorname{cent}(E,\omega)/b\bigr)
-  =
-  i_E(\omega)
-  =
-  [I_E:I_E\cap gHg^{-1}].
-\]
-\end{proposition}
-
-\begin{proof}
-Let \(w_E\) and \(v_b\) be the divisorial valuations associated with
-\(E\) and \(b\), and let
-\[
-  w_g=g^{-1}w_E,
-  \qquad
-  u_\omega=w_g|_L.
-\]
-The valuation \(u_\omega\) has center \(\operatorname{cent}(E,\omega)\) on
-\(\overline X\).  Since
-the residue fields have characteristic zero,
-\[
-  e(w_g/v_b)=|I_E|.
-\]
-The inertia group of \(w_g\) over \(u_\omega\) is
-\[
-  g^{-1}I_Eg\cap H,
-\]
-and hence
-\[
-  e(w_g/u_\omega)
-  =
-  |g^{-1}I_Eg\cap H|
-  =
-  |I_E\cap gHg^{-1}|.
-\]
-Multiplicativity of ramification indices in the field tower
-\[
-  K\subseteq L\subseteq N
-\]
-therefore gives
-\[
-  e(u_\omega/v_b)
-  =
-  \frac{e(w_g/v_b)}{e(w_g/u_\omega)}
-  =
-  [I_E:I_E\cap gHg^{-1}],
-\]
-which is the asserted formula.
-\end{proof}
-
-\begin{proposition}[Visibility-to-boundary]
-\label{prop:visibility-to-boundary}
-Suppose that \(X\to Y\) is \'etale.  For \(E\in Z^{(1)}\) and
-\(\omega\in\mathcal Q_E\),
-\[
-  i_E(\omega)>1
-  \quad\Longrightarrow\quad
-  \operatorname{cent}(E,\omega)\in\partial X.
-\]
-\end{proposition}
-
-\begin{proof}
-Suppose that \(\operatorname{cent}(E,\omega)\in j(X)\), and let
-\(x\in X\) be the corresponding point under the open immersion \(j\).
-The local homomorphism
-\[
-  \mathcal O_{Y,b}
-  \longrightarrow
-  \mathcal O_{X,x}
-\]
-is \'etale, so
-\(e(\operatorname{cent}(E,\omega)/b)=1\).  Proposition
-\ref{prop:intermediate-ramification-index} now gives
-\[
-  i_E(\omega)
-  =
-  e\bigl(\operatorname{cent}(E,\omega)/b\bigr)
-  =
-  1.
-\]
-Taking the contrapositive gives the result.
-\end{proof}
-
-\begin{definition}[Hidden-inertia locus]
-\label{def:no-hidden-inertia}
-\[
-  \mathcal H(\mathcal D)
-  :=
-  \left\{
-  E\in\Ram^{(1)}(Z/Y):
-  \begin{array}{l}
-    \exists\omega\in\mathcal Q_E,\ i_E(\omega)>1,\\
-    \forall\omega\in\mathcal Q_E,\quad
-      i_E(\omega)>1
-      \Longrightarrow
-      \operatorname{cent}(E,\omega)\in\partial X
-  \end{array}
-  \right\}.
-\]
-Thus \(E\in\mathcal H(\mathcal D)\) precisely when nontrivial inertia
-is visible on a conjugate sheet but every visible center belongs to the
-deleted boundary.
-\end{definition}
-
-\begin{proposition}[Divisorial ramification is hidden from the \'etale sheet]
-\label{prop:etale-sheet-hidden-inertia}
-Suppose that \(N/K\) is the normal closure of \(L/K\), the residue
-characteristic is zero, and \(X\to Y\) is \'etale.  Then
-\[
-  \mathcal H(\mathcal D)=\Ram^{(1)}(Z/Y).
-\]
-Equivalently, every divisorial ramification orbit has a conjugate sheet on
-which its inertia acts nontrivially, but every such center lies in the
-deleted boundary.
-\end{proposition}
-
-\begin{proof}
-The inclusion
-\(\mathcal H(\mathcal D)\subseteq\Ram^{(1)}(Z/Y)\) is part of the
-definition.  Conversely, let \(E\in\Ram^{(1)}(Z/Y)\).  In residue
-characteristic zero, \(I_E\neq1\).  Since \(N\) is the normal closure of
-\(L/K\), Proposition~\ref{prop:conjugate-embedding-action} gives
-\(\core_G(H)=1\), and Proposition~\ref{prop:core-free-sheet-action}
-supplies an \(\omega\in\mathcal Q_E\) with \(i_E(\omega)>1\).
-For every \(\omega'\in\mathcal Q_E\), Proposition
-\ref{prop:visibility-to-boundary} gives
-\[
-  i_E(\omega')>1
-  \quad\Longrightarrow\quad
-  \operatorname{cent}(E,\omega')\in\partial X.
-\]
-These are exactly the two conditions defining
-\(E\in\mathcal H(\mathcal D)\).
-\end{proof}
-
-\subsection{Automorphism detection}
-\label{sec:automorphism-detection}
-
-\begin{theorem}[Automorphism criterion]
-\label{thm:automorphism-criterion}
-For an arbitrary polynomial self-map
-\(F\colon\A^n_{\C}\to\A^n_{\C}\), the following are equivalent:
-\begin{enumerate}[label=\textup{(\arabic*)}]
-  \item \(F\) is a polynomial automorphism;
-  \item \(F\) is injective on \(\A^n(\C)\);
-  \item \(I_R(F)=I_\Delta\);
-  \item \(\Obs(F)=0\).
-\end{enumerate}
+as \(K\)-vector spaces.
 \end{theorem}
 
-\begin{proof}
-Suppose first that \(F\) has polynomial inverse
-\(G=(G_1,\dots,G_n)\).  Then
-\[
-  x_i-y_i
-  =
-  G_i(F(x))-G_i(F(y))
-  \in I_R
-\]
-for every \(i\), so \(I_\Delta\subseteq I_R\).  Proposition
-\ref{prop:collision-contained-in-diagonal} gives equality.  Thus
-\textup{(1)} implies \textup{(3)}.
+These statements combine the fiber-product, generic-base-change, and
+diagonal-kernel results of Paper~I.  Their compatibility with \(\mu_L\)
+marks which generic factor is the diagonal.
 
-Suppose \(I_R=I_\Delta\), and let
-\(\operatorname{ev}_{(a,b)}\colon S\to\C\) be evaluation at
-\((a,b)\).  If \(F(a)=F(b)\), then
+Return now to
 \[
-  I_R\subseteq\ker(\operatorname{ev}_{(a,b)}).
+  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C}.
 \]
-Therefore \(x_i-y_i\in I_\Delta=I_R\) gives \(a_i-b_i=0\) for every
-\(i\).  Thus \(a=b\), proving
-\textup{(3)}\(\Rightarrow\)\textup{(2)}.  The
-Ax--Grothendieck theorem \cite{Ax1969} gives
-\textup{(2)}\(\Rightarrow\)\textup{(1)}.  Finally,
-Proposition~\ref{prop:obstruction-kernel} gives
-\textup{(3)}\(\Longleftrightarrow\)\textup{(4)}.
-\end{proof}
+For a Keller map, \(P,Q\) are algebraically independent and \(L/K\) is
+finite separable.  We write
+\[
+  d_F:=[L:K]
+\]
+for its generic degree.  The \(2\) in \(JC(2)\) denotes ambient dimension;
+the separate condition \(d_F=2\) concerns the generic fiber.  The
+nonvanishing argument below only uses a finite separable extension of
+degree two.  The Keller condition enters through the nonzero constant
+Jacobian and, at the end, through Galois rigidity.
 
-\begin{corollary}[The Jacobian conjecture as obstruction vanishing]
-\label{cor:jacobian-conjecture-as-vanishing}
-For every \(n\geq1\), the \(n\)-dimensional Jacobian conjecture is
-equivalent to each of the statements
-\[
-  \forall F\colon\A^n_{\C}\to\A^n_{\C},
-  \qquad
-  \det JF\in\C^\times
-  \quad\Longrightarrow\quad
-  \Obs(F)=0,
-\]
-and
-\[
-  \forall F\colon\A^n_{\C}\to\A^n_{\C},
-  \qquad
-  \det JF\in\C^\times
-  \quad\Longrightarrow\quad
-  I_R(F)=I_\Delta.
-\]
-\end{corollary}
-
-\begin{proof}
-Apply Theorem~\ref{thm:automorphism-criterion} to every Keller map.
-Its equivalent conditions \textup{(1)}, \textup{(3)}, and \textup{(4)}
-give the two displayed formulations.
-\end{proof}
-
-\subsection{Generic degree one}
-
-\begin{corollary}[Generic degree-one descent]
-\label{cor:generic-degree-one-descent}
-If
-\[
-  L=K
-  \qquad\text{and}\qquad
-  A\text{ is flat over }B,
-\]
-then
-\[
-  \Obs(F)=0.
-\]
-\end{corollary}
-
-\begin{proof}
-When \(L=K\), Theorem~\ref{thm:generic-collision-base-change}
-identifies the base-changed diagonal with tensor multiplication:
-\[
-  \ker(1\otimes\bar\mu_F)
-  \cong
-  \ker\!\left(
-    K\otimes_KK\xrightarrow{\mu_K}K
-  \right)
-  =
-  0.
-\]
-The fiber-product identification of
-Theorem~\ref{thm:collision-tensor-product} is
-\[
-  C_F\xrightarrow{\sim}A\otimes_BA.
-\]
-Since \(A\) is flat over \(B\), the tensor product \(A\otimes_BA\), and
-therefore \(C_F\), is flat over \(B\).  The localization map
-\[
-  \iota_C\colon C_F\hookrightarrow K\otimes_BC_F
-\]
-is therefore injective, and
-\[
-  \iota_C\bigl(\ker\bar\mu_F\bigr)
-  \subseteq
-  \ker(1\otimes\bar\mu_F)
-  =
-  0.
-\]
-Thus \(\ker\bar\mu_F=0\).  Proposition
-\ref{prop:obstruction-kernel} identifies
-\[
-  \ker(\bar\mu_F)=\Obs(F)=I_\Delta/I_R,
-\]
-so \(\Obs(F)=0\).
-\end{proof}
-
-\begin{leanfiles}
-\leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
-\leanpath{CollisionIdeals/General/Collision/Ideal.lean},
-\leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
-\leanpath{CollisionIdeals/General/FiberProduct/Polynomial.lean},
-\leanpath{CollisionIdeals/General/ResidualCollision/Scheme.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/FunctionField.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/MarkedRootDecomposition.lean},
-\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean},
-\leanpath{CollisionIdeals/General/Automorphism/GenericDegreeOne.lean},
-\leanpath{CollisionIdeals/General/Galois/NormalClosure.lean},
-\leanpath{CollisionIdeals/General/Galois/Sheets.lean},
-\leanpath{CollisionIdeals/General/Galois/DecompositionSheets.lean},
-\leanpath{CollisionIdeals/General/Normalization/Polynomial.lean},
-\leanpath{CollisionIdeals/General/Normalization/Diagram.lean}, and
-\leanpath{CollisionIdeals/General/Normalization/VisibleRamification.lean}.
-The Lean form of
-Theorem~\ref{thm:generic-collision-base-change} takes surjectivity of
-\(\theta\) as a parameter; the proof above derives it from generic
-finiteness.  The normal-closure and group-theoretic sheet objects are
-formalized, while the displayed coset--embedding correspondence is not yet
-packaged.  Geometric centers and the equality between group-theoretic and
-valuation-theoretic ramification indices remain supplied comparison data
-through the normalization-diagram and ramification-realization interfaces.
-\end{leanfiles}
-
-\section{Planar boundary criteria}
-\label{sec:planar-vanishing}
-
-We now specialize the dimension-independent collision, normalization,
-and inertia constructions of Section~\ref{sec:general-construction} to
-dimension two.  The purpose of this section is to identify a concrete
-boundary obstruction, not to assume it away implicitly: the secant
-calculation separates the diagonal from the off-diagonal collision sheet,
-while the normalization calculation shows exactly how nontrivial inertia
-would have to escape every relevant conjugate affine sheet.
+\section{The explicit planar secant projector}
+\label{sec:secant-projector}
 
 Let
 \[
-  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C}
-\]
-be a polynomial map satisfying
-\(\det JF=c\in\C^\times\).
-
-Set, from this point onward,
-\[
-  A=\C[x_1,x_2],
+  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
   \qquad
-  B=\C[P,Q]\subseteq A,
-  \qquad
-  K=\C(P,Q),
-  \qquad
-  L=\C(x_1,x_2),
+  \det JF=c\in\C^\times.
 \]
-and let \(X=\Spec A\), \(Y=\Spec B\).
-
-\begin{proposition}[Planar Keller geometry]
-\label{prop:planar-keller-local-geometry}
+Set
 \[
-  \C[u,v]\xrightarrow{\sim}B,
-  \qquad
-  u\longmapsto P,\quad v\longmapsto Q.
-\]
-Moreover,
-\[
-  X\xrightarrow{\ f_F\ }Y\ \text{is \'etale},
-  \qquad
-  A\ \text{is flat over }B,
-  \qquad
-  [L:K]<\infty
-  \ \text{and }L/K\text{ is separable}.
-\]
-\end{proposition}
-
-\begin{proof}
-The identity
-\[
-  dP\wedge dQ
-  =
-  \left(
-    \frac{\partial P}{\partial x_1}
-    \frac{\partial Q}{\partial x_2}
-    -
-    \frac{\partial P}{\partial x_2}
-    \frac{\partial Q}{\partial x_1}
-  \right)dx_1\wedge dx_2
-  =
-  c\,dx_1\wedge dx_2
-  \neq0
-\]
-shows that \(P,Q\) are algebraically independent.  Thus
-\(B\cong\C[u,v]\) and \(Y\cong\A^2_{\C}\).  Moreover,
-\[
-  A
-  \cong
-  \C[u,v,U,V]\big/\bigl(P(U,V)-u,\ Q(U,V)-v\bigr)
-\]
-as a \(\C[u,v]\)-algebra, and its relative Jacobian determinant is
-\(c\in A^\times\).  The
-Jacobian criterion therefore makes \(B\to A\) \'etale.  In particular
-it is flat and quasi-finite.  Since \(f_F\) is dominant and
-quasi-finite, its generic fiber is zero-dimensional, so
-\([L:K]<\infty\).  The morphism remains \'etale at the generic point;
-hence the finite extension \(L/K\) is separable.
-\end{proof}
-
-\begin{proposition}[Finite planar Keller rigidity]
-\label{prop:finite-planar-keller-rigidity}
-If the planar Keller morphism
-\(f_F\colon\A^2_{\C}\to\A^2_{\C}\) is finite, then \(F\) is a
-polynomial automorphism.
-\end{proposition}
-
-\begin{proof}
-Proposition~\ref{prop:planar-keller-local-geometry} makes \(f_F\) \'etale.
-Thus a finite \(f_F\) is a connected finite \'etale cover of
-\(\A^2_{\C}\).  Finite-\'etale rigidity of the affine plane,
-Theorem~\ref{thm:a2-etale-rigidity}, makes it an isomorphism.  Its inverse
-is a morphism of affine schemes and hence is given by polynomials.
-\end{proof}
-
-\begin{definition}[Planar generic degree]
-\label{def:planar-generic-degree}
-The generic degree of \(F\) is
-\[
-  d_F:=\deg_{\mathrm{gen}}(F):=[L:K].
-\]
-Because \(L/K\) is finite and separable, \(d_F\) is also the number of
-\(K\)-embeddings \(L\hookrightarrow\overline K\), equivalently the number
-of geometric points in the generic fiber of \(f_F\).
-\end{definition}
-
-\begin{proposition}[Keller inverse-Jacobian frame]
-\label{prop:keller-inverse-jacobian-frame}
-Define polynomial derivations of \(A=\C[x_1,x_2]\) by
-\[
-  \partial_P
-  :=c^{-1}\left(
-      Q_{x_2}\frac{\partial}{\partial x_1}
-      -Q_{x_1}\frac{\partial}{\partial x_2}\right),
-  \qquad
-  \partial_Q
-  :=c^{-1}\left(
-      -P_{x_2}\frac{\partial}{\partial x_1}
-      +P_{x_1}\frac{\partial}{\partial x_2}\right).
-\]
-Then
-\[
-  \partial_P(P)=1,
-  \quad \partial_P(Q)=0,
-  \quad \partial_Q(P)=0,
-  \quad \partial_Q(Q)=1.
-\]
-They extend uniquely to derivations of \(L=\Frac(A)\), and their
-restrictions to \(K=\C(P,Q)\) are the coordinate derivations with respect
-to \(P,Q\).
-\end{proposition}
-
-\begin{proof}
-The first four identities are the inverse-matrix identity for \(JF\), using
-\(\det JF=c\).  A derivation extends uniquely to a localization, hence to
-\(L=\Frac(A)\).  The four identities then give the asserted restrictions
-to \(K\).
-\end{proof}
-
-\subsection{The planar secant projector}
-
-Let \(\Delta=V(I_\Delta)\subseteq\Spec S\).  For \(a\in S\), write
-\(a|_\Delta\) for its image under \(S\to S/I_\Delta\), and apply this
-notation entrywise to matrices.
-Let
-\[
+  S=\C[x_1,x_2,y_1,y_2],\qquad
   \mathbf d=
-  \begin{pmatrix}
-    x_1-y_1\\
-    x_2-y_2
-  \end{pmatrix},
-  \qquad
+  \begin{pmatrix}x_1-y_1\\x_2-y_2\end{pmatrix},\qquad
   \mathbf r=
-  \begin{pmatrix}
-    P(x)-P(y)\\
-    Q(x)-Q(y)
-  \end{pmatrix}.
+  \begin{pmatrix}P(x)-P(y)\\Q(x)-Q(y)\end{pmatrix}.
 \]
-For \(H\in\C[x_1,x_2]\), let
+
+\subsection{Ordered divided differences}
+
+For \(H\in\C[x_1,x_2]\), define
 \[
   D_1H
   =
   \frac{H(x_1,x_2)-H(y_1,x_2)}{x_1-y_1},
-  \qquad
+\]
+\[
   D_2H
   =
   \frac{H(y_1,x_2)-H(y_1,y_2)}{x_2-y_2}.
 \]
-Both quotients belong to \(S\).  Let
+Both quotients lie in \(S\).  The ordered telescoping identity is
+\[
+  H(x)-H(y)
+  =D_1H\,(x_1-y_1)+D_2H\,(x_2-y_2).
+\]
+Define
 \[
   M_F=
   \begin{pmatrix}
@@ -1212,2375 +325,375 @@ Both quotients belong to \(S\).  Let
 \]
 Then
 \[
-  \mathbf r=M_F\mathbf d,
-  \qquad
+  \mathbf r=M_F\mathbf d,\qquad
   M_F\big|_\Delta=JF.
 \]
-Let \(\delta_F=\det(M_F)\).
+Let
+\[
+  \delta_F:=\det(M_F)\in S.
+\]
 
-\begin{proposition}[Planar secant annihilation]
-\label{prop:secant-annihilator}
+\begin{proposition}[Secant annihilation]
+\label{prop:secant-annihilation}
 The secant determinant satisfies
 \[
-  \delta_F I_\Delta\subseteq I_R,
+  \delta_FI_\Delta\subseteq I_R(F),
   \qquad
   \delta_F\big|_\Delta=c.
 \]
 \end{proposition}
 
 \begin{proof}
-Multiplying \(\mathbf r=M_F\mathbf d\) by
-\(\operatorname{adj}(M_F)\) gives
+Multiplying \(\mathbf r=M_F\mathbf d\) by the adjugate matrix gives
 \[
   \delta_F\mathbf d=\operatorname{adj}(M_F)\mathbf r.
 \]
+Both entries on the right belong to \(I_R(F)\).  Since the entries of
+\(\mathbf d\) generate \(I_\Delta\), the first assertion follows.
+Restriction to the diagonal gives
 \[
-  \mathbf r\in I_R^{\oplus2},
-  \qquad
-  \operatorname{adj}(M_F)\in M_2(S)
-  \quad\Longrightarrow\quad
-  \operatorname{adj}(M_F)\mathbf r\in I_R^{\oplus2}.
-\]
-Therefore
-\[
-  \delta_F\mathbf d\in I_R^{\oplus2},
-\]
-or equivalently,
-\[
-  \forall j\in\{1,2\},
-  \qquad
-  \delta_F(x_j-y_j)\in I_R.
-\]
-Hence \(\delta_FI_\Delta\subseteq I_R\).  On the diagonal,
-\[
-  (D_jF_i)|_\Delta=\frac{\partial F_i}{\partial x_j},
-\]
-so \(M_F|_\Delta=JF\) and
-\(\delta_F|_\Delta=\det JF=c\).
-\end{proof}
-
-Let \(\bar\delta_F\) be the class of \(\delta_F\) in \(C_F\), and define
-\[
-  q_F:=1-c^{-1}\bar\delta_F.
-\]
-Set also
-\[
-  e_F:=1-q_F=c^{-1}\bar\delta_F.
-\]
-
-\begin{proposition}[Secant separability idempotent]
-\label{prop:secant-separability-idempotent}
-Under \(C_F\cong A\otimes_BA\), the element \(e_F\) satisfies
-\[
-  e_F^2=e_F,
-  \qquad
-  \bar\mu_F(e_F)=1,
-  \qquad
-  (a\otimes1)e_F=(1\otimes a)e_F
-  \quad(a\in A).
-\]
-Thus \(e_F\) is the diagonal separability idempotent written explicitly by
-the planar secant determinant.
-\end{proposition}
-
-\begin{proof}
-Proposition~\ref{prop:secant-annihilator} gives
-\(\bar\delta_FJ=0\), while
-\(\bar\delta_F-c\in J\).  Hence
-\(\bar\delta_F(\bar\delta_F-c)=0\), so
-\(e_F^2=e_F\).
-Diagonal evaluation gives
-\(\bar\mu_F(\bar\delta_F)=c\), so
-\(\bar\mu_F(e_F)=1\).  Finally,
-\(a\otimes1-1\otimes a\) belongs to
-\(J=\ker(\bar\mu_F)\), while \(e_F\) annihilates \(J\); this is exactly the
-last displayed identity.
-\end{proof}
-
-\begin{theorem}[Planar collision-sheet decomposition]
-\label{thm:collision-sheet-decomposition}
-The collision scheme decomposes as
-\[
-  R_F\cong\Delta_{X/Y}(X)\amalg R_F^\circ,
-  \qquad
-  C_F\cong A\times C_F^\circ.
-\]
-The off-diagonal ideal satisfies
-\[
-  I_{\mathrm{off}}
-  =
-  I_R+(\delta_F)
-  =
-  I_R:I_\Delta^\infty.
-\]
-\end{theorem}
-
-\begin{proof}
-By Proposition~\ref{prop:obstruction-kernel},
-\[
-  J
-  :=
-  \ker(\bar\mu_F)
-  =
-  I_\Delta/I_R
-  =
-  \Obs(F).
-\]
-Proposition~\ref{prop:secant-annihilator} gives
-\[
-  \bar\delta_FJ=0,
-  \qquad
-  \bar\delta_F-c\in J.
-\]
-Theorem~\ref{thm:abstract-off-diagonal-projector}, applied to these two
-relations and \(q_F=1-c^{-1}\bar\delta_F\), yields
-\[
-  q_F^2=q_F,
-  \qquad
-  J=C_Fq_F,
-  \qquad
-  \Ann_{C_F}(J)=C_F(1-q_F),
-  \qquad
-  J=0\Longleftrightarrow q_F=0.
-\]
-Because \(1-q_F=c^{-1}\bar\delta_F\),
-\[
-  \frac{I_R:I_\Delta}{I_R}
-  =
-  \Ann_{C_F}(J)
-  =
-  C_F(1-q_F)
-  =
-  C_F\bar\delta_F
-  =
-  \frac{I_R+(\delta_F)}{I_R}.
-\]
-Hence
-\[
-  I_{\mathrm{off}}
-  =
-  I_R:I_\Delta
-  =
-  I_R+(\delta_F).
-\]
-
-Idempotence gives \(J^m=C_Fq_F=J\) for every \(m\geq1\).  Therefore
-\[
-  \frac{I_R:I_\Delta^m}{I_R}
-  =
-  \Ann_{C_F}(J^m)
-  =
-  \Ann_{C_F}(J)
-  =
-  \frac{I_R:I_\Delta}{I_R}.
-\]
-Thus
-\[
-  I_R:I_\Delta^\infty
-  =
-  \bigcup_{m\geq1}(I_R:I_\Delta^m)
-  =
-  I_R:I_\Delta.
-\]
-
-The idempotent \(q_F\) also gives a ring isomorphism
-\[
-  C_F
-  \xrightarrow{\ \sim\ }
-  C_F(1-q_F)\times C_Fq_F,
-  \qquad
-  a\longmapsto\bigl(a(1-q_F),aq_F\bigr),
-\]
-whose inverse is addition.  The two factors satisfy
-\[
-  C_F(1-q_F)
-  \cong
-  C_F/C_Fq_F
-  =
-  C_F/J
-  \xrightarrow[\bar\mu_F]{\ \sim\ }
-  A
-\]
-and
-\[
-  C_Fq_F
-  \cong
-  C_F/C_F(1-q_F)
-  \cong
-  S\big/\bigl(I_R+(\delta_F)\bigr)
-  =
-  C_F^\circ.
-\]
-Thus \(C_F\cong A\times C_F^\circ\).  Since the spectrum of a product is
-the disjoint union of the two spectra, this isomorphism dualizes to
-\[
-  R_F\cong\Delta_{X/Y}(X)\amalg R_F^\circ.
+  \delta_F\big|_\Delta
+  =\det(M_F|_\Delta)
+  =\det JF
+  =c.
 \]
 \end{proof}
 
-\begin{proposition}[Universal moved-collision factorization]
-\label{prop:universal-moved-collision-factorization}
-Let \(D\) be a domain and let
+\subsection{The idempotent}
 
+Let \(\bar\delta_F:=q_F(\delta_F)\) be the class of \(\delta_F\) in
+\(C_F\), and put
 \[
-  \varphi,\psi:A\longrightarrow D
+  e_F:=c^{-1}\bar\delta_F,\qquad
+  p_F:=1-e_F=1-c^{-1}\bar\delta_F.
 \]
+The element \(e_F\) is the diagonal projector, while \(p_F\) is the
+off-diagonal collision projector.
 
-be \(B\)-algebra maps.  If \(\varphi\ne\psi\), then their collision
-evaluation
+\begin{theorem}[Planar secant projector]
+\label{thm:planar-secant-projector}
+With the notation above,
 \[
-  \operatorname{ev}_{\varphi,\psi}:C_F=A\otimes_BA\longrightarrow D,
-  \qquad a\otimes b\longmapsto\varphi(a)\psi(b),
-\]
-factors uniquely through the off-diagonal algebra:
-
-\[
-  C_F\twoheadrightarrow C_F^\circ
-  \xrightarrow{\ \exists!\,\overline{\operatorname{ev}}_{\varphi,\psi}\ }D,
-  \qquad
-  \operatorname{ev}_{\varphi,\psi}
-  =\overline{\operatorname{ev}}_{\varphi,\psi}\circ
-    \bigl(C_F\twoheadrightarrow C_F^\circ\bigr).
-\]
-
-Equivalently, every collision map pair into a domain which moves at least one
-of the two planar coordinates annihilates \(I_{\mathrm{off}}\).
-\end{proposition}
-
-\begin{proof}
-The two maps agree on \(B\), so the induced pair evaluation kills \(I_R\).
-Since \(A=\C[x_1,x_2]\) and \(\varphi\ne\psi\), there is an \(i\) with
-\(\varphi(x_i)-\psi(x_i)\ne0\).  Evaluating
-Proposition~\ref{prop:secant-annihilator} gives
-
-\[
-  \varphi\!\times\!\psi(\delta_F)
-  \bigl(\varphi(x_i)-\psi(x_i)\bigr)=0.
-\]
-
-The second factor is nonzero and \(D\) is a domain, hence
-\(\varphi\!\times\!\psi(\delta_F)=0\).  Therefore the evaluation kills
-
-\[
-  I_R+(\delta_F)=I_{\mathrm{off}},
-\]
-
-and the quotient universal property gives the unique factorization.
-\end{proof}
-
-Corollary~\ref{cor:off-diagonal-empty-criterion} states that
-\[
-  R_F^\circ=\varnothing
-  \quad\Longleftrightarrow\quad
-  C_F^\circ=0
-  \quad\Longleftrightarrow\quad
-  \Obs(F)=0
-  \quad\Longleftrightarrow\quad
-  I_R=I_\Delta.
-\]
-The preceding theorem identifies
-\[
-  C_F^\circ
-  =
-  S\big/\bigl(I_R+(\delta_F)\bigr),
-\]
-and Theorem~\ref{thm:abstract-off-diagonal-projector} gives
-\(\Obs(F)=0\Longleftrightarrow q_F=0\).  Hence
-\[
-  q_F=0
-  \quad\Longleftrightarrow\quad
-  I_R+(\delta_F)=S
-  \quad\Longleftrightarrow\quad
-  R_F^\circ=\varnothing
-  \quad\Longleftrightarrow\quad
-  I_R=I_\Delta.
-\]
-In particular, the secant determinant cuts out the off-diagonal factor:
-\[
-  R_F^\circ
-  =
-  \Spec\!\bigl(S/(I_R+(\delta_F))\bigr).
-\]
-
-The entries of the full secant matrix give more than its determinant.  Write
-\[
-  M_F=
-  \begin{pmatrix}
-    m_{11}&m_{12}\\
-    m_{21}&m_{22}
-  \end{pmatrix},
-  \qquad
-  d_i=x_i-y_i,
-  \qquad
-  r_1=P(x)-P(y),\quad r_2=Q(x)-Q(y),
-\]
-and define
-\[
-  \Phi_F=
-  \begin{pmatrix}
-    m_{22}&-m_{21}\\
-    -m_{12}&m_{11}\\
-    -d_1&-d_2
-  \end{pmatrix}.
-\]
-
-\begin{proposition}[Secant Hilbert--Burch resolution]
-\label{prop:secant-hilbert-burch}
-Assume that \(C_F^\circ\ne0\).  The signed maximal minors of \(\Phi_F\)
-are \(r_1,r_2,\delta_F\), and there is an exact sequence
-\[
-  0\longrightarrow S^2
-  \xrightarrow{\ \Phi_F\ }S^3
-  \xrightarrow{\ (r_1,r_2,\delta_F)\ }S
-  \longrightarrow C_F^\circ\longrightarrow0.
-\]
-Consequently
-\[
-  \omega_{C_F^\circ}
-  \cong\operatorname{coker}(\Phi_F^{\mathsf t})
-  \cong C_F^\circ.
-\]
-The last isomorphism is induced by
-\[
-  (u,v)\longmapsto-d_2u+d_1v.
-\]
-\end{proposition}
-
-\begin{proof}
-Direct calculation gives
-\[
-  \det\!\begin{pmatrix}-m_{12}&m_{11}\\-d_1&-d_2\end{pmatrix}=r_1,
-  \quad
-  -\det\!\begin{pmatrix}m_{22}&-m_{21}\\-d_1&-d_2\end{pmatrix}=r_2,
-  \quad
-  \det\!\begin{pmatrix}m_{22}&-m_{21}\\-m_{12}&m_{11}\end{pmatrix}
-  =\delta_F.
-\]
-Thus the maximal-minor ideal is
-\(I_R+(\delta_F)=I_{\mathrm{off}}\).  The first projection makes
-\(C_F=A\otimes_BA\) an \'etale \(A\)-algebra, so its nonzero direct factor
-\(C_F^\circ\) is a regular Cohen--Macaulay surface.  Hence
-\(I_{\mathrm{off}}\subset S\) has grade two, and Hilbert--Burch gives the
-displayed resolution \cite{StacksComplexExactness}.
-
-Dualizing the resolution over the regular four-dimensional ring \(S\) gives
-\(\omega_{C_F^\circ}\cong\operatorname{coker}(\Phi_F^{\mathsf t})\).
-The row \((-d_2,d_1)\) kills every row of \(\Phi_F\) modulo
-\((r_1,r_2,\delta_F)\), so it induces the stated map to \(C_F^\circ\).
-Moreover \((d_1,d_2)C_F^\circ=C_F^\circ\): otherwise a prime containing
-both would also contain \(\delta_F\), although
-\(\delta_F\equiv c\pmod{(d_1,d_2)}\).  The induced map is therefore
-surjective.  Both source and target are rank-one locally free modules on the
-regular scheme \(\Spec C_F^\circ\), so it is an isomorphism.
-\end{proof}
-
-The final trivialization is intrinsic up to a unit.  Identifying this
-particular Hilbert--Burch generator with a chosen volume form requires a
-separate comparison; no such identification is used below.
-
-\subsection{Galois specialization and conjugate coordinates}
-
-Fix an algebraic closure \(\overline K\supseteq L\), and let
-\[
-  \begin{aligned}
-  N
-    &:=
-      K\bigl(\sigma(L):
-        \sigma\in\Hom_K(L,\overline K)\bigr),
-    &K&\subseteq L\subseteq N\subseteq\overline K,\\
-  \overline A
-    &:=
-      \{a\in L:a\text{ is integral over }B\},
-  &
-  A_N
-    &:=
-      \{a\in N:a\text{ is integral over }B\},\\
-  \overline X&:=\Spec\overline A,
-  &
-  Z&:=\Spec A_N.
-  \end{aligned}
-\]
-Thus \(N/K\) is the normal closure of \(L/K\).
-
-\begin{proposition}[Planar finite-cover diagram]
-\label{prop:planar-normalization-diagram}
-\[
-  Z\xrightarrow[\mathrm{finite}]{\pi}
-  \overline X\xrightarrow[\mathrm{finite}]{\bar\nu}Y,
-  \qquad
-  \nu=\bar\nu\circ\pi,
-\]
-and
-\[
-  X\xhookrightarrow[\mathrm{open}]{j}\overline X,
-  \qquad
-  \bar\nu\circ j=f_F.
-\]
-\end{proposition}
-
-\begin{proof}
-Since \(B\cong\C[u,v]\) is a finitely generated normal
-\(\C\)-algebra, its integral closures in the finite extensions \(L/K\) and
-\(N/K\) are finite over \(B\).  The inclusion \(L\subseteq N\) gives
-\(\overline A\subseteq A_N\), so
-\[
-  B\subseteq\overline A\subseteq A_N.
-\]
-The morphism \(\bar\nu\) is finite because \(\overline A\) is a finite
-\(B\)-module.  If \(a_1,\dots,a_r\) generate \(A_N\) over \(B\), then
-they also generate \(A_N\) over \(\overline A\), since
-\(B\subseteq\overline A\).  Hence \(\pi\) is finite.
-
-For \(a\in\overline A\), integrality over \(B\subseteq A\) and the
-normality of \(A=\C[x_1,x_2]\) give \(a\in A\).  Thus
-  \[
-  B\subseteq\overline A\subseteq A,
-  \]
-and \(\Frac(\overline A)=L\): clearing denominators in an algebraic
-equation over \(K=\Frac(B)\) shows that for every \(\ell\in L\), some
-nonzero \(b\in B\) makes \(b\ell\) integral over \(B\).  Thus
-\(\ell=(b\ell)/b\in\Frac(\overline A)\).
-The inclusion \(\overline A\subseteq A\) therefore induces a dominant
-birational morphism \(j\colon X\to\overline X\).
-
-The morphism \(j\) is quasi-finite: because
-\(\bar\nu\circ j=f_F\), each fiber of \(j\) is contained in a fiber of
-the quasi-finite morphism \(f_F\).  It is separated because it is a
-morphism between affine schemes.  Since
-\(\overline X\) is normal, Zariski's Main Theorem makes \(j\) an open
-immersion.
-\end{proof}
-
-One consequence of this finiteness is useful bookkeeping, but should not be
-confused with a vanishing theorem.  If \(E=V(\mathfrak p_E)\subset Z\) is a
-prime divisor and \(D=V(\mathfrak p_E\cap B)\subset Y\) is its image, then
-
-\[
-  A_N/\mathfrak p_E
-  \quad\text{is finite over}\quad
-  B/(\mathfrak p_E\cap B).
-\]
-
-Thus \(E\to D\) is a finite map of affine curves.  Neither coordinate ring
-is thereby finite-dimensional over \(\C\), and this curvewise finiteness does
-not bound poles in the direction transverse to \(E\).  More precisely, if
-\(e(E/D)\) is the DVR ramification index and
-\(f(E/D)=[\kappa(E):\kappa(D)]\) is the degree of the induced curve map,
-then
-\[
-  \sum_{E\mid D}e(E/D)f(E/D)=[N:K].
-\]
-Riemann--Hurwitz or equal-genus arguments for compactifications of
-\(E\to D\) constrain \(f(E/D)\); the inertia calculation in this paper
-requires control of the distinct transverse index \(e(E/D)\).  This is why
-curvewise finiteness alone does not eliminate a ramified divisor.
-
-\subsection{Global and divisorial formulations}
-\label{sec:two-planar-finiteness-targets}
-
-Let \(\mathfrak b\subseteq\overline A\) be the radical ideal defining
-\(\partial X=\overline X\setminus j(X)\).  Because \(\overline X\) is
-affine, local cohomology with support in the boundary is
-\[
-  H^1_{\partial X}(\overline X,\mathcal O_{\overline X})
-  =H^1_{\mathfrak b}(\overline A).
-\]
-
-\begin{definition}[Global and divisorial finiteness formulations]
-\label{def:two-planar-finiteness-targets}
-For a planar Keller map \(F\), define:
-\begin{enumerate}
-  \item The \emph{global boundary formulation}, PlanarBoundaryCoherence,
-  denoted
-  \(\operatorname{PBC}(F)\), is the assertion that
-  \[
-    H^1_{\mathfrak b}(\overline A)
-    \quad\text{is a finite (equivalently, finitely generated)
-    \(\overline A\)-module}.
-  \]
-  \item The \emph{divisorial differential formulation},
-  PlanarRamificationRigidity, denoted
-  \(\operatorname{PRR}(F)\), is the assertion that
-  \[
-    \Omega_{A_N/B}
-    \quad\text{has finite length as an \(A_N\)-module}.
-  \]
-\end{enumerate}
-\end{definition}
-
-Here finiteness does not repeat the finiteness already proved in
-Proposition~\ref{prop:planar-normalization-diagram}.  The rings
-\(\overline A\) and \(A_N\) are finite \(B\)-modules because they are
-integral closures in finite field extensions.  Consequently
-\(\overline X\) and \(Z\) are reduced, irreducible affine schemes of finite
-type over the algebraically closed field \(\C\), hence affine varieties in
-the usual sense.  Ordinary higher cohomology of quasi-coherent sheaves on
-these affine schemes vanishes (the affine-cohomology theorem, or the
-vanishing half of Serre's affineness criterion)
-\cite{StacksAffineCohomology}.  Neither fact implies that
-the boundary local cohomology \(H^1_{\mathfrak b}(\overline A)\) is finite:
-local cohomology measures sections with poles along the omitted closed set.
-Similarly, \(\Omega_{A_N/B}\) is automatically a finite \(A_N\)-module,
-because \(A_N\) is a finite-type \(B\)-algebra, but requiring it to have
-finite \emph{length} is the stronger assertion that its support has
-dimension zero.
-
-\begin{proposition}[The boundary-coherence implication]
-\label{prop:planar-boundary-coherence-route}
-Planar boundary coherence gives the implication chain
-\[
-  \operatorname{PBC}(F)
-  \Longrightarrow
-  \partial X=\varnothing
-  \Longrightarrow
-  f_F\text{ is finite \'{e}tale}
-  \Longrightarrow
-  F\text{ is a polynomial automorphism}.
-\]
-\end{proposition}
-
-\begin{proof}
-Because \(\overline A\) is a domain and \(j(X)\) contains its generic point,
-\(H^0_{\mathfrak b}(\overline A)=0\).  The local-cohomology sequence for
-\(j(X)\subseteq\overline X\), together with affineness of \(\overline X\),
-therefore gives
-\[
-  0\longrightarrow\overline A
-  \longrightarrow A
-  \longrightarrow H^1_{\mathfrak b}(\overline A)
-  \longrightarrow0.
-\]
-Here \(\Gamma(X,\mathcal O_X)=A\); this is the standard affine
-open-complement local-cohomology sequence
-\cite{StacksLocalCohomologySequence}.
-If the last term is a finite \(\overline A\)-module, then so is \(A\).
-Thus the open immersion \(j\) is finite.  Its image is both open and closed;
-since \(\overline X\) is integral and \(X\neq\varnothing\), it is all of
-\(\overline X\).  Hence \(\partial X=\varnothing\), so
-\(f_F=\bar\nu\) is finite.  It is already \'{e}tale by
-Proposition~\ref{prop:planar-keller-local-geometry}, and
-Proposition~\ref{prop:finite-planar-keller-rigidity} finishes the proof.
-\end{proof}
-
-In particular, \(\operatorname{PBC}(F)\) implies
-\(\operatorname{PRR}(F)\): after \(F\) is an automorphism one has
-\(A_N=B\), so \(\Omega_{A_N/B}=0\).  The converse does not follow by a
-direct module-theoretic comparison.  The ramification-rigidity endgame below
-nevertheless shows that, for a planar Keller map, \(\operatorname{PRR}(F)\)
-also implies automorphy and hence \(\operatorname{PBC}(F)\).  The two
-criteria record different mechanisms: ramification rigidity first eliminates
-divisorial ramification, whereas boundary coherence eliminates the entire
-deleted boundary at once.
-
-Let \(S_F\subseteq Y\) denote the nonproperness set: the complement of
-the largest open subset \(U\subseteq Y\) over which
-\(f_F^{-1}(U)\to U\) is proper.
-
-\begin{proposition}[The deleted boundary and properness]
-\label{prop:planar-boundary-properness}
-Set-theoretically,
-\[
-  S_F=\bar\nu(\partial X).
-\]
-Consequently, the following are equivalent:
-\[
-  f_F\text{ is proper},
-  \qquad
-  S_F=\varnothing,
-  \qquad
-  \partial X=\varnothing.
-\]
-Under any of these conditions, \(F\) is a polynomial automorphism.
-\end{proposition}
-
-\begin{proof}
-The set \(\bar\nu(\partial X)\) is closed because \(\bar\nu\) is finite.
-Over
-\[
-  U=Y\setminus\bar\nu(\partial X),
-\]
-the open immersion identifies \(f_F^{-1}(U)\) with
-\(\bar\nu^{-1}(U)\); hence the restriction of \(f_F\) is finite and
-therefore proper.  Thus \(S_F\subseteq\bar\nu(\partial X)\).
-
-Conversely, suppose that \(y\in\bar\nu(\partial X)\) and that \(f_F\)
-were proper over a neighborhood of \(y\).  Since \(f_F\) is quasi-finite,
-it would be finite after shrinking to an affine neighborhood \(V\) of
-\(y\).  The normal finite \(V\)-scheme \(f_F^{-1}(V)\), with function
-field \(L\), would then be the normalization of \(V\) in \(L\).  By
-uniqueness of normalization it would equal \(\bar\nu^{-1}(V)\), contrary
-to the existence of a boundary point above \(y\).  Therefore
-\(\bar\nu(\partial X)\subseteq S_F\), proving the equality and the three
-equivalences.
-
-If they hold, \(f_F=\bar\nu\) is finite and \'etale.  Since
-\(Y\cong\A^2_{\C}\), Theorem~\ref{thm:a2-etale-rigidity} makes this
-connected cover trivial, so \(F\) is a polynomial automorphism.
-\end{proof}
-
-Thus the deleted normalization boundary is not auxiliary: it is precisely
-the geometric source of nonproperness.  For a nonsingular polynomial map of
-the complex plane, a nonempty \(S_F\) is known to be a curve with one point
-at infinity \cite{ChauNonproperValueSet}.  The inertia calculations below
-identify which divisorial part of this nonproperness can support the normal
-closure.
-
-Here dimension two materially sharpens the normalization problem.  Both
-\(\overline X\) and \(Z\) are normal Noetherian surfaces finite over the
-regular surface \(Y\).  A normal Noetherian scheme of dimension at most two
-is Cohen--Macaulay \cite{StacksNormalSurfaceCM}; since the finite maps have
-zero-dimensional fibers, miracle flatness makes them finite flat
-\cite{StacksMiracleFlatness}.  Their coordinate rings are therefore finite
-locally free \(B\)-modules, so the trace, different, and ramification divisor
-belong to the finite-flat surface setting.
-
-Moreover, \(j(X)\) is a dense affine open in the separated Noetherian surface
-\(\overline X\).  Every irreducible component of
-\(\partial X=\overline X\setminus j(X)\) consequently has codimension one
-\cite{StacksAffineComplement}: a nonempty deleted boundary is a union of
-curves.  Purity of the branch locus rules out ramification supported only in
-codimension two.  Thus the remaining planar question is the following
-concrete one: can a nonzero ramification divisor on \(Z\) have every
-inertia-moving conjugate center on the deleted boundary curves?  The
-coordinate criterion below gives an exact valuation formulation of this
-question.
-
-Characteristic zero also makes the ramification divisor of the intermediate
-normalization explicit.  Write
-\[
-  R_{\bar\nu}
-  =
-  \sum_{C\in\overline X^{(1)}}
-    \bigl(e(C/\bar\nu(C))-1\bigr)C.
-\]
-The different exponent is \(e-1\) at each divisorial valuation, and the
-\'etaleness of \(f_F\) gives
-\[
-  \operatorname{Supp}(R_{\bar\nu})\subseteq\partial X.
-\]
-In canonical-divisor language, \(R_{\bar\nu}\) is the relative canonical
-divisor of the finite map.  Its vanishing is therefore the finite-cover
-analogue of crepancy; this is a ramification statement, not a consequence
-of resolving the isolated singularities of the normal surface
-\(\overline X\).
-
-\begin{proposition}[Boundary divisor-class rigidity]
-\label{prop:boundary-divisor-class-rigidity}
-Let \(D\) be an effective Weil divisor on \(\overline X\) supported on
-\(\partial X\).  If \([D]\) is torsion in
-\(\operatorname{Cl}(\overline X)\), then \(D=0\).
-\end{proposition}
-
-\begin{proof}
-Choose \(m>0\) and \(h\in L^\times\) with
-\[
-  \operatorname{div}_{\overline X}(h)=mD.
-\]
-The divisor on the right is effective.  Since \(\overline X\) is normal,
-the height-one valuation criterion for regularity gives
-\(h\in\Gamma(\overline X,\mathcal O_{\overline X})=\overline A\).
-Because \(D\) is supported on the deleted boundary,
-\(\operatorname{div}_{X}(h|_X)=0\).  Since
-\(A=\C[x_1,x_2]\) is a unique factorization domain, this gives
-\[
-  h|_X\in A^\times
-  =\C[x_1,x_2]^\times
-  =\C^\times.
-\]
-The inclusion \(\overline A\subseteq A\) is injective, so \(h\) itself is
-constant.  Therefore \(mD=0\), and hence \(D=0\).
-\end{proof}
-
-\begin{corollary}[Different-class criterion for planar rigidity]
-\label{cor:different-class-planar-rigidity}
-If \([R_{\bar\nu}]\) is torsion in
-\(\operatorname{Cl}(\overline X)\), then \(F\) is a polynomial
-automorphism.  In particular, this holds if the different is principal or
-if \(\operatorname{Cl}(\overline X)\) is torsion.
-\end{corollary}
-
-\begin{proof}
-Proposition~\ref{prop:boundary-divisor-class-rigidity} gives
-\(R_{\bar\nu}=0\).  Purity of the branch locus then makes the finite map
-\(\bar\nu\) \'etale, and finite-\'etale rigidity of \(\A^2_{\C}\) makes it
-an isomorphism.  Thus \(L=K\).  Proposition
-\ref{prop:planar-keller-local-geometry} gives that \(A\) is flat over
-\(B\), so Corollary~\ref{cor:generic-degree-one-descent} gives
-\(\Obs(F)=0\).  Theorem~\ref{thm:automorphism-criterion} finishes the
-proof.
-\end{proof}
-
-The following specialization recovers the classical Galois case of the
-Jacobian conjecture \cite{Campbell1973,Razar1979,Wright1981} in the boundary
-language of this section.
-
-\begin{theorem}[Boundary-theoretic Galois rigidity]
-\label{thm:planar-galois-rigidity}
-If the marked function-field extension \(L/K\) is normal, equivalently
-Galois, then
-\[
-  L=K
-  \qquad\text{and}\qquad
-  F\in\Aut_{\mathrm{poly}}(\A^2_{\C}).
-\]
-\end{theorem}
-
-\begin{proof}
-Proposition~\ref{prop:planar-keller-local-geometry} shows that \(L/K\) is
-finite and separable, so normality is equivalent to the Galois condition.
-Let \(B_1,\dots,B_r\) be the prime divisors of \(Y\) that are images of
-components of \(R_{\bar\nu}\).  Since \(B=\C[P,Q]\) is a unique
-factorization domain, choose an irreducible \(b_i\in B\) such that
-\[
-  B_i=\operatorname{div}_Y(b_i).
-\]
-
-The Galois group preserves the integral closure \(\overline X\) and acts
-transitively on the prime divisors above a fixed \(B_i\), so their
-ramification indices have a common value \(e_i\)
-\cite{StacksGaloisIntegralClosure}.  Put
-\[
-  D_i=
-  \sum_{\substack{C\in\overline X^{(1)}\\ \bar\nu(C)=B_i}} C.
-\]
-For every \(C\mid B_i\), the valuation formula for pullback gives
-\[
-  \operatorname{ord}_C(b_i)
-  =e(C/B_i)\operatorname{ord}_{B_i}(b_i)=e_i.
-\]
-There are no other height-one zeros of \(b_i\) on \(\overline X\), and
-hence
-\[
-  \operatorname{div}_{\overline X}(b_i)
-  =\bar\nu^*B_i=e_iD_i.
-\]
-These are the standard Galois valuation and divisor-pullback formulas
-\cite{StacksDVRExtensions,StacksRamificationTheory}.
-
-The residue characteristic is zero, so the divisorial extensions are tame
-and the different exponent at every \(C\mid B_i\) is \(e_i-1\)
-\cite{StacksRiemannHurwitzTame}.  Grouping
-the components of the ramification divisor by their images therefore gives
-\[
-  R_{\bar\nu}=\sum_{i=1}^r(e_i-1)D_i.
-\]
-Set \(m=\prod_{i=1}^r e_i\), with the empty product understood as \(1\),
-and define
-\[
-  h=\prod_{i=1}^r b_i^{\,m(e_i-1)/e_i}\in K^\times\subseteq L^\times.
-\]
-Every exponent is a nonnegative integer, and the preceding pullback formula
-yields
-\[
-  \operatorname{div}_{\overline X}(h)
-  =\sum_{i=1}^r\frac{m(e_i-1)}{e_i}\,e_iD_i
-  =mR_{\bar\nu}.
-\]
-Thus \([R_{\bar\nu}]\) is torsion in
-\(\operatorname{Cl}(\overline X)\), and Corollary
-\ref{cor:different-class-planar-rigidity} gives the result.
-\end{proof}
-
-\begin{corollary}[Quadratic planar rigidity]
-\label{cor:quadratic-planar-rigidity}
-No planar Keller map has generic degree \(d_F=2\).  Consequently,
-\[
-  d_F\leq2
-  \quad\Longrightarrow\quad
-  d_F=1
-  \quad\Longrightarrow\quad
-  F\in\Aut_{\mathrm{poly}}(\A^2_{\C}).
-\]
-In particular, every nonautomorphic planar Keller map would have
-\[
-  d_F\geq3
-  \qquad\text{and}\qquad
-  L/K\text{ nonnormal}.
-\]
-\end{corollary}
-
-\begin{proof}
-If \(d_F=2\), then the separable quadratic extension \(L/K\) is Galois.
-Theorem~\ref{thm:planar-galois-rigidity} would give \(L=K\), contradicting
-\([L:K]=2\).  Hence \(d_F\leq2\) forces \(d_F=1\); Corollary
-\ref{cor:generic-degree-one-descent} and Theorem
-\ref{thm:automorphism-criterion} give automorphy.  Finally, Theorem
-\ref{thm:planar-galois-rigidity} rules out normality in every
-nonautomorphic case.
-\end{proof}
-
-Outside this normal/Galois specialization, the divisor-theoretic problem is
-to determine whether the finite-flat trace and different, together with
-\(\overline A\subseteq\C[x_1,x_2]\), force
-\([R_{\bar\nu}]\) to be torsion.  The different-class criterion proves the
-consequence of such torsion; it does not assert it for a general nonnormal
-extension.  Corollary~\ref{cor:quadratic-planar-rigidity} shows that only
-nonnormal extensions of generic degree at least three remain.
-
-It is important that this argument cannot simply be rerun for the always
-Galois extension \(N/K\).  Boundary divisor-class rigidity applies on
-\(\overline X\) because it contains the marked affine plane
-\(X\simeq\A^2_{\C}\) as a dense open.  If \(L/K\) is nonnormal, the Galois
-normalization \(Z\) instead maps finitely to every conjugate intermediate
-model and need not contain a marked affine-plane open whose deleted boundary
-supports all of \(R_{Z/Y}\).  This is precisely why the pulled-back
-conjugate boundaries and moving-sheet condition are needed.
-
-Let
-\[
-  \begin{gathered}
-    \mathcal D_F=
-    \left(
-      Z\xrightarrow{\pi}\overline X\xrightarrow{\bar\nu}Y,\,
-      j\colon X\hookrightarrow\overline X
-    \right),
-    \qquad
-    \partial X=\overline X\setminus j(X),\\
-    G=\Gal(N/K),
-    \qquad
-    H=\Gal(N/L).
-  \end{gathered}
-\]
-
-The abstract conjugate centers now admit a direct two-coordinate test.
-For a representative \(g\in G\) of
-\(\omega=D_EgH\), the conjugate affine sheet is generated inside \(N\) by
-\[
-  A_g=\C[g(x_1),g(x_2)].
-\]
-
-The two derivations of Proposition
-\ref{prop:keller-inverse-jacobian-frame}, restricted to \(K\), extend
-uniquely across the finite separable extension \(N/K\).  Indeed, if
-\(z\in N\) has separable minimal polynomial \(f\in K[X]\), any extension
-is forced by
-\[
-  \widetilde\partial(z)
-  =-\frac{(\partial f)(z)}{f'(z)},
-  \qquad f'(z)\ne0.
-\]
-For \(g\in G\), both
-\(g\widetilde\partial g^{-1}\) and \(\widetilde\partial\) extend the same
-derivation of \(K\), so uniqueness makes them equal.  Consequently
-\[
-  \widetilde\partial(g(a))=g(\partial(a))\in g(A)
-  \qquad(a\in A),
-\]
-and the extended inverse-Jacobian frame preserves every \(A_g\).  No
-preservation of the integral order \(T=A_N\) is asserted.
-
-\begin{proposition}[Planar coordinate test for a conjugate center]
-\label{prop:planar-conjugate-coordinate-test}
-For \(E\in Z^{(1)}\) and \(\omega=D_EgH\in\mathcal Q_E\),
-\[
-  \operatorname{cent}(E,\omega)\in j(X)
-  \quad\Longleftrightarrow\quad
-  w_E(g(x_1))\geq0
-  \ \text{and}\
-  w_E(g(x_2))\geq0.
-\]
-Consequently,
-\[
-  \operatorname{cent}(E,\omega)\in\partial X
-  \quad\Longleftrightarrow\quad
-  \min\{w_E(g(x_1)),w_E(g(x_2))\}<0.
-\]
-\end{proposition}
-
-\begin{proof}
-By definition,
-\(u_\omega=(g^{-1}w_E)|_L\), so
-\[
-  u_\omega(x_i)=w_E(g(x_i))
-  \qquad(i=1,2).
-\]
-The center of \(u_\omega\) lies on the affine open
-\(X=\Spec\C[x_1,x_2]\) exactly when its valuation ring contains
-\(A\).  Since \(A\) is generated by \(x_1,x_2\), this is equivalent to
-the two displayed nonnegativity conditions.  Negating them gives the
-boundary criterion.
-\end{proof}
-
-The early secant estimate has a precise interpretation on these conjugate
-generic sheets.  For \(g\in G\), let
-\[
-  \delta_{F,g}
-  :=
-  \delta_F\bigl(x_1,x_2,g(x_1),g(x_2)\bigr)\in N,
-  \qquad
-  q_{F,g}:=1-c^{-1}\delta_{F,g}.
-\]
-
-\begin{proposition}[Secant evaluation on conjugate sheets]
-\label{prop:secant-conjugate-evaluation}
-For every \(g\in G\),
-\[
-  \delta_{F,g}\bigl(x_i-g(x_i)\bigr)=0
-  \qquad(i=1,2).
-\]
-Consequently,
-\[
-  \delta_{F,g}
-  =
-  \begin{cases}
-    c,&g\in H,\\
-    0,&g\notin H,
-  \end{cases}
-  \qquad
-  q_{F,g}
-  =
-  \begin{cases}
-    0,&g\in H,\\
-    1,&g\notin H.
-  \end{cases}
-\]
-Thus the planar secant projector is exactly the characteristic function of
-the nonmarked generic conjugate sheets.
-\end{proposition}
-
-\begin{proof}
-The marked embedding \(L\hookrightarrow N\) and its \(g\)-conjugate agree
-on \(K\), so together they define an evaluation map from the generic
-collision algebra \(L\otimes_KL\) to \(N\).  Evaluating
-Proposition~\ref{prop:secant-annihilator} under this map gives the first
-display.  If \(g\in H=\Gal(N/L)\), then \(g(x_i)=x_i\) for both coordinates,
-and diagonal evaluation gives \(\delta_{F,g}=c\).  If \(g\notin H\), then
-some \(x_i\) is moved, since \(L=\C(x_1,x_2)\).  The corresponding factor
-\(x_i-g(x_i)\) is nonzero in the field \(N\), so the first display forces
-\(\delta_{F,g}=0\).  The formulas for \(q_{F,g}\) follow.
-\end{proof}
-
-The complementary idempotent \(e_F=1-q_F\) gives an explicit
-trace-theoretic bridge.  Under the standard finite Galois decomposition
-\[
-  N\otimes_KN\xrightarrow{\sim}\prod_{\sigma\in G}N,
-  \qquad
-  a\otimes b\longmapsto\bigl(a\,\sigma(b)\bigr)_{\sigma},
-\]
-the generic base change of \(e_F\) is the characteristic function of
-\(H\).  Let \(e_g=(g\otimes g)e_F\); then \(e_g\) is the characteristic
-function of \(gHg^{-1}\).
-
-\begin{proposition}[Relative coevaluation on a moved sheet]
-\label{prop:relative-coevaluation-moved-sheet}
-Let \(C\leq G\) have prime order and suppose
-\(C\nsubseteq gHg^{-1}\).  Under the relative Galois decomposition
-\[
-  N\otimes_{N^C}N\xrightarrow{\sim}\prod_{\sigma\in C}N,
-  \qquad
-  a\otimes b\longmapsto\bigl(a\,\sigma(b)\bigr)_{\sigma},
-\]
-let
-\[
-  \rho_C:N\otimes_KN\longrightarrow N\otimes_{N^C}N
-\]
-be the canonical quotient.  Then
-\(\rho_C(e_g)=\mathbf1_{\{1\}}\).  Consequently \(\rho_C(e_g)\) is the
-trace coevaluation tensor for \(N/N^C\).  In particular, if its image is
-written as a finite sum
-\[
-  \rho_C(e_g)=\sum_\nu a_{\nu,g}\otimes b_{\nu,g}
-  \quad\text{in }N\otimes_{N^C}N,
-\]
-then every \(z\in N\) satisfies the explicit reconstruction formula
-\[
-  z=\sum_\nu a_{\nu,g}\,
-       \operatorname{Tr}_{N/N^C}(b_{\nu,g}z).
-\]
-\end{proposition}
-
-\begin{proof}
-Restricting the characteristic function of \(gHg^{-1}\) from \(G\) to
-\(C\) gives the characteristic function of
-\(C\cap gHg^{-1}\).  Since \(C\) has prime order and is not contained in
-\(gHg^{-1}\), this intersection is trivial.  The relative trace-pairing
-identification sends \(\mathbf1_{\{1\}}\) to \(\operatorname{id}_N\),
-which gives the reconstruction formula.
-\end{proof}
-
-Proposition
-\ref{prop:conjugate-embedding-action} gives
-\[
-  e_N:=\prod_{g\in G}e_g
-  =\mathbf1_{\core_G(H)}
-  =\mathbf1_{\{1\}}.
-\]
-Finally, the trace pairing gives a canonical \(K\)-linear isomorphism
-\[
-  \Theta_N:N\otimes_KN\xrightarrow{\sim}\operatorname{End}_K(N),
-  \qquad
-  \Theta_N(a\otimes b)(z)=a\operatorname{Tr}_{N/K}(bz),
-\]
-and \(\Theta_N(e_N)=\operatorname{id}_N\).  Thus the product of the
-conjugate planar secant idempotents is the trace coevaluation tensor for
-\(N/K\).  Notice that \(\Theta_N\) is a linear, not a ring, isomorphism.
-For the finite locally free order \(T=A_N\), the integral coevaluation tensor
-lies in \(T\otimes_B\operatorname{Hom}_B(T,B)\); its generic fiber is
-\(e_N\) after the trace identification.  This identifies the finite
-trace-dual lattice canonically, but does not yet bound poles of moving-sheet
-principal parts.
-
-This follows the exponent-one secant bound completely into the normal
-closure, but also locates its limit.  On a nonmarked sheet
-\(\delta_{F,g}\) is the zero function; it is therefore a generic-sheet
-projector, not a nonzero boundary parameter whose fixed power bounds pole
-order.  Any use of the secant matrix for uniform boundary control therefore
-needs a further transport statement, using more than the determinant alone.
-That possible mechanism is isolated after the completed endgame.
-
-The generic idempotents and the conjugate affine opens play different
-roles.  The former separate components of the generic collision algebra,
-whereas \(U_g\subset Z\) tests whether the corresponding conjugate center
-remains integral.  At a ramified divisor those generic components can meet
-in an integral model, so no extension of \(e_g\) as an integral idempotent is
-asserted.  The research mechanism below instead attaches to this generic
-sheet isolation a fixed--moving boundary contribution supported on
-
-\[
-  V\!\left(\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}}\right).
-\]
-
-For \(E\in\Ram^{(1)}(Z/Y)\) and
-\(\omega\in\mathcal Q_E\), Proposition
-\ref{prop:intermediate-ramification-index} gives
-\[
-  e\bigl(\operatorname{cent}(E,\omega)/\nu(E)\bigr)=i_E(\omega).
-\]
-Since \(X\to Y\) is \'etale by
-Proposition~\ref{prop:planar-keller-local-geometry},
-Proposition~\ref{prop:visibility-to-boundary} gives
-\[
-  i_E(\omega)>1
-  \quad\Longrightarrow\quad
-  \operatorname{cent}(E,\omega)\in\partial X.
-\]
-Thus Definition~\ref{def:no-hidden-inertia} specializes to
-\[
-  \mathcal H(\mathcal D_F)
-  =
-  \left\{
-  E\in\Ram^{(1)}(Z/Y):
-  \begin{array}{l}
-    \exists\omega\in\mathcal Q_E,\ i_E(\omega)>1,\\
-    \forall\omega\in\mathcal Q_E,\quad
-      i_E(\omega)>1
-      \Longrightarrow
-      \operatorname{cent}(E,\omega)\in\partial X
-  \end{array}
-  \right\}.
-\]
-
-Proposition~\ref{prop:planar-conjugate-coordinate-test} makes this locus
-fully explicit:
-\[
-  \mathcal H(\mathcal D_F)
-  =
-  \left\{
-  E\in\Ram^{(1)}(Z/Y):
-  \begin{array}{l}
-    \forall g\in G,\\[-2pt]
-    [I_E:I_E\cap gHg^{-1}]>1
-    \Longrightarrow
-    \min\{w_E(g(x_1)),w_E(g(x_2))\}<0
-  \end{array}
-  \right\}.
-\]
-The existence of at least one \(g\) with nontrivial relative index is
-automatic from \(I_E\neq1\) and \(\core_G(H)=1\).  Thus hidden inertia is
-not an additional abstract object in the planar proof: it is precisely the
-possibility that every inertia-moving conjugate coordinate pair acquires a
-pole at the deleted boundary.
-
-\begin{definition}[Planar conjugate coverage]
-\label{def:planar-conjugate-coverage}
-Write \(\operatorname{Cov}_2(F)\) for the following condition: every
-\(E\in\Ram^{(1)}(Z/Y)\) admits a \(g\in G\) such that
-\[
-  [I_E:I_E\cap gHg^{-1}]>1,
-  \qquad
-  w_E(g(x_1))\geq0,
-  \qquad
-  w_E(g(x_2))\geq0.
-\]
-Thus some conjugate sheet moved by inertia still has an affine center.
-\end{definition}
-
-We now construct the canonical boundaries directly on the common Galois
-normalization.  For \(g\in G\), set
-\[
-  \overline A_g=g(\overline A),
-  \qquad
-  \overline X_g=\Spec\overline A_g,
-  \qquad
-  X_g=\Spec A_g.
-\]
-The conjugate of \(j\) is an open immersion
-\(X_g\hookrightarrow\overline X_g\), and the inclusion
-\(\overline A_g\subseteq A_N\) gives a finite map
-\(\pi_g\colon Z\to\overline X_g\).  Let
-\[
-  U_g:=\pi_g^{-1}(X_g)\subseteq Z,
-  \qquad
-  D_g:=Z\setminus U_g,
-  \qquad
-  \mathfrak j_g:=
-    I_{A_N}(D_g)
-    =
-    \bigcap_{\mathfrak p\in D_g}\mathfrak p.
-\]
-Thus \(\mathfrak j_g\) is canonically the radical vanishing ideal of the
-pulled-back deleted boundary and \(D_g=V(\mathfrak j_g)\).  The
-construction depends only on \(gH\), since right multiplication by \(H\)
-does not change the conjugate embedding of \(L\).
-
-\begin{proposition}[Pulled-back boundary dictionary]
-\label{prop:pulled-back-boundary-dictionary}
-For every height-one point \(E\) of \(Z\) and every \(g\in G\),
-\[
-  \eta_E\in U_g
-  \quad\Longleftrightarrow\quad
-  \mathfrak j_g\nsubseteq\mathfrak p_E
-  \quad\Longleftrightarrow\quad
-  w_E(g(x_1))\geq0
-  \quad\text{and}\quad
-  w_E(g(x_2))\geq0.
-\]
-Equivalently,
-\[
-  \mathfrak j_g\subseteq\mathfrak p_E
-  \quad\Longleftrightarrow\quad
-  \eta_E\in D_g
-  \quad\Longleftrightarrow\quad
-  \min\{w_E(g(x_1)),w_E(g(x_2))\}<0.
-\]
-\end{proposition}
-
-\begin{proof}
-Because \(D_g=V(\mathfrak j_g)\), membership
-\(\eta_E\in D_g\) is exactly the containment
-\(\mathfrak j_g\subseteq\mathfrak p_E\).  The point
-\(\eta_E\) belongs to \(U_g\) precisely when its image under
-\(\pi_g\) is centered on \(X_g=\Spec\C[g(x_1),g(x_2)]\).  The valuation
-criterion for a center on an affine model says exactly that both conjugate
-coordinates have nonnegative valuation.  Taking complements gives the
-second display.
-\end{proof}
-
-For a nontrivial subgroup \(I\leq G\), define its moving-boundary ideal by
-\[
-  \mathfrak j_I^{\mathrm{mov}}
-  :=
-  \sum_{\substack{g\in G\\I\nsubseteq gHg^{-1}}}\mathfrak j_g.
-\]
-The sum is taken in the common Galois-normalization ring \(A_N\); this is
-why the Galois closure enters only at this final specialization.
-
-\begin{proposition}[Moving-sheet coverage dictionary]
-\label{prop:moving-sheet-coverage-dictionary}
-For \(E\in\Ram^{(1)}(Z/Y)\), one has
-\[
-  \exists g\in G,\quad
-  I_E\nsubseteq gHg^{-1},\quad \eta_E\in U_g
-  \quad\Longleftrightarrow\quad
-  \mathfrak j_{I_E}^{\mathrm{mov}}\nsubseteq\mathfrak p_E.
-\]
-Thus eliminating \(E\) is exactly the failure of its moving-boundary
-ideal to be contained in its height-one prime.
-\end{proposition}
-
-\begin{proof}
-A prime contains a sum of ideals exactly when it contains every summand.
-Apply Proposition~\ref{prop:pulled-back-boundary-dictionary} to each
-inertia-moving \(g\).
-\end{proof}
-
-The same common ring gives a finite-group formulation which does not first
-choose a ramified divisor.  For a subgroup \(C\leq G\), let
-\[
-  \mathfrak a_C
-  :=
-  \bigl(\sigma(t)-t:\sigma\in C,\ t\in A_N\bigr)
-  \subseteq A_N.
-\]
-This is the scheme-theoretic fixed-locus ideal for the action of \(C\) on
-\(Z\).  If \(\mathfrak p_E\in\Spec A_N\), then
-\[
-  \mathfrak a_C\subseteq\mathfrak p_E
-  \quad\Longleftrightarrow\quad
-  C\leq I_E.
-\]
-Indeed, the containment says that every element of \(C\) stabilizes
-\(\mathfrak p_E\) and acts trivially on its residue field, which is the
-definition of inertia at \(E\).
-
-\begin{definition}[Planar boundary separation]
-\label{def:planar-boundary-separation}
-Write \(\operatorname{Sep}_2(F)\) for the following condition: for every
-prime-order subgroup \(C\leq G\),
-\[
-  \Spec^{(1)}(A_N)
-  \cap
-  V\!\left(\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}}\right)
-  =\varnothing.
-\]
-Equivalently,
-\[
-  \forall\mathfrak p\in\Spec^{(1)}(A_N),\qquad
-  \mathfrak a_C\subseteq\mathfrak p
-  \quad\Longrightarrow\quad
-  \mathfrak j_C^{\mathrm{mov}}\nsubseteq\mathfrak p.
-\]
-In codimension language, every fixed--moving boundary locus
-\(V(\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}})\) has codimension at least
-two in the normal surface \(Z\).  No assertion is made about isolated
-fixed boundary points.
-\end{definition}
-
-\begin{proposition}[Boundary separation is the divisorial criterion]
-\label{prop:boundary-separation-divisorial-criterion}
-For a planar Keller map,
-\[
-  \operatorname{Sep}_2(F)
-  \quad\Longleftrightarrow\quad
-  \Ram^{(1)}(Z/Y)=\varnothing.
-\]
-\end{proposition}
-
-\begin{proof}
-Assume boundary separation and suppose that
-\(E\in\Ram^{(1)}(Z/Y)\).  Choose a subgroup
-\(C\leq I_E\) of prime order; such a subgroup exists by Cauchy's theorem
-for the nontrivial finite group \(I_E\).  Then
-\(\mathfrak a_C\subseteq\mathfrak p_E\).  If
-\(C\nsubseteq gHg^{-1}\), then
-\(I_E\nsubseteq gHg^{-1}\), so the relative inertia index on the sheet
-represented by \(gH\) is nontrivial.  Proposition
-\ref{prop:visibility-to-boundary} places its center in the deleted boundary,
-and hence \(\mathfrak j_g\subseteq\mathfrak p_E\).  This holds for every
-sheet moved by \(C\), so
-\[
-  \mathfrak a_C+\mathfrak j_C^{\mathrm{mov}}
-  \subseteq\mathfrak p_E,
-\]
-contrary to boundary separation.
-
-Conversely, if boundary separation fails, there are a prime-order
-\(C\leq G\) and a height-one prime \(\mathfrak p_E\) containing
-\(\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}}\).  The fixed-locus
-containment gives \(C\leq I_E\).  Since \(C\neq1\), the point \(E\) is
-ramified, contradicting
-\(\Ram^{(1)}(Z/Y)=\varnothing\).
-\end{proof}
-
-\begin{proposition}[Coverage eliminates a ramified divisor]
-\label{prop:coverage-eliminates-ramified-divisor}
-Let \(E\in\Ram^{(1)}(Z/Y)\).  If there is a \(g\in G\) such that
-\[
-  I_E\nsubseteq gHg^{-1}
-  \qquad\text{and}\qquad
-  \eta_E\in U_g,
-\]
-then a contradiction follows.  Consequently,
-\[
-  \operatorname{Cov}_2(F)
-  \quad\Longrightarrow\quad
-  \Ram^{(1)}(Z/Y)=\varnothing.
-\]
-\end{proposition}
-
-\begin{proof}
-The subgroup condition gives
-\[
-  i_E(gH)=[I_E:I_E\cap gHg^{-1}]>1.
-\]
-On the other hand, \(\eta_E\in U_g\) places the conjugate center on the
-affine sheet \(X_g\).  The map \(X_g\to Y\) is the Galois conjugate of
-the planar Keller map and is therefore \'etale.  Its local ramification
-index at that center is one.  Hence \(1<i_E(gH)=1\), a contradiction.
-\end{proof}
-
-This is the point at which a height-one divisor is eliminated.  Purity is
-not used in Proposition~\ref{prop:coverage-eliminates-ramified-divisor};
-it enters only after the proposition has been applied to every ramified
-height-one point.
-
-\subsection{Moving-sheet criteria for planar ramification rigidity}
-\label{sec:planar-no-hidden-inertia}
-
-\begin{corollary}[Planar hidden-inertia identification]
-\label{cor:planar-codimension-one-unramified}
-\[
-  \mathcal H(\mathcal D_F)=\Ram^{(1)}(Z/Y).
-\]
-In particular,
-\[
-  \mathcal H(\mathcal D_F)=\varnothing
-  \quad\Longleftrightarrow\quad
-  \Ram^{(1)}(Z/Y)=\varnothing.
-\]
-These conditions are also equivalent to planar conjugate coverage.
-\end{corollary}
-
-\begin{proof}
-The equality is Proposition~\ref{prop:etale-sheet-hidden-inertia}, applied
-to the planar finite-cover diagram.  Conjugate coverage
-implies an empty ramification locus by Proposition
-\ref{prop:coverage-eliminates-ramified-divisor}, and hence an empty
-hidden-inertia locus by the displayed equality.  Conversely, if the
-ramification locus is empty, conjugate coverage holds vacuously.
-\end{proof}
-
-\begin{proposition}[The ramification-rigidity dictionary]
-\label{prop:planar-ramification-rigidity-dictionary}
-For a planar Keller map,
-\[
-  \operatorname{PRR}(F)
-  \quad\Longleftrightarrow\quad
-  \Ram^{(1)}(Z/Y)=\varnothing
-  \quad\Longleftrightarrow\quad
-  \operatorname{Cov}_2(F)
-  \quad\Longleftrightarrow\quad
-  \operatorname{Sep}_2(F).
-\]
-Thus moving-sheet coverage and boundary separation are two exact criteria
-for PlanarRamificationRigidity, not additional global hypotheses.
-\end{proposition}
-
-\begin{proof}
-The \(A_N\)-module \(\Omega_{A_N/B}\) is finite, and its generic
-localization vanishes because \(N/K\) is separable.  Since \(A_N\) is a
-two-dimensional affine \(\C\)-domain, every positive-dimensional closed
-subset has a height-one generic point.  Thus this finite module has finite
-length exactly when it has no height-one point in its support.  At a height-one
-point \(E\), localizing \(B\) first at the image of \(E\) and then at
-\(\mathfrak p_E\) gives the relevant finite local extension; the source
-local ring is a discrete valuation ring.  In characteristic zero its
-residue extension is separable, so
-\[
-  \Omega_{(A_N)_{\mathfrak p_E}/B_{\mathfrak p_E\cap B}}=0
-  \quad\Longleftrightarrow\quad
-  I_E=1.
-\]
-Indeed, vanishing of the localized differential module is the
-finite-type unramifiedness criterion, and for a finite extension of
-discrete valuation rings in characteristic zero unramifiedness is
-equivalent to trivial inertia
-\cite{StacksKaehlerDifferent,StacksDVRExtensions,StacksRamificationTheory}.
-Consequently finite length is equivalent to the absence of divisorial
-ramification.  Proposition~\ref{prop:coverage-eliminates-ramified-divisor}
-and vacuity in the unramified case give the equivalence with coverage; the
-equivalence with separation is
-Proposition~\ref{prop:boundary-separation-divisorial-criterion}.
-\end{proof}
-
-Equivalently, the premise
-\(\mathcal H(\mathcal D_F)=\varnothing\) says that if a ramified divisor
-existed, some inertia-moving conjugate pair \(g(x_1),g(x_2)\) would have
-to remain integral and hence centered on an affine sheet.  Planar
-\'etaleness says that the same pair must lie at the boundary.  This is the
-boundary contradiction used below; the premise supplies its exclusion,
-while the preceding results identify exactly what is being excluded.
-
-\subsection{The divisorial endgame}
-
-\begin{theorem}[Purity of the branch locus, specialized]
-\label{thm:branch-purity}
-Let \(Z\to\A^2_{\C}\) be a finite dominant generically separable
-morphism with \(Z\) integral and normal.  If
-\(\Ram^{(1)}(Z/\A^2_{\C})=\varnothing\), then the morphism is \'etale.
-\end{theorem}
-
-\begin{proof}
-At every height-one point of \(Z\), the absence of divisorial
-ramification gives ramification index one.  The corresponding residue
-field extension is finite and, in characteristic zero, separable.
-Hence the morphism is unramified at every height-one point.  Purity of
-the branch locus now implies that it is \'etale everywhere
-\cite{StacksPurity}.
-\end{proof}
-
-\begin{theorem}[Finite-\'etale rigidity of the affine plane]
-\label{thm:a2-etale-rigidity}
-Every connected finite \'etale cover of \(\A^2_{\C}\) is trivial
-\cite[Expos\'e XII, Th\'eor\`eme 5.1]{SGA1}.
-\end{theorem}
-
-\begin{corollary}[Triviality of the planar normal closure]
-\label{cor:planar-normal-closure-trivial}
-If
-\[
-  \Ram^{(1)}(Z/Y)=\varnothing,
-\]
-then
-\[
-  N=K
-  \qquad\text{and hence}\qquad
-  L=K.
-\]
-Numerically,
-\[
-  [L:K]=[N:L]=[N:K]=1.
-\]
-\end{corollary}
-
-\begin{proof}
-By Proposition~\ref{prop:planar-keller-local-geometry},
-\(Y\cong\A^2_{\C}\).  Since \(N/K\) is finite Galois,
-\(\nu\colon Z\to Y\) is generically separable; hence
-Theorem~\ref{thm:branch-purity} makes it finite \'etale.  The inclusion
-\[
-  A_N\subset N\text{ is a domain},
-  \qquad\text{so}\qquad
-  Z=\Spec A_N\text{ is connected}.
-\]
-Theorem~\ref{thm:a2-etale-rigidity} therefore makes
-\(\nu\colon Z\to Y\) an isomorphism.  Taking function fields gives
-\(N=K\).  Finally,
-\(K\subseteq L\subseteq N\) implies \(L=K\).
-\end{proof}
-
-\begin{corollary}[The divisorial endgame]
-\label{cor:planar-ramification-rigidity-route}
-The absence of divisorial ramification gives the implication chain
-\[
-  \Ram^{(1)}(Z/Y)=\varnothing
-  \Longrightarrow
-  Z\longrightarrow Y\text{ is finite \'{e}tale}
-  \Longrightarrow
-  N=K
-  \Longrightarrow
-  L=K
-  \Longrightarrow
-  q_F=0
-  \Longrightarrow
-  I_R=I_\Delta.
-\]
-\end{corollary}
-
-\begin{proof}
-Purity, Theorem~\ref{thm:branch-purity}, makes \(Z\to Y\) finite \'{e}tale,
-and
-Corollary~\ref{cor:planar-normal-closure-trivial} gives \(N=K\) and
-\(L=K\).  Thus \(d_F=1\).  Flatness of \(A\) over \(B\) and
-Corollary~\ref{cor:generic-degree-one-descent} give \(\Obs(F)=0\).
-The abstract off-diagonal projector and collision criteria then give
-\(q_F=0\) and \(I_R=I_\Delta\).
-\end{proof}
-
-By Proposition~\ref{prop:planar-ramification-rigidity-dictionary}, any of
-\(\operatorname{PRR}(F)\), \(\operatorname{Sep}_2(F)\), or
-\(\operatorname{Cov}_2(F)\) supplies the first condition in this single
-endgame.  They are respectively differential, ideal-theoretic, and
-valuation-theoretic descriptions of its codimension-one premise, rather
-than three additional routes.
-
-\subsection{Vanishing of the off-diagonal factor}
-
-The next theorem records all named formulations as exact translations of
-the preceding divisorial endgame.
-
-\begin{theorem}[Equivalent boundary criteria for planar vanishing]
-\label{thm:planar-vanishing}
-For every polynomial map
-\(F=(P,Q)\colon\A^2_{\C}\to\A^2_{\C}\) satisfying
-\(\det JF=c\in\C^\times\), the following conditions are equivalent:
-\[
-  \begin{aligned}
-    \operatorname{PBC}(F)
-    &\quad\Longleftrightarrow\quad \operatorname{PRR}(F)
-     \quad\Longleftrightarrow\quad \operatorname{Sep}_2(F)
-     \quad\Longleftrightarrow\quad \operatorname{Cov}_2(F)\\
-    &\quad\Longleftrightarrow\quad \mathcal H(\mathcal D_F)=\varnothing
-     \quad\Longleftrightarrow\quad \Ram^{(1)}(Z/Y)=\varnothing,
-  \end{aligned}
-\]
-and
-\[
-  \begin{gathered}
-    \Ram^{(1)}(Z/Y)=\varnothing
-    \quad\Longleftrightarrow\quad
-    d_F=1
-    \quad\Longleftrightarrow\quad
-    \Obs(F)=0,\\
-    \Obs(F)=0
-    \quad\Longleftrightarrow\quad
-    q_F=0
-    \quad\Longleftrightarrow\quad
-    R_F^\circ=\varnothing
-    \quad\Longleftrightarrow\quad
-    I_R=I_\Delta.
-  \end{gathered}
-\]
-\end{theorem}
-
-\begin{proof}
-Proposition~\ref{prop:planar-boundary-coherence-route} shows that
-\(\operatorname{PBC}(F)\) implies that \(F\) is an automorphism.  Then
-\(B=A\), \(K=L=N\), \(\partial X=\varnothing\), and
-\(\Omega_{A_N/B}=0\), so \(\operatorname{PRR}(F)\) holds.  Conversely,
-the argument below shows that \(\operatorname{PRR}(F)\) implies
-automorphy; for an automorphism \(\partial X=\varnothing\), and hence
-\(H^1_{\partial X}(\overline X,\mathcal O_{\overline X})=0\).  Thus
-\(\operatorname{PBC}(F)\) holds as well.
-
-Proposition~\ref{prop:planar-ramification-rigidity-dictionary} identifies
-\(\operatorname{PRR}(F)\) and \(\operatorname{Sep}_2(F)\) with the absence
-of divisorial ramification.
-Proposition~\ref{prop:coverage-eliminates-ramified-divisor} shows directly
-that \(\operatorname{Cov}_2(F)\) implies
-\(\Ram^{(1)}(Z/Y)=\varnothing\); conversely, if the ramification locus is
-empty, coverage holds vacuously.  Corollary
-\ref{cor:planar-codimension-one-unramified} identifies these conditions with
-\(\mathcal H(\mathcal D_F)=\varnothing\).
-
-Under these conditions, Corollary
-\ref{cor:planar-normal-closure-trivial} gives \(N=L=K\), hence \(d_F=1\),
-while Proposition
-\ref{prop:planar-keller-local-geometry} makes \(A\) flat over \(B\).
-Corollary~\ref{cor:generic-degree-one-descent} therefore gives
-\(\Obs(F)=0\).  Conversely, if \(d_F=1\), then \(L=K\); flatness and
-Corollary~\ref{cor:generic-degree-one-descent} again give \(\Obs(F)=0\).
-If \(\Obs(F)=0\), then \(I_R=I_\Delta\), so
-Theorem~\ref{thm:automorphism-criterion} makes \(F\) a polynomial
-automorphism.  Hence \(B=A\), \(K=L=N\), and
-\(\Ram^{(1)}(Z/Y)=\varnothing\).
-
-Corollary~\ref{cor:off-diagonal-empty-criterion} and
-Theorem~\ref{thm:abstract-off-diagonal-projector} state
-\[
-  \begin{gathered}
-    R_F^\circ=\varnothing
-    \quad\Longleftrightarrow\quad
-    C_F^\circ=0
-    \quad\Longleftrightarrow\quad
-    \Obs(F)=0
-    \quad\Longleftrightarrow\quad
-    I_R=I_\Delta,\\
-    \Obs(F)=0
-    \quad\Longleftrightarrow\quad
-    q_F=0.
-  \end{gathered}
-\]
-This proves the remaining equivalences.
-\end{proof}
-
-\begin{corollary}[Boundary witness for failure of coverage]
-\label{cor:planar-boundary-witness}
-The equivalent conditions of Theorem
-\ref{thm:planar-vanishing} fail if and only if there is an
-\(E\in\Ram^{(1)}(Z/Y)\) such that
-\[
-  \forall g\in G,\qquad
-  [I_E:I_E\cap gHg^{-1}]>1
-  \quad\Longrightarrow\quad
-  \min\{w_E(g(x_1)),w_E(g(x_2))\}<0.
-\]
-For such an \(E\), at least one inertia-moving \(g\) exists.  Thus failure of
-planar collision vanishing is witnessed by a ramified divisor whose
-inertia-moving conjugate centers all lie on the deleted boundary.  By
-Theorem~\ref{thm:planar-galois-rigidity} and Corollary
-\ref{cor:quadratic-planar-rigidity}, its marked extension \(L/K\) is
-nonnormal and its generic degree satisfies \(d_F\geq3\).
-\end{corollary}
-
-\begin{proof}
-If the equivalent conditions fail, then conjugate coverage fails.  Negating
-Definition~\ref{def:planar-conjugate-coverage} supplies an
-\(E\in\Ram^{(1)}(Z/Y)\) for which every \(g\) of nontrivial relative index
-fails at least one valuation inequality, giving the displayed condition.
-Conversely, the displayed condition is incompatible with a coverage witness
-for \(E\), so conjugate coverage fails.  Core-freeness guarantees the
-existence of at least one \(g\) of nontrivial relative index.
-\end{proof}
-
-\begin{corollary}[Exact boundary forms of the planar Jacobian conjecture]
-\label{cor:planar-jc2-boundary-forms}
-The following universal statements are equivalent:
-\begin{enumerate}
-  \item The classical complex two-dimensional Jacobian conjecture holds:
-  every polynomial self-map of \(\A^2_{\C}\) with constant nonzero
-  Jacobian determinant is a polynomial automorphism.
-  \item Every planar Keller map satisfies \(\operatorname{PBC}(F)\).
-  \item Every planar Keller map satisfies \(\operatorname{PRR}(F)\).
-  \item Every planar Keller map satisfies \(\operatorname{Sep}_2(F)\).
-  \item Every planar Keller map satisfies \(\operatorname{Cov}_2(F)\).
-\end{enumerate}
-Equivalently, condition \textup{(4)} says that for every planar Keller map
-and every prime-order subgroup \(C\leq\operatorname{Gal}(N/K)\),
-  \[
-    \operatorname{codim}_Z
-    V\!\left(\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}}\right)
-    \geq2.
-  \]
-\end{corollary}
-
-\begin{proof}
-If \(JC(2)\) holds, every planar Keller map is an automorphism.  Then
-\(B=A\), \(K=L=N\), \(\overline X=X\), and \(\partial X=\varnothing\),
-so both \(H^1_{\partial X}(\overline X,\mathcal O_{\overline X})\) and
-\(\Omega_{A_N/B}\) vanish.  Thus \textup{(1)} implies
-\textup{(2)} and \textup{(3)}.  Conversely, Proposition
-\ref{prop:planar-boundary-coherence-route} shows that \textup{(2)} implies
-\textup{(1)}.  Theorem~\ref{thm:planar-vanishing} identifies, for every
-planar Keller map,
-\[
-  \operatorname{PRR}(F)
-  \Longleftrightarrow
-  \operatorname{Sep}_2(F)
-  \Longleftrightarrow
-  \operatorname{Cov}_2(F)
-  \Longleftrightarrow
-  \Obs(F)=0.
-\]
-Corollary~\ref{cor:jacobian-conjecture-as-vanishing} identifies universal
-obstruction vanishing with classical \(JC(2)\), proving the remaining
-equivalences.  The prime-order ideal formulation is
-Proposition~\ref{prop:boundary-separation-divisorial-criterion}.
-\end{proof}
-
-The planar section therefore gives an exact codimension-one reformulation.
-Here ``divisorially coprime'' means that
-\(\mathfrak a_C\) and \(\mathfrak j_C^{\mathrm{mov}}\) are contained in no
-common height-one prime; it does not mean that their sum is the unit ideal.
-Because \(Z\) is an integral surface, the relevant locus has only two
-possibilities: it has a codimension-one component, which is precisely the
-bad ramified-divisor case, or it has codimension at least two, in which case
-only isolated closed points may remain (or the locus is empty).  There is no
-nonempty codimension-three case on \(Z\), and purity is why these possible
-codimension-two points need not be eliminated separately.
-
-In the good case, conjugate coverage excludes complete boundary-supported
-inertia orbits and the collision relation collapses to the diagonal.  In
-the bad case, Corollary~\ref{cor:planar-boundary-witness} produces exactly
-such a divisorial boundary witness.  PlanarBoundaryCoherence records the
-equivalent global-boundary formulation that removes the entire normalization
-boundary at once.
-
-\subsection{Research mechanisms and status}
-
-The preceding equivalence theorem is the completed logical dictionary.  The
-following mechanisms ask how its divisorial premise might be established
-from the special polynomial-plane data; they are not additional steps in the
-endgame.
-
-\subsubsection{Two statements and the missing secant--trace morphism}
-
-Put \(T:=A_N\).  For every prime-order subgroup \(C\leq G\), write
-\[
-  \mathfrak J_C:=\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}},
-  \qquad
-  \mathcal P_C^{\mathrm{fm}}:=H^1_{\mathfrak J_C}(T).
-\]
-The ideal \(\mathfrak J_C\) cuts out the scheme-theoretic intersection of
-the \(C\)-fixed locus with the boundaries of all sheets moved by \(C\).
-Thus \(\mathfrak J_C\subseteq\mathfrak p_E\) is exactly the fixed--moving
-height-one configuration isolated by boundary separation.
-
-\begin{proposition}[I. The fixed--moving pole tower]
-\label{prop:fixed-moving-pole-tower}
-For every height-one prime \(\mathfrak p\subset T\),
-\[
-  \left(\mathcal P_C^{\mathrm{fm}}\right)_{\mathfrak p}
-  \cong
-  \begin{cases}
-    0,&\mathfrak J_C\nsubseteq\mathfrak p,\\[2pt]
-    \Frac(T_{\mathfrak p})/T_{\mathfrak p},
-      &\mathfrak J_C\subseteq\mathfrak p.
-  \end{cases}
-\]
-In the second case this localization has principal parts of arbitrarily
-large pole order and is not a finite \(T_{\mathfrak p}\)-module.  Moreover,
-\[
-  \operatorname{Sep}_2(F)
-  \quad\Longleftrightarrow\quad
-  \mathcal P_C^{\mathrm{fm}}=0
-  \quad\text{for every prime-order }C\leq G.
-\]
-\end{proposition}
-
-\begin{proof}
-The action of \(G\) on \(T\) is faithful, so \(\mathfrak J_C\neq0\) for
-\(C\neq1\).  Local cohomology commutes with localization.  If
-\(\mathfrak J_C\nsubseteq\mathfrak p\), its extension to
-\(T_{\mathfrak p}\) is the unit ideal and the localization vanishes.  If
-\(\mathfrak J_C\subseteq\mathfrak p\), normality makes
-\(T_{\mathfrak p}\) a DVR, and the one-element \v{C}ech complex gives
-\[
-  H^1_{\mathfrak J_CT_{\mathfrak p}}(T_{\mathfrak p})
-  \cong \Frac(T_{\mathfrak p})/T_{\mathfrak p}.
-\]
-The classes of \(\pi^{-m}\), for a uniformizer \(\pi\) and \(m\geq1\),
-have unbounded pole order, proving nonfiniteness.
-
-If boundary separation holds, no height-one prime contains
-\(\mathfrak J_C\).  The normal Noetherian surface \(T\) is \(S_2\), so
-\(\mathfrak J_C\) has grade at least two and
-\(H^1_{\mathfrak J_C}(T)=0\).  Conversely, failure of boundary separation
-gives a height-one prime containing \(\mathfrak J_C\), and the displayed
-localization shows that \(\mathcal P_C^{\mathrm{fm}}\neq0\).
-\end{proof}
-
-\begin{proposition}[II. The trace-dual bounded stage]
-\label{prop:trace-dual-bounded-stage}
-Define
-\[
-  T^\dagger
-  :=\{z\in N:\operatorname{Tr}_{N/K}(zT)\subseteq B\},
-  \qquad
-  Q_{\mathrm{tr}}:=T^\dagger/T.
-\]
-Then the trace pairing gives
-\[
-  T^\dagger\cong\operatorname{Hom}_B(T,B),
-\]
-and \(Q_{\mathrm{tr}}\) is a finite \(T\)-module.  If
-\(\mathfrak p_E\subset T\) has ramification index \(e_E\) and uniformizer
-\(\pi_E\), then
-\[
-  (Q_{\mathrm{tr}})_{\mathfrak p_E}
-  \cong
-  \pi_E^{-(e_E-1)}T_{\mathfrak p_E}/T_{\mathfrak p_E}.
-\]
-Thus the trace-dual quotient contains only one bounded pole stage.
-Equivalently, for
-\[
-  \omega_Z:=\operatorname{Hom}_B(T,\omega_Y),
-  \qquad
-  \eta_F:=c^{-1}dP\wedge dQ,
-\]
-finite duality gives
-\[
-  Q_F^{\omega}
-  :=\omega_Z/T\eta_F
-  \cong Q_{\mathrm{tr}}.
-\]
-\end{proposition}
-
-\begin{proof}
-The finite locally free \(B\)-algebra \(T\) and generic separability of
-\(N/K\) identify \(T^\dagger\) with \(\operatorname{Hom}_B(T,B)\) through
-the trace pairing.  Since \(B\) is normal, traces of elements integral over
-\(B\) lie in \(B\); hence \(T\subseteq T^\dagger\), and the quotient is
-finite.  After height-one localization, characteristic-zero ramification is
-tame and the different exponent is \(e_E-1\), giving the displayed
-inverse-different formula
-\cite{StacksDedekindDifferent,StacksFiniteFlatDifferent}.
-
-Trivializing \(\omega_Y\) by \(dP\wedge dQ\) identifies \(\omega_Z\) with
-the trace dual.  The Keller identity identifies \(T\eta_F\) with the
-submodule \(T\subseteq T^\dagger\), and therefore identifies the two
-quotients \cite{StacksQuasiFiniteDualizing}.
-\end{proof}
-
-\paragraph{The trace transporter.}
-Fix a prime-order subgroup \(C\leq G\), and put
-\[
-  U_C:=\Spec T\setminus V(\mathfrak J_C),
-  \qquad
-  R_C:=\Gamma(U_C,\mathcal O_{U_C})\subseteq N.
-\]
-Faithfulness of the \(G\)-action gives \(\mathfrak J_C\neq0\), so \(U_C\)
-is dense and its ring of regular functions embeds in \(\Frac(T)=N\).
-Since \(T\) is a domain, \(H^0_{\mathfrak J_C}(T)=0\), and the affine
-open-complement sequence gives
-\[
-  0\longrightarrow T\longrightarrow R_C
-  \longrightarrow H^1_{\mathfrak J_C}(T)\longrightarrow0,
-  \qquad
-  \mathcal P_C^{\mathrm{fm}}\cong R_C/T
-  \cite{StacksLocalCohomologySequence}.
-\]
-Thus \(T\subseteq T^\dagger\subseteq N\) places both
-\(\mathcal P_C^{\mathrm{fm}}\) and \(Q_{\mathrm{tr}}\) in \(N/T\).  Define
-the trace-transporter ideal
-\[
-  \mathfrak c_C^{\mathrm{tr}}
-  :=\{s\in T:sR_C\subseteq T^\dagger\}.
-\]
-For \(s\in T\), the following conditions are equivalent:
-\begin{enumerate}[label=\textup{(\roman*)}]
-  \item \(s\in\mathfrak c_C^{\mathrm{tr}}\);
-  \item
-  \[
-    \operatorname{Tr}_{N/K}(srt)\in B
-    \qquad(r\in R_C,\ t\in T);
-  \]
-  \item multiplication by \(s\) on \(N/T\) restricts to the unique
-  \(T\)-linear morphism
-  \[
-    \lambda_{C,s}\colon\mathcal P_C^{\mathrm{fm}}\longrightarrow
-    Q_{\mathrm{tr}},
-    \qquad [r]\longmapsto[sr].
-  \]
-\end{enumerate}
-Indeed, the first two conditions are equivalent by the definition of
-\(T^\dagger\).  Under condition \textup{(i)}, one has
-\(sR_C\subseteq T^\dagger\), while \(sT\subseteq T\); hence multiplication
-by \(s\) descends to the quotient map in \textup{(iii)}.  This is the exact
-landing morphism; it is not required to be injective.
-
-\paragraph{The secant--frame denominator candidate.}
-The boundary-compatible secant is indexed by an oriented pair of conjugate
-sheets.  For \(g\in G\) and \(\sigma\in C\) with
-\(\sigma\notin gHg^{-1}\), put
-\[
-  M_{F;g,\sigma}:=M_F(g(x),\sigma g(x))\in M_2(N),
-  \qquad
-  A_{F;g,\sigma}:=\operatorname{adj}(M_{F;g,\sigma}).
-\]
-The two sheet maps agree after applying \(F\), and they are distinct because
-\(\sigma gH\ne gH\).  Each \(U_h\) is dense in the integral scheme \(Z\),
-so \(U_g\cap U_{\sigma g}\) is nonempty and
-\[
-  D_{g,\sigma}:=
-  \Gamma(U_g\cap U_{\sigma g},\mathcal O_Z)\subseteq N
-\]
-is a domain.  Regularity on the two respective sheets defines the maps
-\[
-  A\rightrightarrows D_{g,\sigma},
-  \qquad
-  a\longmapsto g(a),
-  \qquad
-  a\longmapsto\sigma g(a).
-\]
-Proposition~\ref{prop:universal-moved-collision-factorization} therefore
-gives the canonical off-diagonal factorization
-\[
-  C_F^\circ\longrightarrow
-  D_{g,\sigma}.
-\]
-In particular, every entry of \(M_F\), \(\operatorname{adj}(M_F)\), and
-\(\Phi_F\), together with the distinguished row \((-d_2,d_1)\), has a
-regular image on the overlap.  We do not assert that the Hilbert--Burch
-resolution remains exact after this base change or that the row generates
-the overlap's canonical module.  This factorization comes from the general
-collision construction; it is not yet the trace/conductor landing for an
-arbitrary boundary section.
-Proposition~\ref{prop:relative-coevaluation-moved-sheet} supplies, for the
-same moved sheet, a finite relative-trace reconstruction.  It likewise does
-not bound the pole order of its trace coefficients on \(U_C\): the
-\(C\)-invariant component is trace-bearing and can still contain arbitrarily
-deep poles.  The missing inclusion below is precisely the assertion that the
-Keller-specific overlap data controls that surviving component uniformly.
-The extended Keller frame of Proposition
-\ref{prop:keller-inverse-jacobian-frame} consists of derivations
-\(\widetilde\partial_P,\widetilde\partial_Q\) on \(N\).  They commute:
-their commutator vanishes on \(K=\C(P,Q)\), and uniqueness of extension
-across the finite separable extension \(N/K\) makes it zero on \(N\).  For
-\(\alpha=(a,b)\in\mathbf N^2\), set
-\(D^\alpha=\widetilde\partial_P^a
-\widetilde\partial_Q^b\), and, for \(r\geq0\), let
-\[
-  \Xi_{g,\sigma,r}:=
-  \left\{
-    D^\alpha(M_{F;g,\sigma})_{ij},
-    D^\alpha(A_{F;g,\sigma})_{ij}
-    :1\leq i,j\leq2,\ |\alpha|\leq r
-  \right\}\subset N.
-\]
-Put
-\[
-  \Lambda_{C,r}^{\mathrm{sf}}
-  :=T+\sum_{\substack{g\in G\\C\nsubseteq gHg^{-1}}}
-       \ \sum_{\substack{\sigma\in C\\\sigma\ne1}}
-       \ \sum_{\xi\in\Xi_{g,\sigma,r}}T\xi\subseteq N,
-  \qquad
-  \mathfrak d_{C,r}^{\mathrm{sf}}
-  :=\{s\in T:s\Lambda_{C,r}^{\mathrm{sf}}\subseteq T\}.
-\]
-Because \(C\) has prime order, the condition
-\(C\nsubseteq gHg^{-1}\) implies
-\(C\cap gHg^{-1}=1\); hence every \(\sigma\ne1\) in the displayed sum moves
-the sheet.  Indexing over all such \((g,\sigma)\) avoids choices and remains
-finite.  The case \(r=1\) is the first-jet candidate obtained from the
-pairwise-overlap secant matrix, its adjugate, and the inverse-Jacobian frame.
-
-\begin{proposition}[Nonzero secant--frame denominator]
-\label{prop:nonzero-secant-frame-denominator}
-For every \(C\) and every \(r\geq0\),
-\[
-  \mathfrak d_{C,r}^{\mathrm{sf}}\neq0.
-\]
-Moreover, every nonzero element of this ideal remains nonzero in
-\(T_{\mathfrak p}\) for every prime \(\mathfrak p\subset T\).
-\end{proposition}
-
-\begin{proof}
-The set of generators in \(\Lambda_{C,r}^{\mathrm{sf}}\) is finite, and
-each belongs to \(N=\Frac(T)\).  Clearing their finitely many denominators
-produces \(0\neq s\in T\) with
-\(s\Lambda_{C,r}^{\mathrm{sf}}\subseteq T\).  The localization assertion
-follows because \(T\) is a domain.
-\end{proof}
-
-\paragraph{The monogenic trace-comparison order.}
-The finite separable extension \(N/K\) has a primitive element
-\cite{StacksPrimitiveElement}.  Clearing one
-\(B\)-denominator gives an integral primitive generator
-\(\alpha_{\mathrm{sec}}\in T\) with
-\(N=K(\alpha_{\mathrm{sec}})\).  Let
-\[
-  R_{\mathrm{sec}}:=B[\alpha_{\mathrm{sec}}]\subseteq T,
-  \qquad
-  f_{\mathrm{sec}}(Z)
-  =Z^d+\gamma_{d-1}Z^{d-1}+\cdots+\gamma_0\in B[Z]
-\]
-be its monic minimal polynomial, where \(d=[N:K]\) and
-\(\gamma_d:=1\).  The coefficients lie in \(B\), because they lie in
-\(K\), are integral over \(B\), and \(B\) is normal.  Consequently
-\[
-  R_{\mathrm{sec}}\cong B[Z]/(f_{\mathrm{sec}}),
-  \qquad
-  R_{\mathrm{sec}}
-  =\bigoplus_{j=0}^{d-1}B\alpha_{\mathrm{sec}}^j,
-  \qquad
-  \Frac(R_{\mathrm{sec}})=N.
-\]
-Thus \(R_{\mathrm{sec}}/B\) is finite free and a hypersurface, hence a
-complete intersection.  Its normalization in \(N\) is the already-defined
-ring \(T\).  Put
-\[
-  J_{\mathrm{sec}}
-  :=f_{\mathrm{sec}}'(\alpha_{\mathrm{sec}}),
-  \qquad
-  \mathfrak f_{\mathrm{sec}}
-  :=(R_{\mathrm{sec}}:_N T)
-  =\{a\in N:aT\subseteq R_{\mathrm{sec}}\}.
-\]
-Separability gives \(J_{\mathrm{sec}}\neq0\).  It is the
-hypersurface-Jacobian generator of the different
-\cite{StacksHypersurfaceDifferent}.  The ideal
-\(\mathfrak f_{\mathrm{sec}}\) is, by definition, the conductor of the
-finite normalization \(R_{\mathrm{sec}}\subseteq T\).
-Here the subscript records the order's role in the secant--trace comparison;
-the element \(\alpha_{\mathrm{sec}}\) is not asserted to be generated by
-the secant--frame coefficients, and \(J_{\mathrm{sec}}\) is neither
-\(\delta_F\) nor the Keller constant.  No such identification is needed for
-the reduction below.
-
-\begin{proposition}[Monogenic Tate--conductor reduction]
-\label{prop:monogenic-tate-conductor-reduction}
-For \(0\leq j<d\), set
-\[
-  h_j(Z):=\sum_{k=j+1}^{d}\gamma_kZ^{k-1-j}.
-\]
-Then
-\[
-  \frac{f_{\mathrm{sec}}(X)-f_{\mathrm{sec}}(Y)}{X-Y}
-  =\sum_{j=0}^{d-1}h_j(X)Y^j,
-\]
-the elements \(h_j(\alpha_{\mathrm{sec}})\) form a triangular
-\(B\)-basis of \(R_{\mathrm{sec}}\),
-and, for every \(z\in N\),
-\[
-  \boxed{
-  J_{\mathrm{sec}}z
-  =\sum_{j=0}^{d-1}
-    h_j(\alpha_{\mathrm{sec}})
-    \operatorname{Tr}_{N/K}
-      (z\alpha_{\mathrm{sec}}^j).}
-  \tag{\(\mathrm{Tate}_{\mathrm{sec}}\)}
+  e_F^2=e_F,\qquad
+  p_F^2=p_F,\qquad
+  e_Fp_F=0,\qquad
+  e_F+p_F=1.
 \]
 Moreover,
 \[
-  R_{\mathrm{sec}}^\dagger
-  :=\{z\in N:
-      \operatorname{Tr}_{N/K}(zR_{\mathrm{sec}})\subseteq B\}
-  =J_{\mathrm{sec}}^{-1}R_{\mathrm{sec}},
+  \Obs(F)=C_Fp_F,\qquad
+  \operatorname{Ann}_{C_F}(\Obs(F))=C_Fe_F,
 \]
-and therefore
+and hence
 \[
-  \boxed{
-  T^\dagger
-  =J_{\mathrm{sec}}^{-1}\mathfrak f_{\mathrm{sec}}.}
-  \tag{\(\dagger_{\mathrm{sec}}\)}
+  C_F\simeq A\times C_Fp_F.
+\]
+In particular,
+\[
+  p_F=0\quad\Longleftrightarrow\quad\Obs(F)=0.
+\]
+\end{theorem}
+
+\begin{proof}
+Proposition~\ref{prop:secant-annihilation} gives
+\[
+  \bar\delta_F\Obs(F)=0,\qquad
+  \bar\delta_F-c\in\Obs(F).
+\]
+Equivalently,
+\[
+  e_F\Obs(F)=0,\qquad e_F-1\in\Obs(F).
+\]
+Hence \(e_F(e_F-1)=0\), so \(e_F^2=e_F\); the corresponding identities
+for \(p_F=1-e_F\) follow.
+
+The second relation says \(p_F\in\Obs(F)\).  If
+\(j\in\Obs(F)\), then
+\[
+  j=(e_F+p_F)j=p_Fj,
+\]
+so \(\Obs(F)=C_Fp_F\).  An element annihilates \(C_Fp_F\) exactly when its
+\(p_F\)-part is zero, giving
+\[
+  \operatorname{Ann}_{C_F}(\Obs(F))=C_Fe_F.
+\]
+
+Complementary idempotents give
+\[
+  C_F\xrightarrow{\ \sim\ }C_Fe_F\times C_Fp_F,\qquad
+  a\longmapsto(ae_F,ap_F).
+\]
+Diagonal evaluation restricts to an isomorphism \(C_Fe_F\simeq A\):
+if \(a=\bar\mu_F(r)\), then \(a=\bar\mu_F(re_F)\), while its kernel is
+\(C_Fe_F\cap\Obs(F)=0\).  Thus \(C_F\simeq A\times C_Fp_F\).
+Finally, \(\Obs(F)=C_Fp_F\) gives
+\[
+  p_F=0\Longleftrightarrow\Obs(F)=0.
+\]
+\end{proof}
+
+\section{Quadratic generic collisions}
+\label{sec:quadratic-collision}
+
+We now work at the generic point.  The essential field-theoretic fact is
+the degree-two marked-root decomposition.
+
+\subsection{The quadratic self-tensor product}
+
+Let \(L/K\) be finite separable of degree two.  Paper~I's marked-root
+tensor decomposition applies to a primitive generator \(\alpha\): it
+splits the marked root from the residual polynomial
+\[
+  m_\alpha(T)=(T-\alpha)h_\alpha(T)
+  \qquad\text{in }L[T].
+\]
+Here \(h_\alpha\) has degree one, so its quotient algebra is another copy
+of \(L\).  Thus the general result of Paper~I
+\cite{VanDerVlugt2026CubicCollision} specializes as follows.
+
+\begin{proposition}[Quadratic marked-root decomposition]
+\label{prop:quadratic-tensor-product}
+There is an \(L\)-algebra isomorphism
+\[
+  \Psi_\alpha\colon
+  L\otimes_KL\xrightarrow{\ \sim\ }L\times L
+\]
+under which tensor multiplication
+\[
+  \mu_L\colon L\otimes_KL\longrightarrow L
+\]
+is first projection.  Consequently,
+\[
+  \Psi_\alpha\bigl(\ker(\mu_L)\bigr)=0\times L\neq0.
+\]
+\end{proposition}
+
+\subsection{Nonvanishing of the affine obstruction}
+
+Combining the quoted generic collision bridge with
+Proposition~\ref{prop:quadratic-tensor-product} transports the nonzero
+second factor back to the affine obstruction.
+
+\begin{theorem}[Quadratic collision nonvanishing]
+\label{thm:quadratic-obstruction-nonzero}
+Let \(F\colon\A^n_{\C}\to\A^n_{\C}\) be a polynomial map whose induced
+extension \(L/K\) is finite separable of degree two.  Then
+\[
+  \Obs(F)\neq0.
+\]
+Equivalently,
+\[
+  I_R(F)\subsetneq I_\Delta.
+\]
+\end{theorem}
+
+\begin{proof}
+Flatness of \(B\to K\) gives a canonical identification
+\[
+  K\otimes_B\Obs(F)
+  \simeq
+  \ker(1\otimes\bar\mu_F).
+\]
+Under the compatible quadratic product, the right-hand side is
+\[
+  \ker\bigl(L\times L\xrightarrow{\operatorname{pr}_1}L\bigr)
+  =0\times L,
+\]
+which is nonzero.  Therefore \(K\otimes_B\Obs(F)\neq0\), and hence
+\(\Obs(F)\neq0\).  Since \(\Obs(F)=I_\Delta/I_R(F)\), this is equivalent
+to strict containment.
+\end{proof}
+
+This theorem is independent of the Keller condition: generic degree two
+already forces a residual generic collision.  For a planar Keller map, the
+secant projector makes that factor explicit.
+
+\begin{corollary}[Nonzero planar projector in degree two]
+\label{cor:quadratic-projector-nonzero}
+Let
+\[
+  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
+  \qquad
+  \det JF=c\in\C^\times.
+\]
+If \(d_F=2\), then
+\[
+  p_F\neq0.
+\]
+\end{corollary}
+
+\begin{proof}
+The Keller condition makes \(L/K\) finite separable.
+Theorem~\ref{thm:quadratic-obstruction-nonzero} gives
+\(\Obs(F)\neq0\), and
+Theorem~\ref{thm:planar-secant-projector} gives
+\(\Obs(F)=C_Fp_F\).  Therefore \(p_F\neq0\).
+\end{proof}
+
+\section{Galois rigidity and the collision contradiction}
+\label{sec:rigidity-contradiction}
+
+We now use the classical Galois case of the Jacobian conjecture.
+
+\begin{theorem}[Classical Keller--Galois rigidity]
+\label{thm:keller-galois-rigidity}
+Let
+\[
+  F\colon\A^2_{\C}\longrightarrow\A^2_{\C}
+\]
+be a Keller map.  If the induced finite separable extension \(L/K\) is
+normal, equivalently Galois, then \(F\) is a polynomial automorphism.
+\end{theorem}
+
+This is the classical normal/Galois case
+\cite{Campbell1973,Razar1979,Wright1981}; we use it as a literature theorem
+and do not reprove it here.
+
+Every separable extension of degree two is normal: if the minimal polynomial
+of a primitive generator has one root in \(L\), its other root also lies in
+\(L\).  Thus Theorem~\ref{thm:keller-galois-rigidity} applies automatically
+on the generic-degree-two Keller locus.
+
+\begin{proposition}[Rigidity forces collision vanishing]
+\label{prop:rigidity-projector-zero}
+Let
+\[
+  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
+  \qquad
+  \det JF=c\in\C^\times.
+\]
+If \(d_F=2\), then Keller--Galois rigidity gives
+\[
+  \Obs(F)=0,\qquad p_F=0.
 \]
 \end{proposition}
 
 \begin{proof}
-Define the \(B\)-linear Tate functional on the power basis by
+The extension \(L/K\) is finite separable of degree two, hence Galois.
+Theorem~\ref{thm:keller-galois-rigidity} makes \(F\) a polynomial
+automorphism.  Theorem~\ref{thm:quoted-diagonal-kernel} then gives
 \[
-  \sigma_{\mathrm{sec}}
-  \left(\sum_{j=0}^{d-1}b_j\alpha_{\mathrm{sec}}^j\right)
-  :=b_{d-1}.
+  I_R(F)=I_\Delta,\qquad \Obs(F)=0.
 \]
-After tensoring the power basis with \(K\), extend
-\(\sigma_{\mathrm{sec}}\) uniquely to the corresponding \(K\)-linear
-coefficient functional \(N\to K\), and retain the same notation.
-The displayed divided difference is the one-variable
-Tate--Scheja--Storch coevaluation tensor.  Its reconstruction and trace
-identities are
-\[
-  u=\sum_{j=0}^{d-1}h_j(\alpha_{\mathrm{sec}})
-       \sigma_{\mathrm{sec}}(\alpha_{\mathrm{sec}}^ju),
-  \qquad
-  \operatorname{Tr}_{N/K}(u)
-  =\sigma_{\mathrm{sec}}(J_{\mathrm{sec}}u).
-\]
-Applying the first identity to \(J_{\mathrm{sec}}z\) and the trace identity
-to each \(\alpha_{\mathrm{sec}}^jz\) gives
-\((\mathrm{Tate}_{\mathrm{sec}})\).  Equivalently,
-\(J_{\mathrm{sec}}^{-1}h_j(\alpha_{\mathrm{sec}})\) is trace-dual to
-\(\alpha_{\mathrm{sec}}^j\).  This proves
-\(R_{\mathrm{sec}}^\dagger
-=J_{\mathrm{sec}}^{-1}R_{\mathrm{sec}}\)
-\cite{SchejaStorch1975,StacksTateMap,StacksDedekindDifferent}.
-
-Finally,
-\[
-  T^\dagger
-  =(R_{\mathrm{sec}}^\dagger:_N T)
-  =(J_{\mathrm{sec}}^{-1}R_{\mathrm{sec}}:_N T)
-  =J_{\mathrm{sec}}^{-1}(R_{\mathrm{sec}}:_N T),
-\]
-which is \((\dagger_{\mathrm{sec}})\).
-Indeed, the first equality follows directly from
-\[
-  zT\subseteq R_{\mathrm{sec}}^\dagger
-  \quad\Longleftrightarrow\quad
-  \operatorname{Tr}_{N/K}(zTR_{\mathrm{sec}})\subseteq B
-  \quad\Longleftrightarrow\quad
-  \operatorname{Tr}_{N/K}(zT)\subseteq B,
-\]
-using \(R_{\mathrm{sec}}\subseteq T\) and
-\(1\in R_{\mathrm{sec}}\).
+Finally, Theorem~\ref{thm:planar-secant-projector} gives \(p_F=0\).
 \end{proof}
 
-\paragraph{Missing morphism: Secant--Frame Trace Landing.}
-The explicit first-jet research target is the ideal containment
+\begin{theorem}[Exclusion of generic degree two]
+\label{thm:no-planar-keller-degree-two}
+No planar Keller map has generic degree two.  Equivalently, every
+polynomial map
 \[
-  \boxed{
-  \ \mathfrak d_{C,1}^{\mathrm{sf}}
-  \subseteq\mathfrak c_C^{\mathrm{tr}}\ }
-  \tag{\(\mathrm{SFTL}_C\)}
-\]
-for every prime-order \(C\leq G\).  Equivalently, every
-secant--frame denominator must satisfy the uniform trace identity
-\[
-  \operatorname{Tr}_{N/K}(srt)\in B
-  \qquad(s\in\mathfrak d_{C,1}^{\mathrm{sf}},\ r\in R_C,\ t\in T).
-\]
-Proposition~\ref{prop:monogenic-tate-conductor-reduction} gives the
-equivalent conductor form
-\[
-  \boxed{
-  J_{\mathrm{sec}}\,
-  \mathfrak d_{C,1}^{\mathrm{sf}}R_C
-  \subseteq\mathfrak f_{\mathrm{sec}}}
-  \quad\Longleftrightarrow\quad
-  \mathfrak d_{C,1}^{\mathrm{sf}}
-  \subseteq\mathfrak c_C^{\mathrm{tr}}.
-  \tag{\(\mathrm{SCTL}_C\)}
-\]
-Because the left-hand side is already a \(T\)-submodule, containment in
-the conductor is equivalently
-\[
-  J_{\mathrm{sec}}\,
-  \mathfrak d_{C,1}^{\mathrm{sf}}R_C
-  \subseteq R_{\mathrm{sec}}.
-\]
-
-This also makes the finite part of the reduction explicit.  Since \(T\) is
-finite over \(B\), it is finite over \(R_{\mathrm{sec}}\).  Choose
-\(R_{\mathrm{sec}}\)-module generators
-\(t_1,\ldots,t_m\) of \(T\).  For \(s\in T\) and \(r\in R_C\),
-\[
-\begin{aligned}
-  sr\in T^\dagger
-  &\Longleftrightarrow
-  J_{\mathrm{sec}}sr\in\mathfrak f_{\mathrm{sec}}\\
-  &\Longleftrightarrow
-  J_{\mathrm{sec}}srt_i\in R_{\mathrm{sec}}
-    \quad(1\leq i\leq m)\\
-  &\Longleftrightarrow
-  \operatorname{Tr}_{N/K}
-    (srt_i\alpha_{\mathrm{sec}}^j)\in B
-    \quad(1\leq i\leq m,\ 0\leq j<d).
-\end{aligned}
-\]
-The final equivalence follows from
-\((\mathrm{Tate}_{\mathrm{sec}})\) and trace duality.  Thus Tate reduction
-replaces the universal test element \(t\in T\) by one fixed finite family of
-trace coordinates.  It does not prove those coordinates integral uniformly
-for the arbitrary boundary section \(r\in R_C\); that uniform-in-\(r\)
-conductor landing is precisely the remaining morphism.
-
-The relative coevaluation isolates the exact part still uncontrolled.  If
-\(p=|C|\) and
-\[
-  \operatorname{Av}_C(z):=\frac1p\sum_{\sigma\in C}\sigma(z)\in N^C,
-\]
-then transitivity of trace gives
-\[
-  \operatorname{Tr}_{N/K}(z)
-  =\operatorname{Tr}_{N^C/K}
-      \bigl(p\,\operatorname{Av}_C(z)\bigr).
-\]
-Thus the finite family above is equivalently the family of assertions
-\[
-  \operatorname{Tr}_{N^C/K}\!\left(
-    p\,\operatorname{Av}_C
-      (srt_i\alpha_{\mathrm{sec}}^j)\right)\in B.
-\]
-The non-invariant character components do not contribute to the trace.  The
-remaining problem is therefore a uniform integrality theorem for this
-\(C\)-invariant remainder.  This is substantive: in the standard tame local
-model \(\sigma(\pi)=\zeta\pi\), the invariant poles
-\(\pi^{-p},\pi^{-2p},\ldots\) survive averaging.  Hence neither cyclic
-averaging nor the finite relative reconstruction alone supplies the missing
-pole bound.
-
-\begin{proposition}[Scalar landing collapses the boundary overring]
-\label{prop:scalar-landing-collapses-overring}
-If \(0\neq s\in\mathfrak c_C^{\mathrm{tr}}\), then
-\[
-  R_C=T,
+  F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
   \qquad
-  \mathcal P_C^{\mathrm{fm}}=0.
+  \det JF\in\C^\times,
 \]
-Equivalently, the same conclusion follows from a nonzero \(s\in T\) such
-that
+satisfies
 \[
-  J_{\mathrm{sec}}sR_C\subseteq R_{\mathrm{sec}}.
+  d_F\neq2.
 \]
-In particular no height-one prime of \(T\) contains
-\(\mathfrak J_C\).
-\end{proposition}
+\end{theorem}
 
 \begin{proof}
-The conductor identity converts \(sR_C\subseteq T^\dagger\) into
-\(J_{\mathrm{sec}}sR_C\subseteq\mathfrak f_{\mathrm{sec}}\), hence into
-the displayed containment in \(R_{\mathrm{sec}}\subseteq T\).  Put
-\(a=J_{\mathrm{sec}}s\neq0\).  For every \(r\in R_C\) and every
-\(n\geq0\), the ring property of \(R_C\) gives \(r^n\in R_C\), and
-therefore
+Suppose that \(d_F=2\).
+Corollary~\ref{cor:quadratic-projector-nonzero}, which reads the residual
+factor in
 \[
-  ar^n\in T.
+  K\otimes_BC_F\simeq_K L\times L,
 \]
-Thus every \(r\in R_C\subseteq\Frac(T)\) is almost integral over \(T\).
-A Noetherian domain has the property that almost integral elements of its
-fraction field are integral; normality then places them in the domain
-\cite{StacksAlmostIntegral}.  Hence \(R_C\subseteq T\).  The reverse
-inclusion is built into the open-complement sequence, so \(R_C=T\) and
-\(\mathcal P_C^{\mathrm{fm}}=R_C/T=0\).  Statement~I now gives the final
-height-one assertion.
+gives \(p_F\neq0\).  Proposition~\ref{prop:rigidity-projector-zero} gives
+\(p_F=0\).  This is a contradiction.
 \end{proof}
 
-Assuming \((\mathrm{SFTL}_C)\), the nonzero-denominator proposition supplies
-\(0\neq s_C^{\mathrm{sf}}\in\mathfrak d_{C,1}^{\mathrm{sf}}\subseteq
-\mathfrak c_C^{\mathrm{tr}}\).  Multiplication then defines the required map
-explicitly by
+Equivalently, the two halves of the proof say
 \[
-  \lambda_{C,s_C^{\mathrm{sf}}}([r])=[s_C^{\mathrm{sf}}r].
+  d_F=2\Longrightarrow\Obs(F)\neq0
 \]
-Proposition~\ref{prop:scalar-landing-collapses-overring} then gives the
-global chain
+by the quadratic generic collision product, while
 \[
-  0\neq s_C^{\mathrm{sf}},\quad
-  J_{\mathrm{sec}}s_C^{\mathrm{sf}}R_C\subseteq R_{\mathrm{sec}}
-  \quad\Longrightarrow\quad
-  R_C=T
-  \quad\Longrightarrow\quad
-  \mathcal P_C^{\mathrm{fm}}=0.
+  \text{\(F\) Keller and \(L/K\) normal}
+  \Longrightarrow\Obs(F)=0
 \]
-The local bounded-pole calculation below remains the geometric explanation
-for why this is impossible at a hidden divisor, but is not needed for this
-global implication.
+by Galois rigidity and automorphism detection.  The secant construction
+expresses both statements as nonvanishing and vanishing of one canonical
+idempotent.
 
-Merely asking for a nonzero element of
-\(\mathfrak d_{C,1}^{\mathrm{sf}}\cap\mathfrak c_C^{\mathrm{tr}}\) would
-not define a new mechanism: since \(T\) is a domain and
-\(\mathfrak d_{C,1}^{\mathrm{sf}}\neq0\), that intersection is nonzero
-exactly when \(\mathfrak c_C^{\mathrm{tr}}\neq0\), which is boundary
-separation itself.  In fact the dichotomy below shows that the full
-containment \((\mathrm{SFTL}_C)\) is logically equivalent to the same
-separation assertion.  Its value as a research target is therefore not a
-weaker logical premise, but the prescribed coefficientwise trace identity
-that one can try to prove directly from the displayed secant--frame data.
-No identity proved here yet shows that first jets suffice; jet order (1) is
-the first explicitly typed candidate.
-
-More generally, write
-\((\mathrm{SFTL}_C)=(\mathrm{SFTL}_{C,1})\), and for every finite
-\(\ell\geq0\) state
-\[
-  (\mathrm{SFTL}_{C,\ell})\colon
-  \mathfrak d_{C,\ell}^{\mathrm{sf}}
-  \subseteq\mathfrak c_C^{\mathrm{tr}}.
-\]
-Any one finite-order statement suffices by the same argument, whereas
-\((\mathrm{SFTL}_{C,1})\) is the designated first-jet proposal.  A minimal scalar
-certificate would instead specify, by an explicit secant--frame formula, one
-\(0\neq s_{C,\ell}^{\mathrm{sf}}\in
-\mathfrak d_{C,\ell}^{\mathrm{sf}}\) and prove its trace landing.  Merely
-asserting that some nonzero element lies in the intersection is not a new
-mechanism; the formula producing that element is essential.  The ideal form
-used above is choice-free and asks for landing coefficientwise.
-
-The nonvanishing proposition is only finite denominator clearing; it does
-not prove landing for the generally nonfinite overring \(R_C\).  Indeed, if
-a height-one prime \(\mathfrak p\) contains \(\mathfrak J_C\), Statement I
-and the localized open-complement sequence, together with Statement II, give
-\[
-  (R_C)_{\mathfrak p}=\Frac(T_{\mathfrak p}),
-  \qquad
-  (T^\dagger)_{\mathfrak p}
-  =\pi^{-(e_{\mathfrak p}-1)}T_{\mathfrak p}.
-\]
-For every \(0\neq s\in T\), multiplication by \(s/1\) on
-\(\Frac(T_{\mathfrak p})/T_{\mathfrak p}\) is surjective and therefore
-cannot land in the proper bounded stage
-\(\pi^{-(e_{\mathfrak p}-1)}T_{\mathfrak p}/T_{\mathfrak p}\).
-Consequently \((\mathfrak c_C^{\mathrm{tr}})_{\mathfrak p}=0\).  Since
-\(T\to T_{\mathfrak p}\) is injective, this forces
-\(\mathfrak c_C^{\mathrm{tr}}=0\), and
-\((\mathrm{SFTL}_C)\) excludes \(\mathfrak p\).  Notice that no unit or
-avoidance condition \(s_C^{\mathrm{sf}}\notin\mathfrak p\) is needed:
-global nonzeroness already survives localization in the domain \(T\).
-
-Conversely, boundary separation gives \(R_C=T\), hence
-\(\mathfrak c_C^{\mathrm{tr}}=T\).  Thus nonzero trace landing is an exact
-Keller-specific formulation of the open divisorial assertion, rather than
-a consequence of finite flatness.  The secant and frame data now provide a
-concrete finite candidate ideal; the missing theorem is the uniform passage
-from those finitely many coefficients to every \(r\in R_C\).
-
-Thus the purity argument remains the unique endgame.  Statements I and II
-identify its unbounded source and finite target, while
-\((\mathrm{SFTL}_C)\) is a concrete first-jet construction problem whose
-solution would establish its height-one premise.
+\section{Lean formalization status}
+\label{sec:lean-status}
 
 \begin{leanfiles}
-The stable modules
-\leanpath{CollisionIdeals/Planar/Boundary/Separation.lean} and
-\leanpath{CollisionIdeals/Planar/Rigidity/Consequences.lean} formalize the
-canonical ideals \leanpath{fixedLocusIdeal},
-\leanpath{movingBoundaryIdeal}, and \leanpath{fixedMovingBoundaryIdeal},
-together with \leanpath{PlanarBoundarySeparation}, the pulled-back
-conjugate boundaries, their valuation-theoretic containment at ramified
-divisors, and the hypothesis-parametrized purity endgame.  That endgame
-takes branch purity, finite-\'etale rigidity, and a supplied
-\leanpath{PlanarKellerCollisionModel F} explicitly.  The proposition types
-are in \leanpath{CollisionIdeals/Planar/External/Interfaces.lean};
-\leanpath{CollisionIdeals/Planar/External/Assumptions.lean} supplies default
-branch-purity, finite-\'etale, and planar Ax--Grothendieck witnesses as
-axioms.  Ax--Grothendieck is needed only for the terminal automorphism
-statement, not for obstruction vanishing.  The Lean separation predicate
-currently quantifies over every nontrivial subgroup; formalizing its
-prime-order Cauchy reduction is a remaining routine API task.
+The focused theorem spine is formalized in Lean~4 and Mathlib
+\cite{Lean4,Mathlib}.  The general collision objects are defined in
+\leanpath{CollisionIdeals/General/Collision}.  The function-field
+localization and generic collision bridge are in
+\leanpath{CollisionIdeals/General/GenericFiber/FunctionField.lean}
+and
+\leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean}.
 
-The boundary object \leanpath{BoundaryPrincipalParts} is defined in
-\leanpath{CollisionIdeals/Planar/Boundary/PrincipalParts.lean}; its canonical
-specialization \leanpath{FixedMovingBoundaryPrincipalParts} is in
-\leanpath{CollisionIdeals/Planar/Research/FixedMovingBoundaryPrincipalParts.lean}.
-The local-cohomology localization, DVR computation, and \(S_2\)-vanishing
-used in Statement~I are not yet formalized.  The research module
-\leanpath{CollisionIdeals/Planar/Research/PrincipalPartsStrategy.lean}
-defines \leanpath{TraceIntegralSubmodule} and
-\leanpath{boundedStageComparisonIdeal}; it proves the former equal to
-Mathlib's \leanpath{Submodule.traceDual} on the unit order.  The opt-in
-modules \leanpath{CollisionIdeals/Planar/Research/TateReconstruction.lean}
-and \leanpath{CollisionIdeals/Planar/Research/MonogenicTraceDual.lean}
-formalize the finite Tate sum, the monogenic trace-dual formula, and the
-overorder conductor--codifferent identity.  Trace-dual/Hom finiteness and
-the local inverse-different assertion of Statement~II remain unfinished in
-the planar specialization.
-
-Secant evaluation on a generic collision map pair and its canonical
-factorization through the off-diagonal quotient are formalized in
-\leanpath{CollisionIdeals/Planar/ConjugateSecantEvaluation.lean}.  The actual
-Galois \((g,\sigma g)\) map pair and its planar off-diagonal specialization
-are in
-\leanpath{CollisionIdeals/General/Galois/PolynomialCollisionPair.lean} and
-\leanpath{CollisionIdeals/Planar/GaloisCollisionPair.lean}; the relative-
-\(C\) coevaluation, overlap-section-ring specialization, and evaluated
-coefficient family remain missing.  The choice-free telescoping
-coefficients and polynomial Keller frame are in
-\leanpath{CollisionIdeals/Planar/ExplicitSecant.lean} and
-\leanpath{CollisionIdeals/Planar/KellerFrame.lean}.  The theorem
-\leanpath{finiteCoefficientDenominatorIdeal_ne_bot} in
-\leanpath{CollisionIdeals/Planar/Research/SecantFrameDenominator.lean}
-formalizes finite denominator clearing, but the actual conjugate evaluated
-family is missing.
-
-The opt-in module
-\leanpath{CollisionIdeals/Planar/Research/MonogenicOrder.lean} directly
-reuses Mathlib's \leanpath{Algebra.adjoin},
-\leanpath{Algebra.adjoin.powerBasis'}, \leanpath{minpoly.equivAdjoin}, and
-\leanpath{conductor} for the monogenic comparison order.  The module
-\leanpath{CollisionIdeals/Planar/Research/MonogenicLanding.lean} defines the
-conductor bounded stage and its transporter and proves an abstract
-landing-to-endgame implication from a supplied pole witness.  The
-open-section algebra \(R_C\), its common embedding with the bounded stage in
-\(N/T\), the concrete conjugate evaluated secant--frame family, the
-specialization of the generic finite-overring theorem to \(R_C\), and the
-ideal containment \((\mathrm{SFTL}_C)\) remain to be formalized.  These
-fixed-moving, trace, denominator, and monogenic landing modules remain
-behind \leanpath{CollisionIdeals/Planar/Research.lean}.  The focused
-\leanpath{CollisionIdeals/Planar.lean} umbrella exports the basic and
-explicit-secant APIs, the generic-degree-two theorem, and the planar
-statement and equivalence modules.  The frame, Galois-pair,
-conjugate-evaluation, boundary, and rigidity developments remain available
-through the precise module paths named above.
-\end{leanfiles}
-
-\begin{remark}[Exact remaining content of classical \(JC(2)\)]
-\label{rem:exact-remaining-jc2}
-The traditional complex conjecture \(JC(2)\) has no boundary, coverage, or
-module-finiteness condition in its definition: it asserts simply that every
-planar Keller map is a polynomial automorphism.  Corollary
-\ref{cor:planar-jc2-boundary-forms} proves that its universal content is
-equivalent to the boundary formulations above.  Theorem
-\ref{thm:planar-galois-rigidity} settles every normal marked extension, and
-Corollary~\ref{cor:quadratic-planar-rigidity} settles generic degree at most
-two.  Consequently, to prove \(JC(2)\) it remains to show that every planar
-Keller map with \(L/K\) nonnormal and \(d_F\geq3\) satisfies
+The degree-two marked-root calculation is proved in
+\leanpath{CollisionIdeals/General/GenericFiber/QuadraticDecomposition.lean}.
+Its composition with the polynomial generic-collision bridge, including
 \[
-  \begin{gathered}
-    \operatorname{codim}_Z
-    V\!\left(\mathfrak a_C+\mathfrak j_C^{\mathrm{mov}}\right)\geq2
-    \quad\text{for every prime-order }C\leq\Gal(N/K).
-  \end{gathered}
+  K\otimes_BC_F\simeq_K L\times L
 \]
-Equivalently, one must exclude a common height-one fixed--moving boundary
-component in the normal closure of every remaining nonnormal extension.
-This is an exact
-reformulation of the unresolved part of \(JC(2)\), not an additional
-hypothesis silently built into the classical conjecture.
-\end{remark}
+and the descent to \(\Obs(F)\neq0\), is in
+\leanpath{CollisionIdeals/General/GenericFiber/QuadraticCollision.lean}.
+
+The coefficientwise divided differences, secant determinant, annihilation
+relation, diagonal restriction, and canonical projector are proved in
+\leanpath{CollisionIdeals/Planar/ExplicitSecant.lean}.  The planar
+nonvanishing and vanishing statements are in
+\leanpath{CollisionIdeals/Planar/GenericDegreeTwo/Nonvanishing.lean}
+and
+\leanpath{CollisionIdeals/Planar/GenericDegreeTwo/Vanishing.lean}.
+Their collision-native contradiction and \(d_F\neq2\) are assembled in
+\leanpath{CollisionIdeals/Planar/GenericDegreeTwo/Main.lean}.
+
+The classical theorem in
+Theorem~\ref{thm:keller-galois-rigidity} is neither installed as a Lean
+axiom nor proved in the formalization.  Instead,
+\leanpath{CollisionIdeals/General/Automorphism/GaloisRigidity.lean}
+defines the proposition
+\[
+  \texttt{ComplexKellerGaloisRigidity 2}
+\]
+and passes a proof of it explicitly to every theorem using the literature
+input.  Lean therefore proves the degree-two exclusion relative to this
+single named hypothesis.
+
+No normalization, ramification, boundary, purity, or finite-\'etale
+interface occurs in the focused proof.  Those constructions belong to the
+separate problem of nonnormal generic degree at least three.
+\end{leanfiles}
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-The obstruction ideal \(\Obs(F)\) vanishes exactly when the
-scheme-theoretic collision relation \(X\times_YX\) equals the diagonal.
-For a planar Keller map, the secant determinant gives an explicit
-idempotent decomposition of the collision ring into its diagonal and
-off-diagonal factors.  On the normal closure, the same obstruction is
-recorded divisorially: a ramified divisor can survive only when every
-inertia-moving conjugate center lies on a deleted boundary.
+For a planar Keller map, the divided-difference determinant gives
+\[
+  C_F\simeq A\times C_Fp_F,\qquad
+  \Obs(F)=C_Fp_F,
+\]
+where \(p_F\) is the explicit off-diagonal collision projector.  Generic
+degree two forces
+\[
+  K\otimes_BC_F\simeq_K L\times L,
+\]
+with diagonal evaluation equal to first projection, so \(p_F\neq0\).
 
-The pulled-back boundary ideals and the fixed-locus ideals turn this into a
-finite-group condition on height-one primes.  Once that condition excludes
-divisorial ramification, purity and finite-\'etale rigidity make the normal
-closure trivial and force \(\Obs(F)=0\).  The boundary divisor-class
-argument recovers the known normal/Galois case and consequently excludes
-generic degree two.  What remains is the nonnormal locus of generic degree
-at least three.
+The quadratic extension is nevertheless Galois.  Classical
+Keller--Galois rigidity would make the map a polynomial automorphism,
+forcing the collision scheme to equal its diagonal and \(p_F=0\).  This
+incompatibility proves that no planar Keller map has generic degree two.
 
-Universal fixed--moving boundary separation is equivalent to \(JC(2)\),
-so the equivalence itself is a reduction rather than a proof of the
-conjecture.  The prospective secant--trace construction isolates a
-concrete landing statement that could establish separation from the planar
-polynomial data; no such universal landing theorem is asserted here.
-
-The formalization uses Lean~4 and Mathlib \cite{Lean4,Mathlib}.
+The remaining possible counterexamples to \(JC(2)\) have nonnormal
+function-field extensions of generic degree at least three.  The degree-two
+case itself is complete once the classical rigidity theorem is taken as
+input.
 
 \paragraph{Acknowledgment.}
 OpenAI Codex (GPT-5.6 Sol) assisted with the Lean formalization and
-manuscript.  The
-author reviewed and takes responsibility for all statements, proofs,
-citations, and formalization code.
+manuscript.  The author reviewed and takes responsibility for all
+statements, proofs, citations, and formalization code.
 
 \bibliographystyle{alpha}
 \bibliography{references}

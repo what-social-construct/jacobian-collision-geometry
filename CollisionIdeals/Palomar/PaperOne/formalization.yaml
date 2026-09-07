@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Generic Degree Three in JC(3): Collision Geometry and Galois Group S3"
+  description: >-
+    For a complex three-dimensional Keller map of generic degree three,
+    conditional on classical Keller--Galois rigidity, the formalization
+    identifies the generic collision algebra with the product of the source
+    function field and its normal closure, proves compatibility with the
+    diagonal factor, and identifies the normal-closure Galois group with S3.
+  authors:
+    - "Chloe van der Vlugt"
+  license: "MIT"
+  responsible_maintainers:
+    - "Chloe van der Vlugt"
+
+classification:
+  arxiv: ["math.AG", "math.GR"]
+  msc2020: ["14R15", "12F10"]
+
+sources:
+  - title: "Generic Degree Three in JC(3): Collision Geometry and Galois Group S3"
+    authors:
+      - "Chloe van der Vlugt"
+    type: "original-proof"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/main/paper/paper1.pdf"
+    relationship: "other"
+    note: "Companion manuscript stating and proving the submitted collision theorem."
+  - title: "Polynomial maps with constant Jacobian"
+    authors:
+      - "Michael J. Razar"
+    type: "article"
+    location: "https://doi.org/10.1007/BF02764906"
+    relationship: "background"
+    note: "One source for the classical Keller--Galois rigidity input, which remains an explicit hypothesis in the submitted theorem."
+
+status:
+  scope: >-
+    The submitted declaration is conditional on a plainly stated
+    Keller--Galois rigidity hypothesis and on supplied finite normal-closure
+    data. It reconstructs separability, a cubic power basis, generic-source
+    surjectivity, and nonnormality internally, proves a diagonal-compatible
+    collision product with the normal closure, obtains Galois group S3, and
+    proves nonvanishing of the affine obstruction. It makes no existence claim
+    for a generic-degree-three counterexample and does not formalize the
+    classical rigidity theorem itself.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+  main_results:
+    - "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["OpenAI GPT-5.6 Sol"]
+      framework: "OpenAI Codex"
+      tool_setup: "Iterative AI-assisted Lean formalization with local compilation, kernel checks, and author-directed manuscript comparison."
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "subscription-based"
+        hardware: "local machine and hosted model API"
+      prompting_notes: "The author directed theorem design, object ownership, semantic-parity audits, and proof review; agents implemented and tested bounded subtasks."
+  spend_usd: "subscription-based"
+  notes: "The author reviewed the mathematical statements, formal interfaces, and manuscript alignment."
+
+fidelity:
+  divergences: >-
+    The classical Keller--Galois rigidity theorem is an explicit theorem
+    parameter rather than an installed axiom or a Lean proof. The submission
+    omits the redundant affine off-diagonal-scheme nonemptiness conclusion of
+    the larger project theorem.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "Chloe van der Vlugt (author self-review)"
+  notes: "The statement was checked against the manuscript object dictionary and the Solution was compiled with warnings treated as errors."
+
+alignment:
+  namespace: "CollisionIdeals.Palomar.PaperOne"
+  statements:
+    - source: "Paper I, Theorem 3.3 (Generic cubic S3 collision)"
+      lean: "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
+      module: "CollisionIdeals.Palomar.PaperOne.Solution"
+      status: "proved"
+      note: "The wrapper exposes the literature input while deriving the implementation-level cubic and normal-closure data used by the project theorem."
+
+acknowledgements: "Lean 4, Mathlib, and OpenAI Codex supported the formalization and manuscript workflow."

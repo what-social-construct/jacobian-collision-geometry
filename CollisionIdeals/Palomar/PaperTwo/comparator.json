@@ -1,0 +1,13 @@
+{
+  "challenge_module": "CollisionIdeals.Palomar.PaperTwo.Challenge",
+  "solution_module": "CollisionIdeals.Palomar.PaperTwo.Solution",
+  "theorem_names": [
+    "CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

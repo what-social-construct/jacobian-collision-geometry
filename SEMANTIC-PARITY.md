@@ -54,7 +54,7 @@ Until then, classify the object as `retain`, `compatibility`, or
 | \(C_F\simeq_BA\otimes_BA\) | fiber-product presentation over the actual coordinate-image algebra | `collisionImageTensorEquiv` and `collisionImageTensorEquiv_intertwines_diagonal` in `General.GenericFiber.FunctionField` | Exact. Distinguish this from `collisionTensorEquiv`, whose base is the abstract target polynomial ring. |
 | \(K=\operatorname{Frac}(B)\) | base function field | `PolynomialBaseFunctionField F`; dimension-three alias `ComplexThreeBaseFunctionField F` | Exact. |
 | \(L=\operatorname{Frac}(A)\) | source function field | `PolynomialSourceFunctionField`; dimension-three alias `ComplexThreeSourceFunctionField` | Exact. |
-| \(\theta\colon K\otimes_BA\to L\) | canonical generic-source map | `polynomialGenericSourceTensorMap F`; equivalence `polynomialGenericSourceEquiv F hsurj` | Map and injectivity are exact. Lean takes surjectivity explicitly; the manuscript derives it from generic finiteness. |
+| \(\theta\colon K\otimes_BA\to L\) | canonical generic-source map | `polynomialGenericSourceTensorMap F`; `polynomialGenericSourceTensorMap_surjective_of_finrank_pos`; equivalence `polynomialGenericSourceEquiv F hsurj` | Exact on the positive finite-degree locus. The equivalence constructor accepts the resulting surjectivity proof explicitly. |
 | \(C_{F,K}=K\otimes_BC_F\) | generic collision algebra | tensor type used by `polynomialGenericCollisionEquiv F hsurj` | Exact construction; there is no dedicated Lean alias. Do not conflate it with \(C_F^\circ\). |
 | \(\Phi_F\colon K\otimes_BC_F\simeq_KL\otimes_KL\) | generic collision bridge | `polynomialGenericCollisionEquiv F hsurj` and `polynomialGenericCollisionEquiv_intertwines_diagonal` | Parameterized by `hsurj`; the diagonal square is proved. |
 | \(\mu_L\colon L\otimes_KL\to L\) | generic diagonal multiplication | `primitiveTensorDiagonal K L` | Exact; it becomes first projection under the marked-root decomposition. |
@@ -87,7 +87,7 @@ Until then, classify the object as `retain`, `compatibility`, or
 | P0 | Classical Galois rigidity: Keller plus normal \(L/K\) implies automorphism and \(L=K\) | Automorphism conclusion represented by the explicit interface `ComplexKellerGaloisRigidity`; no axiom or proof is installed. Automorphy now internally implies triviality of the induced function-field extension and finrank one. | Continue to pass the literature theorem through this shared General interface. |
 | P0 | Every complex Keller map is étale and generically finite, with finite separable \(L/K\) | Manuscript proves this in the general construction; Lean has only `KellerEtaleBridge` and `KellerFlatBridge` interfaces | Formalize the Jacobian-criterion implication and derive the finite/separable generic-field package used by both papers. |
 | P0 | Every complex Jacobian-conjecture counterexample has generic degree at least three | Manuscript corollary of Keller generic geometry and classical Galois rigidity. The degree-two exclusion is now exact relative to the rigidity input via `ComplexKellerGaloisRigidity.not_counterexample_of_finrank_eq_two`; the full lower-bound theorem is not packaged. | Package the degree-one case and the finite-degree lower bound once Keller generic geometry is available. |
-| P1 | Generic finiteness makes \(\theta\colon K\otimes_BA\to L\) surjective | Lean takes `hsurj` explicitly | Package the manuscript localization/algebraicity proof and remove redundant call-site hypotheses. |
+| P1 | Positive finite generic degree makes \(\theta\colon K\otimes_BA\to L\) surjective | Proved by `polynomialGenericSourceTensorMap_surjective_of_finrank_pos`; lower-level equivalence constructors still accept the proof explicitly | Retain the theorem and derive `hsurj` at manuscript-facing wrappers. |
 | P1 | \(C_F\simeq_BA\otimes_BA\), with diagonal evaluation equal to multiplication | Exact at ring level through `collisionImageTensorEquiv` and its diagonal theorem | Retain the image-algebra version as the canonical manuscript correspondence; a separate scheme-level wrapper is optional. |
 | P1 | The intrinsic generic residual quotient is \(N\) | Exact via the product-annihilator calculation | Retain. Do not strengthen it to \(K\otimes_BC_F^\circ\simeq N\) without a localization--colon theorem. |
 | P1 | Residual product data imply \(\operatorname{Obs}(F)\ne0\) and \(I_R\subsetneq I_\Delta\) | Exact in the generic parameterized API; `complexThreeCubicS3Collision` now constructs the required residual equivalence from nonnormality | Add the standalone generic-degree-three nonautomorphism/counterexample equivalence without routing through the stronger normal-closure package. |
@@ -122,16 +122,26 @@ Until then, classify the object as `retain`, `compatibility`, or
 Paper II's focused Lean spine is the generic-degree-two case.  It is
 conditional only on the explicitly supplied literature input
 `ComplexKellerGaloisRigidity 2`; it does not use normalization, boundary, or
-inertia hypotheses.
+inertia hypotheses.  The symbols
+\(A,S,I_R,I_\Delta,C_F,R_F,\operatorname{Obs}(F),\bar\mu_F,B,K,L\)
+retain exactly the meanings in the Paper I dictionary above.
 
 | Manuscript notation / claim | Lean declaration | Status / guardrail |
 |---|---|---|
-| \(d_F=[L:K]\) | `planarGenericDegree F` in `Planar.GenericDegreeTwo` | Exact planar alias for the function-field finrank. |
+| \(q_F\colon S\twoheadrightarrow C_F\) | `Ideal.Quotient.mk (collisionIdeal F)` | Exact expression. Paper notation only; do not reuse \(q_F\) for a projector. |
+| \(d_F=[L:K]\) | `planarGenericDegree F` in `Planar.GenericDegreeTwo.FunctionField` | Exact planar alias for the function-field finrank. |
+| \(\delta_F=\det M_F\) | `Planar.ExplicitSecant.determinant F` | Exact canonical ordered divided-difference determinant. |
+| \(e_F=c^{-1}q_F(\delta_F)\) | complementary diagonal idempotent `1 - Planar.ExplicitSecant.collisionProjector F c hc` | Exact semantically; no separate named Lean definition is needed. |
+| \(p_F=1-e_F=1-c^{-1}q_F(\delta_F)\) | `Planar.ExplicitSecant.collisionProjector F c hc` | Exact canonical off-diagonal projector. `collisionProjector_isProjector` proves idempotence and \(\operatorname{Obs}(F)=C_Fp_F\). |
+| \([L:K]=2\Rightarrow L\otimes_KL\simeq_LL\times L\), with multiplication equal to first projection | `quadraticTensorDecomposition`; `fst_quadraticTensorDecomposition` in `General.GenericFiber.QuadraticDecomposition` | Exact for a separable quadratic extension presented by a power basis. |
+| \(d_F=2\Rightarrow K\otimes_BC_F\simeq_KL\times L\), compatibly with diagonal evaluation | `polynomialGenericQuadraticCollisionEquiv`; `fst_polynomialGenericQuadraticCollisionEquiv` in `General.GenericFiber.QuadraticCollision` | Parameterized presentation: the constructors take explicit generic-source surjectivity, a power basis, and its degree equation. These inputs are derivable from positive separable finrank; the degree-only obstruction wrapper performs that derivation. |
+| \(d_F=2\Rightarrow\operatorname{Obs}(F)\ne0\) | `polynomial_obstructionIdeal_ne_bot_of_finrank_eq_two`; planar wrapper `planarGenericDegreeTwo_obstructionIdeal_ne_bot` | Exact and independent of the Keller condition. |
+| The canonical divided-difference off-diagonal projector is nonzero when \(d_F=2\) | `planarGenericDegreeTwo_explicitCollisionProjector_ne_zero` in `Planar.GenericDegreeTwo.Nonvanishing` | Exact for supplied \(c\ne0\) and \(\det JF=c\). |
 | Keller and \(d_F=2\Rightarrow F\) is a polynomial automorphism | `planarGenericDegreeTwo_isPolynomialAutomorphism` | Exact relative to `ComplexKellerGaloisRigidity 2`; quadratic normality is supplied internally by `Algebra.IsQuadraticExtension.normal`. |
-| A polynomial automorphism has \(d_F=1\) | `planarGenericDegree_eq_one_of_isPolynomialAutomorphism`, using the general function-field bridge | Exact. |
-| No planar Keller map has \(d_F=2\) | `planarGenericDegree_ne_two_of_isKeller`; dual formulation `planarGenericDegreeTwo_not_keller` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
-| A planar map with \(d_F=2\) is not a Jacobian counterexample | `planarGenericDegreeTwo_not_counterexample` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
-| On the hypothetical Keller degree-two locus, \(\operatorname{Obs}(F)=0\), \(I_R=I_\Delta\), \(q_F=0\), and the off-diagonal collision scheme is empty | `planarGenericDegreeTwo_obstructionIdeal_eq_bot`, `planarGenericDegreeTwo_collisionIdeal_eq_diagonalIdeal`, `planarGenericDegreeTwo_collisionIdempotent_eq_zero`, `planarGenericDegreeTwo_explicitCollisionProjector_eq_zero`, `planarGenericDegreeTwo_explicitSecantIdeal_eq_top`, `planarGenericDegreeTwo_offDiagonalRing_subsingleton`, and `planarGenericDegreeTwo_offDiagonalVanishing` | Exact relative to `ComplexKellerGaloisRigidity 2`. These are consequences of automorphy, not an independent boundary argument. |
+| Keller and \(d_F=2\Rightarrow\operatorname{Obs}(F)=0\) and the explicit projector is zero | `planarGenericDegreeTwo_obstructionIdeal_eq_bot`; `planarGenericDegreeTwo_explicitCollisionProjector_eq_zero` in `Planar.GenericDegreeTwo.Vanishing` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
+| The quadratic projector is both nonzero and zero under the hypothetical Keller hypotheses | `planarGenericDegreeTwo_explicitProjectorContradiction` in `Planar.GenericDegreeTwo.Main` | Exact collision-native contradiction relative to `ComplexKellerGaloisRigidity 2`. |
+| No planar Keller map has \(d_F=2\) | `planarGenericDegreeTwo_not_keller` in `Planar.GenericDegreeTwo.Main` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
+| \(C_F\simeq A\times C_Fp_F\) and \(\operatorname{Ann}_{C_F}(\operatorname{Obs}(F))=C_Fe_F\) | general projector product and annihilator lemmas in `General.ResidualCollision.Algebra`, applied to `collisionProjector_isProjector` | Exact ingredients, but not bundled as an explicit-projector theorem in the focused quadratic folder. |
 
 The focused theorem does **not** prove the full planar Jacobian conjecture:
 nonnormal generic degrees at least three remain outside its scope.  The

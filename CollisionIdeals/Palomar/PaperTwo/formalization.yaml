@@ -1,0 +1,98 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity"
+  description: >-
+    The formalization proves that generic degree two forces a nonzero
+    collision obstruction for a planar polynomial map and, conditional on
+    classical Keller--Galois rigidity, excludes the Keller condition. Thus no
+    planar Keller map has generic degree two; the accompanying development
+    also constructs the canonical divided-difference collision projector.
+  authors:
+    - "Chloe van der Vlugt"
+  license: "MIT"
+  responsible_maintainers:
+    - "Chloe van der Vlugt"
+
+classification:
+  arxiv: ["math.AG"]
+  msc2020: ["14R15"]
+
+sources:
+  - title: "Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity"
+    authors:
+      - "Chloe van der Vlugt"
+    type: "original-proof"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/main/paper/paper2.pdf"
+    relationship: "other"
+    note: "Companion manuscript for the collision-theoretic degree-two exclusion."
+  - title: "Generic Degree Three in JC(3): Collision Geometry and Galois Group S3"
+    authors:
+      - "Chloe van der Vlugt"
+    type: "paper"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/main/paper/paper1.pdf"
+    relationship: "background"
+    note: "Supplies the dimension-independent collision construction and the stated classical rigidity input used by Paper II."
+  - title: "Polynomial maps with constant Jacobian"
+    authors:
+      - "Michael J. Razar"
+    type: "article"
+    location: "https://doi.org/10.1007/BF02764906"
+    relationship: "background"
+    note: "A source for the classical Keller--Galois rigidity theorem, passed explicitly to the Lean result."
+
+status:
+  scope: >-
+    The quadratic collision nonvanishing is proved internally. The final
+    exclusion is conditional on the explicit parameter
+    ComplexKellerGaloisRigidity 2; that literature theorem is neither assumed
+    as a project axiom nor proved here. The submission treats only generic
+    degree two and does not prove the full two-dimensional Jacobian
+    conjecture; nonnormal generic degrees at least three remain outside its
+    scope. Optional boundary-research modules and their external assumptions
+    are not imported by the submitted Solution.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+  main_results:
+    - "CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity"
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["OpenAI GPT-5.6 Sol"]
+      framework: "OpenAI Codex"
+      tool_setup: "Iterative AI-assisted Lean formalization with local compilation, kernel checks, and author-directed manuscript comparison."
+      cost:
+        wall_time: "not tracked"
+        spend_usd: "subscription-based"
+        hardware: "local machine and hosted model API"
+      prompting_notes: "The author directed the collision contradiction, module split, semantic-parity checks, and manuscript pruning; agents implemented and tested bounded subtasks."
+  spend_usd: "subscription-based"
+  notes: "The author reviewed the mathematical statements, formal interfaces, and manuscript alignment."
+
+fidelity:
+  divergences: >-
+    The submitted wrapper records nonvanishing of the obstruction and
+    exclusion of the Keller condition in generic degree two. The canonical
+    explicit secant projector is proved in the substantive development but is
+    not itself named in the compared declaration. Keller--Galois rigidity is
+    exposed as a hypothesis rather than formalized.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "Chloe van der Vlugt (author self-review)"
+  notes: "The statement was checked against the focused Paper II proof and the Solution was compiled with warnings treated as errors."
+
+alignment:
+  namespace: "CollisionIdeals.Palomar.PaperTwo"
+  statements:
+    - source: "Paper II, Theorem 5.3 (Exclusion of generic degree two)"
+      lean: "CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity"
+      module: "CollisionIdeals.Palomar.PaperTwo.Solution"
+      status: "proved"
+      note: "The wrapper combines unconditional quadratic collision nonvanishing with the conditional Keller exclusion."
+
+acknowledgements: "Lean 4, Mathlib, and OpenAI Codex supported the formalization and manuscript workflow."

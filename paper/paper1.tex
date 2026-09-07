@@ -5,7 +5,6 @@
 \usepackage{lmodern}
 \usepackage[margin=1.1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools}
-\usepackage{enumitem}
 \usepackage{microtype}
 \usepackage{xcolor}
 \usepackage{array}
@@ -36,7 +35,6 @@
 \DeclareMathOperator{\Frac}{Frac}
 \DeclareMathOperator{\Gal}{Gal}
 \DeclareMathOperator{\Hom}{Hom}
-\DeclareMathOperator{\Norm}{Norm}
 \DeclareMathOperator{\core}{core}
 
 \newcommand{\A}{\mathbb A}
@@ -215,10 +213,8 @@ generic-degree-three counterexample to \(JC(3)\) has
 Section~\ref{sec:general-construction} develops the dimension-independent
 collision obstruction, generic base change, marked-root decomposition, and
 automorphism criterion.  Section~\ref{sec:cubic-s3-obstruction} specializes
-these constructions to cubic extensions.  Section
-\ref{sec:further-directions} isolates the normalization and boundary
-questions leading to the planar sequel.  The closing low-degree corollary
-records the precise handoff to that paper.
+these constructions to cubic extensions.  The closing low-degree corollary
+records the input used by the planar sequel.
 
 \section{General construction}
 \label{sec:general-construction}
@@ -956,48 +952,6 @@ classical Keller--Galois rigidity is recorded as
 maintained in \leanpath{SEMANTIC-PARITY.md}.
 \end{leanfiles}
 
-\section{Further directions}
-\label{sec:further-directions}
-
-The normal closure also carries a dimension-independent boundary picture,
-although none of it is needed for the cubic collision theorem.  Let
-\(L/K\) be finite separable, let \(N/K\) be its normal closure, and let
-\(Y\) be a normal integral model with function field \(K\).  Write
-\[
-  G=\Gal(N/K),\qquad H=\Gal(N/L),\qquad
-  Z=\Norm_N(Y)\longrightarrow \overline X=\Norm_L(Y)\longrightarrow Y.
-\]
-Suppose that a normal model \(X\) of \(L\) is an open subscheme of
-\(\overline X\) over \(Y\), and that \(X\to Y\) is \'etale.
-
-\begin{proposition}[Hidden inertia on a conjugate sheet]
-\label{prop:generic-hidden-inertia}
-Let \(E\in Z^{(1)}\) be ramified over \(Y\), with divisorial valuation
-\(w_E\), restriction \(v=w_E|_K\), and inertia group \(I_E\).  Then some
-\(g\in G\) satisfies
-\[
-  e\bigl((g^{-1}w_E)|_L/v\bigr)
-  =[I_E:I_E\cap gHg^{-1}]>1.
-\]
-For every such \(g\), the center of \((g^{-1}w_E)|_L\) on
-\(\overline X\) lies in \(\overline X\setminus X\).
-\end{proposition}
-
-\begin{proof}
-Because \(N\) is the normal closure of \(L/K\), the action of \(G\) on
-\(G/H\) is faithful, so \(\bigcap_{g\in G}gHg^{-1}=1\).  Since
-\(I_E\neq1\), it is not contained in every conjugate of \(H\); the usual
-inertia formula gives the displayed index for a suitable \(g\).  If the
-corresponding center belonged to \(X\), the \'etale morphism \(X\to Y\)
-would force its ramification index to be one, a contradiction.
-\end{proof}
-
-On the generic-degree-three counterexample locus, \(G\cong S_3\); hence
-every ramified divisor of the normal closure is visible on some conjugate
-sheet, necessarily at its boundary.  Paper~II develops this boundary
-geometry for planar Keller maps toward the complementary goal
-\(\Obs(F)=0\), equivalently \(R_F=\Delta\).
-
 \section{Conclusion}
 \label{sec:conclusion}
 
@@ -1021,18 +975,15 @@ Galois group is \(S_3\), and
 Its nonzero residual factor gives \(\Obs(F)\neq0\).  Hence every map in
 the generic-degree-three counterexample locus has the normal-closure factor
 \(N\), with \(\Gal(N/K)\cong S_3\).  Counterexamples of other generic degrees
-lie outside the present analysis.  The normalization principle
-of Section~\ref{sec:further-directions} explains how the same conjugate
-sheet geometry leads to boundary questions, which are reserved for the
-planar sequel.
+lie outside the present analysis.
 
 \paragraph{Motivating example.}
 The explicit three-dimensional polynomial counterexample announced by
 Levent Alpöge \cite{Alpoge2026} and independently formalized in
 Isabelle/HOL by Ramos, Hulak, and de Queiroz
 \cite{AFPJacobianCounterexample} motivated the cubic \(S_3\) comparison.
-The formal verification establishes a
-constant nonzero Jacobian determinant and distinct rational points with
+The formal verification establishes a constant nonzero Jacobian determinant
+and distinct rational points with
 the same image.  That particular map is not used in the arguments above:
 the dimension-three result describes the structure of the
 generic-degree-three counterexample locus.
@@ -1052,15 +1003,13 @@ separable.  In degree one it is trivial, and in degree two it is Galois.
 Theorem~\ref{thm:classical-galois-rigidity} applies in either case.
 \end{proof}
 
-This low-degree boundary is the handoff to the planar sequel.  Paper~II asks
-for the stronger conclusion that every planar Keller map has generic degree
-one---equivalently, by Galois rigidity and the automorphism criterion, that
-its collision scheme collapses to the diagonal.
+Paper~II specializes this low-degree boundary to ambient dimension two and
+makes the quadratic collision contradiction explicit through the planar
+secant projector.
 
 \paragraph{Acknowledgment.}
 OpenAI Codex (GPT-5.6 Sol) assisted with the Lean formalization and
-manuscript.  The
-author reviewed and takes responsibility for all statements, proofs,
+manuscript.  The author reviewed and takes responsibility for all statements, proofs,
 citations, and formalization code.
 
 \begingroup

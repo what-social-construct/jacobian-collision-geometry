@@ -1,6 +1,7 @@
 import CollisionIdeals.General.Collision.CollisionDiagonal
 import CollisionIdeals.General.FiberProduct.Polynomial
 import Mathlib.RingTheory.Flat.Basic
+import Mathlib.RingTheory.Algebraic.Integral
 import Mathlib.RingTheory.Localization.BaseChange
 import Mathlib.RingTheory.Localization.FractionRing
 
@@ -340,6 +341,81 @@ theorem polynomialGenericSourceTensorMap_injective
     simpa only [map_zero] using haL
   subst a
   exact map_zero (algebraMap A T)
+
+/--
+Finite generic degree makes the canonical generic-source map
+`K ⊗_B A → L` surjective.
+
+Indeed, its range is a `K`-subalgebra of the finite extension `L/K`, hence
+is a field.  Since that range contains the source coordinate ring `A`, it
+also contains every fraction of `A`, and therefore all of `L = Frac(A)`.
+-/
+theorem polynomialGenericSourceTensorMap_surjective_of_finrank_pos
+    (F : κ → SourceRing R ι)
+    (hfinrank :
+      0 < Module.finrank
+        (PolynomialBaseFunctionField F)
+        (PolynomialSourceFunctionField (R := R) (ι := ι))) :
+    Function.Surjective (polynomialGenericSourceTensorMap F) := by
+  let B := polynomialMapImageAlgebra F
+  let A := SourceRing R ι
+  let K := PolynomialBaseFunctionField F
+  let L := PolynomialSourceFunctionField (R := R) (ι := ι)
+  let T := K ⊗[B] A
+  let φ : T →ₐ[K] L := polynomialGenericSourceTensorMap F
+  let E : Subalgebra K L := φ.range
+  letI : FiniteDimensional K L :=
+    FiniteDimensional.of_finrank_pos hfinrank
+  letI : Algebra.IsAlgebraic K L := Algebra.IsAlgebraic.of_finite K L
+  intro z
+  obtain ⟨x, y, _hy, hxy⟩ := IsFractionRing.div_surjective (A := A) z
+  have hxE :
+      algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) x ∈ E := by
+    refine ⟨(1 : K) ⊗ₜ[B] x, ?_⟩
+    change
+      polynomialGenericSourceTensorMap F ((1 : K) ⊗ₜ[B] x) =
+        algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) x
+    rw [polynomialGenericSourceTensorMap_tmul]
+    simp
+  have hyE :
+      algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) y ∈ E := by
+    refine ⟨(1 : K) ⊗ₜ[B] y, ?_⟩
+    change
+      polynomialGenericSourceTensorMap F ((1 : K) ⊗ₜ[B] y) =
+        algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) y
+    rw [polynomialGenericSourceTensorMap_tmul]
+    simp
+  let yE : E :=
+    ⟨algebraMap (SourceRing R ι)
+      (PolynomialSourceFunctionField (R := R) (ι := ι)) y, hyE⟩
+  have hyInvE :
+      (algebraMap (SourceRing R ι)
+        (PolynomialSourceFunctionField (R := R) (ι := ι)) y)⁻¹ ∈ E := by
+    simpa [yE] using
+      E.inv_mem_of_algebraic (x := yE)
+        (Algebra.IsAlgebraic.isAlgebraic (yE : L))
+  have hquotE :
+      algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) x /
+        algebraMap (SourceRing R ι)
+          (PolynomialSourceFunctionField (R := R) (ι := ι)) y ∈ E := by
+    rw [div_eq_mul_inv]
+    exact E.mul_mem hxE hyInvE
+  obtain ⟨t, ht⟩ := hquotE
+  refine ⟨t, ?_⟩
+  change φ t = z
+  have ht' :
+      φ t =
+        algebraMap (SourceRing R ι)
+            (PolynomialSourceFunctionField (R := R) (ι := ι)) x /
+          algebraMap (SourceRing R ι)
+            (PolynomialSourceFunctionField (R := R) (ι := ι)) y :=
+    ht
+  exact ht'.trans hxy
 
 /-- The image algebra acts on the collision ring through its left source
 projection. -/

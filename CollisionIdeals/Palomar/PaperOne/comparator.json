@@ -1,0 +1,13 @@
+{
+  "challenge_module": "CollisionIdeals.Palomar.PaperOne.Challenge",
+  "solution_module": "CollisionIdeals.Palomar.PaperOne.Solution",
+  "theorem_names": [
+    "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
+  ],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}
