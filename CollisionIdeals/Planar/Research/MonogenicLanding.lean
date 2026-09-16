@@ -5,7 +5,7 @@ import CollisionIdeals.Planar.Research.PrincipalPartsStrategy
 /-!
 # Monogenic conductor landing
 
-This file gives the research-layer interface corresponding to the manuscript's
+This file gives the research-layer interface corresponding to the archived boundary manuscript's
 monogenic Tate--conductor reduction.  It defines an actual bounded submodule
 and its transporter ideal; it does not introduce a proposition-valued bridge
 or assert that the secant denominator lands in it.

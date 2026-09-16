@@ -8,7 +8,7 @@ import Mathlib.RingTheory.Localization.Integer
 # Finite coefficient and operator denominator ideals
 
 This file formalizes two finite-denominator lemmas.  The finite-family result
-matches the manuscript's evaluated secant--frame coefficient lattice.  The
+matches the archived boundary manuscript's evaluated secant--frame coefficient lattice.  The
 operator result applies to a `B`-linear map on a finite `B`-order; the Keller
 frame is not `B`-linear for `B = ℂ[P,Q]`, so that theorem is auxiliary and
 is not its specialization.
@@ -79,7 +79,7 @@ private theorem mem_one_submodule_iff' (x : N) :
     exact ⟨t, by simp [Algebra.smul_def]⟩
 
 /-- A finite family in `Frac(T)` has a nonzero common denominator.  This is
-the formal core of the manuscript's nonzero secant--frame denominator
+the formal core of the archived boundary manuscript's nonzero secant--frame denominator
 proposition. -/
 theorem finiteCoefficientDenominatorIdeal_ne_bot
     [IsFractionRing T N]

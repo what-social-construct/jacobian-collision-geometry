@@ -14,7 +14,7 @@ import CollisionIdeals.Planar.Research.CompletedTameRamification
 /-!
 # Prospective planar rigidity mechanisms
 
-This umbrella preserves the experimental modules behind the manuscript's
+This umbrella preserves the experimental modules behind the archived boundary manuscript's
 two-statements/one-morphism reduction without placing them in the stable
 `CollisionIdeals.Planar` import spine:
 

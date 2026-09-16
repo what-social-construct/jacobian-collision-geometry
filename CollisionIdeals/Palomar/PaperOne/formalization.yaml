@@ -47,9 +47,19 @@ status:
     classical rigidity theorem itself.
   sorry_count: 0
   sorry_in_definitions: 0
-  axioms: []
+  axioms:
+    - "propext"
+    - "Quot.sound"
+    - "Classical.choice"
   main_results:
-    - "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
+    - declaration: "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
+      file: "CollisionIdeals/Palomar/PaperOne/Solution.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Quot.sound"
+        - "Classical.choice"
+      comparator_config: "CollisionIdeals/Palomar/PaperOne/comparator.json"
 
 automation:
   methods:

@@ -284,6 +284,7 @@ theorem genericDegreeThreeS3Collision
       CollisionIdeals.polynomialGenericSourceTensorMap,
       CollisionIdeals.polynomialImageCollisionDiagonal,
       hprojectAlgebraMap]
+    exact Or.inl rfl
   have hlocalDiagonal_tmul (k : K) (c : CollisionRing F) :
       genericCollisionDiagonal F (k ⊗ₜ[ImageAlgebra F] c) =
         baseFunctionFieldEmbedding F k *
@@ -319,10 +320,11 @@ theorem genericDegreeThreeS3Collision
     | tmul k c =>
         change
           CollisionIdeals.polynomialGenericCollisionDiagonal F hsurj
-              (k ⊗ₜ[ImageAlgebra F] c) =
+              (k ⊗ₜ[CollisionIdeals.polynomialMapImageAlgebra F] c) =
             genericCollisionDiagonal F (k ⊗ₜ[ImageAlgebra F] c)
         rw [hprojectDiagonal_tmul, hlocalDiagonal_tmul,
           hbaseFunctionFieldEmbedding, hcollisionDiagonal]
+        rfl
     | add x y hx hy =>
         simpa only [map_add] using congrArg₂ (fun a b ↦ a + b) hx hy
   refine ⟨?_, ?_, ?_, e, hdiagProject.trans hdiagonalIdentification,

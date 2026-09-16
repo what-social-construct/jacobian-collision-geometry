@@ -69,10 +69,10 @@ diagonal as
   K\otimes_BC_F\simeq_K L\times L,
 \]
 where diagonal evaluation is first projection.  The second factor forces
-\(\Obs(F)\neq0\), and for the Keller map above, hence \(p_F\neq0\).  On
-the other hand, a separable
+\(\Obs(F)\neq0\); when \(F\) is Keller, the secant identity
+\(\Obs(F)=C_Fp_F\) then gives \(p_F\neq0\).  On the other hand, a separable
 quadratic extension is Galois, and classical Keller--Galois rigidity makes
-a hypothetical degree-two Keller map a polynomial automorphism.  Then
+a hypothetical generic-degree-two Keller map a polynomial automorphism.  Then
 \(\Obs(F)=0\) and \(p_F=0\), a contradiction.  Thus no planar Keller map
 has generic degree two.  The collision and secant arguments are formalized
 in Lean; the classical rigidity theorem is isolated there as the sole
@@ -508,7 +508,7 @@ This theorem is independent of the Keller condition: generic degree two
 already forces a residual generic collision.  For a planar Keller map, the
 secant projector makes that factor explicit.
 
-\begin{corollary}[Nonzero planar projector in degree two]
+\begin{corollary}[Nonzero planar projector in generic degree two]
 \label{cor:quadratic-projector-nonzero}
 Let
 \[

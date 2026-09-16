@@ -4,10 +4,10 @@
 
 This repository contains two companion manuscripts and a Lean 4
 formalization of collision geometry beyond the diagonal. Paper I identifies
-the (S_3) normal-closure symmetry of generic-degree-three counterexamples to
-(JC(3)). Paper II constructs an explicit planar secant projector and uses
+the $S_3$ normal-closure symmetry of generic-degree-three counterexamples to
+$JC(3)$. Paper II constructs an explicit planar secant projector and uses
 Keller--Galois rigidity to exclude generic degree two for Keller maps in
-(JC(2)).
+$JC(2)$.
 
 ## Shared collision objects
 
@@ -33,8 +33,8 @@ I_R(F)=\bigl(F_i(x)-F_i(y)\bigr)_{i=1}^n,
 I_\Delta=\bigl(x_i-y_i\bigr)_{i=1}^n.
 ```
 
-Since (I_R(F)\subseteq I_\Delta), the quotient map
-(q_F:S\twoheadrightarrow C_F:=S/I_R(F)) carries (I_\Delta) to
+Since $I_R(F)\subseteq I_\Delta$, the quotient map
+$q_F:S\twoheadrightarrow C_F:=S/I_R(F)$ carries $I_\Delta$ to
 
 ```math
 \operatorname{Obs}(F)
@@ -43,7 +43,7 @@ Since (I_R(F)\subseteq I_\Delta), the quotient map
 =\ker(\bar\mu_F),
 ```
 
-where (ar\mu_F:C_F\to A) is diagonal evaluation. Thus
+where $\bar\mu_F:C_F\to A$ is diagonal evaluation. Thus
 
 ```math
 F\text{ is a polynomial automorphism}
@@ -53,7 +53,7 @@ I_R(F)=I_\Delta
 \operatorname{Obs}(F)=0
 ```
 
-over (mathbb C), with the reverse implication using Ax--Grothendieck.
+over $\mathbb C$, with the reverse implication using Ax--Grothendieck.
 Both manuscripts use this notation unchanged.
 
 Writing
@@ -74,13 +74,13 @@ under which the base-changed diagonal map is tensor multiplication.
 
 ## The two papers
 
-### Paper I: generic degree three in (JC(3))
+### Paper I: generic degree three in $JC(3)$
 
-For ambient dimension (3) and generic degree ([L:K]=3), nonautomorphy
+For ambient dimension $3$ and generic degree $[L:K]=3$, nonautomorphy
 is automatic, so the counterexample condition is equivalent to the Keller
 condition. Keller--Galois rigidity excludes the normal cubic branch. In the
 nonnormal branch the residual generic collision factor is the normal closure
-(N) of (L/K), and
+$N$ of $L/K$, and
 
 ```math
 K\otimes_BC_F\simeq_K L\times N,
@@ -90,12 +90,12 @@ K\otimes_BC_F\simeq_K L\times N,
 
 The first factor is the diagonal. The second is the residual generic factor.
 
-### Paper II: generic degree two in (JC(2))
+### Paper II: generic degree two in $JC(2)$
 
 Paper II restates and cites the dimension-independent results from Paper I;
 it does not reprove them. For a planar Keller map with
-(det JF=c\in\mathbb C^\times), ordered divided differences give a secant
-determinant (delta_F) and the canonical off-diagonal projector
+$\det JF=c\in\mathbb C^\times$, ordered divided differences give a secant
+determinant $\delta_F$ and the canonical off-diagonal projector
 
 ```math
 p_F=1-c^{-1}q_F(\delta_F)\in C_F,
@@ -109,12 +109,12 @@ Generic degree two yields
 K\otimes_BC_F\simeq_KL\times L,
 ```
 
-so the residual factor forces (operatorname{Obs}(F)\ne0) and (p_F\ne0).
+so the residual factor forces $\operatorname{Obs}(F)\ne0$ and $p_F\ne0$.
 But a separable quadratic extension is Galois; Keller--Galois rigidity makes
-the map an automorphism, forcing (operatorname{Obs}(F)=0) and (p_F=0).
+the map an automorphism, forcing $\operatorname{Obs}(F)=0$ and $p_F=0$.
 Hence no planar Keller map has generic degree two.
 
-This is the generic-degree-two case, not a proof of all of (JC(2)).
+This is the generic-degree-two case, not a proof of all of $JC(2)$.
 Possible counterexamples of ambient dimension two must have nonnormal generic
 degree at least three.
 
@@ -124,11 +124,11 @@ The stable public modules follow the same ownership split as the manuscripts:
 
 | Layer | Modules | Role |
 |---|---|---|
-| collision geometry | `CollisionIdeals.General.Collision` | (I_R), (I_\Delta), (C_F), (operatorname{Obs}(F)), and diagonal evaluation |
-| generic fiber | `CollisionIdeals.General.GenericFiber` | (B\subseteq A), (K\subseteq L), generic base change, and marked-root decompositions |
+| collision geometry | `CollisionIdeals.General.Collision` | $I_R$, $I_\Delta$, $C_F$, $\operatorname{Obs}(F)$, and diagonal evaluation |
+| generic fiber | `CollisionIdeals.General.GenericFiber` | $B\subseteq A$, $K\subseteq L$, generic base change, and marked-root decompositions |
 | automorphism interfaces | `CollisionIdeals.General.Automorphism` | automorphism criteria and the named Keller--Galois rigidity input |
-| cubic specialization | `CollisionIdeals.ComplexThree.Cubic` | nonnormal cubic residual factor, normal closure, and (S_3) |
-| planar secant | `CollisionIdeals.Planar.ExplicitSecant` | canonical divided differences, (delta_F), and (p_F) |
+| cubic specialization | `CollisionIdeals.ComplexThree.Cubic` | nonnormal cubic residual factor, normal closure, and $S_3$ |
+| planar secant | `CollisionIdeals.Planar.ExplicitSecant` | canonical divided differences, $\delta_F$, and $p_F$ |
 | quadratic specialization | `CollisionIdeals.Planar.GenericDegreeTwo` | nonvanishing, rigidity vanishing, and the final contradiction |
 
 `ComplexKellerGaloisRigidity n` is a proposition representing the classical
@@ -137,7 +137,7 @@ repository; every theorem using it receives a proof explicitly. The focused
 Paper II spine uses no normalization, boundary, inertia, purity, or
 finite-étale assumptions.
 
-The previous full-(JC(2)) boundary/inertia manuscript is retained in
+The previous full-$JC(2)$ boundary/inertia manuscript is retained in
 [`manuscript-archive/`](manuscript-archive/), and its opt-in Lean research
 modules remain outside the stable `CollisionIdeals.Planar` import spine.
 Detailed object correspondence and remaining research gaps are tracked in
