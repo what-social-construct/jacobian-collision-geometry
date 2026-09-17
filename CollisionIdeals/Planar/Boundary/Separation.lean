@@ -20,6 +20,7 @@ ramification and plugs into the existing planar endgame.
 -/
 
 set_option autoImplicit false
+set_option synthInstance.maxHeartbeats 100000
 
 namespace CollisionIdeals.Planar
 
@@ -530,7 +531,7 @@ corresponding pulled-back boundary on the common normalization.
 theorem ramifiedPoint_mem_pulledBackConjugateBoundary
     {D : NormalizationDiagram (F := F) (N := N)}
     (R : D.ConjugateRamificationRealization)
-    (hEtale : AlgebraicGeometry.IsEtale (polynomialSourceToImageBase F))
+    (hEtale : AlgebraicGeometry.Etale (polynomialSourceToImageBase F))
     (E : PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (g : NormalizationGaloisGroup D)
     (hIndex :
@@ -563,7 +564,7 @@ canonically constructed pulled-back boundary ideal.
 theorem pulledBackConjugateBoundaryIdeal_le_ramifiedPrime
     {D : NormalizationDiagram (F := F) (N := N)}
     (R : D.ConjugateRamificationRealization)
-    (hEtale : AlgebraicGeometry.IsEtale (polynomialSourceToImageBase F))
+    (hEtale : AlgebraicGeometry.Etale (polynomialSourceToImageBase F))
     (E : PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (g : NormalizationGaloisGroup D)
     (hIndex :
@@ -585,7 +586,7 @@ group is contained in the ramified height-one prime.
 theorem movingBoundaryIdeal_le_ramifiedPrime
     {D : NormalizationDiagram (F := F) (N := N)}
     (R : D.ConjugateRamificationRealization)
-    (hEtale : AlgebraicGeometry.IsEtale (polynomialSourceToImageBase F))
+    (hEtale : AlgebraicGeometry.Etale (polynomialSourceToImageBase F))
     (E : PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (C : Subgroup (NormalizationGaloisGroup D))
     (hC :
@@ -627,7 +628,7 @@ the base.
 structure BoundaryIdealData
     (D : NormalizationDiagram (F := F) (N := N)) where
   ramificationRealization : D.ConjugateRamificationRealization
-  sourceEtale : AlgebraicGeometry.IsEtale (polynomialSourceToImageBase F)
+  sourceEtale : AlgebraicGeometry.Etale (polynomialSourceToImageBase F)
 
 namespace BoundaryIdealData
 

@@ -152,9 +152,10 @@ paper:
 - `CollisionIdeals.Palomar.PaperTwo`
 
 Each has a Mathlib-only `Challenge.lean`, a project-backed `Solution.lean`, a
-`comparator.json`, and `formalization.yaml`. The repository is currently
-pinned to Lean 4.24, while Palomar presently requires Lean 4.28 or newer; the
-toolchain migration remains necessary before submission.
+`comparator.json`, and `formalization.yaml`. The repository is pinned to
+Lean 4.28.0 and Mathlib v4.28.0, satisfying Palomar's current minimum.
+Both challenge/solution pairs build locally; Palomar's protected Comparator
+and NanoDa replay remains the authoritative submission check.
 
 ## Build
 

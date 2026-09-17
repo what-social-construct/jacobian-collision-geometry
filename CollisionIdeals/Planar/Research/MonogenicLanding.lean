@@ -1,5 +1,6 @@
 import CollisionIdeals.Planar.Rigidity.Consequences
 import CollisionIdeals.Planar.Research.MonogenicOrder
+import CollisionIdeals.Planar.Research.MonogenicTraceDual
 import CollisionIdeals.Planar.Research.PrincipalPartsStrategy
 
 /-!
@@ -25,6 +26,7 @@ does not replace the present pointwise pole hypothesis.
 -/
 
 set_option autoImplicit false
+set_option synthInstance.maxHeartbeats 100000
 
 namespace CollisionIdeals.Planar
 
@@ -132,6 +134,53 @@ theorem mem_monogenicConductorLandingIdeal_iff
     mem_boundedStageComparisonIdeal_iff]
   simp only [monogenicConductorBoundedStage, Submodule.mem_comap,
     LinearMap.mulLeft_apply, Algebra.smul_def]
+
+section TraceDualIdentification
+
+variable (K : Type*) [Field K]
+variable (N' : Type*) [Field N']
+variable [Algebra B K] [Algebra T N'] [Algebra B N'] [Algebra K N']
+variable [IsScalarTower B K N'] [IsScalarTower B T N']
+variable [IsDomain B] [IsIntegrallyClosed B] [IsFractionRing B K]
+variable [IsDomain T] [NoZeroSMulDivisors T N']
+variable [FiniteDimensional K N'] [Algebra.IsSeparable K N']
+
+/-- Under the integral primitive-generator hypotheses, the monogenic
+conductor stage is exactly the trace-integral dual.  This is the semantic
+bridge from the conductor formulation of landing to the trace transporter. -/
+theorem monogenicConductorBoundedStage_eq_traceIntegralSubmodule
+    (alpha : T) (halpha : IsIntegral B alpha)
+    (hgen : Algebra.adjoin K {algebraMap T N' alpha} = ⊤) :
+    monogenicConductorBoundedStage B T N' alpha =
+      TraceIntegralSubmodule B K T N' := by
+  rw [traceIntegralSubmodule_eq_inv_jacobian_smul_conductor
+    B K T N' alpha halpha hgen]
+  let J : N' := algebraMap T N' (monogenicOrderJacobian B T alpha)
+  have hJ : J ≠ 0 := by
+    dsimp [J]
+    rw [monogenicOrderJacobian_map_eq_generic B K T N' alpha halpha]
+    exact
+      (Algebra.IsSeparable.isSeparable _ _).aeval_derivative_ne_zero
+        (minpoly.aeval _ _)
+  ext z
+  rw [mem_monogenicConductorBoundedStage_iff]
+  rw [Submodule.mem_smul_iff_inv_mul_mem (inv_ne_zero hJ)]
+  simp only [inv_inv]
+  rfl
+
+/-- The monogenic conductor landing ideal is the trace-transporter ideal
+once the comparison generator is integral and primitive. -/
+theorem monogenicConductorLandingIdeal_eq_traceTransporterIdeal
+    (alpha : T) (sections : Submodule T N')
+    (halpha : IsIntegral B alpha)
+    (hgen : Algebra.adjoin K {algebraMap T N' alpha} = ⊤) :
+    monogenicConductorLandingIdeal B T N' alpha sections =
+      traceTransporterIdeal B K T N' sections := by
+  unfold monogenicConductorLandingIdeal traceTransporterIdeal
+  rw [monogenicConductorBoundedStage_eq_traceIntegralSubmodule
+    B T K N' alpha halpha hgen]
+
+end TraceDualIdentification
 
 section PlanarSpecialization
 

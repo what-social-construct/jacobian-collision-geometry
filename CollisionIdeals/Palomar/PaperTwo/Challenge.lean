@@ -5,21 +5,18 @@ import Mathlib.Algebra.MvPolynomial.Rename
 import Mathlib.Data.Complex.Basic
 import Mathlib.FieldTheory.Normal.Basic
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+import Mathlib.Algebra.Polynomial.Identities
 import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.RingTheory.Localization.FractionRing
-
 /-!
-# Quadratic planar collision rigidity
+# Explicit planar secants and quadratic collision rigidity
 
-This is the Mathlib-only statement surface for Paper II.  For a polynomial
-self-map of the complex affine plane, generic degree two forces the collision
-obstruction to be nonzero.  Assuming the classical Keller--Galois rigidity
-theorem, such a map cannot satisfy the Keller condition.
+This Mathlib-only surface exposes the ordered divided-difference collision
+projector and the degree-two exclusion from Paper II.  The classical
+Keller--Galois rigidity theorem remains an explicit hypothesis.
 
-The Keller--Galois rigidity theorem is an explicit hypothesis below; it is not
-asserted as an axiom or proved by this challenge.
+It is not asserted as an axiom or proved by this challenge.
 -/
-
 set_option autoImplicit false
 
 namespace CollisionIdeals
@@ -217,6 +214,73 @@ def planarGenericDegree (F : PlanarPolynomialMap) : ℕ :=
     (PolynomialSourceFunctionField (R := ℂ) (ι := Fin 2))
 
 namespace Palomar.PaperTwo
+
+/- The ordered divided differences used in the planar secant projector. -/
+namespace ExplicitSecant
+
+def powDifferenceFactor
+    (x y : PairRing ℂ (Fin 2)) (n : ℕ) : PairRing ℂ (Fin 2) :=
+  (Polynomial.powSubPowFactor x y n).1
+
+def firstCoefficient
+    (v : Fin 2 →₀ ℕ) (r : ℂ) : PairRing ℂ (Fin 2) :=
+  C r *
+    powDifferenceFactor (X (Sum.inl 0)) (X (Sum.inr 0)) (v 0) *
+    X (Sum.inl 1) ^ v 1
+
+def secondCoefficient
+    (v : Fin 2 →₀ ℕ) (r : ℂ) : PairRing ℂ (Fin 2) :=
+  C r * X (Sum.inr 0) ^ v 0 *
+    powDifferenceFactor (X (Sum.inl 1)) (X (Sum.inr 1)) (v 1)
+
+def first (p : SourceRing ℂ (Fin 2)) : PairRing ℂ (Fin 2) :=
+  p.sum firstCoefficient
+
+def second (p : SourceRing ℂ (Fin 2)) : PairRing ℂ (Fin 2) :=
+  p.sum secondCoefficient
+
+def determinant (F : PlanarPolynomialMap) : PairRing ℂ (Fin 2) :=
+  first (F 0) * second (F 1) - second (F 0) * first (F 1)
+
+noncomputable def collisionConstantUnit
+    (F : PlanarPolynomialMap) (c : ℂ) (hc : c ≠ 0) :
+    (CollisionRing F)ˣ :=
+  Units.map
+    (Ideal.Quotient.mk (collisionIdeal F)).toMonoidHom
+    (Units.map MvPolynomial.C.toMonoidHom (Units.mk0 c hc))
+
+/-- The formula `1 - c⁻¹[δ_F]` for the off-diagonal collision
+projector. -/
+noncomputable def collisionProjector
+    (F : PlanarPolynomialMap) (c : ℂ) (hc : c ≠ 0) :
+    CollisionRing F :=
+  1 -
+    (↑((collisionConstantUnit F c hc)⁻¹) : CollisionRing F) *
+      Ideal.Quotient.mk (collisionIdeal F) (determinant F)
+
+end ExplicitSecant
+
+/--
+The explicit ordered divided-difference formula is an idempotent generator
+of the collision obstruction.  Its complementary idempotent generates the
+annihilator.
+-/
+theorem explicitPlanarSecantProjector
+    (F : PlanarPolynomialMap)
+    (c : ℂ) (hc : c ≠ 0)
+    (hJacobian : jacobianDet F = C c) :
+    IsIdempotentElem
+        (ExplicitSecant.collisionProjector F c hc) ∧
+      obstructionIdeal F =
+        Ideal.span {ExplicitSecant.collisionProjector F c hc} ∧
+      (obstructionIdeal F).annihilator =
+        Ideal.span
+          {1 - ExplicitSecant.collisionProjector F c hc} ∧
+      ∀ u : CollisionRing F,
+        IsIdempotentElem u →
+        obstructionIdeal F = Ideal.span {u} →
+        u = ExplicitSecant.collisionProjector F c hc := by
+  sorry
 
 /--
 Assuming Keller--Galois rigidity, every planar map of generic degree two has

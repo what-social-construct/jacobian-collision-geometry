@@ -626,10 +626,12 @@ ring; the equivalence over the actual image algebra
 generic-function-field module.  The Lean form of
 Theorem~\ref{thm:generic-collision-base-change} takes surjectivity of
 \(\theta\) as a parameter; the proof above derives it from generic
-finiteness.  The predicates \leanpath{KellerEtaleBridge} and
-\leanpath{KellerFlatBridge} expose parts of Proposition
-\ref{prop:keller-generic-geometry} as theorem targets; Lean does not yet
-derive them, generic finiteness, or separability from \leanpath{IsKeller}.
+finiteness.  The predicate \leanpath{KellerEtaleBridge} exposes the
+Jacobian-criterion part of Proposition
+\ref{prop:keller-generic-geometry} as a theorem target;
+\leanpath{KellerEtaleBridge.toKellerFlatBridge} now derives
+\leanpath{KellerFlatBridge} from it.  Lean does not yet derive the étale
+bridge, generic finiteness, or separability from \leanpath{IsKeller}.
 Ax--Grothendieck also remains an explicit parameter of the Lean
 automorphism equivalence.
 \end{leanfiles}
@@ -986,7 +988,11 @@ the same image.  That particular map is not used in the arguments above:
 the dimension-three result describes the structure of the
 generic-degree-three counterexample locus.
 
-The formalization uses Lean~4 and Mathlib \cite{Lean4,Mathlib}.
+The formalization uses Lean~4.28.0 and Mathlib~v4.28.0
+\cite{Lean4,Mathlib}.  Its Palomar-facing declaration is
+\leanpath{CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision},
+checked by
+\texttt{lake build CollisionIdeals.Palomar.PaperOne.Solution}.
 
 \begin{corollary}[First possible generic degree]
 \label{cor:first-possible-generic-degree}

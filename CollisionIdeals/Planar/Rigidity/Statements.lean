@@ -59,9 +59,9 @@ def PlanarRamificationRigidity : Prop := by
     polynomialNormalExtensionBaseAlgebra (F := F) (N := N)
   let T := PolynomialNormalizationInExtensionRing (F := F) (N := N)
   let B := PolynomialImageAlgebra F
-  letI : Algebra B T := inferInstance
-  letI : SMulCommClass B T T :=
-    ⟨fun b x y => by simp only [Algebra.smul_def]; ring⟩
+  letI algebraBT : Algebra B T := (integralClosure B N).algebra
+  letI : SMul B T := algebraBT.toSMul
+  letI : SMulCommClass B T T := Algebra.to_smulCommClass
   letI : Module T (KaehlerDifferential B T) :=
     KaehlerDifferential.module' (R := B) (S := T) (R' := T)
   exact IsFiniteLength T (KaehlerDifferential B T)

@@ -48,7 +48,7 @@ lemma ringHom_formallyUnramified_localRingHom
       (Localization.localRingHom_to_map _ _ _ rfl x).symm
   change Algebra.FormallyUnramified
     (Localization.AtPrime (J.comap f)) (Localization.AtPrime J)
-  exact Algebra.FormallyUnramified.of_comp R
+  exact Algebra.FormallyUnramified.of_restrictScalars R
     (Localization.AtPrime (J.comap (algebraMap R S)))
     (Localization.AtPrime J)
 
@@ -75,7 +75,7 @@ lemma isUnramifiedAt_of_openImmersion_comp_formallyUnramified
         AlgebraicGeometry.FormallyUnramified (j ≫ p)) x
   have hpstalk :
       RingHom.FormallyUnramified (p.stalkMap q).hom := by
-    rw [Scheme.stalkMap_comp, CommRingCat.hom_comp,
+    rw [Scheme.Hom.stalkMap_comp, CommRingCat.hom_comp,
       RingHom.FormallyUnramified.respectsIso.cancel_right_isIso] at hcomp
     exact hcomp
   have hlocal :
@@ -187,7 +187,7 @@ theorem centerPrime_isUnramifiedAt_of_visible
     (E :
       PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (q : D.sheetClasses E)
-    (hEtale : IsEtale (polynomialSourceToImageBase F))
+    (hEtale : Etale (polynomialSourceToImageBase F))
     (hVisible : D.ConjugateCenterVisible E q) :
     Algebra.IsUnramifiedAt
       (A := PolynomialIntermediateNormalizationRing F)
@@ -196,7 +196,7 @@ theorem centerPrime_isUnramifiedAt_of_visible
       IsOpenImmersion
         (polynomialSourceToIntermediateNormalization F) :=
     D.cover.intermediateOpen
-  letI : IsEtale (polynomialSourceToImageBase F) := hEtale
+  letI : Etale (polynomialSourceToImageBase F) := hEtale
   haveI : AlgebraicGeometry.FormallyUnramified
       (polynomialSourceToIntermediateNormalization F ≫
         Spec.map (CommRingCat.ofHom
@@ -225,7 +225,7 @@ theorem geometricRamificationIndex_eq_one_of_visible
     (E :
       PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (q : D.sheetClasses E)
-    (hEtale : IsEtale (polynomialSourceToImageBase F))
+    (hEtale : Etale (polynomialSourceToImageBase F))
     (hVisible : D.ConjugateCenterVisible E q) :
     D.geometricRamificationIndex E q = 1 := by
   letI : Module.Finite
@@ -254,7 +254,7 @@ the deleted boundary.
 -/
 theorem ramifiedCenter_mem_boundary
     (R : D.ConjugateRamificationRealization)
-    (hEtale : IsEtale (polynomialSourceToImageBase F))
+    (hEtale : Etale (polynomialSourceToImageBase F))
     (E :
       PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (q : D.sheetClasses E)
@@ -277,7 +277,7 @@ conjugate center in the deleted boundary.
 -/
 theorem ramifiedConjugateCentersInBoundary
     (R : D.ConjugateRamificationRealization)
-    (hEtale : IsEtale (polynomialSourceToImageBase F)) :
+    (hEtale : Etale (polynomialSourceToImageBase F)) :
     D.RamifiedConjugateCentersInBoundary := by
   intro E q hq
   exact D.ramifiedCenter_mem_boundary R hEtale E q hq

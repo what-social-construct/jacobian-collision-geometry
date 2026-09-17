@@ -22,7 +22,7 @@ The usual ideal saturation `I : J^∞`, indexed by strictly positive
 powers of `J`.
 -/
 def idealSaturation (I J : Ideal A) : Ideal A :=
-  ⨆ n : ℕ, I.colon (J ^ (n + 1))
+  ⨆ n : ℕ, I.colon ((J ^ (n + 1) : Ideal A) : Set A)
 
 /--
 The pullback of the annihilator of `J/I` is the colon ideal `I : J`.
@@ -83,6 +83,31 @@ theorem annihilator_span_idempotent
       (a * b) * ((1 - q) * q) by ring]
     rw [sub_mul, one_mul, hq.eq, sub_self, mul_zero]
 
+/-- An idempotent is determined by the principal ideal that it generates. -/
+theorem idempotent_eq_of_span_singleton_eq
+    {p q : A}
+    (hp : IsIdempotentElem p)
+    (hq : IsIdempotentElem q)
+    (hspan : Ideal.span {p} = Ideal.span {q}) :
+    p = q := by
+  have hpq_eq_p : p * q = p := by
+    have hp_mem : p ∈ Ideal.span {q} := by
+      rw [← hspan]
+      exact Ideal.mem_span_singleton_self p
+    rw [Ideal.mem_span_singleton'] at hp_mem
+    obtain ⟨a, rfl⟩ := hp_mem
+    rw [mul_assoc, hq.eq]
+  have hpq_eq_q : p * q = q := by
+    have hq_mem : q ∈ Ideal.span {p} := by
+      rw [hspan]
+      exact Ideal.mem_span_singleton_self q
+    rw [Ideal.mem_span_singleton'] at hq_mem
+    obtain ⟨b, rfl⟩ := hq_mem
+    calc
+      p * (b * p) = b * (p * p) := by ring
+      _ = b * p := by rw [hp.eq]
+  exact hpq_eq_p.symm.trans hpq_eq_q
+
 theorem span_idempotent_inf_span_one_sub_eq_bot
     {q : A} (hq : IsIdempotentElem q) :
     Ideal.span {q} ⊓ Ideal.span {1 - q} = ⊥ := by
@@ -128,7 +153,7 @@ theorem colon_power_eq_colon_of_isClopenModulo
     (I J : Ideal A) (q : A ⧸ I)
     (h : IsClopenModulo I J q)
     (n : ℕ) :
-    I.colon (J ^ (n + 1)) = I.colon J := by
+    I.colon ((J ^ (n + 1) : Ideal A) : Set A) = I.colon J := by
   rw [← comap_annihilator_map_quotient_eq_colon I (J ^ (n + 1)),
     Ideal.map_pow, h.2.2, Ideal.span_singleton_pow,
     h.2.1.pow_eq (Nat.succ_ne_zero n),
@@ -327,6 +352,16 @@ def IsCollisionOffDiagonalProjector
     (q : CollisionRing F) : Prop :=
   IsIdempotentElem q ∧
     obstructionIdeal F = Ideal.span {q}
+
+/-- The off-diagonal collision projector is unique when it exists. -/
+theorem collisionOffDiagonalProjector_unique
+    (F : κ → SourceRing R ι)
+    {q r : CollisionRing F}
+    (hq : IsCollisionOffDiagonalProjector F q)
+    (hr : IsCollisionOffDiagonalProjector F r) :
+    q = r :=
+  idempotent_eq_of_span_singleton_eq
+    hq.1 hr.1 (hq.2.symm.trans hr.2)
 
 theorem isClopenModulo_of_collisionOffDiagonalProjector
     (F : κ → SourceRing R ι)

@@ -95,7 +95,6 @@ theorem monogenicOrderJacobian_map_eq_generic
   rw [monogenicOrderJacobian, minpoly.isIntegrallyClosed_eq_field_fractions K N halpha,
     derivative_map, aeval_map_algebraMap, aeval_algebraMap_apply]
 
-omit [IsDomain T] in
 /-- Generic-derivative form of the conductor--trace-dual identity for an overorder. -/
 theorem traceIntegralSubmodule_eq_inv_derivative_smul_conductor
     (alpha : T) (halpha : IsIntegral B alpha)

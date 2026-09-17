@@ -58,7 +58,7 @@ ideal.  Set \(C_F=S/I_R(F)\).  Their quotient
   \Obs(F)=I_\Delta/I_R(F)\subseteq C_F
 \]
 is the ideal of the diagonal in the collision ring.  When \(F\) is Keller,
-a divided-difference secant matrix produces an explicit idempotent
+an ordered divided-difference matrix produces an explicit idempotent
 \(p_F\in C_F\) with \(\Obs(F)=C_Fp_F\).
 
 Writing \(B=\C[P,Q]\subseteq A\), \(K=\Frac(B)\), and
@@ -139,12 +139,16 @@ with base-changed diagonal evaluation equal to tensor multiplication.
 
 Paper~I already uses classical Galois rigidity to exclude generic degrees
 one and two in every dimension.  The purpose here is to realize the
-quadratic exclusion explicitly in the planar collision ring.
+quadratic exclusion explicitly in the planar collision ring.  A recent
+preprint states the stronger exclusion of every prime generic degree
+\cite{Moskowicz2024PrimeDegree}.  We do not use that broader argument; the
+focus here is the explicit collision certificate and its formal verification.
 
 This paper specializes that construction to \(d_F=2\).  There are two
 complementary descriptions of the collision obstruction.  The first is
-geometric and explicit: divided differences produce a secant determinant
-and an idempotent \(p_F\) generating \(\Obs(F)\).  The second is generic
+geometric and explicit: ordered divided differences produce the planar
+multivariate B\'ezoutian determinant and an idempotent \(p_F\) generating
+\(\Obs(F)\).  The second is generic
 and field-theoretic: a separable quadratic extension satisfies
 \[
   L\otimes_KL\simeq_L L\times L,
@@ -282,6 +286,11 @@ Jacobian and, at the end, through Galois rigidity.
 \section{The explicit planar secant projector}
 \label{sec:secant-projector}
 
+The matrix below is the ordered multivariate B\'ezoutian matrix associated
+to \(F\); compare \cite{McKean2023Bezoutians,SchejaStorch1975}.  We retain
+the term \emph{secant matrix} because its determinant separates the
+diagonal collision sheet from its complement.
+
 Let
 \[
   F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
@@ -384,7 +393,8 @@ Moreover,
   \Obs(F)=C_Fp_F,\qquad
   \operatorname{Ann}_{C_F}(\Obs(F))=C_Fe_F,
 \]
-and hence
+and \(p_F\) is the unique idempotent \(u\in C_F\) satisfying
+\(\Obs(F)=C_Fu\).  Hence
 \[
   C_F\simeq A\times C_Fp_F.
 \]
@@ -418,6 +428,10 @@ so \(\Obs(F)=C_Fp_F\).  An element annihilates \(C_Fp_F\) exactly when its
   \operatorname{Ann}_{C_F}(\Obs(F))=C_Fe_F.
 \]
 
+For uniqueness, let \(u^2=u\) and suppose \(C_Fu=C_Fp_F\).  Since
+\(u\in C_Fp_F\), one has \(up_F=u\); since \(p_F\in C_Fu\), one has
+\(up_F=p_F\).  Thus \(u=p_F\).
+
 Complementary idempotents give
 \[
   C_F\xrightarrow{\ \sim\ }C_Fe_F\times C_Fp_F,\qquad
@@ -431,6 +445,14 @@ Finally, \(\Obs(F)=C_Fp_F\) gives
   p_F=0\Longleftrightarrow\Obs(F)=0.
 \]
 \end{proof}
+
+Abstractly, the existence of an idempotent splitting is expected: a Keller
+map is unramified, so its diagonal in the collision scheme is open, while a
+morphism between affine schemes has closed diagonal
+\cite{StacksUnramifiedDiagonalOpen,StacksAffineDiagonalClosed}.  The theorem
+supplies the explicit B\'ezoutian representative and identifies the ideal it
+generates.  The uniqueness just proved shows that the resulting \(p_F\) is
+independent of the ordering used to write the divided differences.
 
 \section{Quadratic generic collisions}
 \label{sec:quadratic-collision}
@@ -621,7 +643,7 @@ idempotent.
 \label{sec:lean-status}
 
 \begin{leanfiles}
-The focused theorem spine is formalized in Lean~4 and Mathlib
+The focused theorem spine is formalized in Lean~4.28.0 and Mathlib~v4.28.0
 \cite{Lean4,Mathlib}.  The general collision objects are defined in
 \leanpath{CollisionIdeals/General/Collision}.  The function-field
 localization and generic collision bridge are in
@@ -647,6 +669,13 @@ and
 \leanpath{CollisionIdeals/Planar/GenericDegreeTwo/Vanishing.lean}.
 Their collision-native contradiction and \(d_F\neq2\) are assembled in
 \leanpath{CollisionIdeals/Planar/GenericDegreeTwo/Main.lean}.
+
+The two Palomar-facing declarations are
+\leanpath{CollisionIdeals.Palomar.PaperTwo.explicitPlanarSecantProjector}
+and
+\leanpath{CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity}.
+They are checked by
+\texttt{lake build CollisionIdeals.Palomar.PaperTwo.Solution}.
 
 The classical theorem in
 Theorem~\ref{thm:keller-galois-rigidity} is neither installed as a Lean

@@ -23,12 +23,12 @@ variable [Algebra B A] [Algebra B K]
 
 private def baseChangeTensorAssoc :
     ((K ⊗[B] A) ⊗[B] A) ≃ₐ[K]
-      K ⊗[B] (A ⊗[B] A) where
+  K ⊗[B] (A ⊗[B] A) where
   toRingEquiv :=
-    (Algebra.TensorProduct.assoc B B K A A).toRingEquiv
+    (Algebra.TensorProduct.assoc B B K K A A).toRingEquiv
   commutes' k := by
     change
-      (Algebra.TensorProduct.assoc B B K A A)
+      (Algebra.TensorProduct.assoc B B K K A A)
           ((k ⊗ₜ[B] (1 : A)) ⊗ₜ[B] (1 : A)) =
         k ⊗ₜ[B] ((1 : A) ⊗ₜ[B] (1 : A))
     rfl

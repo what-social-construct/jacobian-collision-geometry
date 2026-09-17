@@ -52,7 +52,7 @@ theorem powerBasis_tate_reconstruction
       dual i = (minpolyDiv K pb.gen).coeff i /
         aeval pb.gen (derivative (minpoly K pb.gen)) := by
     intro i
-    exact traceForm_dualBasis_powerBasis_eq pb i
+    exact Module.Basis.traceDual_powerBasis_eq pb i
   have hJ : aeval pb.gen (derivative (minpoly K pb.gen)) ≠ 0 :=
     (Algebra.IsSeparable.isSeparable K pb.gen).aeval_derivative_ne_zero
       (minpoly.aeval K pb.gen)

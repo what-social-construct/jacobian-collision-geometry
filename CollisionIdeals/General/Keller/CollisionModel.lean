@@ -49,6 +49,31 @@ namespace PolynomialKellerCollisionModel
 variable {F : PolynomialSelfMap k n}
 
 /--
+Assemble a Keller collision model from a supplied normalization diagram and
+its ramification realization.  Flatness is derived from the étale bridge;
+this constructor does not assert existence of the normal closure or of the
+normalization data.
+-/
+noncomputable def ofNormalizationDiagram
+    (hKeller : IsKeller F)
+    {N : Type u} [Field N]
+    [Algebra (PolynomialMapBaseFunctionField F) N]
+    (diagram : PolynomialNormalizationDiagram (F := F) (N := N))
+    (kellerEtale : KellerEtaleBridge F)
+    (ramificationRealization :
+      diagram.ConjugateRamificationRealization) :
+    PolynomialKellerCollisionModel F where
+  keller := hKeller
+  N := N
+  fieldN := inferInstance
+  algebraN := inferInstance
+  diagram := diagram
+  kellerEtale := kellerEtale
+  kellerFlat :=
+    KellerEtaleBridge.toKellerFlatBridge F kellerEtale
+  ramificationRealization := ramificationRealization
+
+/--
 For a Keller collision model, every conjugate center with nontrivial
 relative inertia lies in the deleted normalization boundary.
 -/

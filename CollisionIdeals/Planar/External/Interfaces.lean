@@ -22,7 +22,7 @@ def BranchPurityA2 : Prop :=
     [Algebra (PlanarBaseFunctionField F) N]
     (_M : PlanarNormalizedCover (F := F) (N := N)),
     NoCodimensionOneRamification (F := F) (N := N) →
-      IsEtale
+      Etale
         (planarNormalizationInExtensionToBase
           (F := F) (N := N))
 
@@ -35,7 +35,7 @@ def AffinePlaneFiniteEtaleRigidity : Prop :=
     {N : Type} [Field N]
     [Algebra (PlanarBaseFunctionField F) N]
     (M : PlanarNormalizedCover (F := F) (N := N)),
-    IsEtale
+    Etale
         (planarNormalizationInExtensionToBase
           (F := F) (N := N)) →
       M.normalClosure.ExtensionTrivial

@@ -14,6 +14,7 @@ dimension-specific boundary-rigidity assertion.
 -/
 
 set_option autoImplicit false
+set_option synthInstance.maxHeartbeats 100000
 
 namespace CollisionIdeals
 

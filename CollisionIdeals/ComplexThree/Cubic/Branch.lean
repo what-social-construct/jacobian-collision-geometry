@@ -50,22 +50,15 @@ theorem irreducible_minpolyDiv_of_cubic_of_not_normal
     ring
   apply hnormal
   have hqsplit :
-      (minpolyDiv K pb.gen).Splits (RingHom.id L) := by
+      (minpolyDiv K pb.gen).Splits := by
     rw [hfactor]
-    exact Polynomial.splits_mul (RingHom.id L)
-      (by simpa [sub_neg_eq_add] using
-        Polynomial.splits_X_sub_C (RingHom.id L) (x := -c₁))
-      (by simpa [sub_neg_eq_add] using
-        Polynomial.splits_X_sub_C (RingHom.id L) (x := -c₂))
-  have hmapsplit :
-      ((minpoly K pb.gen).map (algebraMap K L)).Splits
-        (RingHom.id L) := by
-    rw [← minpolyDiv_spec K pb.gen]
-    exact Polynomial.splits_mul (RingHom.id L) hqsplit
-      (Polynomial.splits_X_sub_C (RingHom.id L) (x := pb.gen))
+    exact (Polynomial.Splits.X_add_C c₁).mul
+      (Polynomial.Splits.X_add_C c₂)
   have hsplit :
-      (minpoly K pb.gen).Splits (algebraMap K L) :=
-    (Polynomial.splits_id_iff_splits (algebraMap K L)).mp hmapsplit
+      ((minpoly K pb.gen).map (algebraMap K L)).Splits
+        := by
+    rw [← minpolyDiv_spec K pb.gen]
+    exact hqsplit.mul (Polynomial.Splits.X_sub_C pb.gen)
   have hadjoin :
       Algebra.adjoin K ((minpoly K pb.gen).rootSet L : Set L) = ⊤ := by
     apply le_antisymm le_top
@@ -112,7 +105,7 @@ def cubicResidualAlgHomOfDistinctEmbedding
       IsScalarTower.toAlgHom K L N pb.gen ≠ sigma pb.gen) :
     CubicResidualAlgebra K L pb →ₐ[L] N := by
   classical
-  apply AdjoinRoot.liftHom
+  apply AdjoinRoot.liftAlgHom _ (Algebra.ofId L N) (sigma pb.gen)
   have hroot :=
     eval₂_minpolyDiv_self pb.gen
       (IsScalarTower.toAlgHom K L N) sigma

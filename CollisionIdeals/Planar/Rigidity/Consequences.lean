@@ -65,7 +65,7 @@ theorem normalClosureExtensionTrivial
       M.ramifiedConjugateCentersInBoundary_of_keller
       hNoHidden
   have hNormalizationEtale :
-      AlgebraicGeometry.IsEtale
+      AlgebraicGeometry.Etale
         (planarNormalizationInExtensionToBase
           (F := F) (N := M.N)) :=
     hPurity M.diagram.cover hNoCodimensionOneRamification
@@ -115,7 +115,7 @@ theorem planarVanishing_of_noCodimensionOneRamification
   letI : Field M.N := M.fieldN
   letI : Algebra (PlanarBaseFunctionField F) M.N := M.algebraN
   have hNormalizationEtale :
-      AlgebraicGeometry.IsEtale
+      AlgebraicGeometry.Etale
         (planarNormalizationInExtensionToBase
           (F := F) (N := M.N)) :=
     hPurity M.diagram.cover hNoRamification

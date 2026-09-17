@@ -32,14 +32,11 @@ determinant used by this project.
 def KellerEtaleBridge
     (F : PolynomialSelfMap K n) : Prop :=
   IsKeller F →
-    IsEtale (polynomialSourceToImageBase F)
+    Etale (polynomialSourceToImageBase F)
 
 /--
 The algebraic flatness obligation supplied by the Keller condition: the
 source polynomial ring is flat over the coordinate image algebra.
-
-This remains separate from `KellerEtaleBridge`: the current mathlib API
-does not provide the scheme-étale-to-module-flat bridge needed here.
 -/
 def KellerFlatBridge
     (F : PolynomialSelfMap K n) : Prop :=
@@ -47,6 +44,28 @@ def KellerFlatBridge
     Module.Flat
       (polynomialMapImageAlgebra F)
       (SourceRing K (Fin n))
+
+/-- Scheme-theoretic étaleness of the polynomial map supplies its algebraic
+flatness bridge. -/
+theorem KellerEtaleBridge.toKellerFlatBridge
+    (F : PolynomialSelfMap K n)
+    (hEtale : KellerEtaleBridge F) :
+    KellerFlatBridge F := by
+  intro hKeller
+  have hScheme : Etale (polynomialSourceToImageBase F) :=
+    hEtale hKeller
+  have hRing :
+      RingHom.Etale
+        (algebraMap
+          (polynomialMapImageAlgebra F)
+          (SourceRing K (Fin n))) := by
+    exact HasRingHomProperty.Spec_iff.mp hScheme
+  letI :
+      Algebra.Etale
+        (polynomialMapImageAlgebra F)
+        (SourceRing K (Fin n)) :=
+    hRing
+  infer_instance
 
 end
 

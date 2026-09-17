@@ -102,6 +102,30 @@ theorem mem_boundedStageComparisonIdeal_iff
 
 end BoundedStageComparison
 
+section TraceTransporter
+
+variable (B K T N : Type*)
+variable [CommRing B] [Field K] [CommRing T] [Field N]
+variable [Algebra B K] [Algebra B T] [Algebra B N] [Algebra K N] [Algebra T N]
+variable [IsScalarTower B K N] [IsScalarTower B T N]
+variable [FiniteDimensional K N]
+
+/-- The trace transporter of a selected submodule of rational sections.
+
+An element `s : T` belongs precisely when multiplication by `s` carries
+every selected section into the trace-integral dual of `T` over `B`. -/
+def traceTransporterIdeal (sections : Submodule T N) : Ideal T :=
+  boundedStageComparisonIdeal T N
+    (TraceIntegralSubmodule B K T N) sections
+
+theorem mem_traceTransporterIdeal_iff
+    (sections : Submodule T N) (s : T) :
+    s ∈ traceTransporterIdeal B K T N sections ↔
+      ∀ z ∈ sections, s • z ∈ TraceIntegralSubmodule B K T N :=
+  mem_boundedStageComparisonIdeal_iff T N
+
+end TraceTransporter
+
 end
 
 end CollisionIdeals.Planar

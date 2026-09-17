@@ -141,8 +141,7 @@ theorem intermediateFixingSubgroup_normalCore_eq_bot
       IntermediateField.normalClosure K L N ≤
         IntermediateField.fixedField C := by
     rw [normalClosure_le_iff]
-    intro f
-    intro y hy
+    intro f y hy
     rw [IntermediateField.mem_fixedField_iff]
     intro σ hσ
     obtain ⟨x, rfl⟩ := hy
@@ -279,10 +278,10 @@ noncomputable def extensionEquivBase
 
 /-- A trivial finite marked extension has degree one. -/
 theorem intermediate_finrank_eq_one
-    (D : NormalClosureData K L N)
+    (_D : NormalClosureData K L N)
     (hTrivial : IntermediateExtensionTrivial K L) :
     Module.finrank K L = 1 := by
-  letI : FiniteDimensional K L := D.finiteIntermediate
+  letI : FiniteDimensional K L := _D.finiteIntermediate
   apply finrank_eq_one (1 : L) one_ne_zero
   intro z
   obtain ⟨c, hc⟩ := hTrivial z

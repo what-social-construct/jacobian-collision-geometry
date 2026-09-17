@@ -4,11 +4,12 @@ version: "v0.4"
 project:
   name: "Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity"
   description: >-
-    The formalization proves that generic degree two forces a nonzero
-    collision obstruction for a planar polynomial map and, conditional on
-    classical Keller--Galois rigidity, excludes the Keller condition. Thus no
-    planar Keller map has generic degree two; the accompanying development
-    also constructs the canonical divided-difference collision projector.
+    The formalization constructs the explicit ordered divided-difference
+    collision projector for a planar Keller map, proves that it is the unique
+    idempotent generating the collision obstruction, and identifies its
+    complementary annihilator. It then proves that generic degree two forces this obstruction
+    to be nonzero and, conditional on classical Keller--Galois rigidity,
+    excludes the Keller condition.
   authors:
     - "Chloe van der Vlugt"
   license: "MIT"
@@ -23,24 +24,38 @@ sources:
   - title: "Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity"
     authors:
       - "Chloe van der Vlugt"
-    type: "original-proof"
-    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/main/paper/paper2.pdf"
-    relationship: "other"
-    note: "Companion manuscript for the collision-theoretic degree-two exclusion."
+    type: "paper"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/738fb39a3b09d1963f5089c24e5cd70cfd89b6ef/paper/paper2.pdf"
+    relationship: "formalizes"
+    note: "Versioned companion manuscript for the explicit projector and collision-theoretic degree-two exclusion."
   - title: "Generic Degree Three in JC(3): Collision Geometry and Galois Group S3"
     authors:
       - "Chloe van der Vlugt"
     type: "paper"
-    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/main/paper/paper1.pdf"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/738fb39a3b09d1963f5089c24e5cd70cfd89b6ef/paper/paper1.pdf"
     relationship: "background"
     note: "Supplies the dimension-independent collision construction and the stated classical rigidity input used by Paper II."
   - title: "Polynomial maps with constant Jacobian"
     authors:
       - "Michael J. Razar"
-    type: "article"
+    type: "paper"
     location: "https://doi.org/10.1007/BF02764906"
     relationship: "background"
     note: "A source for the classical Keller--Galois rigidity theorem, passed explicitly to the Lean result."
+  - title: "There are no Keller maps having prime degree field extensions"
+    authors:
+      - "Vered Moskowicz"
+    type: "paper"
+    location: "https://arxiv.org/abs/2407.13795"
+    relationship: "independently-proves"
+    note: "Proves a broader prime-degree exclusion; the submitted result gives an independent collision-projector proof of its quadratic case."
+  - title: "Bézoutians and injectivity of polynomial maps"
+    authors:
+      - "Stephen McKean"
+    type: "paper"
+    location: "https://doi.org/10.1016/j.jpaa.2022.107298"
+    relationship: "background"
+    note: "Background for the multivariate divided-difference Bézoutian underlying the explicit secant determinant."
 
 status:
   scope: >-
@@ -59,6 +74,14 @@ status:
     - "Quot.sound"
     - "Classical.choice"
   main_results:
+    - declaration: "CollisionIdeals.Palomar.PaperTwo.explicitPlanarSecantProjector"
+      file: "CollisionIdeals/Palomar/PaperTwo/Solution.lean"
+      sorry_count: 0
+      axioms:
+        - "propext"
+        - "Quot.sound"
+        - "Classical.choice"
+      comparator_config: "CollisionIdeals/Palomar/PaperTwo/comparator.json"
     - declaration: "CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity"
       file: "CollisionIdeals/Palomar/PaperTwo/Solution.lean"
       sorry_count: 0
@@ -84,11 +107,10 @@ automation:
 
 fidelity:
   divergences: >-
-    The submitted wrapper records nonvanishing of the obstruction and
-    exclusion of the Keller condition in generic degree two. The canonical
-    explicit secant projector is proved in the substantive development but is
-    not itself named in the compared declaration. Keller--Galois rigidity is
-    exposed as a hypothesis rather than formalized.
+    The explicit projector declaration includes its idempotence, obstruction
+    generator, and complementary annihilator statements, but omits the
+    manuscript's standard product decomposition by complementary idempotents.
+    Keller--Galois rigidity is exposed as a hypothesis rather than formalized.
 
 review:
   status: "self-assessed"
@@ -99,6 +121,11 @@ review:
 alignment:
   namespace: "CollisionIdeals.Palomar.PaperTwo"
   statements:
+    - source: "Paper II, Theorem 3.2 (Planar secant projector)"
+      lean: "CollisionIdeals.Palomar.PaperTwo.explicitPlanarSecantProjector"
+      module: "CollisionIdeals.Palomar.PaperTwo.Solution"
+      status: "proved"
+      note: "The compared statement displays the ordered divided-difference formula and proves its idempotent, unique obstruction-generator, and annihilator properties."
     - source: "Paper II, Theorem 5.3 (Exclusion of generic degree two)"
       lean: "CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity"
       module: "CollisionIdeals.Palomar.PaperTwo.Solution"

@@ -9,6 +9,7 @@ import CollisionIdeals.Planar.Research.MonogenicOrder
 import CollisionIdeals.Planar.Research.MonogenicTraceDual
 import CollisionIdeals.Planar.Research.TateReconstruction
 import CollisionIdeals.Planar.Research.MonogenicLanding
+import CollisionIdeals.Planar.Research.TraceLanding
 import CollisionIdeals.Planar.Research.CompletedTameRamification
 
 /-!
@@ -32,6 +33,10 @@ two-statements/one-morphism reduction without placing them in the stable
   a generic normal-Noetherian finite-overring collapse is proved, and an
   explicit pointwise pole witness plus a nonzero landing candidate is proved
   to imply boundary separation and the existing planar endgame;
+* independently of the monogenic comparison, the trace-integral dual and its
+  transporter are specialized to the normalization diagram, and a supplied
+  nonzero trace-landing candidate plus the pointwise pole witness is wired
+  directly to boundary separation and collision vanishing;
 * the missing Keller-specific theorem says that this prescribed ideal is
   contained in the trace transporter for the whole pole tower.
 
