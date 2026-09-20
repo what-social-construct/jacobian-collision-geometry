@@ -27,13 +27,14 @@ universe u v w
 variable {K : Type u} {L : Type v} {N : Type w}
   [Field K] [Field L] [Field N] [Algebra K L] [Algebra K N]
 
-/-- If every conjugate of every marked element remains in the marked
-field, that field already fills the supplied normal closure. -/
-theorem embedding_surjective_of_conjugate_mem
+/-- Any intermediate field containing every conjugate of the marked
+extension contains the whole supplied normal closure. -/
+theorem eq_top_of_conjugate_mem
     (D : NormalClosureData K L N)
+    (T : IntermediateField K N)
     (hConjugate : ∀ (g : D.galoisGroup) (x : L),
-      g (D.embedding x) ∈ D.intermediateField) :
-    Function.Surjective D.embedding := by
+      g (D.embedding x) ∈ T) :
+    T = ⊤ := by
   letI : FiniteDimensional K L := D.finiteIntermediate
   letI : FiniteDimensional K N := D.finiteNormal
   letI : Normal K N := D.normal
@@ -44,7 +45,7 @@ theorem embedding_surjective_of_conjugate_mem
     letI : IsNormalClosure K L N := D.normalClosure
     exact (Algebra.IsAlgebraic.isNormalClosure_iff
       (F := K) (K := L) (L := N)).mp inferInstance |>.2
-  have hle : IntermediateField.normalClosure K L N ≤ D.intermediateField := by
+  have hle : IntermediateField.normalClosure K L N ≤ T := by
     rw [normalClosure_le_iff]
     intro f y hy
     obtain ⟨x, rfl⟩ := hy
@@ -53,14 +54,25 @@ theorem embedding_surjective_of_conjugate_mem
     have hg : g (D.embedding x) = f x := by
       change (f.liftNormal N) (algebraMap L N x) = f x
       exact f.liftNormal_commutes N x
-    change f x ∈ D.intermediateField
+    change f x ∈ T
     rw [← hg]
     exact hConjugate g x
+  apply top_unique
+  rw [← hClosure]
+  exact hle
+
+/-- If every conjugate of every marked element remains in the marked
+field, that field already fills the supplied normal closure. -/
+theorem embedding_surjective_of_conjugate_mem
+    (D : NormalClosureData K L N)
+    (hConjugate : ∀ (g : D.galoisGroup) (x : L),
+      g (D.embedding x) ∈ D.intermediateField) :
+    Function.Surjective D.embedding := by
+  have hTop := D.eq_top_of_conjugate_mem D.intermediateField hConjugate
   intro y
   rw [← AlgHom.mem_fieldRange]
   change y ∈ D.intermediateField
-  apply hle
-  rw [hClosure]
+  rw [hTop]
   trivial
 
 /-- Descent of all marked conjugates makes the original extension normal. -/

@@ -11,5 +11,8 @@ import CollisionIdeals.General.Galois.RamificationTower
 import CollisionIdeals.General.Galois.RamificationLocalization
 import CollisionIdeals.General.Galois.PolynomialCollisionPair
 import CollisionIdeals.General.Galois.ConjugateAlgebra
+import CollisionIdeals.General.Galois.ConjugateFractionField
+import CollisionIdeals.General.Galois.ConjugateInvariants
+import CollisionIdeals.General.Galois.ConjugateInvariantField
 
 /-! Normal closures, conjugate sheets, inertia, and Galois collision pairs. -/

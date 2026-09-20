@@ -162,8 +162,14 @@ The active comparison uses the reduced target-base boundary
 $\mathfrak b_F=(s)\subset B$ of the all-conjugate open
 $U_F=\operatorname{Spec}(E^G)=D(s)$, where
 $E=B[g(\iota(A)):g\in G]\subset N$. The algebra is now instantiated
-as `polynomialConjugateAlgebra`; its quotient/open identification remains
-a mathematical argument in Paper II, not yet a Lean theorem.
+as `polynomialConjugateAlgebra`, with fraction field $N$. Its restricted
+action and fixed algebra use the existing Mathlib invariant-ring objects.
+Under separability the same fixed algebra is now realized inside $K$ with
+fraction field $K$, and the Keller condition gives unramifiedness of $E/B$.
+The quotient/open identification remains a mathematical argument in Paper II,
+not yet a Lean theorem. The next construction route descends quasi-finiteness
+to $E^G/B$ and applies birational Zariski main; it does not need the stronger
+selected-etale-component or free-action comparison first.
 The target is the vanishing of the two classes
 $(\partial_Ps\bmod s,\partial_Qs\bmod s)$, equivalently preservation
 of the rank-one module $s^{-1}B$ by the two target derivatives.
@@ -171,7 +177,13 @@ of the rank-one module $s^{-1}B$ by the two target derivatives.
 | Notation / claim | Lean correspondence | Status / guardrail |
 |---|---|---|
 | $\mathfrak b_F=(s)\subset B$, $U_F=D(s)$ | Actual all-conjugate base boundary not yet instantiated | Distinct from $\operatorname{Obs}(F)\subset C_F$, the intermediate normalization boundary, and the secant denominator in $T$. |
-| $E=B[g(\iota(A)):g\in G]\subset N$ | polynomialConjugateAlgebra in General.Galois.ConjugateAlgebra | Actual finite-coordinate adjoin over $B$; conjugate-polynomial membership, Galois stability, and finite type proved. No module-finiteness or boundary-preservation assertion. |
+| $E=B[g(\iota(A)):g\in G]\subset N$ | polynomialConjugateAlgebra in General.Galois.ConjugateAlgebra | Actual finite-coordinate adjoin over $B$; conjugate-polynomial membership, Galois stability, and finite type proved. No module-finiteness over $B$ or boundary-preservation assertion. |
+| $\operatorname{Frac}(E)=N$ | polynomialConjugateAlgebra_isFractionRing in General.Galois.ConjugateFractionField | Proved for the existing inclusion $E\subset N$, using normal-closure generation; no Keller or descent hypothesis. |
+| Restricted $G$-action on $E$ | polynomialConjugateAlgebra_galoisAction and polynomialConjugateAlgebra_faithfulGaloisAction in General.Galois.ConjugateInvariants | Actual faithful ring action, not scheme-theoretic freeness. |
+| $E^G$ | polynomialConjugateInvariantAlgebra in General.Galois.ConjugateInvariants | Direct specialization of Mathlib FixedPoints.subalgebra, not a duplicate quotient. $E$ is integral and module-finite over it. Under separability of $N/K$, its elements are precisely those in the embedded $K$. Neither $E^G=B$ nor an affine-open realization is claimed. |
+| $E^G$ realized inside $K$ | polynomialConjugateInvariantBaseAlgebra and polynomialConjugateInvariantBaseEquiv in General.Galois.ConjugateInvariantField | The Subalgebra.comap pullback is canonically equivalent to the existing fixed algebra under separability. A presentation of the same object, not a new quotient or boundary. |
+| $\operatorname{Frac}(E^G)=K$ | polynomialConjugateInvariantAlgebra_isFractionRing, with polynomialConjugateInvariantAlgebraBaseFieldAlgebra | Proved under separability. The explicit transported algebra is not a global instance; both the $B\to E^G\to K$ and $E^G\to K\to N$ towers agree with the original embeddings. |
+| Keller $\Rightarrow E/B$ unramified | polynomialConjugateAlgebra_formallyUnramified_of_isKeller and polynomialConjugateAlgebra_unramified_of_isKeller in General.Keller.ConjugateUnramified | Proved on the actual generated algebra from uniqueness of infinitesimal lifts on each conjugate source sheet. No flatness, free action, target-open identification, or vanishing is included. |
 | $s^{-1}B$ | Span over $B$ of the inverse of the image of $s$ in its fraction field | Existing submodule expression; one generator, not a new boundary definition. |
 | $D(s^{-1}B)\subseteq s^{-1}B\iff D(s)\in(s)$ | derivation_preserves_span_inv_iff in General.Normalization.SimplePole | Proved for a derivation and compatible fraction-field extension, with $s\ne0$. |
 | Both coordinate simple-pole tests hold iff $s$ is a unit | forall_derivation_inv_mem_span_singleton_iff_isUnit in General.Normalization.SimplePole | Proved over every characteristic-zero polynomial base. No squarefree or dimension-two hypothesis is needed for this algebraic criterion. |

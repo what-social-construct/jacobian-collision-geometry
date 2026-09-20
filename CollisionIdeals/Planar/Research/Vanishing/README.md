@@ -32,10 +32,14 @@ than making parallel definitions for a proof sketch or manuscript.
 
 | Piece | Role and current boundary |
 | --- | --- |
-| [ConjugateAlgebra.lean](../../../General/Galois/ConjugateAlgebra.lean) | Constructs the actual \(B\)-subalgebra \(E\subset N\) from finitely many conjugate source coordinates; proves conjugate-polynomial membership, Galois stability, and finite type. Not module-finiteness. |
+| [ConjugateAlgebra.lean](../../../General/Galois/ConjugateAlgebra.lean) | Constructs the actual \(B\)-subalgebra \(E\subset N\) from finitely many conjugate source coordinates; proves conjugate-polynomial membership, Galois stability, and finite type. Not module-finiteness over \(B\). |
+| [ConjugateFractionField.lean](../../../General/Galois/ConjugateFractionField.lean) | Identifies the supplied normal closure \(N\) as the fraction field of this same \(E\), without Keller or descent hypotheses. |
+| [ConjugateInvariants.lean](../../../General/Galois/ConjugateInvariants.lean) | Restricts the faithful Galois action, reuses Mathlib's fixed subalgebra for \(E^G\), and proves \(E\) module-finite over \(E^G\). Under separability, membership in \(E^G\) means membership in the embedded \(K\). Faithfulness is not scheme-theoretic freeness; \(E^G=B\) is not claimed. |
+| [ConjugateInvariantField.lean](../../../General/Galois/ConjugateInvariantField.lean) | Realizes the same fixed algebra inside \(K\) by subalgebra pullback, with a canonical \(B\)-algebra equivalence under separability. Proves \(\operatorname{Frac}(E^G)=K\) with compatible embeddings. |
+| [ConjugateUnramified.lean](../../../General/Keller/ConjugateUnramified.lean) | Keller étaleness on every generating source sheet gives unramifiedness of the actual \(E/B\). No flatness, selected-component identification, or boundary vanishing is inferred. |
 | [GaloisDescent.lean](GaloisDescent.lean) and the existing Galois collision/secant API | Descent is equivalent to normality of \(L/K\); its failure gives a moved-coordinate witness. Secant identities do not require descent. |
 | [SimplePole.lean](../../../General/Normalization/SimplePole.lean) and [ConormalDerivation.lean](../../../General/Normalization/ConormalDerivation.lean) | Prove the finite boundary-ideal criterion, without ramification dependencies or an assumed Keller vanishing statement. |
-| Actual invariant open and its reduced boundary | Paper II gives the mathematical construction; its quotient/open identification and boundary ideal are not yet instantiated in Lean. |
+| Actual invariant open and its reduced boundary | Not yet instantiated in Lean. The shorter next route descends quasi-finiteness from \(E/B\) to \(E^G/B\), then uses the birational comparison and normality of \(B\) to obtain the open immersion. |
 | Keller--secant comparison | Still open: prove the two conormal classes vanish using the full polynomial source, not just Galois symmetry or localization stability. |
 
 The [comparison audit](OBJECT-BENCH.md#galois--secant-boundary-comparison-audit-2026-09-19)

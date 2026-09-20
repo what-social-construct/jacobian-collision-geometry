@@ -687,14 +687,18 @@ step uses Noetherianity of \(B\); empty boundary then uses classical
 finite-etale rigidity of affine space. Those geometric identifications and
 the actual boundary ideal remain to be instantiated in Lean.
 
-The remaining construction should be formalized in this order, reusing
-\(E\) rather than introducing a new boundary-model hypothesis bundle:
+The construction reuses \(E\) rather than introducing a new boundary-model
+hypothesis bundle. The 2026-09-20 checkpoint below shortens the route to the
+target open:
 
-1. Identify its fraction field with the supplied \(N\).
-2. Identify \(E\) with the selected component of the finite tensor product
-   of conjugate source algebras; obtain etaleness from the Keller condition.
-3. Restrict the Galois action, prove scheme-theoretic freeness, and identify
-   the invariant quotient with an affine open of \(\operatorname{Spec}B\).
+1. Construct \(E\), identify its fraction field with \(N\), and construct
+   its fixed algebra, over which \(E\) is module-finite (proved).
+2. Realize \(E^G\) inside \(K\) with fraction field \(K\) under separability,
+   and prove \(E/B\) unramified under Keller (proved).
+3. Descend finite type and quasi-finiteness to \(E^G/B\). Use birationality
+   and normality of \(B\) to identify its spectrum with an affine target
+   open. The selected-etale-component and free-action comparisons are not
+   prerequisites for this shorter open-immersion route.
 4. Form the radical ideal of the actual complement and prove its principal,
    reduced presentation. Only then specialize the existing conormal criterion.
 
@@ -761,3 +765,140 @@ unchanged. The parity queue now distinguishes the verified full
 collision-normalization model from the still-uninstantiated invariant-open
 boundary. Neither that model nor the finite conormal criterion proves the
 Keller-specific vanishing comparison. No submission is made.
+
+## Fraction-field and invariant-ring checkpoint (2026-09-19)
+
+[ConjugateFractionField.lean](../../../General/Galois/ConjugateFractionField.lean)
+proves that the existing inclusion \(E\subset N\) makes \(N\) a fraction
+field of \(E\). Every conjugate source rational function is a quotient of
+conjugate polynomials in \(E\), and these generate the supplied normal
+closure. The shared lemma `NormalClosureData.eq_top_of_conjugate_mem` now
+serves both this proof and the existing descent theorem. No normality of
+\(L/K\), coordinate descent, Keller condition, or separability premise is
+introduced.
+
+[ConjugateInvariants.lean](../../../General/Galois/ConjugateInvariants.lean)
+restricts the action via Mathlib's `IsInvariantSubring` and reuses
+`FixedPoints.subalgebra` for \(E^G\). The fraction-field result makes this
+action faithful. Finite-group invariants give integrality over \(E^G\),
+and the already-proved finite type over \(B\) gives module-finiteness over
+\(E^G\). Neither finiteness over \(B\) nor scheme-theoretic freeness is
+inferred. Under the explicit additional assumption that \(N/K\) is
+separable, membership in \(E^G\) is equivalent to membership in the embedded
+base field \(K\).
+
+At this checkpoint the comparison was elementwise. The 2026-09-20
+checkpoint below packages the corresponding \(B\)-subalgebra of \(K\) and
+its fraction field, using `Subalgebra.comap` along the marked base-field
+embedding, not a new abstract quotient or supplied birationality hypothesis.
+
+The geometric route considered at this checkpoint was to identify \(E\) with the
+selected component of the tensor product of conjugate source algebras and
+obtain etaleness from the Keller condition. Scheme-theoretic freeness and
+the invariant affine-open realization would then follow; the ordinary
+fixed-ring construction alone is not the quotient theorem. The relevant
+free-action comparison is [Stacks, Tag 07S7](https://stacks.math.columbia.edu/tag/07S7),
+with the affine invariant-ring formulation in
+[Tag 03BM](https://stacks.math.columbia.edu/tag/03BM).
+Only after identifying this actual open should its reduced complement be
+fed into the existing finite conormal criterion. Keller-specific conormal
+vanishing remains open. The next checkpoint separates the shorter route
+to the target open from these stronger etale/free-action identifications.
+
+The targeted fraction-field build passed all 2521 jobs, and the invariant
+module build passed all 2585 jobs. A combined audit of fifteen declarations
+uses only `propext`, `Classical.choice`, and `Quot.sound`. Five generic
+external-client checks passed: faithful action, module-finiteness,
+inference of the fixed algebra's ring structure, integrality, and the
+separable fixed-field membership equivalence. The canonical fixed-algebra
+ring instance is exported as a specialization of `Subalgebra.toCommRing`;
+no parallel ring structure or quotient is introduced.
+
+The combined build of `CollisionIdeals`, `CollisionIdeals.Planar.Research`,
+`CollisionIdeals.Palomar.PaperOne.Solution`, and
+`CollisionIdeals.Palomar.PaperTwo.Solution` passed all 3820 jobs. Only the
+previously known local-base-change and diagnostic linter warnings replayed;
+the two new modules have no warnings. No axiom or `sorry` declaration was
+added.
+
+The 170-module local import graph is acyclic with no missing imports. The
+focused planar closure remains 35 modules, and the separate research closure
+is 122; all 134 local documentation-link targets checked exist. No manuscript,
+PDF, archive, push, or submission is changed in this step.
+
+## Target-field and unramifiedness checkpoint (2026-09-20)
+
+[ConjugateInvariantField.lean](../../../General/Galois/ConjugateInvariantField.lean)
+realizes the existing fixed algebra in the target function field. Pull back
+\(E\subset N\) along \(K\hookrightarrow N\); the resulting
+\(B\)-subalgebra of \(K\) has fraction field \(K\). Under separability
+of \(N/K\), the fixed-field theorem gives a canonical \(B\)-algebra
+equivalence with the same \(E^G\) already constructed. This gives its
+embedding in \(K\); fractions from \(B\) already suffice to prove
+\(\operatorname{Frac}(E^G)=K\). The compatibility lemmas preserve both
+the original map from \(B\) and the inclusion in \(N\). No additional
+quotient, global competing algebra instance, or birationality hypothesis
+is introduced.
+
+[ConjugateUnramified.lean](../../../General/Keller/ConjugateUnramified.lean)
+uses the Keller condition on the actual generating source sheets. Two
+infinitesimal lifts from \(E\) agree on each conjugate source algebra by
+Keller etaleness, hence agree on their generated algebra. This proves
+formal unramifiedness, and existing finite type gives unramifiedness of
+\(E/B\). This argument does not first identify a tensor-product component
+and does not infer flatness or etaleness of \(E/B\).
+
+### Next geometric construction
+
+The following is an audited proof route, not yet a Lean theorem:
+
+1. Unramifiedness and finite type make \(E/B\) quasi-finite.
+2. Since \(B\) is Noetherian and \(E\) is finite over its fixed subalgebra,
+   [Artin–Tate (Stacks, Tag 00IS)](https://stacks.math.columbia.edu/tag/00IS)
+   makes \(E^G/B\) finite type.
+3. The integral inclusion \(E^G\hookrightarrow E\) gives a surjection on
+   spectra. Thus quasi-finiteness descends to \(E^G/B\), as in
+   [Stacks, Tag 0GWS](https://stacks.math.columbia.edu/tag/0GWS).
+4. Apply the existing
+   `isOpenImmersion_integralClosure_of_quasiFinite` from
+   [OpenImmersion.lean](../../../General/Normalization/OpenImmersion.lean).
+   The fraction-field comparison and normality of \(B\) identify the
+   relative integral closure with \(B\), yielding the desired open
+   immersion \(\operatorname{Spec}(E^G)\hookrightarrow\operatorname{Spec}B\).
+
+This route needs neither scheme-theoretic freeness nor the stronger
+selected-etale-component identification merely to construct the target
+open. Those comparisons remain available for the stronger torsor picture.
+It also does not require assuming that \(E^G\) is normal: normality of
+the target \(B\), already available from the finite function-field data,
+is sufficient here.
+
+The remaining construction after the open immersion is its actual reduced
+boundary and principal presentation. Proving the two Keller-specific
+conormal components vanish is still a separate open theorem. None of the
+new algebraic results identifies \(E^G\) with \(B\) or proves planar
+obstruction vanishing.
+
+The target-field module passed its targeted build (2586 jobs), and the
+unramifiedness module passed its targeted build (2809 jobs), both without
+warnings. The fraction-field proof uses a theorem-local elaboration budget
+and explicit scalar action; this changes no mathematical hypothesis.
+
+The combined axiom audit of thirteen declarations uses only `propext`,
+`Classical.choice`, and `Quot.sound`. All ten external-client checks passed,
+covering the pullback's canonical structures, the equivalence, the original
+fixed algebra's fraction field, both scalar towers, embedding compatibility,
+and the two unramifiedness statements. Four examples require a scoped
+typeclass-synthesis budget of 80000; the two tower examples also bind the
+canonical scalar actions explicitly. These are inference controls, not new
+algebra structures or mathematical premises.
+
+The combined build of `CollisionIdeals`, `CollisionIdeals.Planar.Research`,
+`CollisionIdeals.Palomar.PaperOne.Solution`, and
+`CollisionIdeals.Palomar.PaperTwo.Solution` passed all 3822 jobs. Only the
+pre-existing local-base-change and diagnostic linter warnings replayed.
+The 172-module local import graph is acyclic with no missing imports; the
+focused planar closure remains 35 modules and the separate research closure
+is 124. All 141 local documentation-link targets checked exist, and
+`git diff --check` passes. No manuscript, PDF, archive, commit, push, or
+submission is changed in this checkpoint.
