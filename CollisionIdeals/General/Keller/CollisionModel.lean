@@ -1,4 +1,6 @@
-import CollisionIdeals.General.Keller.Interfaces
+import CollisionIdeals.General.Keller.Etale
+import CollisionIdeals.General.Keller.Normalization
+import CollisionIdeals.General.Normalization.Construction
 import CollisionIdeals.General.Normalization.VisibleRamification
 
 /-!
@@ -50,16 +52,15 @@ variable {F : PolynomialSelfMap k n}
 
 /--
 Assemble a Keller collision model from a supplied normalization diagram and
-its ramification realization.  Flatness is derived from the étale bridge;
-this constructor does not assert existence of the normal closure or of the
-normalization data.
+its ramification realization. Étaleness is proved from the Keller condition,
+and flatness follows. The divisorial diagram and ramification realization
+remain explicit inputs.
 -/
 noncomputable def ofNormalizationDiagram
     (hKeller : IsKeller F)
     {N : Type u} [Field N]
     [Algebra (PolynomialMapBaseFunctionField F) N]
     (diagram : PolynomialNormalizationDiagram (F := F) (N := N))
-    (kellerEtale : KellerEtaleBridge F)
     (ramificationRealization :
       diagram.ConjugateRamificationRealization) :
     PolynomialKellerCollisionModel F where
@@ -68,10 +69,21 @@ noncomputable def ofNormalizationDiagram
   fieldN := inferInstance
   algebraN := inferInstance
   diagram := diagram
-  kellerEtale := kellerEtale
+  kellerEtale := kellerEtaleBridge F
   kellerFlat :=
-    KellerEtaleBridge.toKellerFlatBridge F kellerEtale
+    KellerEtaleBridge.toKellerFlatBridge F (kellerEtaleBridge F)
   ramificationRealization := ramificationRealization
+
+/-- Construct the full collision-normalization model of a characteristic-zero
+Keller map. The finite normal closure, open immersion, divisorial inertia,
+and conjugate local-index realization are all derived internally.
+This does not assert boundary separation or uniform trace landing. -/
+noncomputable def ofIsKeller [CharZero k]
+    (hKeller : IsKeller F) : PolynomialKellerCollisionModel F := by
+  letI := polynomialCanonicalNormalClosure_isSeparable F hKeller
+  let C := polynomialNormalizedCoverOfIsKeller F hKeller
+  exact ofNormalizationDiagram hKeller (polynomialNormalizationDiagramOfCover C)
+    (polynomialNormalizationDiagramOfCover_ramificationRealization C)
 
 /--
 For a Keller collision model, every conjugate center with nontrivial

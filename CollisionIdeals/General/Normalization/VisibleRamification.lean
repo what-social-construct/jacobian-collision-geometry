@@ -1,4 +1,5 @@
 import CollisionIdeals.General.Normalization.Diagram
+import CollisionIdeals.General.Normalization.Finiteness
 import Mathlib.NumberTheory.RamificationInertia.Unramified
 
 /-!
@@ -124,6 +125,63 @@ lemma isUnramifiedAt_of_openImmersion_comp_formallyUnramified
     (Localization.AtPrime q.asIdeal)
   exact RingHom.formallyUnramified_algebraMap.mp htotal
 
+/-- The ramification index at a prime, computed after localizing the
+target at that prime. -/
+noncomputable def localRamificationIndex
+    {R S : Type u} [CommRing R] [CommRing S] [Algebra R S]
+    (P : Ideal S) [P.IsPrime] : ℕ :=
+  Ideal.ramificationIdx (algebraMap R (Localization.AtPrime P))
+    (P.under R) (IsLocalRing.maximalIdeal (Localization.AtPrime P))
+
+/-- At a nonzero unramified prime, the ramification index computed in the
+actual local ring is one. In higher dimensions this local index must not
+be replaced by an index computed using global ordinary ideal powers. -/
+theorem localRamificationIndex_eq_one_of_isUnramifiedAt
+    {R S : Type u} [CommRing R] [CommRing S] [IsDomain S]
+    [Algebra R S] [IsNoetherianRing S] [Algebra.EssFiniteType R S]
+    (P : Ideal S) [P.IsPrime] [Algebra.IsUnramifiedAt R P]
+    (hP : P ≠ ⊥) :
+    localRamificationIndex (R := R) P = 1 := by
+  let A := Localization.AtPrime P
+  change Ideal.ramificationIdx (algebraMap R A)
+    (P.under R) (IsLocalRing.maximalIdeal A) = 1
+  have hmap : (P.under R).map (algebraMap R A) = IsLocalRing.maximalIdeal A :=
+    ((Algebra.isUnramifiedAt_iff_map_eq R (P.under R) P).mp inferInstance).2
+  refine Ideal.ramificationIdx_spec ?_ ?_
+  · rw [pow_one]
+    exact le_of_eq hmap
+  intro h
+  rw [hmap, show 1 + 1 = 2 from rfl, pow_two] at h
+  have hbot := Submodule.eq_bot_of_le_smul_of_le_jacobson_bot _ _
+    (IsNoetherian.noetherian _) h (IsLocalRing.maximalIdeal_le_jacobson _)
+  rw [← IsLocalization.AtPrime.map_eq_maximalIdeal P A,
+    Ideal.map_eq_bot_iff_of_injective] at hbot
+  · exact hP hbot
+  · exact IsLocalization.injective A P.primeCompl_le_nonZeroDivisors
+
+/-- The local-index-one theorem specialized to an arbitrary prime of the
+finite intermediate normalization, before choosing any conjugate center. -/
+theorem polynomialIntermediateNormalization_localRamificationIndex_eq_one
+    (hFinite : IsPolynomialIntermediateNormalizationFinite F)
+    (P : Ideal (PolynomialIntermediateNormalizationRing F)) [P.IsPrime]
+    (hUnram : Algebra.IsUnramifiedAt (A := PolynomialIntermediateNormalizationRing F)
+      (PolynomialImageAlgebra F) P)
+    (hP : P ≠ ⊥) :
+    localRamificationIndex (R := PolynomialImageAlgebra F)
+      (S := PolynomialIntermediateNormalizationRing F) P = 1 := by
+  letI : Module.Finite (PolynomialImageAlgebra F)
+      (PolynomialIntermediateNormalizationRing F) := hFinite
+  letI : IsNoetherianRing (PolynomialImageAlgebra F) :=
+    polynomialImageAlgebra_isNoetherianRing F
+  letI : IsNoetherianRing (PolynomialIntermediateNormalizationRing F) :=
+    IsNoetherianRing.of_finite (PolynomialImageAlgebra F)
+      (PolynomialIntermediateNormalizationRing F)
+  letI : Algebra.IsUnramifiedAt (A := PolynomialIntermediateNormalizationRing F)
+      (PolynomialImageAlgebra F) P := hUnram
+  with_reducible
+    exact localRamificationIndex_eq_one_of_isUnramifiedAt
+      (R := PolynomialImageAlgebra F) (S := PolynomialIntermediateNormalizationRing F) P hP
+
 namespace PolynomialNormalizationDiagram
 
 variable
@@ -144,32 +202,51 @@ instance centerPrime_isPrime
     (D.centerPrime E q).IsPrime :=
   (D.centerAtClass E q).isPrime
 
+/-- A conjugate center over a ramified divisor is nonzero. This follows
+from integrality and the common base center; it is not an extra
+ramification hypothesis. -/
+theorem centerPrime_ne_bot
+    (E : PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
+    (q : D.sheetClasses E) : D.centerPrime E q ≠ ⊥ := by
+  letI : Algebra (PolynomialImageAlgebra F) N :=
+    polynomialNormalExtensionBaseAlgebra (F := F) (N := N)
+  have hE : E.1.asIdeal ≠ ⊥ := by
+    intro hzero
+    have hheight : Ideal.height
+        (R := PolynomialNormalizationInExtensionRing (F := F) (N := N)) E.1.asIdeal = 1 := by
+      rw [Ideal.height_eq_primeHeight, E.2.1]
+    simp [hzero] at hheight
+  have hbase := Ideal.under_ne_bot (PolynomialImageAlgebra F)
+    (B := PolynomialNormalizationInExtensionRing (F := F) (N := N))
+    (P := E.1.asIdeal) hE
+  have hover :
+      (D.centerPrime E q).under (PolynomialImageAlgebra F) =
+        E.1.asIdeal.under (PolynomialImageAlgebra F) :=
+    congrArg PrimeSpectrum.asIdeal (D.centerAtClass_mapsToBase E q)
+  intro hzero
+  rw [hzero, Ideal.under_bot (PolynomialImageAlgebra F)
+    (PolynomialIntermediateNormalizationRing F)] at hover
+  exact hbase hover.symm
+
 /--
 The geometric ramification index of the prime on `X̄` selected by a
-double-coset class.
+double-coset class, computed in the local ring at that prime. Localizing
+the target is essential: global ordinary prime-ideal powers need not
+compute divisorial order in dimension greater than one.
 -/
 noncomputable def geometricRamificationIndex
     (E :
       PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (q : D.sheetClasses E) : ℕ :=
-  Ideal.ramificationIdx
-    (R := PolynomialImageAlgebra F)
-    (S := PolynomialIntermediateNormalizationRing F)
-    ((algebraMap
-      (PolynomialImageAlgebra F)
-      (PolynomialIntermediateNormalizationRing F)) :
-        PolynomialImageAlgebra F →+*
-          PolynomialIntermediateNormalizationRing F)
-    (Ideal.under
-      (B := PolynomialIntermediateNormalizationRing F)
-      (PolynomialImageAlgebra F) (D.centerPrime E q))
+  localRamificationIndex
+    (R := PolynomialImageAlgebra F) (S := PolynomialIntermediateNormalizationRing F)
     (D.centerPrime E q)
 
 /--
 The valuation-theoretic realization of the selected double-coset centers.
 
-It records that the selected centers are divisorial and that their
-geometric ramification indices are the standard group indices.
+It records nonzero selected centers and identifies their local
+ramification indices with the standard group indices.
 -/
 structure ConjugateRamificationRealization : Prop where
   center_ne_bot :
@@ -178,6 +255,13 @@ structure ConjugateRamificationRealization : Prop where
     ∀ E q,
       D.inertiaIndex E q =
         D.geometricRamificationIndex E q
+
+/-- Only the inertia/local-index comparison remains to build the
+ramification realization: nonzero centers follow from the diagram. -/
+theorem ConjugateRamificationRealization.ofIndexEquality
+    (hindex : ∀ E q, D.inertiaIndex E q = D.geometricRamificationIndex E q) :
+    D.ConjugateRamificationRealization :=
+  ⟨D.centerPrime_ne_bot, hindex⟩
 
 /--
 An actual conjugate center that remains in the affine-space open sheet is
@@ -216,37 +300,30 @@ theorem centerPrime_isUnramifiedAt_of_visible
     isUnramifiedAt_of_openImmersion_comp_formallyUnramified
       (polynomialSourceToIntermediateNormalization F) x
 
-/--
-At a visible conjugate center, scheme-theoretic étaleness forces the
-geometric ramification index to be one.
--/
-theorem geometricRamificationIndex_eq_one_of_visible
-    (R : D.ConjugateRamificationRealization)
+/-- An unramified conjugate center has local geometric index one. -/
+theorem geometricRamificationIndex_eq_one_of_isUnramifiedAt
     (E :
       PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
     (q : D.sheetClasses E)
+    (hUnram : Algebra.IsUnramifiedAt (A := PolynomialIntermediateNormalizationRing F)
+      (PolynomialImageAlgebra F) (D.centerPrime E q)) :
+    D.geometricRamificationIndex E q = 1 := by
+  unfold geometricRamificationIndex
+  with_reducible
+    exact polynomialIntermediateNormalization_localRamificationIndex_eq_one
+      (F := F) D.cover.finiteIntermediateModel (D.centerPrime E q) hUnram
+      (D.centerPrime_ne_bot E q)
+
+/-- At a visible conjugate center, étaleness forces local geometric
+ramification index one. -/
+theorem geometricRamificationIndex_eq_one_of_visible
+    (E : PolynomialRamifiedCodimensionOnePoint (F := F) (N := N))
+    (q : D.sheetClasses E)
     (hEtale : Etale (polynomialSourceToImageBase F))
     (hVisible : D.ConjugateCenterVisible E q) :
-    D.geometricRamificationIndex E q = 1 := by
-  letI : Module.Finite
-      (PolynomialImageAlgebra F)
-      (PolynomialIntermediateNormalizationRing F) :=
-    D.cover.finiteIntermediateModel
-  letI : IsNoetherianRing (PolynomialImageAlgebra F) := by
-    unfold PolynomialImageAlgebra polynomialMapImageAlgebra
-    infer_instance
-  letI :
-      IsNoetherianRing (PolynomialIntermediateNormalizationRing F) :=
-    IsNoetherianRing.of_finite
-      (PolynomialImageAlgebra F)
-      (PolynomialIntermediateNormalizationRing F)
-  letI : Algebra.IsUnramifiedAt
-      (A := PolynomialIntermediateNormalizationRing F)
-      (PolynomialImageAlgebra F) (D.centerPrime E q) :=
-    D.centerPrime_isUnramifiedAt_of_visible E q hEtale hVisible
-  exact
-    Ideal.ramificationIdx_eq_one_of_isUnramifiedAt
-      (R.center_ne_bot E q)
+    D.geometricRamificationIndex E q = 1 :=
+  D.geometricRamificationIndex_eq_one_of_isUnramifiedAt E q
+    (D.centerPrime_isUnramifiedAt_of_visible E q hEtale hVisible)
 
 /--
 Étaleness sends a conjugate center with nontrivial relative inertia into
@@ -269,7 +346,7 @@ theorem ramifiedCenter_mem_boundary
   rw [R.inertiaIndex_eq_geometricRamificationIndex]
   exact
     D.geometricRamificationIndex_eq_one_of_visible
-      R E q hEtale hVisible
+      E q hEtale hVisible
 
 /--
 The ramification realization and étaleness place every positive-index

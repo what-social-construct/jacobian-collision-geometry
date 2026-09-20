@@ -214,6 +214,37 @@ theorem inertia_apply_inv_pow' (n : ℕ) :
       (T.inertiaScalar ^ n)⁻¹ * (T.uniformizer ^ n)⁻¹ :=
   inertia_apply_inv_pow T.inertiaAction T.inertia_uniformizer n
 
+/-- Every pole whose order is a multiple of the ramification index is
+inertia-invariant. Thus killing the nontrivial inertia characters does not
+itself bound the orders of the surviving principal parts. -/
+theorem inertia_apply_inv_pow_mul_ramificationIndex (n : ℕ) :
+    T.inertiaAction ((T.uniformizer ^ (T.ramificationIndex * n))⁻¹) =
+      (T.uniformizer ^ (T.ramificationIndex * n))⁻¹ := by
+  rw [T.inertia_apply_inv_pow', pow_mul, T.inertiaScalar_pow]
+  simp
+
+/-- Even when the tame unit is horizontal, the logarithmic derivation
+acts on every surviving invariant pole: its weight is `-n`, not a
+vanishing statement. This calculation supplies no uniform pole bound. -/
+theorem derivation_apply_inv_pow_mul_ramificationIndex
+    (hunit : T.derivation T.unit = 0) (n : ℕ) :
+    T.derivation ((T.uniformizer ^ (T.ramificationIndex * n))⁻¹) =
+      -(n : K) * (T.uniformizer ^ (T.ramificationIndex * n))⁻¹ := by
+  have h := apply_zpow_of_eq_unit_mul_pow T.derivation
+    T.ramificationIndex_pos T.unit_ne_zero T.uniformizer_ne_zero
+    T.branch_eq hunit T.derivation_branch
+    (-((T.ramificationIndex * n : ℕ) : ℤ))
+  simp only [zpow_neg, zpow_natCast] at h
+  simp only [Int.cast_neg, Int.cast_mul, Int.cast_natCast, Nat.cast_mul] at h
+  have he : (T.ramificationIndex : K) ≠ 0 := by
+    exact_mod_cast Nat.ne_of_gt T.ramificationIndex_pos
+  rw [h]
+  calc
+    _ = -(n : K) * ((T.ramificationIndex : K) *
+        (T.ramificationIndex : K)⁻¹) *
+        (T.uniformizer ^ (T.ramificationIndex * n))⁻¹ := by ring
+    _ = _ := by rw [mul_inv_cancel₀ he, mul_one]
+
 end TameParameterData
 
 end LogarithmicInertia

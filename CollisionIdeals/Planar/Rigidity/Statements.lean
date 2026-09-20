@@ -47,8 +47,9 @@ def PlanarBoundaryCoherence (F : PlanarPolynomialMap) : Prop :=
     (planarIntermediateBoundaryIdeal F)
 
 /--
-The minimal planar ramification target: the module of relative differentials
-of the common Galois normalization has finite length.
+A sufficient ramification criterion for the central `PlanarVanishing` target:
+the module of relative differentials of the common Galois normalization has
+finite length. This criterion is not the obstruction-vanishing statement itself.
 
 The normalization ring is already finite over the polynomial image algebra;
 finite length is the additional assertion that the differential module has

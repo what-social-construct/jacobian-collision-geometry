@@ -63,14 +63,14 @@ Until then, classify the object as `retain`, `compatibility`, or
 | $h_\alpha=m_\alpha/(T-\alpha)$ | residual minimal-polynomial factor over $L$ | `minpolyDiv K pb.gen` | Exact. |
 | $D_\alpha=L[T]/(h_\alpha)$ | residual generic algebra, quadratic under the degree-three hypothesis | `CubicResidualAlgebra K L pb := AdjoinRoot (minpolyDiv K pb.gen)` | Exact construction. Despite its name, the Lean definition does not enforce degree three; rank two uses the separate `hdegree`. It is neither the affine colon ring nor automatically the normal closure. |
 | $\Phi_\alpha\colon L\otimes_KL\simeq_LL\times D_\alpha$ | marked-root decomposition | `primitiveTensorDecomposition`; adapter `cubicGenericCollisionEquiv` | Exact; `fst_cubicGenericCollisionEquiv` identifies the first-coordinate map with $\mu_L$. The adapter itself also does not carry the degree-three hypothesis. |
-| $N/K$ with a marked inclusion $L\hookrightarrow N$ | normal closure of $L/K$ | `NormalClosureData K L N` | Exact object. `hmarked` is required when comparing its embedding with the scalar-tower $L$-structure on $N$. |
+| $N/K$ with a marked inclusion $L\hookrightarrow N$ | normal closure of $L/K$ | `NormalClosureData K L N`; `canonicalNormalClosureData` in `General.Galois.CanonicalNormalClosure` | Exact object and existence construction for finite extensions, with a chosen marked embedding. Separability of the extension gives a Galois normal closure. `hmarked` is required when comparing the marking with a separately supplied scalar-tower $L$-structure on $N$. |
 | $G=\operatorname{Gal}(N/K)$, $H=\operatorname{Gal}(N/L)$ | Galois group and subgroup fixing the marked copy of $L$ | `D.galoisGroup`, `D.intermediateFixingSubgroup` | Exact. Identifying this marked subgroup with the scalar-tower copy of $\operatorname{Gal}(N/L)$ uses `hmarked`. In the cubic proof, $G/H$ is the three-element coset set on which $G$ acts. |
 | $\varphi_\alpha\colon D_\alpha\simeq_LN$ | residual-factor identification in the nonnormal cubic branch | `cubicResidualEquivNormalClosureOfNotNormal` in `ComplexThree.Cubic.Branch` | Exact over a perfect base from cubic degree, separability, marked normal-closure data, and nonnormality. Lower-level generic constructors still accept an explicit equivalence. |
 | $\Psi_\alpha=(\operatorname{id}_L\times\varphi_\alpha)\circ\Phi_\alpha$, $\Psi_F=\Psi_\alpha\circ\Phi_F$ | normal-closure decompositions of the self-tensor and generic collision algebra | `cubicGenericCollisionEquivResidualField`; `polynomialGenericCubicResidualEquiv` in `ComplexThree.Cubic.S3Collision` | Exact after the residual equivalence is supplied; the high-level cubic theorem constructs that input from nonnormality. |
 | $J_{F,K}=\ker(\theta\circ(1\otimes\bar\mu_F))$ | generic diagonal kernel | kernel of `polynomialGenericCollisionDiagonal F hsurj` | Exact expression; no standalone Lean alias. |
 | $C_{F,K}/\operatorname{Ann}(J_{F,K})\simeq_KN$ | intrinsic generic residual quotient | `genericOffDiagonalEquivResidual`, with scalar compatibility `genericOffDiagonalEquivResidual_algebraMap` | Exact after a product presentation. The current API is a ring equivalence plus a scalar-compatibility theorem, not a bundled `AlgEquiv`, and the high-level cubic wrapper does not package this quotient. Deliberately not identified with $K\otimes_BC_F^\circ$. |
 | $F$ is Keller | nonzero constant Jacobian determinant | `IsKeller F`; dimension-three alias `IsComplexThreeKeller F` | Exact. It is a condition in the cubic counterexample equivalence, not a consequence of generic degree three. |
-| Keller generic geometry | $F$ is étale and generically finite; $L/K$ is finite separable | `KellerEtaleBridge F` and the derived `KellerEtaleBridge.toKellerFlatBridge` in `General.Keller.Interfaces` | Partial representation. The interface encodes étaleness and now derives module flatness from it; generic finiteness and finite separability are not yet packaged, and the cubic API assumes separability and generic-source surjectivity explicitly. |
+| Keller generic geometry | $F$ is étale and generically finite; $L/K$ is finite separable | `polynomialSource_etale_of_isKeller` and `kellerEtaleBridge` in `General.Keller.Etale`; generic-field theorems in `General.Keller.GenericFiniteness` | Proved from Keller in arbitrary characteristic. Full étaleness uses the graph presentation over the actual coordinate-image algebra and the Jacobian criterion; flatness follows. Existing cubic constructors retain explicit separability and generic-source-surjectivity arguments. |
 | Keller--Galois rigidity | a Keller map with normal $L/K$ is a polynomial automorphism | `ComplexKellerGaloisRigidity n` in `General.Automorphism.GaloisRigidity` | Explicit interface. The classical theorem is represented as a proposition, not assumed as an axiom or proved in Lean. |
 | Automorphism $\Rightarrow L/K$ trivial $\Rightarrow [L:K]=1$ | function-field consequence of polynomial automorphy | `polynomialFunctionFieldExtensionTrivial_of_isPolynomialAutomorphism` and `polynomialFunctionField_finrank_eq_one_of_isPolynomialAutomorphism` in `General.Automorphism.GenericDegreeOne` | Exact. Only this forward implication is asserted here. |
 | $F$ is a $JC(3)$ counterexample | Keller and not a polynomial automorphism | `IsComplexThreeJacobianCounterexample F` in `ComplexThree.Statements.JacobianConjecture` | Exact definition. |
@@ -85,14 +85,14 @@ Until then, classify the object as `retain`, `compatibility`, or
 | P0 | $\operatorname{Spec}D_\alpha$ connected iff $D_\alpha$ is a field iff $h_\alpha$ is irreducible iff $L/K$ is nonnormal | Partially proved: `irreducible_minpolyDiv_of_cubic_of_not_normal` establishes the nonnormal-to-irreducible direction, and the residual rank-two and injective evaluation-map lemmas are in `ComplexThree.Cubic.Branch` | Complete the converse and package the separable quadratic split/field/connectedness equivalences. |
 | P0 | In the nonnormal branch, $D_\alpha\simeq_LN$ and $H\ne1$ | Proved by `cubicResidualEquivNormalClosureOfNotNormal` and `NormalClosureData.intermediateFixingSubgroup_ne_bot_of_not_normal`; the high-level cubic theorem derives both from nonnormality | Retain. The generic constructors intentionally remain parameterized. |
 | P0 | Classical Galois rigidity: Keller plus normal $L/K$ implies automorphism and $L=K$ | Automorphism conclusion represented by the explicit interface `ComplexKellerGaloisRigidity`; no axiom or proof is installed. Automorphy now internally implies triviality of the induced function-field extension and finrank one. | Continue to pass the literature theorem through this shared General interface. |
-| P0 | Every complex Keller map is étale and generically finite, with finite separable $L/K$ | Manuscript proves this in the general construction; Lean has a `KellerEtaleBridge` interface and derives `KellerFlatBridge` from it | Formalize the Jacobian-criterion implication and derive the finite/separable generic-field package used by both papers. |
-| P0 | Every complex Jacobian-conjecture counterexample has generic degree at least three | Manuscript corollary of Keller generic geometry and classical Galois rigidity. The degree-two exclusion is now exact relative to the rigidity input via `ComplexKellerGaloisRigidity.not_counterexample_of_finrank_eq_two`; the full lower-bound theorem is not packaged. | Package the degree-one case and the finite-degree lower bound once Keller generic geometry is available. |
+| P0 | Every complex Keller map is étale and generically finite, with finite separable $L/K$ | Proved over any field: `General.Keller.Etale` proves full algebraic and scheme étaleness; `General.Keller.GenericFiniteness` proves the finite separable generic extension. Flatness follows from étaleness. | Retain the shared dimension-independent theorems. |
+| P0 | Every complex Jacobian-conjecture counterexample has generic degree at least three | Manuscript corollary of Keller generic geometry and classical Galois rigidity. The degree-two exclusion is now exact relative to the rigidity input via `ComplexKellerGaloisRigidity.not_counterexample_of_finrank_eq_two`; the full lower-bound theorem is not packaged. | Package the degree-one case and finite-degree lower bound using the now-proved Keller finite/separable generic-field results; full scheme étaleness is not needed for this step. |
 | P1 | Positive finite generic degree makes $\theta\colon K\otimes_BA\to L$ surjective | Proved by `polynomialGenericSourceTensorMap_surjective_of_finrank_pos`; lower-level equivalence constructors still accept the proof explicitly | Retain the theorem and derive `hsurj` at manuscript-facing wrappers. |
 | P1 | $C_F\simeq_BA\otimes_BA$, with diagonal evaluation equal to multiplication | Exact at ring level through `collisionImageTensorEquiv` and its diagonal theorem | Retain the image-algebra version as the canonical manuscript correspondence; a separate scheme-level wrapper is optional. |
 | P1 | The intrinsic generic residual quotient is $N$ | Exact via the product-annihilator calculation | Retain. Do not strengthen it to $K\otimes_BC_F^\circ\simeq N$ without a localization--colon theorem. |
 | P1 | Residual product data imply $\operatorname{Obs}(F)\ne0$ and $I_R\subsetneq I_\Delta$ | Exact in the generic parameterized API; `complexThreeCubicS3Collision` now constructs the required residual equivalence from nonnormality | Add the standalone generic-degree-three nonautomorphism/counterexample equivalence without routing through the stronger normal-closure package. |
 | P1 | $G/H\simeq\operatorname{Hom}_K(L,N)$ | Core-free action and related consequences are proved, but the displayed bijection is not packaged | Add the restriction/coset equivalence only if a downstream theorem consumes it. |
-| P2 | Hidden inertia on a conjugate sheet | Parameterized by ramification-realization and Keller--étale interfaces | Keep in Further Directions and the optional cubic module; do not make it a dependency of the cubic core. |
+| P2 | Hidden inertia on a conjugate sheet | Parameterized by a normalization diagram and ramification realization; the Keller--étale certificate is now proved | Keep in Further Directions and the optional cubic module; do not make it a dependency of the cubic core. |
 
 ### Paper I naming discipline
 
@@ -146,15 +146,52 @@ retain exactly the meanings in the Paper I dictionary above.
 The focused theorem does **not** prove the full planar Jacobian conjecture:
 nonnormal generic degrees at least three remain outside its scope.  The
 boundary program below concerns that separate full-`JC(2)` problem and must
-not be presented as a dependency or unfinished step of the degree-two paper.
+not be presented as a dependency or unfinished step of the degree-two
+theorem. Paper II now records a separate prospective finite-boundary
+section without changing that theorem's hypotheses.
 
 ## Separate future research: full planar boundary reduction
 
-The following queue tracks the separate planar reduction as two
-geometric statements, a proved finite Tate--conductor reduction, one missing
-morphism, and the existing divisorial endgame.
+The following queue tracks the separate planar boundary program, including
+the original principal-parts/Tate--conductor route and the shorter formalized
+route through genuine open-complement sections.
 
-### Semantic spine
+### Active finite first-order boundary target
+
+The active comparison uses the reduced target-base boundary
+$\mathfrak b_F=(s)\subset B$ of the all-conjugate open
+$U_F=\operatorname{Spec}(E^G)=D(s)$, where
+$E=B[g(\iota(A)):g\in G]\subset N$. The algebra is now instantiated
+as `polynomialConjugateAlgebra`; its quotient/open identification remains
+a mathematical argument in Paper II, not yet a Lean theorem.
+The target is the vanishing of the two classes
+$(\partial_Ps\bmod s,\partial_Qs\bmod s)$, equivalently preservation
+of the rank-one module $s^{-1}B$ by the two target derivatives.
+
+| Notation / claim | Lean correspondence | Status / guardrail |
+|---|---|---|
+| $\mathfrak b_F=(s)\subset B$, $U_F=D(s)$ | Actual all-conjugate base boundary not yet instantiated | Distinct from $\operatorname{Obs}(F)\subset C_F$, the intermediate normalization boundary, and the secant denominator in $T$. |
+| $E=B[g(\iota(A)):g\in G]\subset N$ | polynomialConjugateAlgebra in General.Galois.ConjugateAlgebra | Actual finite-coordinate adjoin over $B$; conjugate-polynomial membership, Galois stability, and finite type proved. No module-finiteness or boundary-preservation assertion. |
+| $s^{-1}B$ | Span over $B$ of the inverse of the image of $s$ in its fraction field | Existing submodule expression; one generator, not a new boundary definition. |
+| $D(s^{-1}B)\subseteq s^{-1}B\iff D(s)\in(s)$ | derivation_preserves_span_inv_iff in General.Normalization.SimplePole | Proved for a derivation and compatible fraction-field extension, with $s\ne0$. |
+| Both coordinate simple-pole tests hold iff $s$ is a unit | forall_derivation_inv_mem_span_singleton_iff_isUnit in General.Normalization.SimplePole | Proved over every characteristic-zero polynomial base. No squarefree or dimension-two hypothesis is needed for this algebraic criterion. |
+| $\mathfrak b/\mathfrak b^2$ | Mathlib Ideal.Cotangent | Existing quotient; no duplicate module. |
+| $[f]\mapsto[D(f)]$ from $\mathfrak b/\mathfrak b^2$ to $B/\mathfrak b$ | derivationConormalComponent in General.Normalization.ConormalDerivation | Component adapter for the standard conormal map. Its vanishing criterion concerns ideal preservation, not a proof of Keller-specific preservation. |
+| Galois conjugates satisfy $F(a)=F(b)$ and the secant relation | General.Galois.PolynomialCollisionPair and Planar.ConjugateSecantEvaluation | Already available without coordinate descent or normality of $L/K$. Descent only puts the conjugate coordinates in the marked $L$. |
+| The actual Keller boundary has zero conormal components | No proof | This is the substantive remaining target. Finite coefficient clearing and preservation of each conjugate source algebra do not prove it. |
+
+Finite here means finitely generated over $B$ (or its boundary quotient),
+not finite-dimensional over $\mathbb C$ or finite length. The quotient
+of the three-generator first-jet module by $s^{-1}B$ and the image of the
+conormal map have the same vanishing criterion; they are not identified
+as modules. No whole pole tower is part of this finite target.
+
+The older trace and ramification routes below remain on the object bench.
+Pruning is deferred until the finite comparison and its actual dependencies
+are established; no research object is deleted merely because its route
+is currently inactive.
+
+### Alternative trace and ramification spine
 
 For $T=A_N$, a prime-order subgroup $C\leq G$, and
 
@@ -193,6 +230,14 @@ the current research reduction is:
 5. **Endgame.**  The resulting contradiction gives boundary separation,
    then no height-one ramification, purity, $N=K$, and collision vanishing.
 
+The actual-section route now proves the pole witness directly: a removed
+height-one prime yields a section outside $T$ by local ideal-power containment
+and finite denominator clearing. An integral generic basis supplies a
+nonzero denominator for all of $T^\dagger$. Thus any nonzero multiplier
+sending all of $R_C$ into $T^\dagger$ would force $R_C=T$ by the proved
+normal-Noetherian overring lemma, contradicting that section. This bypasses
+the still-unformalized local-cohomology comparison; it does not assert it.
+
 The secant--frame denominator ideal is constructed and nonzero; its inclusion
 in the trace transporter remains open.  A merely nonzero intersection would
 still be equivalent to boundary separation, because nonzero ideals in the
@@ -222,23 +267,122 @@ There is also a finite-overring shortcut: a nonzero scalar
 with $J_{\mathrm{sec}}sR_C\subseteq R_{\mathrm{sec}}$ places $R_C$ inside
 the finite $T$-module $(J_{\mathrm{sec}}s)^{-1}T$.  Noetherianity and
 normality then force $R_C=T$.  The generic algebraic collapse lemma is proved
-in `Research.MonogenicLanding`.  The open-section algebra $R_C$ and its
-specialization to that lemma are not yet formalized; the current planar
-theorems instead reach separation through an explicit pointwise pole-test
-hypothesis.
+in `Research.MonogenicLanding`.  `Research.BoundarySections` now constructs
+the actual open-section algebra $R_C$, embeds it in $N$, and proves its
+identification with the structure-sheaf section ring.
+`Research.NormalizationTraceBound` specializes the collapse lemma to a
+nonzero trace multiplier on $R_C$, and `Research.BoundaryPoleWitness` derives
+the actual-section pole witness. `Research.SecantFrameTraceLanding` therefore
+requires only uniform landing, in addition to its supplied normalization
+model and the existing literature inputs to the divisorial endgame.
+
+The finite-denominator and uniform-landing claims are now separated by an
+explicit Lean negative control in `Research.FiniteDenominatorCounterexample`:
+for $T=k[X]$ and $R=T[X^{-1}]$, the singleton coefficient $X^{-1}$ has
+nonzero denominator $X$, but the transporter of the entire overring $R$
+into $T$ is zero. This is not a Keller counterexample. For the actual
+normalization section ring,
+`boundarySectionSubalgebra_eq_bot_of_secantFrameTraceLanding` proves that
+the prescribed containment forces $R_C=T$, even without restricting $C$ to
+prime order. Thus the containment itself carries the missing vanishing
+argument; the nonzero finite denominator does not discharge it.
+
+The local tame calculation also does not close landing.
+`TameParameterData.inertia_apply_inv_pow_mul_ramificationIndex` proves
+that the poles $t^{-en}$ remain inertia-invariant, and
+`derivation_apply_inv_pow_mul_ramificationIndex` gives their logarithmic
+eigenvalue when the tame unit is horizontal. These identities provide no
+uniform pole bound. The extended Keller frame preserves each conjugate
+polynomial sheet; preservation of the whole normalization or arbitrary
+boundary sections is not established. The remaining argument must use
+the global polynomial-source geometry, not merely local logarithmic
+diagonalization or finite coefficient clearing.
+
+### Uniform model construction: proved and remaining
+
+The model input is not a single field-existence gap. Its algebraic part now
+has the following dimension-independent constructions; none assumes a
+complete collision-normalization model.
+
+| Component | Lean owner | Status |
+|---|---|---|
+| Finite separable $L/K$ from Keller | `General.Keller.Unramified`, `General.Keller.GenericFiniteness` | Proved, in arbitrary characteristic, using the inverse-Jacobian derivation argument and localization. |
+| Marked finite normal closure $N/K$ | `General.Galois.CanonicalNormalClosure`; `polynomialCanonicalNormalClosureData` | Constructed inside an algebraic closure with a chosen embedding of $L$; separability and the Galois property are proved. |
+| Injective target coordinate map; normal Noetherian $B$ | `General.Normalization.Finiteness`; `coordinateAlgHom_injective_of_isKeller` | Proved from finite generic degree by transcendence degree and algebraic independence. |
+| Finite intermediate and normal-closure normalization rings | `General.Normalization.Finiteness`, `General.Keller.Normalization` | Proved. `polynomialNormalizedCoverOfIsKeller F hKeller` constructs the canonical finite cover without a separate open-immersion input. |
+| Open immersion $\operatorname{Spec}A\to\operatorname{Spec}\overline B^{\,L}$ | `General.Normalization.OpenImmersion`; `polynomialSourceToIntermediateNormalization_isOpenImmersion_of_isKeller` | Proved by quasi-finiteness and algebraic Zariski's main theorem, with the comparison to the actual normalization in $L$. |
+| Scheme étaleness and flatness | `General.Keller.Etale`, `General.Keller.Interfaces` | Proved using the graph presentation and Jacobian criterion; flatness follows. Neither is an external model-construction input. |
+| Centered divisorial valuation tower at every height-one point of $T$ | `General.Normalization.DivisorialValuation`; `polynomialDivisorialValuation_centered` | Constructed from the height-one DVR and its valuation on $N$; algebraicity makes the restriction to $K$ nontrivial. |
+| Actual conjugate centers on $D\backslash G/H$ | `General.Normalization.ConjugateCenters`; `polynomialConjugateCenterAtClass` | Constructed by contraction along $g\circ\iota$. Centeredness proves left decomposition invariance; the marked fixing subgroup proves right invariance. No classification or bijectivity of primes is claimed. |
+| Diagram assembly | `General.Normalization.Construction`; `polynomialNormalizationDiagramOfCover` | In characteristic zero, constructs the diagram from the finite cover, including nontrivial inertia at its ramified divisors. The more general constructor with an explicit inertia input remains available. |
+| Inertia detection and the inertia/local-index comparison | `General.Normalization.PolynomialDivisorialRamification`, `General.Normalization.PolynomialDivisorialIndex` | Proved in characteristic zero for the actual divisorial valuations and conjugate centers; `polynomialNormalizationDiagramOfCover_ramificationRealization` assembles the comparison. |
+| Full Keller collision-normalization model | `General.Keller.CollisionModel`; `PolynomialKellerCollisionModel.ofIsKeller` | Constructed from the characteristic-zero Keller condition. It contains neither boundary separation nor uniform trace landing. |
+
+**Ramification-index notation correction.** The geometric index is
+computed after localizing the intermediate normalization
+$T'=\overline B^{\,L}$ at its selected prime $P$:
+
+$$
+e(P/\mathfrak p)=\operatorname{ramificationIdx}
+  \bigl(B\to (T')_P,\ \mathfrak p,\ \mathfrak m_{(T')_P}\bigr),
+\qquad \mathfrak p=P\cap B.
+$$
+
+Global ordinary powers $P^r$ need not compute divisorial order in dimension
+greater than one. The previous global definition has therefore been
+replaced by this local one, consistent with the
+[DVR definition in the Stacks Project](https://stacks.math.columbia.edu/tag/09E4).
+Visible centers are proved to have local index one. The divisorial
+comparison identifies this local index with the existing double-coset
+inertia index, not with an unlocalized ideal-power invariant.
+The proof API separates the general local-ring lemma, its specialization
+to an arbitrary prime of the finite intermediate normalization, the
+unramified conjugate-center lemma, and the visible-center consequence.
+None of these index-one results assumes the inertia/index comparison.
+The inertia comparison is proved in characteristic zero, where the
+residue extensions are separable. The arbitrary-field constructions above
+do not assert that the index comparison holds without such hypotheses.
+
+The proof separates the valuation-ring/localization identification,
+the restricted base DVR, and the residue actions. The constructor
+`PolynomialKellerCollisionModel.ofIsKeller` now combines these results with
+the canonical finite cover and the Keller étale/flat bridges. The lower-level
+`ofNormalizationDiagram` constructor remains available for supplied models.
+Neither construction proves uniform boundary landing or planar vanishing.
+
+Axiom checks for the new Keller étaleness, normal-closure, normalization,
+divisorial-valuation, conjugate-center, and landing-audit results use only
+`propext`, `Classical.choice`, and
+`Quot.sound`. The conditional planar endpoint retains the existing
+`branchPurityA2` and `affinePlaneFiniteEtaleRigidity` literature inputs;
+no new axiom or `sorry` is introduced by these constructions.
+
+### Concrete research objects
+
+| Notation | Lean declaration | Status / guardrail |
+|---|---|---|
+| $U_C=\operatorname{Spec}T\setminus V(\mathfrak J_C)$ | `fixedMovingBoundaryOpen D C` in `Research.BoundarySections` | Exact. Nonemptiness for $C\ne1$ follows from the faithful action on the normalization. |
+| $R_C=\Gamma(U_C,\mathcal O)\subseteq N$ | `BoundarySectionRing D C`; `boundarySectionsToNormalClosure D C hC`; `boundarySectionSubalgebra D C hC` | Exact. The embedding is injective, and `boundarySectionsEquivSubalgebra` identifies the actual section ring with its image. |
+| $\widetilde\partial_P,\widetilde\partial_Q$ on $N$ | `planarKellerFirstFrameNormal D c`, `planarKellerSecondFrameNormal D c` in `Research.KellerFrameExtension` | Constructed through formally étale extension along $A\to L\to N$, with marked-field compatibility, target-coordinate duality, and preservation of each conjugate polynomial sheet. The model endpoint chooses $c$ from its Keller certificate. |
+| $\Lambda^{\mathrm{sf}}_{C,1}$ | `secantFrameLattice T D C c` in `Research.SecantFrameCandidate` | Exact finite lattice: $T$ plus evaluated secant/adjugate entries and their zeroth, $P$, and $Q$ jets on moved pairs $(g,\sigma g)$. |
+| $\mathfrak d^{\mathrm{sf}}_{C,1}$ | `secantFrameDenominatorIdeal T D C c` | Exact; membership clears every actual coefficient into $T$, and nonvanishing follows from the fraction-field property. This does not prove landing for all of $R_C$. |
+| $dT^\dagger\subseteq T$, $d\ne0$ | `exists_nonzero_normalizationTraceIntegralSubmodule_denominator D` in `Research.NormalizationTraceBound` | Proved from an integral generic basis and finite denominator clearing; no finite-local-freeness assumption is introduced. |
+| A removed height-one prime forces $R_C\ne T$ | `boundarySectionSubalgebra_ne_bot_of_heightOne` in `Research.BoundaryPoleWitness` | Proved using actual sheaf sections. Bottom here is the base $T$-subalgebra, not the zero ring. |
+| Every $s\ne0$ fails the trace test on some $z\in R_C$ at a removed height-one prime | `boundarySection_poleWitness` | Proved without Keller, inertia, landing, or separation as assumptions, for the supplied normalization diagram. |
 
 ### Parity queue
 
 | Priority | Semantic item | Manuscript | Lean | Action |
 |---|---|---|---|---|
 | P0 | Fixed, moving, and fixed--moving boundary ideals | proved | proved | retain stable API |
-| P0 | Prime-order formulation of boundary separation | proved by Cauchy reduction | all nontrivial subgroups only | prove subgroup monotonicity and the prime-order equivalence |
+| P0 | Prime-order formulation of boundary separation | proved by Cauchy reduction | subgroup monotonicity and `boundarySeparation_of_primeOrder` are proved in `Planar.Boundary.PrimeOrder`; the concrete landing endpoint requires only prime-order subgroups | retain; the reverse implication is direct specialization |
 | P0 | Fixed-locus containment versus inertia | stated as an iff | only actual inertia implies containment | prove the converse and then `Sep ↔ no height-one ramification` |
 | P1 | $\mathcal P_C^{\mathrm{fm}}$ | defined and analyzed | definition only | retain; formalize localization and support |
-| P1 | DVR pole-tower calculation | proved | missing | add local-cohomology localization/Čech infrastructure and unboundedness |
+| P1 | DVR pole-tower calculation | proved | local-cohomology formulation still missing; the pointwise actual-section witness needed by the endpoint is now proved independently | retain as an optional comparison, not a remaining premise of the concrete landing endpoint |
+| P1 | Global section pole witness | follows from the original pole calculation | proved by `boundarySection_poleWitness`, using a proper section overring and trace-dual boundedness | retain; it now discharges the concrete endpoint's former `hPole` input |
 | P1 | $S_2$ vanishing and `Sep ↔ P=0` | proved | missing | formalize after the local calculation |
 | P1 | Common map $\mathcal P_C^{\mathrm{fm}}\to N/T$ | constructed by the open-complement sequence | missing | construct before typing the landing square |
-| P2 | Trace dual $T^\dagger$ | specialized and proved finite | generic carrier proved equal to Mathlib `Submodule.traceDual`; `Research.TraceLanding` specializes the carrier to a normalization diagram, while finiteness is still missing | prove the finite-local-free specialization |
+| P2 | Trace dual $T^\dagger$ | specialized and proved finite | generic carrier identified with Mathlib `Submodule.traceDual`; concrete specialization has a proved nonzero uniform denominator via an integral generic basis | finite-local-free and dual-module identifications remain optional comparisons; boundedness needed by the pole witness is proved |
 | P2 | $Q_{\mathrm{tr}}=T^\dagger/T\to N/T$ | proved | missing | define quotient, finiteness, and ambient inclusion |
 | P2 | Local inverse-different stage | proved | missing | reuse Mathlib different/trace-dual API; formalize tame exponent afterward |
 | P2 | Finite local freeness of $T/B$ | proved from surface CM and miracle flatness | not formalized | prove it or expose a narrowly scoped geometric interface |
@@ -246,10 +390,10 @@ hypothesis.
 | P2 | Tate--conductor identity $T^\dagger=J_{\mathrm{sec}}^{-1}(R_{\mathrm{sec}}:T)$ | proved | generic power-basis reconstruction and monogenic/overorder trace-dual--conductor identities are proved; `Research.MonogenicLanding` now identifies the monogenic bounded stage and landing ideal with the trace dual and trace transporter under the integral primitive-generator hypotheses | instantiate the integral primitive generator in the normalization data |
 | P3 | Explicit divided-difference secant matrix | defined canonically | the coefficientwise construction, determinant annihilation, diagonal restriction, explicit secant ideal, and quotient-ring projector are proved in `Planar.ExplicitSecant`; legacy chosen data remain as a separate presentation | use the explicit API in Paper II; migrate or remove the chosen presentation only after all remaining consumers move |
 | P3 | Conjugate secant evaluation and off-diagonal lift | the $(x,gx)$ two-case formula and the boundary-compatible $(gx,\sigma gx)$ overlap factorization are proved | `General.Galois.PolynomialCollisionPair` constructs the actual dimension-independent $(g,\sigma g)$ map pair and stabilizer-distinctness theorem; the planar specialization factors every moved pair through `OffDiagonalRing` | formalize the relative-$C$ coevaluation and the evaluated overlap coefficient family; recover the full $g\in H/g\notin H$ projector formula |
-| P3 | Inverse-Jacobian frame | defined and proved; extension preserves each $A_g$, not $T$ | polynomial frame and four duality identities are proved in `Planar.KellerFrame`; field extensions are missing | extend to $L,N$ and conjugate rings |
-| P3 | Secant--frame denominator candidate | the pairwise $(g,\sigma g)$ first-jet lattice and nonzero denominator are proved; landing is open | generic nonzero finite-family denominator theorem is proved in `Research.SecantFrameDenominator`; the actual evaluated overlap family is missing | construct the conjugate evaluated coefficient family and specialize without adding an existential bridge |
-| P3 | Landing compatibility square | stated as $\mathfrak d_{C,1}^{\mathrm{sf}}\subseteq\mathfrak c_C^{\mathrm{tr}}$ | the trace transporter is defined and specialized in `Research.TraceLanding`; the abstract containment is wired to the endgame, but the common quotient maps, evaluated secant--frame candidate, and concrete containment proof are absent | construct the ambient embeddings and evaluated candidate, then prove the stated containment |
-| P4 | Landing implies separation | proved by the DVR contradiction; finite-overring shortcut also available | `boundarySeparation_of_traceLanding` and `planarVanishing_of_traceLanding` give the direct conditional trace-transporter route; the pole witness and concrete secant--frame containment remain inputs | formalize the DVR/local-cohomology pole witness and instantiate the stated landing containment; injectivity is not required |
+| P3 | Inverse-Jacobian frame | defined and proved; extension preserves each $A_g$, not $T$ | polynomial frame, actual extensions to $L,N$, marked-field compatibility, four target-coordinate duality identities, and conjugate polynomial-sheet preservation are proved | retain; no preservation of $T$ or uniform landing is claimed |
+| P3 | Secant--frame denominator candidate | the pairwise $(g,\sigma g)$ first-jet lattice and nonzero denominator are proved; landing is open | actual evaluated matrix/adjugate first jets using the extended frame are constructed in `Research.SecantFrameCandidate`; the concrete denominator ideal is proved nonzero | retain this prescribed candidate and prove its uniform landing; do not replace it with an existential bridge |
+| P3 | Landing compatibility square | stated as $\mathfrak d_{C,1}^{\mathrm{sf}}\subseteq\mathfrak c_C^{\mathrm{tr}}$ | the actual section embedding and evaluated candidate are constructed; `Research.SecantFrameTraceLanding` wires their containment to the endgame, but the containment proof and quotient comparisons are absent | prove landing for every actual boundary section |
+| P4 | Landing implies separation | proved by the DVR contradiction; finite-overring shortcut also available | `boundarySeparation_of_secantFrameTraceLanding` and `planarVanishing_of_secantFrameTraceLanding` use the genuine section ring and prescribed ideal, deriving the pole witness internally | prove the uniform containment; `PolynomialKellerCollisionModel.ofIsKeller` supplies the model in characteristic zero |
 | P4 | Purity/endgame | proved | forward implication formalized with explicit literature interfaces | retain and compose after P4 landing contradiction |
 
 ### Retain-until-gates inventory

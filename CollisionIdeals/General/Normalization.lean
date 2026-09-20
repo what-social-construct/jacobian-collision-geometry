@@ -1,7 +1,29 @@
 import CollisionIdeals.General.Normalization.Model
 import CollisionIdeals.General.Normalization.ImageGeometry
 import CollisionIdeals.General.Normalization.Polynomial
+import CollisionIdeals.General.Normalization.Finiteness
+import CollisionIdeals.General.Normalization.OpenImmersion
 import CollisionIdeals.General.Normalization.Diagram
+import CollisionIdeals.General.Normalization.DivisorialValuation
+import CollisionIdeals.General.Normalization.DivisorialHeight
+import CollisionIdeals.General.Normalization.DivisorialInertia
+import CollisionIdeals.General.Normalization.LocalBaseChange
+import CollisionIdeals.General.Normalization.IntermediateLocalTower
+import CollisionIdeals.General.Normalization.DivisorialRamification
+import CollisionIdeals.General.Normalization.PolynomialDivisorialRamification
+import CollisionIdeals.General.Normalization.ConjugateCenters
+import CollisionIdeals.General.Normalization.VisibleConjugateCenter
+import CollisionIdeals.General.Normalization.Construction
 import CollisionIdeals.General.Normalization.VisibleRamification
+import CollisionIdeals.General.Normalization.LocalUnramified
+import CollisionIdeals.General.Normalization.BaseTransversality
+import CollisionIdeals.General.Normalization.SimplePole
+import CollisionIdeals.General.Normalization.ConormalDerivation
+import CollisionIdeals.General.Normalization.DerivationCriterion
+import CollisionIdeals.General.Normalization.LocalIndex
+import CollisionIdeals.General.Normalization.LocalIndexBaseChange
+import CollisionIdeals.General.Normalization.MarkedLocalIndex
+import CollisionIdeals.General.Normalization.DivisorialIndex
+import CollisionIdeals.General.Normalization.PolynomialDivisorialIndex
 
 /-! Dimension-independent normalization models for polynomial self-maps. -/

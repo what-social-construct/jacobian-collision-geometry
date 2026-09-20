@@ -6,9 +6,9 @@ import CollisionIdeals.Planar.Basic
 For a planar map with constant nonzero Jacobian `c`, the inverse Jacobian
 matrix defines two polynomial derivations dual to the target coordinates.
 This file constructs the frame on the polynomial source ring and proves the
-four duality identities.  Extending the frame to fraction fields and the
-normal closure, and using it in the prospective secant--trace landing
-argument, are separate tasks.
+four duality identities. The extension to fraction fields and the marked
+normal closure is constructed in `Planar.Research.KellerFrameExtension`;
+the prospective secant--trace landing argument uses that extended frame.
 -/
 
 set_option autoImplicit false

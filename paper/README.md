@@ -19,6 +19,14 @@ planar notation is $\delta_F$ for the ordered secant determinant,
 $e_F$ for the diagonal projector, and $p_F=1-e_F$ for the
 off-diagonal projector.
 
+Paper II also records a separate finite first-order boundary target for
+the broader planar problem. Its reduced target-base ideal is
+$\mathfrak b_F=(s)\subset B$; this is not the collision obstruction
+$\operatorname{Obs}(F)\subset C_F$ or the secant denominator in the
+normalization. The algebraic simple-pole/conormal criterion is proved;
+the Keller-specific vanishing remains open and is not an input to the
+completed generic-degree-two proof.
+
 Build both papers from this directory:
 
 ```bash

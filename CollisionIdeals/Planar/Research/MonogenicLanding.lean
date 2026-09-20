@@ -18,11 +18,13 @@ nonzero candidate ideal nevertheless lands uniformly, this pointwise
 statement gives boundary separation and hence the existing planar endgame.
 
 The generic finite-overring lemma below records a second, stronger use of a
-uniform scalar denominator.  Once the boundary-section algebra `R_C` is
-constructed as a `T`-subalgebra of the fraction field, a nonzero `a` with
+uniform scalar denominator. For a boundary-section algebra `R_C` inside the
+fraction field, a nonzero `a` with
 `a R_C \subseteq T` makes `R_C` finite over `T`; normality then forces
-`R_C = T`.  This is available for the future ring-level specialization and
-does not replace the present pointwise pole hypothesis.
+`R_C = T`. Its specialization in `Research.NormalizationTraceBound` and
+`Research.BoundaryPoleWitness` proves the actual-section pole witness used
+by the concrete trace-landing endpoint. The general conductor endpoints
+below still accept arbitrary section modules and their pole witnesses.
 -/
 
 set_option autoImplicit false

@@ -112,7 +112,8 @@ def polynomialIntermediateNormalizationToBase
 /--
 The canonical map from affine `n`-space to its intermediate normalization.
 
-Its being an open immersion is a separate Zariski-main input.
+For a Keller map, `General.Keller.Normalization` proves that this is an
+open immersion using Zariski's main theorem.
 -/
 def polynomialSourceToIntermediateNormalization
     (F : PolynomialSelfMap k n) :

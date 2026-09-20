@@ -25,9 +25,9 @@ The scheme-theoretic Jacobian-criterion obligation for a polynomial
 self-map: the Keller condition makes the map to its coordinate image
 étale.
 
-This proposition is a theorem target. The current mathlib API does not
-derive it automatically from the concrete multivariate Jacobian
-determinant used by this project.
+The theorem `kellerEtaleBridge` in `General.Keller.Etale` proves this
+interface using the graph presentation over the coordinate-image algebra
+and its invertible Jacobian.
 -/
 def KellerEtaleBridge
     (F : PolynomialSelfMap K n) : Prop :=
