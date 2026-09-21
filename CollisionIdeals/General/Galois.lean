@@ -10,9 +10,11 @@ import CollisionIdeals.General.Galois.RamificationIndex
 import CollisionIdeals.General.Galois.RamificationTower
 import CollisionIdeals.General.Galois.RamificationLocalization
 import CollisionIdeals.General.Galois.PolynomialCollisionPair
+import CollisionIdeals.General.Galois.CollisionVanishing
 import CollisionIdeals.General.Galois.ConjugateAlgebra
 import CollisionIdeals.General.Galois.ConjugateFractionField
 import CollisionIdeals.General.Galois.ConjugateInvariants
 import CollisionIdeals.General.Galois.ConjugateInvariantField
+import CollisionIdeals.General.Galois.ConjugateInvariantFiniteType
 
 /-! Normal closures, conjugate sheets, inertia, and Galois collision pairs. -/

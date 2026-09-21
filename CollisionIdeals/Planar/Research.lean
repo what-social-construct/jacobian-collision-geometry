@@ -6,8 +6,15 @@ import CollisionIdeals.General.Galois.ConjugateFractionField
 import CollisionIdeals.General.Galois.ConjugateInvariants
 import CollisionIdeals.General.Galois.ConjugateInvariantField
 import CollisionIdeals.General.Keller.ConjugateUnramified
+import CollisionIdeals.General.Keller.ConjugateInvariantOpen
+import CollisionIdeals.General.Keller.ConjugateInvariantBoundary
+import CollisionIdeals.General.Keller.ConjugateInvariantConormal
+import CollisionIdeals.General.Keller.ConjugateInvariantFiniteness
 import CollisionIdeals.General.Normalization.DerivationCriterion
 import CollisionIdeals.General.Keller.DivisorVisibility
+import CollisionIdeals.General.Keller.SourceIntersection
+import CollisionIdeals.General.Keller.ConjugateInvariantSource
+import CollisionIdeals.General.Keller.ConjugateInvariantCriterion
 import CollisionIdeals.General.Keller.MonomialWeights
 import CollisionIdeals.General.Normalization.VisibleConjugateCenter
 import CollisionIdeals.Planar.Research.Vanishing.BaseFrame
@@ -21,6 +28,8 @@ import CollisionIdeals.Planar.Research.Vanishing.LocalCollision
 import CollisionIdeals.Planar.Research.Vanishing.InertiaCoordinates
 import CollisionIdeals.Planar.Research.Vanishing.GaloisDescent
 import CollisionIdeals.Planar.Research.Vanishing.Ramification
+import CollisionIdeals.Planar.Research.Vanishing.FiniteBoundary
+import CollisionIdeals.Planar.Research.Vanishing.BoundaryCriterion
 import CollisionIdeals.Planar.Research.PrincipalPartsStrategy
 import CollisionIdeals.Planar.Research.FixedMovingBoundaryPrincipalParts
 import CollisionIdeals.Planar.Research.FinitePrincipalPartsControl
@@ -48,10 +57,13 @@ import CollisionIdeals.Planar.Research.CompletedTameRamification
 /-!
 # Planar vanishing research
 
-The central theorem target is the existing `CollisionIdeals.PlanarVanishing`:
-the collision obstruction vanishes for every planar Keller map. Divisorial
-unramifiedness and boundary/trace landing are possible routes to that goal,
-not replacements for it. The full target has no generic-degree restriction.
+The central research target is the existing `CollisionIdeals.PlanarVanishing`:
+the collision obstruction vanishes for every planar Keller map. The current
+findings characterize conjugate-coordinate descent and empty target boundary,
+with their conditional rigidity consequences. They do not prove either
+condition universally. Divisorial unramifiedness, boundary/trace landing, and
+finite derivative lattices remain research alternatives. The full target has
+no generic-degree restriction.
 
 `Planar/Research/Vanishing/README.md` indexes the primary proof spine and the
 object bench. The spine records the missing planar implication and the
@@ -68,15 +80,40 @@ This umbrella keeps the experimental modules separate from the public
   normal closure as its fraction field. The restricted action and fixed
   algebra use Mathlib's existing invariant-ring objects; the algebra is
   module-finite over its fixed algebra, not necessarily over the
-  coordinate-image base. Under separability the fixed algebra is realized
+  coordinate-image base;
+* under separability the fixed algebra is realized
   inside the target function field and has that field as its fraction
   field. The Keller condition makes the all-conjugate algebra unramified
-  over the coordinate-image base. The invariant-open identification and
-  its boundary are not inferred;
-* the active finite boundary test uses two components of Mathlib's existing
+  over the coordinate-image base. Artin--Tate, quasi-finite descent, and
+  birational Zariski main now identify the fixed algebra's spectrum with
+  an actual affine target open. Its reduced boundary ideal is constructed,
+  radical, nonzero, and finitely generated. A principal presentation is not
+  yet packaged; boundary emptiness is not inferred;
+* an alternative boundary criterion uses two components of Mathlib's existing
   conormal module. Their vanishing is equivalent to ideal preservation,
   hence to the unit ideal over a characteristic-zero polynomial base. The
-  actual Keller-specific conormal vanishing remains open;
+  actual boundary criterion now identifies componentwise vanishing with
+  the target open being the whole target, without a principal presentation.
+  Any finite ideal generating set gives a finite first-derivative test.
+  Empty target boundary implies actual source finiteness, which fills the
+  intermediate normalization and reaches the existing planar endpoint with
+  purity and finite-etale rigidity explicit, without custom-axiom imports
+  in the new conditional endpoint module.
+  The reverse implication follows directly from vanishing collision
+  equations: all conjugate source coordinates coincide. Thus actual
+  target-boundary emptiness, fixed-algebra source regularity, and conormal
+  vanishing are equivalent to collision-obstruction vanishing, with only
+  the two geometric inputs above. No Ax--Grothendieck or Keller--Galois
+  rigidity input is needed for that boundary characterization.
+  Actual Keller-specific conormal vanishing remains open;
+* visible source divisors imply divisibility reflection and the classical
+  source/base-field intersection property. A fixed-algebra element regular
+  on the marked polynomial source therefore belongs to the target base.
+  Thus the fixed algebra meets the marked source exactly in the base.
+  Regularity of every fixed element on that source is equivalent to
+  surjectivity of the canonical base map and to the actual boundary ideal
+  being the unit ideal. The criterion uses the existing embeddings and
+  asserts neither source regularity nor empty boundary for every map;
 * a derivation regular in the actual prime localization and transverse to
   a base element forces local index one, hence unramifiedness at a DVR prime
   with separable residue extension;
@@ -115,9 +152,9 @@ This umbrella keeps the experimental modules separate from the public
   all component supports therefore force nonnegative coordinate weights.
   Regularity for an arbitrary valuation does not supply the support premise;
 * descent of all conjugate source coordinates to the marked original field
-  is equivalent to normality of that original extension. The planar target
-  is stated explicitly and implies obstruction vanishing with the accepted
-  Keller--Galois rigidity input; descent itself remains unproved. Its failure
+  is equivalent to normality of that original extension. This characterization
+  gives obstruction vanishing with the accepted Keller--Galois rigidity input;
+  universal descent remains unproved. Its failure
   supplies a conjugate coordinate moved by an element fixing the original
   field, not an inertia or residue-agreement witness;
 * an explicit rational-plane diagnostic has determinant one in coordinates

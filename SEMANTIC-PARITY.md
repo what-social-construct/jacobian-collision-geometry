@@ -156,39 +156,79 @@ The following queue tracks the separate planar boundary program, including
 the original principal-parts/Tate--conductor route and the shorter formalized
 route through genuine open-complement sections.
 
-### Active finite first-order boundary target
+### Normal-closure and target-boundary characterizations
 
-The active comparison uses the reduced target-base boundary
-$\mathfrak b_F=(s)\subset B$ of the all-conjugate open
-$U_F=\operatorname{Spec}(E^G)=D(s)$, where
+For a complex planar Keller map, Paper II now states the precise criterion
+$\operatorname{Obs}(F)=0\iff L/K\text{ normal}\iff N=\iota(L)\iff H=1$.
+The closure $N/K$ is the same marked object as in Paper I. Its existence
+and normality do not prove that the marked $L$ fills it. The implication
+from normality to vanishing uses the explicit Keller--Galois rigidity
+input. The reverse implication now uses direct collision-coordinate
+equality to prove normality, without Ax--Grothendieck or a detour through
+automorphy. The general automorphism-detection theorem still retains its
+Ax--Grothendieck input. Neither this reverse closure implication nor a
+boundary theorem enters the focused generic-degree-two exclusion.
+
+The boundary characterization uses the reduced target-base boundary
+$\mathfrak b_F=I(\operatorname{Spec}B\setminus U_F)\subset B$ of the
+all-conjugate open $U_F=\operatorname{Spec}(E^G)$, where
 $E=B[g(\iota(A)):g\in G]\subset N$. The algebra is now instantiated
 as `polynomialConjugateAlgebra`, with fraction field $N$. Its restricted
 action and fixed algebra use the existing Mathlib invariant-ring objects.
 Under separability the same fixed algebra is now realized inside $K$ with
 fraction field $K$, and the Keller condition gives unramifiedness of $E/B$.
-The quotient/open identification remains a mathematical argument in Paper II,
-not yet a Lean theorem. The next construction route descends quasi-finiteness
-to $E^G/B$ and applies birational Zariski main; it does not need the stronger
-selected-etale-component or free-action comparison first.
-The target is the vanishing of the two classes
+The open immersion is now proved in Lean: Artin–Tate and quasi-finite
+descent give finite type and quasi-finiteness of $E^G/B$, then birational
+Zariski main constructs its affine target open. This uses no supplied open
+model, selected-etale-component identification, or free-action comparison.
+The actual reduced complement ideal and its finitely generated conormal
+module are now constructed. Their intrinsic componentwise vanishing
+criterion is proved; the principal presentation and stronger torsor
+comparison remain unformalized. The source-intersection identity now gives
+$E^G\cap A=B$, hence the exact equivalences
+$E^G\subseteq A\iff E^G=B\iff\mathfrak b_F=B$, with all rings identified
+through their existing marked embeddings. Vanishing of the two
+target-coordinate conormal component maps is an equivalent boundary test,
+not an assertion that it holds universally. After choosing a reduced
+principal presentation $\mathfrak b_F=(s)$, $U_F=D(s)$, these are tested by
 $(\partial_Ps\bmod s,\partial_Qs\bmod s)$, equivalently preservation
-of the rank-one module $s^{-1}B$ by the two target derivatives.
+of the rank-one module $s^{-1}B$ by the two target derivatives. No principal
+equation is needed for the intrinsic criterion already proved in Lean.
 
 | Notation / claim | Lean correspondence | Status / guardrail |
 |---|---|---|
-| $\mathfrak b_F=(s)\subset B$, $U_F=D(s)$ | Actual all-conjugate base boundary not yet instantiated | Distinct from $\operatorname{Obs}(F)\subset C_F$, the intermediate normalization boundary, and the secant denominator in $T$. |
+| $\mathfrak b_F=I(\operatorname{Spec}B\setminus U_F)\subset B$ | polynomialConjugateInvariantBoundaryIdeal in General.Keller.ConjugateInvariantBoundary | Actual radical, nonzero, finitely generated ideal, with the stated complement as zero locus. It is the unit ideal iff $U_F=\operatorname{Spec}B$. Distinct from $\operatorname{Obs}(F)\subset C_F$, the intermediate normalization boundary, and the secant denominator in $T$. |
+| $\mathfrak b_F=(s)$, $U_F=D(s)$ | Principal reduced presentation not yet packaged | Not needed for the intrinsic conormal criterion below; needed for the one-generator simple-pole presentation. Nonzero boundary ideal does not mean nonempty boundary. |
 | $E=B[g(\iota(A)):g\in G]\subset N$ | polynomialConjugateAlgebra in General.Galois.ConjugateAlgebra | Actual finite-coordinate adjoin over $B$; conjugate-polynomial membership, Galois stability, and finite type proved. No module-finiteness over $B$ or boundary-preservation assertion. |
 | $\operatorname{Frac}(E)=N$ | polynomialConjugateAlgebra_isFractionRing in General.Galois.ConjugateFractionField | Proved for the existing inclusion $E\subset N$, using normal-closure generation; no Keller or descent hypothesis. |
 | Restricted $G$-action on $E$ | polynomialConjugateAlgebra_galoisAction and polynomialConjugateAlgebra_faithfulGaloisAction in General.Galois.ConjugateInvariants | Actual faithful ring action, not scheme-theoretic freeness. |
-| $E^G$ | polynomialConjugateInvariantAlgebra in General.Galois.ConjugateInvariants | Direct specialization of Mathlib FixedPoints.subalgebra, not a duplicate quotient. $E$ is integral and module-finite over it. Under separability of $N/K$, its elements are precisely those in the embedded $K$. Neither $E^G=B$ nor an affine-open realization is claimed. |
+| $E^G$ | polynomialConjugateInvariantAlgebra in General.Galois.ConjugateInvariants | Direct specialization of Mathlib FixedPoints.subalgebra, not a duplicate quotient. $E$ is integral and module-finite over it. Under separability of $N/K$, its elements are precisely those in the embedded $K$. The affine-open realization below uses this same algebra; $E^G=B$ is not claimed. |
 | $E^G$ realized inside $K$ | polynomialConjugateInvariantBaseAlgebra and polynomialConjugateInvariantBaseEquiv in General.Galois.ConjugateInvariantField | The Subalgebra.comap pullback is canonically equivalent to the existing fixed algebra under separability. A presentation of the same object, not a new quotient or boundary. |
 | $\operatorname{Frac}(E^G)=K$ | polynomialConjugateInvariantAlgebra_isFractionRing, with polynomialConjugateInvariantAlgebraBaseFieldAlgebra | Proved under separability. The explicit transported algebra is not a global instance; both the $B\to E^G\to K$ and $E^G\to K\to N$ towers agree with the original embeddings. |
 | Keller $\Rightarrow E/B$ unramified | polynomialConjugateAlgebra_formallyUnramified_of_isKeller and polynomialConjugateAlgebra_unramified_of_isKeller in General.Keller.ConjugateUnramified | Proved on the actual generated algebra from uniqueness of infinitesimal lifts on each conjugate source sheet. No flatness, free action, target-open identification, or vanishing is included. |
+| $E^G/B$ finite type | polynomialConjugateInvariantAlgebra_finiteType in General.Galois.ConjugateInvariantFiniteType | Artin–Tate on the existing fixed subalgebra. Neither Keller nor separability is required; not module-finiteness over $B$. |
+| Keller $\Rightarrow E^G/B$ quasi-finite | polynomialConjugateInvariantAlgebra_quasiFinite_of_isKeller in General.Keller.ConjugateInvariantOpen | Descends through the integral injective inclusion $E^G\hookrightarrow E$; no separability assumption is needed. |
+| $\operatorname{Spec}(E^G)\hookrightarrow\operatorname{Spec}B$ | polynomialConjugateInvariantAlgebra_isOpenImmersion_of_isKeller in General.Keller.ConjugateInvariantOpen | Proved under Keller and separability, using the actual fraction-field comparison and normality of $B$. No supplied open-model, source-normality, flatness, or freeness hypothesis. |
+| $U_F$ as an affine open of $\operatorname{Spec}B$ | polynomialConjugateInvariantTargetOpen and polynomialConjugateInvariantTargetOpen_isAffineOpen | Standard Scheme.Hom.opensRange of the same spectrum map, not a new quotient. Its reduced boundary is now constructed; the principal identification $U_F=D(s)$ remains unformalized. $U_F=\operatorname{Spec}B$ is not asserted. |
 | $s^{-1}B$ | Span over $B$ of the inverse of the image of $s$ in its fraction field | Existing submodule expression; one generator, not a new boundary definition. |
 | $D(s^{-1}B)\subseteq s^{-1}B\iff D(s)\in(s)$ | derivation_preserves_span_inv_iff in General.Normalization.SimplePole | Proved for a derivation and compatible fraction-field extension, with $s\ne0$. |
 | Both coordinate simple-pole tests hold iff $s$ is a unit | forall_derivation_inv_mem_span_singleton_iff_isUnit in General.Normalization.SimplePole | Proved over every characteristic-zero polynomial base. No squarefree or dimension-two hypothesis is needed for this algebraic criterion. |
-| $\mathfrak b/\mathfrak b^2$ | Mathlib Ideal.Cotangent | Existing quotient; no duplicate module. |
+| $\mathfrak b/\mathfrak b^2$ | Mathlib Ideal.Cotangent; polynomialConjugateInvariantBoundary_cotangent_finite for the actual $\mathfrak b_F$ | Existing quotient; no duplicate module. Finitely generated over $B$, without assuming characteristic zero, cyclicity, or a principal equation. |
 | $[f]\mapsto[D(f)]$ from $\mathfrak b/\mathfrak b^2$ to $B/\mathfrak b$ | derivationConormalComponent in General.Normalization.ConormalDerivation | Component adapter for the standard conormal map. Its vanishing criterion concerns ideal preservation, not a proof of Keller-specific preservation. |
+| Target-coordinate partials on $B$ | polynomialImageCoordinatePartial in General.Keller.ConjugateInvariantConormal, using polynomialEquivPartial in General.Normalization.PolynomialConormal | Transported through the existing injective target-polynomial presentation. The rangeRestrict evaluation theorem differentiates before target evaluation; these are not ordinary source partials. |
+| All coordinate conormal components of $\mathfrak b_F$ vanish iff $U_F=\operatorname{Spec}B$ | polynomialConjugateInvariantBoundary_conormal_eq_zero_iff | Proved in characteristic zero for the actual boundary, in every dimension; two components in dimension two. Uses its proved nonzero ideal, not a principal equation or an assumed vanishing statement. |
+| A finite generating set $\{f_1,\ldots,f_r\}$ for $\mathfrak b_F$ | polynomialConjugateInvariantBoundary_exists_finset_test; generator_test_iff in General.Keller.ConjugateInvariantConormal | Supplied by the proved finite generation. The test is $\partial_i f_j\in\mathfrak b_F$; a generating set is not the principal boundary equation $s$. The common generic proof is General.Normalization.FiniteConormalTest. |
+| Empty target boundary $\Rightarrow B\to E^G$ bijective, $E/B$ and $A/B$ module-finite | General.Keller.ConjugateInvariantFiniteness | Proved conditionally using full-open isomorphism, finite-group invariants, and Noetherian submodule finiteness. No unproved source-finiteness premise is inserted. |
+| Finite $A/B$ $\Rightarrow A=\operatorname{IntCl}_B(L)$ via the canonical map | General.Normalization.FiniteSource | The existing normalizationToIntermediate map is bijective, its spectrum map is an isomorphism, and the intermediate-normalization boundary is empty. This is not an identification of the two boundary ideals. |
+| Actual finite-generator/conormal test $\Rightarrow\operatorname{Obs}(F)=0$ in dimension two | General source-finiteness bridge followed by Planar.Research.Vanishing.FiniteBoundary | The canonical Keller model excludes hidden inertia once the intermediate boundary is empty. Existing BranchPurityA2 and AffinePlaneFiniteEtaleRigidity are explicit inputs; no custom literature axioms are imported by the new endpoint. Actual generator preservation remains open. |
+| Divisibility of elements of $B$ reflected from $A$; $A\cap K=B$ inside $L$ | polynomialSource_dvd_iff_of_isKeller and polynomialSource_mem_range_baseField_iff_of_isKeller in General.Keller.SourceIntersection | Proved from the existing visible source divisors, UFD factorization, and fractions. No characteristic-zero, separability, normal-closure, or boundary hypothesis. Classical source-intersection property, not a new intersection object or an assumed literature input. |
+| $E^G\cap\iota(A)=\iota(B)$ inside $N$ | polynomialConjugateInvariantAlgebra_mem_source_iff_mem_base in General.Keller.ConjugateInvariantSource | For each actual fixed-algebra element, membership in the marked source is equivalent to membership in the image of the base map. Keller and the existing separable normal-closure data are explicit. Does not prove $E^G\subseteq\iota(A)$ or $E^G=B$. |
+| $E^G\subseteq\iota(A)\iff B\to E^G$ surjective $\iff\mathfrak b_F=B$ | polynomialConjugateInvariantAlgebra_source_regular_iff_surjective, surjective_iff_boundary_eq_top, and source_regular_iff_boundary_eq_top in General.Keller.ConjugateInvariantCriterion | Exact for the actual maps, any field and dimension, with Keller and separable marked normal-closure data. Injectivity is internal. No characteristic-zero, purity, or Galois-rigidity input is needed for this characterization. |
+| $L/K$ normal $\iff N=\iota(L)\iff H=1$ | NormalClosureData.normal_iff_embedding_surjective and normal_iff_intermediateFixingSubgroup_eq_bot in General.Galois.Descent | Exact; the subgroup characterization uses a perfect base. The first equivalence needs neither separability nor perfectness. Normality of $N/K$ alone is not the criterion. |
+| $\operatorname{Obs}(F)=0\Rightarrow g(\iota(x_i))=\iota(x_i)\Rightarrow L/K$ normal | polynomialConjugate_coordinate_eq_of_obstructionIdeal_eq_bot and polynomialSource_normal_of_obstructionIdeal_eq_bot in General.Galois.CollisionVanishing | Direct collision-pair evaluation, dimension-independent, with supplied marked normal-closure data. Neither Keller, separability, nor a literature input is required. The invariant-source proof reuses the same coordinate equality. |
+| $\operatorname{Obs}(F)=0\iff L/K$ normal $\iff N=\iota(L)$ for planar Keller $F$ | planarObstructionIdeal_eq_bot_iff_normal and planarObstructionIdeal_eq_bot_iff_normalClosureEmbedding_surjective in Planar.Research.Vanishing.GaloisDescent | Only ComplexKellerGaloisRigidity 2 is explicit, used from normality to vanishing. The direct reverse removes the former Ax--Grothendieck input. This packages a characterization, not universal vanishing. |
+| $\operatorname{Obs}(F)=0\Rightarrow E^G\subseteq\iota(A)$, then $\mathfrak b_F=B$ | polynomialConjugateInvariantAlgebra_source_regular_of_obstructionIdeal_eq_bot and polynomialConjugateInvariantBoundaryIdeal_eq_top_of_obstructionIdeal_eq_bot in General.Keller.ConjugateInvariantObstruction | Exact dimension-independent collision argument: evaluate $I_R=I_\Delta$ on each Galois pair, so all conjugate coordinates coincide. The source-regularity step needs neither Keller nor separability; the actual-boundary step adds both. No literature theorem input. |
+| $\operatorname{Obs}(F)=0\iff\mathfrak b_F=B$, with equivalent source-regularity and conormal tests | planarObstructionIdeal_eq_bot_iff_conjugateInvariantBoundary_eq_top and its source_regular/conormal_eq_zero corollaries in Planar.Research.Vanishing.BoundaryCriterion | Exact with BranchPurityA2 and AffinePlaneFiniteEtaleRigidity explicit, used only from empty boundary to obstruction vanishing. No Ax--Grothendieck or Keller--Galois rigidity input is needed. No new ideals or universal vanishing theorem. |
 | Galois conjugates satisfy $F(a)=F(b)$ and the secant relation | General.Galois.PolynomialCollisionPair and Planar.ConjugateSecantEvaluation | Already available without coordinate descent or normality of $L/K$. Descent only puts the conjugate coordinates in the marked $L$. |
 | The actual Keller boundary has zero conormal components | No proof | This is the substantive remaining target. Finite coefficient clearing and preservation of each conjugate source algebra do not prove it. |
 
@@ -198,9 +238,10 @@ of the three-generator first-jet module by $s^{-1}B$ and the image of the
 conormal map have the same vanishing criterion; they are not identified
 as modules. No whole pole tower is part of this finite target.
 
-The older trace and ramification routes below remain on the object bench.
-Pruning is deferred until the finite comparison and its actual dependencies
-are established; no research object is deleted merely because its route
+The older finite-lattice, trace, and ramification routes remain on the
+object bench. They are alternative proposals for proving the characterized
+condition, not further established consequences. Pruning requires the
+deletion gate above; no research object is deleted merely because its route
 is currently inactive.
 
 ### Alternative trace and ramification spine

@@ -3,6 +3,11 @@ import CollisionIdeals.General.Normalization.ImageGeometry
 import CollisionIdeals.General.Normalization.Polynomial
 import CollisionIdeals.General.Normalization.Finiteness
 import CollisionIdeals.General.Normalization.OpenImmersion
+import CollisionIdeals.General.Normalization.QuasiFiniteDescent
+import CollisionIdeals.General.Normalization.BirationalOpen
+import CollisionIdeals.General.Normalization.AffineOpenBoundary
+import CollisionIdeals.General.Normalization.FullOpenAlgebra
+import CollisionIdeals.General.Normalization.FiniteSource
 import CollisionIdeals.General.Normalization.Diagram
 import CollisionIdeals.General.Normalization.DivisorialValuation
 import CollisionIdeals.General.Normalization.DivisorialHeight
@@ -19,6 +24,8 @@ import CollisionIdeals.General.Normalization.LocalUnramified
 import CollisionIdeals.General.Normalization.BaseTransversality
 import CollisionIdeals.General.Normalization.SimplePole
 import CollisionIdeals.General.Normalization.ConormalDerivation
+import CollisionIdeals.General.Normalization.PolynomialConormal
+import CollisionIdeals.General.Normalization.FiniteConormalTest
 import CollisionIdeals.General.Normalization.DerivationCriterion
 import CollisionIdeals.General.Normalization.LocalIndex
 import CollisionIdeals.General.Normalization.LocalIndexBaseChange

@@ -100,6 +100,37 @@ theorem normal_iff_conjugate_mem
       ⟨D.embedding x, ⟨x, rfl⟩, rfl⟩
   · exact D.normal_of_conjugate_mem
 
+/-- The marked extension is normal precisely when its distinguished
+embedding fills the supplied normal closure. This compares `L` with `N`,
+not the normal closure `N` with the base `K`. -/
+theorem normal_iff_embedding_surjective
+    (D : NormalClosureData K L N) :
+    Normal K L ↔ Function.Surjective D.embedding := by
+  constructor
+  · intro hNormal
+    exact D.embedding_surjective_of_conjugate_mem
+      (D.normal_iff_conjugate_mem.mp hNormal)
+  · intro hSurjective
+    let e : L ≃ₐ[K] N := AlgEquiv.ofBijective D.embedding
+      ⟨D.embedding.injective, hSurjective⟩
+    exact e.transfer_normal.mpr D.normal
+
+/-- Over a perfect base, normality of the marked extension is equivalent
+to triviality of its fixing subgroup in the normal-closure Galois group.
+This does not assert triviality of the full Galois group. -/
+theorem normal_iff_intermediateFixingSubgroup_eq_bot
+    [PerfectField K] (D : NormalClosureData K L N) :
+    Normal K L ↔ D.intermediateFixingSubgroup = ⊥ := by
+  constructor
+  · intro hNormal
+    have hTop : D.intermediateField = ⊤ :=
+      AlgHom.fieldRange_eq_top.mpr (D.normal_iff_embedding_surjective.mp hNormal)
+    change D.intermediateField.fixingSubgroup = ⊥
+    rw [hTop, IntermediateField.fixingSubgroup_top]
+  · intro hFixing
+    by_contra hNotNormal
+    exact D.intermediateFixingSubgroup_ne_bot_of_not_normal hNotNormal hFixing
+
 /-- An element outside the marked field is moved by an automorphism fixing
 that field pointwise. This is a field-theoretic witness, not an inertia
 or residue-agreement statement. -/

@@ -1,5 +1,6 @@
 import CollisionIdeals.General.Automorphism.GaloisRigidity
-import CollisionIdeals.General.Galois.PolynomialDescent
+import CollisionIdeals.General.Automorphism.Criteria
+import CollisionIdeals.General.Galois.CollisionVanishing
 import CollisionIdeals.General.Keller.GenericFiniteness
 import CollisionIdeals.Planar.Statements.JacobianConjecture
 import CollisionIdeals.Planar.Statements.Vanishing
@@ -18,6 +19,12 @@ Normality of `N/K`, already supplied by the construction, does not prove it.
 With the explicit Keller--Galois rigidity input, the target implies polynomial
 invertibility and obstruction vanishing. The target itself remains unproved;
 it is a proposition, not an axiom or a supplied instance.
+
+Map by map, vanishing collision obstruction gives coordinate descent
+directly. Thus the obstruction vanishes exactly when the marked field already
+fills its normal closure, with Keller--Galois rigidity the sole explicit
+literature input. Merely constructing the normal closure does not establish
+that condition.
 -/
 
 set_option autoImplicit false
@@ -25,6 +32,36 @@ set_option autoImplicit false
 namespace CollisionIdeals.Planar
 
 noncomputable section
+
+/-- For a planar Keller map, obstruction vanishing is equivalent to
+normality of the original function-field extension. The forward direction
+uses the collision equations; the reverse direction uses the explicit
+Keller--Galois rigidity input. -/
+theorem planarObstructionIdeal_eq_bot_iff_normal
+    (hRigidity : ComplexKellerGaloisRigidity 2)
+    (F : PlanarPolynomialMap) (hKeller : IsKeller F) :
+    obstructionIdeal F = ⊥ ↔
+      Normal (PolynomialMapBaseFunctionField F)
+        (PolynomialMapSourceFunctionField F) := by
+  constructor
+  · intro hObstruction
+    exact polynomialSource_normal_of_obstructionIdeal_eq_bot
+      (polynomialCanonicalNormalClosureData F hKeller) hObstruction
+  · intro hNormal
+    exact obstructionIdeal_eq_bot_of_isPolynomialAutomorphism
+      (hRigidity F hKeller hNormal)
+
+/-- In the marked normal-closure construction, planar obstruction
+vanishing is equivalent to the marked embedding filling that closure.
+This is a condition on the embedding, not normal-closure existence. -/
+theorem planarObstructionIdeal_eq_bot_iff_normalClosureEmbedding_surjective
+    (hRigidity : ComplexKellerGaloisRigidity 2)
+    {F : PlanarPolynomialMap} {N : Type} [Field N]
+    [Algebra (PolynomialMapBaseFunctionField F) N]
+    (D : PolynomialNormalClosureData F N) (hKeller : IsKeller F) :
+    obstructionIdeal F = ⊥ ↔ Function.Surjective D.embedding :=
+  (planarObstructionIdeal_eq_bot_iff_normal hRigidity F hKeller).trans
+    D.normal_iff_embedding_surjective
 
 /-- Every normal-closure conjugate of each planar source coordinate descends
 to the marked original source function field. This unrestricted complex-planar
