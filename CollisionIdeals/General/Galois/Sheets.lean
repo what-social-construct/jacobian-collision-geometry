@@ -1,4 +1,8 @@
-import Mathlib.GroupTheory.GroupAction.Quotient
+module
+
+public import Mathlib.GroupTheory.GroupAction.Quotient
+
+@[expose] public section
 
 set_option autoImplicit false
 

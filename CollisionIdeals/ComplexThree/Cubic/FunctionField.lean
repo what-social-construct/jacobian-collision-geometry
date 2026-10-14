@@ -1,5 +1,9 @@
-import CollisionIdeals.ComplexThree.Basic
-import CollisionIdeals.General.GenericFiber.FunctionField
+module
+
+public import CollisionIdeals.ComplexThree.Basic
+public import CollisionIdeals.General.GenericFiber.FunctionField
+
+@[expose] public section
 
 /-!
 # Function-field notation in complex dimension three

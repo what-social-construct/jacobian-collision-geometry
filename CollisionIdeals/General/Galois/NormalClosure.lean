@@ -1,7 +1,11 @@
-import Mathlib.Algebra.Group.Subgroup.Pointwise
-import Mathlib.FieldTheory.Galois.Basic
-import Mathlib.FieldTheory.Normal.Closure
-import Mathlib.FieldTheory.Perfect
+module
+
+public import Mathlib.Algebra.Group.Subgroup.Pointwise
+public import Mathlib.FieldTheory.Galois.Basic
+public import Mathlib.FieldTheory.Normal.Closure
+public import Mathlib.FieldTheory.Perfect
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -241,7 +245,8 @@ theorem extensionTrivial_of_intermediateExtensionTrivial
   have hz : z ∈ (⊥ : IntermediateField K N) := by
     rw [hbot]
     trivial
-  simpa only [IntermediateField.mem_bot] using hz
+  rcases IntermediateField.mem_bot.mp hz with ⟨k, hk⟩
+  exact ⟨k, hk⟩
 
 /--
 If the supplied normal closure is already `K`, then the marked

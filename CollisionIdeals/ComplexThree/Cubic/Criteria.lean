@@ -1,7 +1,11 @@
-import CollisionIdeals.ComplexThree.Cubic.FunctionField
-import CollisionIdeals.ComplexThree.Statements.JacobianConjecture
-import CollisionIdeals.General.Automorphism.GaloisRigidity
-import CollisionIdeals.General.Automorphism.GenericDegreeOne
+module
+
+public import CollisionIdeals.ComplexThree.Cubic.FunctionField
+public import CollisionIdeals.ComplexThree.Statements.JacobianConjecture
+public import CollisionIdeals.General.Automorphism.GaloisRigidity
+public import CollisionIdeals.General.Automorphism.GenericDegreeOne
+
+@[expose] public section
 
 /-!
 # Generic-degree-three criteria in complex dimension three

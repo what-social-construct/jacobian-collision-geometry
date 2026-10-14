@@ -1,4 +1,8 @@
-import CollisionIdeals.General.Collision.Ideal
+module
+
+public import CollisionIdeals.General.Collision.Ideal
+
+@[expose] public section
 
 set_option autoImplicit false
 
@@ -133,7 +137,8 @@ theorem collisionLift_comp_left
     (collisionLift c).comp (collisionLeft F) = c.left := by
   apply MvPolynomial.algHom_ext
   intro i
-  simp [collisionLift, collisionLeft, collisionPairMap, leftRename]
+  change collisionPairMap c (leftRename (X i)) = c.left (X i)
+  exact AlgHom.congr_fun (collisionPairMap_comp_leftRename c) (X i)
 
 @[simp]
 theorem collisionLift_comp_right
@@ -141,7 +146,8 @@ theorem collisionLift_comp_right
     (collisionLift c).comp (collisionRight F) = c.right := by
   apply MvPolynomial.algHom_ext
   intro i
-  simp [collisionLift, collisionRight, collisionPairMap, rightRename]
+  change collisionPairMap c (rightRename (X i)) = c.right (X i)
+  exact AlgHom.congr_fun (collisionPairMap_comp_rightRename c) (X i)
 
 /-- Restrict a map from the collision ring to its two source copies. -/
 def collisionRestrict

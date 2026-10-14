@@ -1,8 +1,12 @@
-import CollisionIdeals.General.Galois.Sheets
-import CollisionIdeals.General.Galois.NormalClosure
-import Mathlib.Data.Fintype.EquivFin
-import Mathlib.FieldTheory.KrullTopology
-import Mathlib.GroupTheory.IndexNormal
+module
+
+public import CollisionIdeals.General.Galois.Sheets
+public import CollisionIdeals.General.Galois.NormalClosure
+public import Mathlib.Data.Fintype.EquivFin
+public import Mathlib.FieldTheory.KrullTopology
+public import Mathlib.GroupTheory.IndexNormal
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,7 +1,11 @@
-import CollisionIdeals.General.Automorphism.Criteria
-import CollisionIdeals.General.GenericFiber.CollisionDiagonal
-import Mathlib.LinearAlgebra.Dimension.Finite
-import Mathlib.RingTheory.Localization.BaseChange
+module
+
+public import CollisionIdeals.General.Automorphism.Criteria
+public import CollisionIdeals.General.GenericFiber.CollisionDiagonal
+public import Mathlib.LinearAlgebra.Dimension.Finite
+public import Mathlib.RingTheory.Localization.BaseChange
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -66,7 +70,9 @@ theorem polynomialFunctionField_finrank_eq_one_of_extensionTrivial
     (1 : PolynomialSourceFunctionField (R := R) (ι := ι)) one_ne_zero
   intro z
   obtain ⟨c, hc⟩ := hTrivial z
-  exact ⟨c, by simpa [Algebra.smul_def] using hc⟩
+  refine ⟨c, ?_⟩
+  rw [Algebra.smul_def, mul_one]
+  exact hc
 
 /-- A polynomial automorphism has generic degree one. -/
 theorem polynomialFunctionField_finrank_eq_one_of_isPolynomialAutomorphism
@@ -89,7 +95,8 @@ theorem polynomialGenericSourceTensorMap_surjective_of_extensionTrivial
   intro z
   obtain ⟨k, hk⟩ := hTrivial z
   refine ⟨k ⊗ₜ (1 : SourceRing R ι), ?_⟩
-  simpa [polynomialGenericSourceTensorMap] using hk
+  rw [polynomialGenericSourceTensorMap_tmul, map_one, mul_one]
+  exact hk
 
 /--
 After generic base change, the collision diagonal is injective when the

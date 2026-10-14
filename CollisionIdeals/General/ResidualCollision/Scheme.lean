@@ -1,6 +1,10 @@
-import CollisionIdeals.General.ResidualCollision.Algebra
-import CollisionIdeals.General.FiberProduct.Polynomial
-import Mathlib.AlgebraicGeometry.Limits
+module
+
+public import CollisionIdeals.General.ResidualCollision.Algebra
+public import CollisionIdeals.General.FiberProduct.Polynomial
+public import Mathlib.AlgebraicGeometry.Limits
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000

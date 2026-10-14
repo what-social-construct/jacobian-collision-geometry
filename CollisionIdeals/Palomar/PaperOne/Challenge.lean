@@ -1,13 +1,17 @@
-import Mathlib.Algebra.MvPolynomial.Monad
-import Mathlib.Algebra.MvPolynomial.PDeriv
-import Mathlib.Algebra.MvPolynomial.Rename
-import Mathlib.Data.Complex.Basic
-import Mathlib.Data.Fintype.EquivFin
-import Mathlib.FieldTheory.Normal.Closure
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.RingTheory.Localization.FractionRing
-import Mathlib.RingTheory.TensorProduct.Basic
+module
+
+public import Mathlib.Algebra.MvPolynomial.Monad
+public import Mathlib.Algebra.MvPolynomial.PDeriv
+public import Mathlib.Algebra.MvPolynomial.Rename
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Data.Fintype.EquivFin
+public import Mathlib.FieldTheory.Normal.Closure
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.RingTheory.Localization.FractionRing
+public import Mathlib.RingTheory.TensorProduct.Basic
+
+@[expose] public section
 
 /-!
 # Generic cubic collisions in complex dimension three
@@ -85,8 +89,8 @@ def collisionDiagonal (F : PolynomialMap) :
 @[simp]
 theorem collisionDiagonal_collisionLeft (F : PolynomialMap) (a : SourceRing) :
     collisionDiagonal F (collisionLeft F a) = a := by
-  simp [collisionDiagonal, collisionLeft, diagonalEval, leftRename,
-    MvPolynomial.rename_rename]
+  change diagonalEval (leftRename a) = a
+  simp [diagonalEval, leftRename, MvPolynomial.rename_rename]
 
 /-- Substitution by the coordinate polynomials of `F`. -/
 def coordinateAlgHom (F : PolynomialMap) :
@@ -164,7 +168,8 @@ noncomputable def genericCollisionDiagonal (F : PolynomialMap) :
       commutes' := fun k ↦ by
         change fB (k ⊗ₜ[ImageAlgebra F] (1 : CollisionRing F)) =
           algebraMap (BaseFunctionField F) SourceFunctionField k
-        simp [fB, fK] }
+        change fK k * fC 1 = algebraMap (BaseFunctionField F) SourceFunctionField k
+        simp [fK] }
 
 /-- The Jacobian determinant of `F` is a nonzero complex constant. -/
 def IsKeller (F : PolynomialMap) : Prop :=

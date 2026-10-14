@@ -1,7 +1,11 @@
-import CollisionIdeals.General.FiberProduct.Basic
-import CollisionIdeals.General.FiberProduct.UniversalProperty
-import Mathlib.Algebra.Algebra.Tower
-import Mathlib.RingTheory.TensorProduct.Basic
+module
+
+public import CollisionIdeals.General.FiberProduct.Basic
+public import CollisionIdeals.General.FiberProduct.UniversalProperty
+public import Mathlib.Algebra.Algebra.Tower
+public import Mathlib.RingTheory.TensorProduct.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

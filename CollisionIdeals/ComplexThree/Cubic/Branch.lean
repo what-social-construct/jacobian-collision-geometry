@@ -1,5 +1,10 @@
-import CollisionIdeals.ComplexThree.Cubic.S3Collision
-import Mathlib.FieldTheory.Normal.Basic
+module
+
+public import CollisionIdeals.ComplexThree.Cubic.S3Collision
+public import Mathlib.FieldTheory.Normal.Basic
+public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -109,7 +114,7 @@ def cubicResidualAlgHomOfDistinctEmbedding
   have hroot :=
     eval₂_minpolyDiv_self pb.gen
       (IsScalarTower.toAlgHom K L N) sigma
-  rw [if_neg hdistinct] at hroot
+  rw [ite_eq_right hdistinct] at hroot
   simpa [Polynomial.aeval_def] using hroot
 
 /--
@@ -202,7 +207,7 @@ noncomputable def cubicResidualEquivNormalClosureOfNotNormal
       D.intermediateFixingSubgroup <
         (⊤ : Subgroup D.galoisGroup) :=
     lt_of_le_of_ne le_top hneTop
-  let hexists := SetLike.exists_of_lt hlt
+  let hexists := IsConcreteLE.exists_of_lt hlt
   let g : D.galoisGroup := Classical.choose hexists
   have hg : g ∉ D.intermediateFixingSubgroup :=
     (Classical.choose_spec hexists).2

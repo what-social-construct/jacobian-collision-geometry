@@ -1,5 +1,9 @@
-import CollisionIdeals.ComplexThree.Basic
-import CollisionIdeals.General.Automorphism.Statements
+module
+
+public import CollisionIdeals.ComplexThree.Basic
+public import CollisionIdeals.General.Automorphism.Statements
+
+@[expose] public section
 
 set_option autoImplicit false
 

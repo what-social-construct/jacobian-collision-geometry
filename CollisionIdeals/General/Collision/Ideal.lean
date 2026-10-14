@@ -1,4 +1,8 @@
-import CollisionIdeals.General.Collision.Diagonal
+module
+
+public import CollisionIdeals.General.Collision.Diagonal
+
+@[expose] public section
 
 set_option autoImplicit false
 

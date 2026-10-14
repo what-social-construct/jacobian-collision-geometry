@@ -1,6 +1,10 @@
-import CollisionIdeals.General.Automorphism.Statements
-import CollisionIdeals.General.GenericFiber.FunctionField
-import Mathlib.FieldTheory.Normal.Basic
+module
+
+public import CollisionIdeals.General.Automorphism.Statements
+public import CollisionIdeals.General.GenericFiber.FunctionField
+public import Mathlib.FieldTheory.Normal.Basic
+
+@[expose] public section
 
 /-!
 # Keller--Galois rigidity

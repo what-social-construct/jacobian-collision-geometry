@@ -1,3 +1,0 @@
-import CollisionIdeals.ComplexThree.Cubic
-import CollisionIdeals.ComplexThree.Statements
-import CollisionIdeals.ComplexThree.Equivalences

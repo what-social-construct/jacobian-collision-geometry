@@ -1,7 +1,11 @@
-import CollisionIdeals.ComplexThree.Cubic.Criteria
-import CollisionIdeals.ComplexThree.Cubic.Main
-import CollisionIdeals.General.Galois.CanonicalNormalClosure
-import Mathlib.FieldTheory.PrimitiveElement
+module
+
+public import CollisionIdeals.ComplexThree.Cubic.Criteria
+public import CollisionIdeals.ComplexThree.Cubic.Main
+public import CollisionIdeals.General.Galois.CanonicalNormalClosure
+public import Mathlib.FieldTheory.PrimitiveElement
+
+@[expose] public section
 
 /-!
 # Cubic collisions with the normal closure constructed internally

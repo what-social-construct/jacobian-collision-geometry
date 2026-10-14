@@ -1,6 +1,10 @@
-import CollisionIdeals.General.Galois.NormalClosure
-import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
-import Mathlib.FieldTheory.SeparableClosure
+module
+
+public import CollisionIdeals.General.Galois.NormalClosure
+public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
+public import Mathlib.FieldTheory.SeparableClosure
+
+@[expose] public section
 
 /-!
 # A finite normal closure constructed in an algebraic closure

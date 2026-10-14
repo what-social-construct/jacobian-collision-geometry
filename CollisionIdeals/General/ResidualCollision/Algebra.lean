@@ -1,6 +1,10 @@
-import CollisionIdeals.General.Collision.Ideal
-import Mathlib.RingTheory.Ideal.Colon
-import Mathlib.RingTheory.Ideal.Quotient.Operations
+module
+
+public import CollisionIdeals.General.Collision.Ideal
+public import Mathlib.RingTheory.Ideal.Colon
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000

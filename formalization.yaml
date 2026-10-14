@@ -86,7 +86,15 @@ review:
   status: "self-assessed"
   reviewers:
     - "Chloe van der Vlugt (author self-review)"
-  notes: "The statement was checked against the manuscript object dictionary and the Solution was compiled with warnings treated as errors."
+  notes: >-
+    The Lean 4.35.0 release builds the Challenge, canonical cubic endpoint,
+    and Solution. A downstream audit checks public declarations and reports
+    only propext, Classical.choice, and Quot.sound for the proved endpoints.
+    The intentional sorry in the Challenge is the proof-comparison target;
+    the zero counts above refer to the Solution and its proof dependencies.
+    The protected Linux Comparator and external-kernel preflight is tracked
+    separately by the release branch's GitHub Actions run. The local build
+    has nonblocking linter and deprecation warnings.
 
 alignment:
   namespace: "CollisionIdeals.Palomar.PaperOne"
@@ -95,6 +103,11 @@ alignment:
       lean: "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
       module: "CollisionIdeals.Palomar.PaperOne.Solution"
       status: "proved"
-      note: "The wrapper exposes the literature input while deriving the implementation-level cubic and normal-closure data used by the project theorem."
+      note: >-
+        The wrapper proves the Keller specialization of Theorem 3.3. It
+        receives the rigidity hypothesis and a supplied finite normal
+        closure, and derives separability, a cubic power basis, generic-source
+        surjectivity, and nonnormality. The separate canonical project
+        endpoint also constructs the normal closure internally.
 
 acknowledgements: "Lean 4, Mathlib, and OpenAI Codex supported the formalization and manuscript workflow."

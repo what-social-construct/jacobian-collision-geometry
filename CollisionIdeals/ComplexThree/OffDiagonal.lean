@@ -1,5 +1,9 @@
-import CollisionIdeals.ComplexThree.Basic
-import CollisionIdeals.General.ResidualCollision.Scheme
+module
+
+public import CollisionIdeals.ComplexThree.Basic
+public import CollisionIdeals.General.ResidualCollision.Scheme
+
+@[expose] public section
 
 set_option autoImplicit false
 

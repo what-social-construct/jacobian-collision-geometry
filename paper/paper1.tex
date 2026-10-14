@@ -123,11 +123,19 @@ has a polynomial inverse.  Such an \(F\) is called a Keller map.  The
 Jacobian condition makes \(F\) an \'etale morphism; the conjecture asks
 whether this local condition forces global invertibility.
 
-Alpöge's explicit three-dimensional counterexample \cite{Alpoge2026}
-shows that it does not.  The constant nonzero Jacobian determinant and
+Alpöge's explicit three-dimensional counterexample \cite{Alpoge2026} is
+\[
+  F_0(x,y,z)=
+  \begin{pmatrix}
+    (1+xy)^3z+y^2(1+xy)(4+3xy)\\
+    y+3x(1+xy)^2z+3xy^2(4+3xy)\\
+    2x-3x^2y-x^3z
+  \end{pmatrix}.
+\]
+It satisfies \(\det JF_0=-2\) and has generic degree three
+\cite[Theorem~3.3]{Gao2026Counterexamples}.  The determinant identity and
 failure of injectivity have been independently formalized in Isabelle/HOL
-\cite{AFPJacobianCounterexample}; its generic degree is three
-\cite[Theorem~3.3]{Gao2026Counterexamples}.  This example motivates a
+\cite{AFPJacobianCounterexample}.  This example motivates a
 uniform structural question: what is the generic collision algebra of a
 three-dimensional Keller map of generic degree three?
 
@@ -625,6 +633,8 @@ and Wright \cite{Campbell1973,Razar1979,Wright1981}.
 \end{proof}
 
 \begin{leanfiles}
+The following paths refer to the full repository; the focused Paper~I
+release retains only the dependencies of the cubic endpoints.
 \leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
 \leanpath{CollisionIdeals/General/Collision/Ideal.lean},
 \leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
@@ -1007,7 +1017,7 @@ not a parameter space of maps.  The three cosets \(G/H\) index the
 \(K\)-embeddings of this fixed \(L\) into \(N\): they are the geometric
 generic sheets of one map, not members of the ansatz-defined collection.
 
-The formalization uses Lean~4.28.0 and Mathlib~v4.28.0
+The Paper~I release uses Lean~4.35.0 and Mathlib~v4.35.0
 \cite{Lean4,Mathlib}.  Its Palomar-facing declaration is
 \leanpath{CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision},
 checked by

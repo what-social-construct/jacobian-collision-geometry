@@ -1,7 +1,11 @@
-import CollisionIdeals.ComplexThree.Cubic.FunctionField
-import CollisionIdeals.ComplexThree.Statements.JacobianConjecture
-import CollisionIdeals.ComplexThree.OffDiagonal
-import CollisionIdeals.ComplexThree.Cubic.Branch
+module
+
+public import CollisionIdeals.ComplexThree.Cubic.FunctionField
+public import CollisionIdeals.ComplexThree.Statements.JacobianConjecture
+public import CollisionIdeals.ComplexThree.OffDiagonal
+public import CollisionIdeals.ComplexThree.Cubic.Branch
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000

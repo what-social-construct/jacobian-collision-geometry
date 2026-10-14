@@ -1,7 +1,11 @@
-import CollisionIdeals.ComplexThree.Cubic.GaloisGroup
-import CollisionIdeals.General.GenericFiber.CollisionDiagonal
-import CollisionIdeals.General.GenericFiber.FunctionField
-import CollisionIdeals.General.GenericFiber.MarkedRootDecomposition
+module
+
+public import CollisionIdeals.ComplexThree.Cubic.GaloisGroup
+public import CollisionIdeals.General.GenericFiber.CollisionDiagonal
+public import CollisionIdeals.General.GenericFiber.FunctionField
+public import CollisionIdeals.General.GenericFiber.MarkedRootDecomposition
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option synthInstance.maxHeartbeats 100000

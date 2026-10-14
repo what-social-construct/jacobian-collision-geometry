@@ -1,5 +1,9 @@
-import CollisionIdeals.General.Keller.Basic
-import Mathlib.Data.Complex.Basic
+module
+
+public import CollisionIdeals.General.Keller.Basic
+public import Mathlib.Basic.Complex.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 

@@ -1,7 +1,11 @@
-import CollisionIdeals.General.GenericFiber.DiagonalObstruction
-import CollisionIdeals.General.GenericFiber.FunctionField
-import CollisionIdeals.General.GenericFiber.MarkedRootDecomposition
-import Mathlib.RingTheory.Flat.Localization
+module
+
+public import CollisionIdeals.General.GenericFiber.DiagonalObstruction
+public import CollisionIdeals.General.GenericFiber.FunctionField
+public import CollisionIdeals.General.GenericFiber.MarkedRootDecomposition
+public import Mathlib.RingTheory.Flat.Localization
+
+@[expose] public section
 
 set_option autoImplicit false
 set_option maxHeartbeats 800000
@@ -59,6 +63,7 @@ noncomputable def polynomialGenericCollisionDiagonal
         (AlgHom.id K K)
         (polynomialImageCollisionDiagonal F))
 
+set_option backward.isDefEq.respectTransparency false in
 /--
 The generic collision equivalence carries the base-changed affine
 diagonal to multiplication on `L ⊗_K L`.
@@ -93,7 +98,7 @@ theorem polynomialGenericCollisionEquiv_intertwines_diagonal
         (Algebra.TensorProduct.map
           (AlgHom.id K K)
           (polynomialImageCollisionDiagonal F))
-  rw [← AlgHom.comp_assoc]
+  erw [← AlgHom.comp_assoc]
   have hbase :=
     baseChangeSelfTensorEquiv_intertwines_diagonal B A K L φ.toAlgHom
   rw [show

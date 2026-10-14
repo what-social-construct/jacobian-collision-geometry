@@ -1,7 +1,11 @@
-import Mathlib.FieldTheory.Minpoly.MinpolyDiv
-import Mathlib.RingTheory.Polynomial.Quotient
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.LinearAlgebra.TensorProduct.Basis
+module
+
+public import Mathlib.FieldTheory.Minpoly.MinpolyDiv
+public import Mathlib.RingTheory.Polynomial.Quotient
+public import Mathlib.RingTheory.Ideal.Quotient.Operations
+public import Mathlib.LinearAlgebra.TensorProduct.Basis
+
+@[expose] public section
 
 set_option autoImplicit false
 

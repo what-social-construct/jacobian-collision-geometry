@@ -1,6 +1,10 @@
-import CollisionIdeals.ComplexThree.Cubic.Main
-import CollisionIdeals.General.Automorphism.GenericDegreeOne
-import Mathlib.FieldTheory.PrimitiveElement
+module
+
+public import CollisionIdeals.ComplexThree.Cubic.Main
+public import CollisionIdeals.General.Automorphism.GenericDegreeOne
+public import Mathlib.FieldTheory.PrimitiveElement
+
+@[expose] public section
 
 /-!
 # Proved solution for the Paper I Palomar statement
@@ -67,8 +71,8 @@ def collisionDiagonal (F : PolynomialMap) :
 @[simp]
 theorem collisionDiagonal_collisionLeft (F : PolynomialMap) (a : SourceRing) :
     collisionDiagonal F (collisionLeft F a) = a := by
-  simp [collisionDiagonal, collisionLeft, diagonalEval, leftRename,
-    MvPolynomial.rename_rename]
+  change diagonalEval (leftRename a) = a
+  simp [diagonalEval, leftRename, MvPolynomial.rename_rename]
 
 def coordinateAlgHom (F : PolynomialMap) :
     MvPolynomial (Fin 3) ℂ →ₐ[ℂ] SourceRing :=
@@ -138,7 +142,8 @@ noncomputable def genericCollisionDiagonal (F : PolynomialMap) :
       commutes' := fun k ↦ by
         change fB (k ⊗ₜ[ImageAlgebra F] (1 : CollisionRing F)) =
           algebraMap (BaseFunctionField F) SourceFunctionField k
-        simp [fB, fK] }
+        change fK k * fC 1 = algebraMap (BaseFunctionField F) SourceFunctionField k
+        simp [fK] }
 
 def IsKeller (F : PolynomialMap) : Prop :=
   ∃ c : ℂ, c ≠ 0 ∧
@@ -225,9 +230,7 @@ theorem genericDegreeThreeS3Collision
   have hmarked : D.embedding = IsScalarTower.toAlgHom K L N :=
     rfl
   have hKeller' : CollisionIdeals.IsComplexThreeKeller F := by
-    simpa [IsKeller, CollisionIdeals.IsComplexThreeKeller,
-      CollisionIdeals.IsKeller, CollisionIdeals.jacobianDet,
-      CollisionIdeals.jacobianMatrix] using hKeller
+    exact hKeller
   have hNotNormal : ¬ Normal K L := by
     intro hNormal
     have hAutomorphism : IsPolynomialAutomorphism F :=
@@ -279,12 +282,7 @@ theorem genericDegreeThreeS3Collision
           (k ⊗ₜ[CollisionIdeals.polynomialMapImageAlgebra F] c) =
         CollisionIdeals.polynomialBaseFunctionFieldEmbedding F k *
           algebraMap SourceRing L (CollisionIdeals.collisionDiagonal F c) := by
-    simp [CollisionIdeals.polynomialGenericCollisionDiagonal,
-      CollisionIdeals.polynomialGenericSourceEquiv,
-      CollisionIdeals.polynomialGenericSourceTensorMap,
-      CollisionIdeals.polynomialImageCollisionDiagonal,
-      hprojectAlgebraMap]
-    exact Or.inl rfl
+    rfl
   have hlocalDiagonal_tmul (k : K) (c : CollisionRing F) :
       genericCollisionDiagonal F (k ⊗ₜ[ImageAlgebra F] c) =
         baseFunctionFieldEmbedding F k *
@@ -313,40 +311,14 @@ theorem genericDegreeThreeS3Collision
   have hdiagonalIdentification :
       CollisionIdeals.polynomialGenericCollisionDiagonal F hsurj =
         genericCollisionDiagonal F := by
-    apply AlgHom.ext
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul k c =>
-        change
-          CollisionIdeals.polynomialGenericCollisionDiagonal F hsurj
-              (k ⊗ₜ[CollisionIdeals.polynomialMapImageAlgebra F] c) =
-            genericCollisionDiagonal F (k ⊗ₜ[ImageAlgebra F] c)
-        rw [hprojectDiagonal_tmul, hlocalDiagonal_tmul,
-          hbaseFunctionFieldEmbedding, hcollisionDiagonal]
-        rfl
-    | add x y hx hy =>
-        simpa only [map_add] using congrArg₂ (fun a b ↦ a + b) hx hy
+    apply Algebra.TensorProduct.ext'
+    intro k c
+    exact (hprojectDiagonal_tmul k c).trans (hlocalDiagonal_tmul k c).symm
   refine ⟨?_, ?_, ?_, e, hdiagProject.trans hdiagonalIdentification,
     ⟨witness.galoisGroupEquiv⟩⟩
-  · simpa [IsJacobianCounterexample, IsKeller,
-      IsPolynomialAutomorphism,
-      CollisionIdeals.IsComplexThreeJacobianCounterexample,
-      CollisionIdeals.IsComplexJacobianCounterexample,
-      CollisionIdeals.IsComplexThreeKeller, CollisionIdeals.IsKeller,
-      CollisionIdeals.jacobianDet, CollisionIdeals.jacobianMatrix,
-      CollisionIdeals.IsPolynomialAutomorphism] using hCounterexample
-  · simpa [obstructionIdeal, diagonalIdeal, collisionIdeal, leftRename,
-      rightRename, CollisionIdeals.obstructionIdeal,
-      CollisionIdeals.diagonalIdeal, CollisionIdeals.diagonalGenerator,
-      CollisionIdeals.collisionIdeal, CollisionIdeals.collisionGenerator,
-      CollisionIdeals.leftRename,
-      CollisionIdeals.rightRename] using hObstruction
-  · simpa [diagonalIdeal, collisionIdeal, leftRename, rightRename,
-      CollisionIdeals.diagonalIdeal, CollisionIdeals.diagonalGenerator,
-      CollisionIdeals.collisionIdeal, CollisionIdeals.collisionGenerator,
-      CollisionIdeals.leftRename,
-      CollisionIdeals.rightRename] using hStrict
+  · exact hCounterexample
+  · exact hObstruction
+  · exact hStrict
 
 end
 

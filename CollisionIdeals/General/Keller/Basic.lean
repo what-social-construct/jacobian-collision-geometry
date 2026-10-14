@@ -1,6 +1,10 @@
-import CollisionIdeals.General.Collision.Diagonal
-import Mathlib.Algebra.MvPolynomial.PDeriv
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+module
+
+public import CollisionIdeals.General.Collision.Diagonal
+public import Mathlib.Algebra.MvPolynomial.PDeriv
+public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
+
+@[expose] public section
 
 set_option autoImplicit false
 
