@@ -632,29 +632,6 @@ Jacobian conjecture due to Campbell, with algebraic treatments by Razar
 and Wright \cite{Campbell1973,Razar1979,Wright1981}.
 \end{proof}
 
-\begin{leanfiles}
-\leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
-\leanpath{CollisionIdeals/General/Collision/Ideal.lean},
-\leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
-\leanpath{CollisionIdeals/General/FiberProduct/Polynomial.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/FunctionField.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean},
-\leanpath{CollisionIdeals/General/GenericFiber/MarkedRootDecomposition.lean},
-\leanpath{CollisionIdeals/General/Keller/Etale.lean},
-\leanpath{CollisionIdeals/General/Keller/GenericFiniteness.lean},
-\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean}, and
-\leanpath{CollisionIdeals/General/Automorphism/GaloisRigidity.lean}.
-The polynomial fiber-product module uses the abstract target polynomial
-ring.  The generic-fiber modules construct the equivalence over the image
-algebra \(B=\C[F_1,\ldots,F_n]\) and its generic base change, proving
-surjectivity of \(\theta\) from positive finite rank and identifying
-diagonal evaluation with multiplication.  The general Keller modules prove
-\'etaleness over the coordinate-image algebra and finite separability of
-the induced function-field extension directly from \leanpath{IsKeller};
-flatness follows from \'etaleness.  Ax--Grothendieck remains an explicit
-parameter of the Lean automorphism equivalence.
-\end{leanfiles}
-
 % The planar specialization is developed in the companion Paper II.
 
 \section{\texorpdfstring{The cubic \(S_3\) obstruction in dimension three}
@@ -844,27 +821,6 @@ In the nonnormal branch, the residual factor marks two distinct roots
 and is therefore already the ordered-root normal closure.
 \end{remark}
 
-\begin{leanfiles}
-\leanpath{CollisionIdeals/ComplexThree/Cubic/ResidualCriteria.lean} proves the
-four-way equivalence of Proposition~\ref{prop:cubic-tensor-decomposition}
-as \leanpath{cubicResidual_tfae}, independently of Keller or rigidity.
-\leanpath{CollisionIdeals/ComplexThree/Cubic/Canonical.lean} packages the
-Keller specialization of Theorem~\ref{thm:cubic-s3-collision} as
-\leanpath{complexThreeGenericDegreeThreeS3Collision}.
-From Keller, generic degree three, and the explicit input
-\leanpath{ComplexKellerGaloisRigidity}~\texttt{3}, it constructs the
-marked normal closure and cubic data, and proves diagonal compatibility,
-obstruction nonvanishing, and the \(S_3\) identification for the same
-residual field.
-\leanpath{CollisionIdeals/ComplexThree/Cubic/Criteria.lean} proves the
-Keller/counterexample equivalence in generic degree three.
-Finiteness of a supplied normal closure is derived in
-\leanpath{CollisionIdeals/General/Galois/FiniteNormalClosure.lean},
-adapted from the reviewed \texttt{StacksCore} proof of tag~09DT
-\cite{AxiomStacks2026}.
-Object-level parity is recorded in \leanpath{SEMANTIC-PARITY.md}.
-\end{leanfiles}
-
 \begin{corollary}[The generic-degree-three counterexample locus]
 \label{cor:cubic-counterexample-locus}
 The map \(F\) is not a polynomial automorphism.  Equivalently, on this
@@ -1025,12 +981,6 @@ not a parameter space of maps.  The three cosets \(G/H\) index the
 \(K\)-embeddings of this fixed \(L\) into \(N\): they are the geometric
 generic sheets of one map, not members of the ansatz-defined collection.
 
-The formalization uses Lean~4.28.0 and Mathlib~v4.28.0
-\cite{Lean4,Mathlib}.  Its Palomar-facing declaration is
-\leanpath{CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision},
-checked by
-\texttt{lake build CollisionIdeals.Palomar.PaperOne.Solution}.
-
 \begin{corollary}[First possible generic degree]
 \label{cor:first-possible-generic-degree}
 If \(F\) is Keller and \([L:K]\leq2\), then \(F\) is a polynomial
@@ -1047,6 +997,67 @@ Theorem~\ref{thm:classical-galois-rigidity} applies in either case.
 Paper~II specializes this low-degree boundary to ambient dimension two and
 makes the quadratic collision contradiction explicit through the planar
 secant projector.
+
+\section{Lean formalization status}
+\label{sec:lean-status}
+
+\begin{leanfiles}
+\textbf{General construction.}
+\leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
+\leanpath{CollisionIdeals/General/Collision/Ideal.lean},
+\leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
+\leanpath{CollisionIdeals/General/FiberProduct/Polynomial.lean},
+\leanpath{CollisionIdeals/General/GenericFiber/FunctionField.lean},
+\leanpath{CollisionIdeals/General/GenericFiber/CollisionDiagonal.lean},
+\leanpath{CollisionIdeals/General/GenericFiber/MarkedRootDecomposition.lean},
+\leanpath{CollisionIdeals/General/Keller/Etale.lean},
+\leanpath{CollisionIdeals/General/Keller/GenericFiniteness.lean},
+\leanpath{CollisionIdeals/General/Automorphism/Equivalences.lean}, and
+\leanpath{CollisionIdeals/General/Automorphism/GaloisRigidity.lean}.
+The polynomial fiber-product module uses the abstract target polynomial
+ring.  The generic-fiber modules construct the equivalence over the image
+algebra \(B=\C[F_1,\ldots,F_n]\) and its generic base change, proving
+surjectivity of \(\theta\) from positive finite rank and identifying
+diagonal evaluation with multiplication.  The general Keller modules prove
+\'etaleness over the coordinate-image algebra and finite separability of
+the induced function-field extension directly from \leanpath{IsKeller};
+flatness follows from \'etaleness.  Ax--Grothendieck remains an explicit
+parameter of the Lean automorphism equivalence.
+
+\medskip\noindent\textbf{Cubic specialization.}
+\leanpath{CollisionIdeals/ComplexThree/Cubic/ResidualCriteria.lean} proves the
+four-way equivalence of Proposition~\ref{prop:cubic-tensor-decomposition}
+as \leanpath{cubicResidual_tfae}, independently of Keller or rigidity.
+\leanpath{CollisionIdeals/ComplexThree/Cubic/Canonical.lean} packages the
+Keller specialization of Theorem~\ref{thm:cubic-s3-collision} as
+\leanpath{complexThreeGenericDegreeThreeS3Collision}.
+From Keller, generic degree three, and the explicit input
+\leanpath{ComplexKellerGaloisRigidity}~\texttt{3}, it constructs the
+marked normal closure and cubic data, and proves diagonal compatibility,
+obstruction nonvanishing, and the \(S_3\) identification for the same
+residual field.
+\leanpath{CollisionIdeals/ComplexThree/Cubic/Criteria.lean} proves the
+Keller/counterexample equivalence in generic degree three.
+Finiteness of a supplied normal closure is derived in
+\leanpath{CollisionIdeals/General/Galois/FiniteNormalClosure.lean},
+adapted from the reviewed \texttt{StacksCore} proof of tag~09DT
+\cite{AxiomStacks2026}.
+Object-level parity is recorded in \leanpath{SEMANTIC-PARITY.md}.
+
+\medskip\noindent\textbf{Verification.}
+The main development uses Lean~4.28.0 and Mathlib~v4.28.0
+\cite{Lean4,Mathlib}; the checked submission release uses Lean~4.35.0 and
+Mathlib~v4.35.0.  Its Palomar-facing declaration is
+\leanpath{CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision},
+checked locally by
+\texttt{lake build CollisionIdeals.Palomar.PaperOne.Solution}.
+At release commit
+\href{https://github.com/what-social-construct/jacobian-collision-geometry/tree/ccbba1356d6e737e1e7dd336a7014360e2f52251}
+{\texttt{ccbba13}}, the
+\href{https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280}
+{protected preflight} accepted the declaration with Comparator, Lean,
+NanoDa, and con-ron.  Rigidity remains an explicit theorem parameter.
+\end{leanfiles}
 
 \paragraph{Acknowledgment.}
 OpenAI Codex (GPT-5.6 Sol) assisted with the Lean formalization and

@@ -41,7 +41,7 @@ and the intrinsic generic annihilator quotient are distinct objects. The
 three cosets $G/H$ index embeddings of one fixed cubic field, not a parameter
 space of polynomial maps.
 
-The [full source-revision parity table](https://github.com/what-social-construct/jacobian-collision-geometry/blob/b11f8a7691550887360163cecfffec6e59b5afd0/SEMANTIC-PARITY.md)
+The [full source-revision parity table](https://github.com/what-social-construct/jacobian-collision-geometry/blob/15bfc1e6a19ece495e159f931d53defc0ca2edcc/SEMANTIC-PARITY.md)
 also records general modules and statements outside this focused proof
 closure. The full cubic split/field/connectedness equivalence is packaged by
 `cubicResidual_tfae` in `ComplexThree.Cubic.ResidualCriteria`; the split
@@ -64,3 +64,10 @@ The [Paper II Solution](CollisionIdeals/Palomar/PaperTwo/Solution.lean) adapts
 the existing projector and quadratic modules. Its independence from the
 broader boundary program is part of the statement scope, not an omitted
 hypothesis. It does not prove universal planar obstruction vanishing.
+
+Paper II's Proposition 6.1 also characterizes vanishing by normality of
+$L/K$, equivalently equality of the marked source field with its normal
+closure and $H=1$. Its component proofs are recorded in the linked main
+development; they are outside this focused release's protected comparison,
+which selects Theorems 3.2 and 5.3. The longer boundary/conormal development
+is research material, not a dependency of those declarations.

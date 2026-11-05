@@ -51,20 +51,28 @@ lake env lean MigrationAudit.lean
 The refreshed release passed the combined 2751-job local build, `lake check-build`,
 and the downstream declaration audits on November 4, 2026. The proved endpoints
 use only `propext`, `Classical.choice`, and `Quot.sound`.
-The earlier Paper I protected preflight does not cover the strengthened
-statement or the newly added Paper II entry.
+Both entries subsequently passed the
+[protected preflight at `ccbba13`](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280),
+with no errors or warnings in either mechanical report. That immutable run
+records the proof verification before this manuscript/metadata refresh.
 
 The [two-entry workflow](.github/workflows/papers-palomar-preflight.yml) invokes
 the official verifier at an immutable revision, with a separate Comparator
-configuration and metadata path for each entry. A new protected comparison and
-independent-kernel replay are still required. Running this workflow is not a
-Palomar submission or registration.
+configuration and metadata path for each entry. Each push checks the exact
+release commit; consult its workflow run for package-specific evidence.
+Running this workflow is not a Palomar submission or registration.
 
 The manuscripts are copied unchanged from the
-[reviewed main snapshot](https://github.com/what-social-construct/jacobian-collision-geometry/tree/b11f8a7691550887360163cecfffec6e59b5afd0),
+[reviewed main snapshot `15bfc1e`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/15bfc1e6a19ece495e159f931d53defc0ca2edcc),
 which documents the main Lean 4.28 development. This branch ports the same
 mathematical constructions to Lean 4.35 for submission. The main snapshot also
 contains the optional research modules omitted here.
+
+Both papers place their Lean correspondence after the mathematical
+conclusion. Paper II retains the compact marked-normal-closure vanishing
+criterion; its longer boundary/conormal discussion is preserved only in the
+main research tree. Proposition 6.1's component proofs remain in that main
+development and are not among this release's compared declarations.
 
 ## License
 
