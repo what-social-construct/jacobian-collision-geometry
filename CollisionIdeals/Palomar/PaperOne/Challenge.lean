@@ -202,7 +202,6 @@ theorem genericDegreeThreeS3Collision
     [IsScalarTower (BaseFunctionField F) SourceFunctionField N]
     (normalClosure :
       IsNormalClosure (BaseFunctionField F) SourceFunctionField N)
-    (finiteNormal : FiniteDimensional (BaseFunctionField F) N)
     (hdegree :
       Module.finrank (BaseFunctionField F) SourceFunctionField = 3) :
     IsJacobianCounterexample F ∧

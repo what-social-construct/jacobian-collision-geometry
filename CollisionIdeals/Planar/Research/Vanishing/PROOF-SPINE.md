@@ -2,40 +2,40 @@
 
 ## Endpoint and notation
 
-For a planar Keller map \(F=(P,Q)\), the endpoint is
-\(\operatorname{Obs}(F)=0\), not vanishing of the diagonal ideal itself.
+For a planar Keller map $F=(P,Q)$, the endpoint is
+$\mathrm{Obs}(F)=0$, not vanishing of the diagonal ideal itself.
 Use the existing declarations:
 
 - `PlanarVanishing` in [Statements/Vanishing.lean](../../Statements/Vanishing.lean).
 - `planarVanishing_iff_forall_collisionIdeal_eq_diagonalIdeal` in
   [Equivalences/Vanishing.lean](../../Equivalences/Vanishing.lean): the same goal
-  is \(I_R(F)=I_\Delta\).
+  is $I_R(F)=I_\Delta$.
 - `planarJacobianConjecture_iff_planarVanishing` in
   [Equivalences/JacobianConjecture.lean](../../Equivalences/JacobianConjecture.lean):
   the equivalence with polynomial invertibility takes Ax--Grothendieck explicitly.
 
-Write \(A=\mathbb C[x,y]\), \(B=\mathbb C[P,Q]\),
-\(K=\operatorname{Frac}(B)\), \(L=\operatorname{Frac}(A)\),
-\(N\) for the marked normal closure of \(L/K\), and \(T\) for the integral
-closure of \(B\) in \(N\). These are the shared objects, not new planar copies.
+Write $A=\mathbb C[x,y]$, $B=\mathbb C[P,Q]$,
+$K=\mathrm{Frac}(B)$, $L=\mathrm{Frac}(A)$,
+$N$ for the marked normal closure of $L/K$, and $T$ for the integral
+closure of $B$ in $N$. These are the shared objects, not new planar copies.
 
 ## Current finding: exact characterizations
 
 Identify the rings with their images in the marked normal closure. The
 internally proved source-intersection theorem gives
 
-\[
+```math
 A\cap K=B,\qquad E^G\cap A=B.
-\]
+```
 
 [ConjugateInvariantCriterion.lean](../../../General/Keller/ConjugateInvariantCriterion.lean)
 packages the resulting boundary characterization:
 
-\[
+```math
 E^G\subseteq A\quad\Longleftrightarrow\quad E^G=B
 \quad\Longleftrightarrow\quad\mathfrak b_F=B
-\quad\Longleftrightarrow\quad U_F=\operatorname{Spec}B.
-\]
+\quad\Longleftrightarrow\quad U_F=\mathrm{Spec}B.
+```
 
 Lean uses source-image membership and surjectivity of the existing base
 map rather than literal equality of differently presented rings. This
@@ -45,19 +45,19 @@ no universal source regularity or empty boundary. The conormal test
 below is an equivalent alternative in characteristic zero.
 
 The separate coordinate-descent characterization identifies normality
-of \(L/K\), after which the explicit Keller--Galois input gives
-automorphy and \(\operatorname{Obs}(F)=0\). The empty-boundary endpoint
+of $L/K$, after which the explicit Keller--Galois input gives
+automorphy and $\mathrm{Obs}(F)=0$. The empty-boundary endpoint
 instead uses source finiteness and its explicit geometric inputs.
-The boundary ideal \(\mathfrak b_F\subset B\) is not the obstruction
-ideal \(\operatorname{Obs}(F)\subset C_F\).
+The boundary ideal $\mathfrak b_F\subset B$ is not the obstruction
+ideal $\mathrm{Obs}(F)\subset C_F$.
 
 [BoundaryCriterion.lean](BoundaryCriterion.lean) packages the exact planar
-equivalence \(\operatorname{Obs}(F)=0\iff\mathfrak b_F=B\), and its
+equivalence $\mathrm{Obs}(F)=0\iff\mathfrak b_F=B$, and its
 source-regularity and conormal corollaries. Only `BranchPurityA2` and
 `AffinePlaneFiniteEtaleRigidity` are passed as geometric inputs, in the
 boundary-to-obstruction direction. The shared reverse bridge in
 [ConjugateInvariantObstruction.lean](../../../General/Keller/ConjugateInvariantObstruction.lean)
-evaluates \(I_R=I_\Delta\) at every Galois collision pair. The resulting
+evaluates $I_R=I_\Delta$ at every Galois collision pair. The resulting
 coordinate equalities put the all-conjugate algebra inside the marked
 source, so the existing source-regularity criterion gives empty boundary.
 This uses no Ax--Grothendieck or Keller--Galois rigidity. The first,
@@ -67,17 +67,17 @@ hypotheses enter only when applying the actual boundary criterion.
 These are the findings to present. The historical attempts and their
 negative controls below remain available, while the finite derivative
 lattice is a [bench proposal](OBJECT-BENCH.md#finite-derivative-lattice-proposal-2026-09-20),
-not a claimed next step proving full \(JC(2)\).
+not a claimed next step proving full $JC(2)$.
 
 ## Precise Galois-descent characterization
 
 The complementary marked-closure criterion is now explicit:
 
-\[
-\operatorname{Obs}(F)=0\quad\Longleftrightarrow\quad L/K\text{ normal}
+```math
+\mathrm{Obs}(F)=0\quad\Longleftrightarrow\quad L/K\text{ normal}
 \quad\Longleftrightarrow\quad N=\iota(L)
 \quad\Longleftrightarrow\quad H=1.
-\]
+```
 
 `planarObstructionIdeal_eq_bot_iff_normal` and
 `planarObstructionIdeal_eq_bot_iff_normalClosureEmbedding_surjective`
@@ -93,18 +93,18 @@ The reverse planar characterization does not add an input to the focused
 degree-two exclusion. It does not assert that the marked field fills its
 normal closure for every Keller map.
 
-Let \(\iota:L\hookrightarrow N\) be the existing marked embedding. The
+Let $\iota:L\hookrightarrow N$ be the existing marked embedding. The
 coordinate-descent condition is
 
-\[
-\forall g\in\operatorname{Gal}(N/K),\qquad
+```math
+\forall g\in\mathrm{Gal}(N/K),\qquad
 g(\iota(x)),\ g(\iota(y))\in\iota(L).
-\]
+```
 
 [GaloisDescent.lean](GaloisDescent.lean) names the universal complex-planar
 statement `CollisionIdeals.Planar.PlanarGaloisDescent`, using the canonical
 normal closure constructed from the Keller condition. No choice of a
-separate model, generic-degree restriction, or normality of \(L/K\) is
+separate model, generic-degree restriction, or normality of $L/K$ is
 assumed in its definition.
 
 The shared bridges in
@@ -126,23 +126,23 @@ as `planarGaloisDescent_iff_forall_normal`,
 Ax--Grothendieck input nor the ramification route's purity input.
 
 The universal assertion of descent remains open. Constructing the normal closure
-proves normality of \(N/K\), not of \(L/K\). The target concerns rational
+proves normality of $N/K$, not of $L/K$. The target concerns rational
 membership in the original field, not polynomial or valuation-ring
 regularity. With the accepted rigidity input, proving it for every complex
-planar Keller map would settle full \(JC(2)\); this is not a proved weaker
+planar Keller map would settle full $JC(2)$; this is not a proved weaker
 compatibility lemma. The earlier ramification and pole routes remain
 separate approaches to the same vanishing endpoint.
 
 The first attempt at a contradiction now has a concrete field-theoretic
-witness. If descent fails, a conjugate coordinate \(z=g(\iota(X_i))\)
-lies outside \(\iota(L)\). The fixed-field theorem supplies
-\(h\in H=\operatorname{Gal}(N/\iota(L))\) with \(h(z)\ne z\).
+witness. If descent fails, a conjugate coordinate $z=g(\iota(X_i))$
+lies outside $\iota(L)$. The fixed-field theorem supplies
+$h\in H=\mathrm{Gal}(N/\iota(L))$ with $h(z)\ne z$.
 This is packaged in `NormalClosureData.exists_fixingSubgroup_move_of_not_mem`
 and `polynomialSource_exists_moved_conjugate_coordinate_of_not_normal`.
-The existing Galois collision pair \((g,hg)\) is therefore off diagonal,
+The existing Galois collision pair $(g,hg)$ is therefore off diagonal,
 and its planar secant determinant evaluates to zero.
 
-That zero is not a contradiction: \(h\in H\) fixes the original field,
+That zero is not a contradiction: $h\in H$ fixes the original field,
 not the conjugate sheet, and it gives no residue agreement or inertia
 condition. The local rigidity theorem would exclude the pair if both
 tuples could be realized in a local ring with identical residues, compatibly
@@ -158,41 +158,41 @@ descent. The precise tests are recorded in the
 Adjoining all conjugate source rings does not repair the problem. The
 [common-center audit](OBJECT-BENCH.md#common-center-and-all-conjugate-ring-test-2026-09-19)
 identifies a possible deleted base divisor: the resulting ring's
-\(H\)-invariants have the form \(A[1/d]\), with \(0\ne d\in B\).
-The underlying algebra \(E\) is now constructed in
+$H$-invariants have the form $A[1/d]$, with $0\ne d\in B$.
+The underlying algebra $E$ is now constructed in
 [ConjugateAlgebra.lean](../../../General/Galois/ConjugateAlgebra.lean),
 with conjugate-polynomial membership, Galois stability, and finite type.
-The \(G\)-invariant target open is now constructed in
+The $G$-invariant target open is now constructed in
 [ConjugateInvariantOpen.lean](../../../General/Keller/ConjugateInvariantOpen.lean).
-The principal localization presentation and the \(H\)-invariant comparison
-above are not yet packaged in Lean. Equality with \(A\), or a uniform
+The principal localization presentation and the $H$-invariant comparison
+above are not yet packaged in Lean. Equality with $A$, or a uniform
 denominator bound forcing that equality, remains unproved. Thus the proposed
 shortcut returns to the global boundary gap;
 it does not bypass it through Galois symmetry or prime selection.
 
 ### Reduced-boundary invariant
 
-For the all-conjugate open \(U=D(d)\) in that mathematical audit, retain
-the canonical ideal \(\mathfrak b=I(\operatorname{Spec}B\setminus U)
-=\sqrt{(d)}=(s)\), with \(s\ne0\) squarefree. It is independent of
+For the all-conjugate open $U=D(d)$ in that mathematical audit, retain
+the canonical ideal $\mathfrak b=I(\mathrm{Spec}B\setminus U)=\sqrt{(d)}=(s)$,
+with $s\ne0$ squarefree. It is independent of
 the equation chosen for the same open. The shared
 [simple-pole criterion](../../../General/Normalization/SimplePole.lean)
 and base transversality give
 
-\[
+```math
 \partial_P(s^{-1}B),\partial_Q(s^{-1}B)\subseteq s^{-1}B
 \quad\Longleftrightarrow\quad
 \partial_Ps,\partial_Qs\in(s)
 \quad\Longleftrightarrow\quad s\in B^\times.
-\]
+```
 
-Keep this target explicitly finite: \(s^{-1}B\) is a free rank-one
-\(B\)-module, and Leibniz reduces its preservation to the two tests on
-\(1/s\). Equivalently, compare it with the module generated by
-\(1/s,D_P(1/s),D_Q(1/s)\); no higher-jet sequence or whole pole tower
-is part of this target. Finite means finitely generated over \(B\), not
-finite-dimensional over \(\mathbb C\). The finite defect is
-\((\partial_Ps\bmod s,\partial_Qs\bmod s)\).
+Keep this target explicitly finite: $s^{-1}B$ is a free rank-one
+$B$-module, and Leibniz reduces its preservation to the two tests on
+$1/s$. Equivalently, compare it with the module generated by
+$1/s,D_P(1/s),D_Q(1/s)$; no higher-jet sequence or whole pole tower
+is part of this target. Finite means finitely generated over $B$, not
+finite-dimensional over $\mathbb C$. The finite defect is
+$(\partial_Ps\bmod s,\partial_Qs\bmod s)$.
 The actual all-conjugate open and its canonical reduced boundary ideal are
 now constructed. The characteristic-zero conormal criterion is applied to
 that same ideal: all target-coordinate components vanish iff the open is
@@ -200,7 +200,7 @@ the whole target. This intrinsic criterion does not need a principal
 presentation. The latter remains unformalized for the one-generator
 simple-pole formulation. The Keller-specific claim that the components
 vanish remains open. In particular,
-neither preservation of \(B[1/s]\) nor adjoining first jets to the
+neither preservation of $B[1/s]$ nor adjoining first jets to the
 secant coefficient lattice supplies simple-pole preservation. The
 [bench test](OBJECT-BENCH.md#reduced-boundary-and-simple-pole-test-2026-09-19)
 records an explicit proper-open example where those jets increase the
@@ -219,7 +219,7 @@ target derivatives of finite boundary generators lie in the boundary ideal [open
     -> Obs(F) = 0                         [purity + finite-etale rigidity inputs]
 ```
 
-The finite tests use a generating set for the same \(\mathfrak b_F\),
+The finite tests use a generating set for the same $\mathfrak b_F$,
 not a new denominator ideal or a chosen principal equation. The target
 boundary and intermediate-normalization boundary are not identified;
 source finiteness connects their emptiness by a proved implication.
@@ -230,10 +230,10 @@ Keller--Galois rigidity input of the separate degree-two theorem.
 
 The source-specific characterization also uses
 [SourceIntersection.lean](../../../General/Keller/SourceIntersection.lean), which
-proves \(A\cap K=B\) from visible source divisors and factorization.
+proves $A\cap K=B$ from visible source divisors and factorization.
 [ConjugateInvariantSource.lean](../../../General/Keller/ConjugateInvariantSource.lean)
 applies it to the existing fixed algebra: a fixed element regular on the
-marked source already belongs to \(B\). The comparison does not show
+marked source already belongs to $B$. The comparison does not show
 that every fixed element is source-regular. Source unit reflection or a
 visible center on each separate sheet cannot supply that assertion for
 their joint algebra. The new criterion packages that assertion as
@@ -274,12 +274,12 @@ lemmas does not establish that step.
 
 ## Local formulation of the missing step
 
-For every height-one prime \(\mathfrak q\) of \(T\), with
-\(\mathfrak p=\mathfrak q\cap B\), aim to prove
+For every height-one prime $\mathfrak q$ of $T$, with
+$\mathfrak p=\mathfrak q\cap B$, aim to prove
 
-\[
+```math
 e(\mathfrak q/\mathfrak p)=1.
-\]
+```
 
 The existing target is `NoCodimensionOneRamification` in
 [NormalizationDiagram.lean](../../NormalizationDiagram.lean), defined using
@@ -293,37 +293,37 @@ two-dimensional normalization.
 
 Here the index is for the **full normal closure over the base**. Index one at
 a visible center on one intermediate conjugate sheet is not the same result:
-the sheet index is \([I:I\cap gHg^{-1}]\), which can be one while \(I\ne1\).
+the sheet index is $[I:I\cap gHg^{-1}]$, which can be one while $I\ne1$.
 The primes in question lie over the affine base, not over a chosen
 compactification's divisors at infinity.
 
 Equivalently, the local differential target is
-\((\Omega_{T/B})_{\mathfrak q}=0\) at every height-one prime. The existing
-`PlanarRamificationRigidity` asks for finite length of \(\Omega_{T/B}\), a
+$(\Omega_{T/B})_{\mathfrak q}=0$ at every height-one prime. The existing
+`PlanarRamificationRigidity` asks for finite length of $\Omega_{T/B}$, a
 sufficient criterion rather than a replacement goal. Its
 `RamificationRigidityBridge` remains an explicit input in
 [Rigidity/Interfaces.lean](../../Rigidity/Interfaces.lean).
 
 ## Original-extension pole route
 
-One can instead work in \(L\), before forming its normal closure. Put
-\(S=\operatorname{IntCl}_B(L)\). The constructed source open immersion
-comes from \(S\subseteq A\); \(S\) is finite over \(B\). It would suffice
+One can instead work in $L$, before forming its normal closure. Put
+$S=\mathrm{IntCl}_B(L)$. The constructed source open immersion
+comes from $S\subseteq A$; $S$ is finite over $B$. It would suffice
 to prove
 
-\[
+```math
 x,y\in S_{\mathfrak p}\quad
 \text{for every height-one prime }\mathfrak p\subset S.
-\]
+```
 
 The normal-Noetherian height-one intersection theorem then gives
-\(A=S\), so the original map is finite. Keller étaleness and the stated
+$A=S$, so the original map is finite. Keller étaleness and the stated
 finite-étale rigidity input finish. This is a mathematical reduction using
 [Stacks, Tag 031T](https://stacks.math.columbia.edu/tag/031T), not a new
 Lean endpoint with the regularity hypothesis discharged.
 
 The global source-divisor theorem gives one visible prime over each base
-divisor, not regularity at every prime of \(S\) above it. The
+divisor, not regularity at every prime of $S$ above it. The
 [original-extension test](OBJECT-BENCH.md#original-extension-pole-test-2026-09-19)
 excludes genuinely monomial pole valuations in polynomial source
 coordinates. General divisorial valuations can have cancellation between
@@ -333,22 +333,22 @@ monomial case has been proved.
 ## Direct local collision exclusion
 
 [LocalCollision.lean](LocalCollision.lean) proves that two planar Keller
-collision maps into any commutative local \(\mathbb C\)-algebra which agree
+collision maps into any commutative local $\mathbb C$-algebra which agree
 on residue coordinates are equal. The evaluated secant determinant reduces
 to the nonzero constant Jacobian, hence is a unit; it annihilates every
 coordinate difference. No domain hypothesis or ramification index is used.
 
 [InertiaCoordinates.lean](InertiaCoordinates.lean) applies this directly to
 the actual valuation inertia group of the marked normal closure. With the
-ground-field constants included compatibly in a valuation ring \(V\),
+ground-field constants included compatibly in a valuation ring $V$,
 
-\[
+```math
 \sigma\in I_V,\quad \sigma gH\ne gH
 \quad\Longrightarrow\quad
 \exists i\in\{1,2\}:\ g(x_i)\notin V.
-\]
+```
 
-Indeed, if both coordinates belonged to \(V\), inertia would provide a
+Indeed, if both coordinates belonged to $V$, inertia would provide a
 second local collision map with the same residues, contradicting movement
 of the sheet. This argument needs no `ConjugateRamificationRealization`.
 At a divisorial valuation, nonmembership means a coordinate pole.
@@ -357,7 +357,7 @@ The missing step on this route is to rule out that pole: it would suffice
 to produce, at each nontrivial-inertia divisor, a moved sheet whose two
 coordinates are regular. The existing visible sheet is inertia-fixed and
 does not supply such a witness. Taking closure does not supply it either:
-\(\operatorname{IntCl}_B(gL)\subseteq gA\), not the reverse inclusion.
+$\mathrm{IntCl}_B(gL)\subseteq gA$, not the reverse inclusion.
 Extending the residual projector alone is insufficient; the collision
 evaluation must extend on the source-coordinate generators. See the
 [closure and pole-order audit](OBJECT-BENCH.md#local-collision-and-closure-audit-2026-09-19).
@@ -366,24 +366,24 @@ evaluation must extend on the source-coordinate generators. See the
 
 [General/Normalization/DerivationCriterion.lean](../../../General/Normalization/DerivationCriterion.lean)
 now proves a concrete sufficient condition for local index one. In
-\(T_{\mathfrak q}\), it takes
+$T_{\mathfrak q}$, it takes
 
-\[
+```math
 d:T_{\mathfrak q}\longrightarrow T_{\mathfrak q},\qquad
 b\in\mathfrak q\cap B,\qquad d(b)\in T_{\mathfrak q}^{\times},
-\]
+```
 
-where \(d\) is a derivation, and concludes
+where $d$ is a derivation, and concludes
 `localRamificationIndex (R := B) q = 1`. Its proof uses
-\(d(\mathfrak m^2)\subseteq\mathfrak m\): the extended base ideal cannot lie
-in \(\mathfrak m^2\) if it contains an element with unit derivative. No
+$d(\mathfrak m^2)\subseteq\mathfrak m$: the extended base ideal cannot lie
+in $\mathfrak m^2$ if it contains an element with unit derivative. No
 uniformizer choice or principal-generator hypothesis is needed.
 
 The generic criterion, local specialization, and composed unramifiedness
 criterion passed targeted Lean builds. The index-one/unramifiedness comparison
 is in [General/Normalization/LocalUnramified.lean](../../../General/Normalization/LocalUnramified.lean).
 They do **not** assert that an extended Keller frame preserves
-\(T_{\mathfrak q}\). That is the next hypothesis to investigate at missing
+$T_{\mathfrak q}$. That is the next hypothesis to investigate at missing
 boundary points; regularity on the visible polynomial sheets is not enough.
 The base transversality part is now proved in
 [General/Normalization/BaseTransversality.lean](../../../General/Normalization/BaseTransversality.lean):
@@ -391,16 +391,16 @@ every nonzero proper ideal in a characteristic-zero polynomial ring contains
 an element whose derivative in some coordinate lies outside the ideal. The
 proof chooses a nonzero element of minimal total degree; it requires neither
 a principal generator nor a height-one hypothesis. For a base divisor, use
-the polynomial presentation of \(B=\mathbb C[P,Q]\). The coordinate selected
+the polynomial presentation of $B=\mathbb C[P,Q]$. The coordinate selected
 by this result can depend on the divisor: regularity of an arbitrary tangent
 frame would not suffice.
 
 [BaseFrame.lean](BaseFrame.lean) connects the target partials to the existing
-Keller frames, both on the source and on each conjugate sheet in \(N\):
-\(D_P(b(P,Q))=(\partial_u b)(P,Q)\), and similarly for \(D_Q\) and
-\(\partial_v\). In Lean these use `coordinateAlgHom F`.
+Keller frames, both on the source and on each conjugate sheet in $N$:
+$D_P(b(P,Q))=(\partial_u b)(P,Q)$, and similarly for $D_Q$ and
+$\partial_v$. In Lean these use `coordinateAlgHom F`.
 The partial is taken **before** target evaluation; it is not the ordinary
-source partial of \(b(P,Q)\). Transporting the base-prime witness and the
+source partial of $b(P,Q)$. Transporting the base-prime witness and the
 derivative to the actual localization remains specialization work, separate
 from the missing regularity proof.
 
@@ -408,14 +408,14 @@ This is an alternative local route, not an assumption that the trace-landing
 route has already closed. The remaining mathematical input is regularity of
 the selected transverse frame in the actual boundary localization. See the
 [denominator test on the bench](OBJECT-BENCH.md#concrete-boundary-regularity-test):
-the denominator must avoid \(\mathfrak q\), not just be nonzero.
+the denominator must avoid $\mathfrak q$, not just be nonzero.
 
 ## Testing the secant comparison
 
 The finite generator criterion is in [FrameDenominator.lean](FrameDenominator.lean):
-if \(D(B)\subseteq T\), a multiplier clears the derivatives of a finite
-\(B\)-module generating family of \(T\) if and only if it clears all of
-\(D(T)\). This uses Leibniz, not \(B\)-linearity. It gives a nonzero
+if $D(B)\subseteq T$, a multiplier clears the derivatives of a finite
+$B$-module generating family of $T$ if and only if it clears all of
+$D(T)$. This uses Leibniz, not $B$-linearity. It gives a nonzero
 denominator, not one outside a specified prime.
 
 The existing secant family is a different family.
@@ -431,13 +431,13 @@ but rules out the proposed comparison based on generic secant identities
 and étaleness on retained sheets alone.
 
 [ConductorComparison.lean](ConductorComparison.lean) supplies a precise
-alternative comparison with the existing order \(U=B[\alpha]\):
-\(D(U)\subseteq\Lambda\) implies \((U:T)D(T)\subseteq\Lambda\).
-Control of the base derivatives and \(D(\alpha)\) suffices for its premise.
+alternative comparison with the existing order $U=B[\alpha]$:
+$D(U)\subseteq\Lambda$ implies $(U:T)D(T)\subseteq\Lambda$.
+Control of the base derivatives and $D(\alpha)$ suffices for its premise.
 The local refinement in [ConductorLocalization.lean](ConductorLocalization.lean)
-proves that a conductor element outside \(\mathfrak q\) makes control of
-\(D(\alpha)\) equivalent to control of all \(D(T)\) in a
-\(T_{\mathfrak q}\)-submodule. This does not construct the adapted generator.
+proves that a conductor element outside $\mathfrak q$ makes control of
+$D(\alpha)$ equivalent to control of all $D(T)$ in a
+$T_{\mathfrak q}$-submodule. This does not construct the adapted generator.
 Conductor avoidance can be arranged by a local monogenic construction in
 this characteristic-zero finite-normalization setting; it should not be
 listed as an independent Keller-specific conjecture. The construction is
@@ -445,18 +445,18 @@ outlined on the bench and is not yet packaged in Lean.
 
 [GeneratorDerivative.lean](GeneratorDerivative.lean) isolates the remaining
 test using the existing monogenic Jacobian. Write
-\(f(X)=\sum_i a_iX^i=\operatorname{minpoly}_B(\alpha)\),
-\(J=f'(\alpha)\), and \(\nu_D=\sum_i D(a_i)\alpha^i\). It proves
+$f(X)=\sum_i a_iX^i=\mathrm{minpoly}_B(\alpha)$,
+$J=f'(\alpha)$, and $\nu_D=\sum_i D(a_i)\alpha^i$. It proves
 
-\[
+```math
 J D(\alpha)=-\nu_D,\qquad
 D(\alpha)\in\Lambda\ \Longleftrightarrow\ \nu_D\in J\Lambda
 \quad(J\ne0).
-\]
+```
 
-Base derivative control gives \(\nu_D\in\Lambda\), not membership in
-\(J\Lambda\). In the local ring the missing test is
-\(\nu_D\in JT_{\mathfrak q}\). For an adapted generator and a transverse
+Base derivative control gives $\nu_D\in\Lambda$, not membership in
+$J\Lambda$. In the local ring the missing test is
+$\nu_D\in JT_{\mathfrak q}$. For an adapted generator and a transverse
 frame this is an exact reformulation of the ramification issue, not an
 independent proof of its vanishing. Both comparisons remain bench tests;
 neither is a new mandatory hypothesis of `PlanarVanishing`.
@@ -468,16 +468,16 @@ uses the actual polynomial source, not merely a smooth affine open. Its
 unit-reflection lemma applies to any subalgebra of a polynomial ring over a
 reduced coefficient ring. For a Keller map, it proves
 
-\[
-\forall\mathfrak p\in\operatorname{Spec}^{(1)}B,\quad
-\exists\mathfrak r\in\operatorname{Spec}^{(1)}A:\quad
+```math
+\forall\mathfrak p\in\mathrm{Spec}^{(1)}B,\quad
+\exists\mathfrak r\in\mathrm{Spec}^{(1)}A:\quad
 \mathfrak r\cap B=\mathfrak p,
 \qquad B\longrightarrow A\text{ is unramified at }\mathfrak r.
-\]
+```
 
 The proof transfers unique factorization to the coordinate-image base,
-chooses a prime generator of \(\mathfrak p\), and factors its nonunit image
-in \(A\). Flat going-down identifies the contraction of a source factor;
+chooses a prime generator of $\mathfrak p$, and factors its nonunit image
+in $A$. Flat going-down identifies the contraction of a source factor;
 Keller étaleness gives its unramifiedness. This dimension-independent result
 requires no extra visibility hypothesis and no generic-degree restriction.
 
@@ -493,17 +493,17 @@ For a supplied normalization diagram and its existing
 `ConjugateRamificationRealization`, the checked corollary gives an
 inertia-fixed sheet at every ramified divisor. The realization remains
 explicit; this check does not verify the older unconditional model/index
-assembly. In group terms the conclusion is \(I\le gHg^{-1}\) for some
-sheet, not \(I=1\). In the nonnormal case, inertia can fix one sheet while
+assembly. In group terms the conclusion is $I\le gHg^{-1}$ for some
+sheet, not $I=1$. In the nonnormal case, inertia can fix one sheet while
 moving others. The missing step must control those other sheets; unit
-reflection alone does not establish \(\nu_D\in JT_{\mathfrak q}\).
+reflection alone does not establish $\nu_D\in JT_{\mathfrak q}$.
 
 [LocalizedJacobianDiagnostic.lean](LocalizedJacobianDiagnostic.lean)
 checks a sharper negative test than the nonconstant-Jacobian quadratic
-example: the rational map \((t,u)\mapsto(t^2,u/(2t))\) has determinant one
-on \(t\ne0\), but its target derivative of \(t\) is not polynomial in
-the normalization coordinates \((t,z)\). The diagnostic is not a global
-polynomial Keller map; it misses the whole base divisor \(s=0\). Thus it
+example: the rational map $(t,u)\mapsto(t^2,u/(2t))$ has determinant one
+on $t\ne0$, but its target derivative of $t$ is not polynomial in
+the normalization coordinates $(t,z)$. The diagnostic is not a global
+polynomial Keller map; it misses the whole base divisor $s=0$. Thus it
 fails exactly the new visibility conclusion. The bench distinguishes the
 Lean-checked identities/non-polynomiality from the local geometric
 interpretation.
@@ -529,15 +529,15 @@ uniform secant-frame trace landing                [OPEN]
     -> Obs(F) = 0                                [endgame above]
 ```
 
-The actual boundary-section ring \(R_C\), secant-frame denominator ideal,
+The actual boundary-section ring $R_C$, secant-frame denominator ideal,
 and pole witness are constructed. In
 [SecantFrameTraceLanding.lean](../SecantFrameTraceLanding.lean),
 `boundarySeparation_of_secantFrameTraceLanding` requires landing for every
 nontrivial prime-order subgroup. `boundarySectionSubalgebra_eq_bot_of_secantFrameTraceLanding`
-also shows that landing already forces \(R_C=T\): here `⊥` denotes the base
-\(T\)-subalgebra, not the zero ring.
+also shows that landing already forces $R_C=T$: here `⊥` denotes the base
+$T$-subalgebra, not the zero ring.
 
-What is not proved is a uniform trace bound for **all** sections of \(R_C\).
+What is not proved is a uniform trace bound for **all** sections of $R_C$.
 Clearing finitely many secant coefficients is not that bound. The
 [object bench](OBJECT-BENCH.md) records the constructions and negative tests.
 This trace endgame needs a nonzero multiplier, not one outside the boundary
@@ -552,13 +552,13 @@ spine. The established findings are the characterizations above; the
 following steps would pursue the stronger universal vanishing target.
 
 1. Test whether the global polynomial Keller condition supplies
-   \(\nu_D\in JT_{\mathfrak q}\) for the adapted integral generator and
+   $\nu_D\in JT_{\mathfrak q}$ for the adapted integral generator and
    the transverse frame, or rules out the coordinate pole forced by the
    direct inertia argument. The local collision contradiction is proved
    without an index realization; source-coordinate regularity is not.
    The [polynomial pole-order test](OBJECT-BENCH.md#global-polynomial-pole-order-test-2026-09-19-not-formalized)
-   yields \(e\le(d-2)M\), which allows poles when total polynomial degree
-   \(d\ge3\); iterating the same derivative does not strengthen it.
+   yields $e\le(d-2)M$, which allows poles when total polynomial degree
+   $d\ge3$; iterating the same derivative does not strengthen it.
    The coefficientwise derivative identity is proved;
    the divisibility is not. The source-visibility theorem now supplies an
    unramified source divisor over every base divisor, but does not control
@@ -578,7 +578,7 @@ following steps would pursue the stronger universal vanishing target.
    every bench route to succeed or import them all into the final proof.
 
 Keller--Galois rigidity remains a separate possible finish if one proves
-\(L/K\) normal. The normality of \(N/K\) does not supply that premise.
+$L/K$ normal. The normality of $N/K$ does not supply that premise.
 
 ## Checked first step (2026-09-18)
 
@@ -782,31 +782,31 @@ No research object was pruned, archived, committed, or pushed in this step.
 ## All-conjugate algebra and dependency audit (2026-09-19)
 
 `General.Galois.ConjugateAlgebra` now defines the actual
-\(E=B[g(\iota(A)):g\in G]\subset N\) as the adjoin of the finite
+$E=B[g(\iota(A)):g\in G]\subset N$ as the adjoin of the finite
 set of conjugate source coordinates. Conjugate-polynomial membership,
 Galois stability in both directions, finite generation, and finite type
 are proved. This construction is dimension-independent and needs no
 Keller condition beyond the supplied marked finite normal-closure data.
-It does not assert that \(E\) is module-finite over \(B\).
+It does not assert that $E$ is module-finite over $B$.
 
 The geometric audit of Paper II confirms the selected regular component,
 free scheme-theoretic action, invariant affine open, and reduced principal
 boundary argument under its stated Keller hypotheses. The finite-submodule
-step uses Noetherianity of \(B\); empty boundary then uses classical
+step uses Noetherianity of $B$; empty boundary then uses classical
 finite-etale rigidity of affine space. The actual target open is now
 instantiated by the shorter route below, followed by its actual reduced
 boundary. The stronger etale/free-action identifications remain separate work.
 
-The construction reuses \(E\) rather than introducing a new boundary-model
+The construction reuses $E$ rather than introducing a new boundary-model
 hypothesis bundle. The 2026-09-20 checkpoint below shortens the route to the
 target open:
 
-1. Construct \(E\), identify its fraction field with \(N\), and construct
-   its fixed algebra, over which \(E\) is module-finite (proved).
-2. Realize \(E^G\) inside \(K\) with fraction field \(K\) under separability,
-   and prove \(E/B\) unramified under Keller (proved).
-3. Descend finite type and quasi-finiteness to \(E^G/B\). Use birationality
-   and normality of \(B\) to identify its spectrum with an affine target
+1. Construct $E$, identify its fraction field with $N$, and construct
+   its fixed algebra, over which $E$ is module-finite (proved).
+2. Realize $E^G$ inside $K$ with fraction field $K$ under separability,
+   and prove $E/B$ unramified under Keller (proved).
+3. Descend finite type and quasi-finiteness to $E^G/B$. Use birationality
+   and normality of $B$ to identify its spectrum with an affine target
    open (proved). The selected-etale-component and free-action comparisons are not
    prerequisites for this shorter open-immersion route.
 4. Form the radical ideal of the actual complement and specialize the
@@ -819,7 +819,7 @@ components vanish; that remains the distinct Keller-specific comparison.
 
 The new [comparison diagnostic](OBJECT-BENCH.md#galois--secant-boundary-comparison-audit-2026-09-19)
 shows exactly why Galois descent and secants alone are insufficient on a
-proper open source. Even a finite invariant secant expression for \(1/s\)
+proper open source. Even a finite invariant secant expression for $1/s$
 does not bound its first derivatives. No Keller-specific vanishing is
 claimed, and the full polynomial-plane hypothesis must enter any successful
 comparison explicitly.
@@ -881,30 +881,30 @@ Keller-specific vanishing comparison. No submission is made.
 ## Fraction-field and invariant-ring checkpoint (2026-09-19)
 
 [ConjugateFractionField.lean](../../../General/Galois/ConjugateFractionField.lean)
-proves that the existing inclusion \(E\subset N\) makes \(N\) a fraction
-field of \(E\). Every conjugate source rational function is a quotient of
-conjugate polynomials in \(E\), and these generate the supplied normal
+proves that the existing inclusion $E\subset N$ makes $N$ a fraction
+field of $E$. Every conjugate source rational function is a quotient of
+conjugate polynomials in $E$, and these generate the supplied normal
 closure. The shared lemma `NormalClosureData.eq_top_of_conjugate_mem` now
 serves both this proof and the existing descent theorem. No normality of
-\(L/K\), coordinate descent, Keller condition, or separability premise is
+$L/K$, coordinate descent, Keller condition, or separability premise is
 introduced.
 
 [ConjugateInvariants.lean](../../../General/Galois/ConjugateInvariants.lean)
 restricts the action via Mathlib's `IsInvariantSubring` and reuses
-`FixedPoints.subalgebra` for \(E^G\). The fraction-field result makes this
-action faithful. Finite-group invariants give integrality over \(E^G\),
-and the already-proved finite type over \(B\) gives module-finiteness over
-\(E^G\). Neither finiteness over \(B\) nor scheme-theoretic freeness is
-inferred. Under the explicit additional assumption that \(N/K\) is
-separable, membership in \(E^G\) is equivalent to membership in the embedded
-base field \(K\).
+`FixedPoints.subalgebra` for $E^G$. The fraction-field result makes this
+action faithful. Finite-group invariants give integrality over $E^G$,
+and the already-proved finite type over $B$ gives module-finiteness over
+$E^G$. Neither finiteness over $B$ nor scheme-theoretic freeness is
+inferred. Under the explicit additional assumption that $N/K$ is
+separable, membership in $E^G$ is equivalent to membership in the embedded
+base field $K$.
 
 At this checkpoint the comparison was elementwise. The 2026-09-20
-checkpoint below packages the corresponding \(B\)-subalgebra of \(K\) and
+checkpoint below packages the corresponding $B$-subalgebra of $K$ and
 its fraction field, using `Subalgebra.comap` along the marked base-field
 embedding, not a new abstract quotient or supplied birationality hypothesis.
 
-The geometric route considered at this checkpoint was to identify \(E\) with the
+The geometric route considered at this checkpoint was to identify $E$ with the
 selected component of the tensor product of conjugate source algebras and
 obtain etaleness from the Keller condition. Scheme-theoretic freeness and
 the invariant affine-open realization would then follow; the ordinary
@@ -942,54 +942,54 @@ PDF, archive, push, or submission is changed in this step.
 
 [ConjugateInvariantField.lean](../../../General/Galois/ConjugateInvariantField.lean)
 realizes the existing fixed algebra in the target function field. Pull back
-\(E\subset N\) along \(K\hookrightarrow N\); the resulting
-\(B\)-subalgebra of \(K\) has fraction field \(K\). Under separability
-of \(N/K\), the fixed-field theorem gives a canonical \(B\)-algebra
-equivalence with the same \(E^G\) already constructed. This gives its
-embedding in \(K\); fractions from \(B\) already suffice to prove
-\(\operatorname{Frac}(E^G)=K\). The compatibility lemmas preserve both
-the original map from \(B\) and the inclusion in \(N\). No additional
+$E\subset N$ along $K\hookrightarrow N$; the resulting
+$B$-subalgebra of $K$ has fraction field $K$. Under separability
+of $N/K$, the fixed-field theorem gives a canonical $B$-algebra
+equivalence with the same $E^G$ already constructed. This gives its
+embedding in $K$; fractions from $B$ already suffice to prove
+$\mathrm{Frac}(E^G)=K$. The compatibility lemmas preserve both
+the original map from $B$ and the inclusion in $N$. No additional
 quotient, global competing algebra instance, or birationality hypothesis
 is introduced.
 
 [ConjugateUnramified.lean](../../../General/Keller/ConjugateUnramified.lean)
 uses the Keller condition on the actual generating source sheets. Two
-infinitesimal lifts from \(E\) agree on each conjugate source algebra by
+infinitesimal lifts from $E$ agree on each conjugate source algebra by
 Keller etaleness, hence agree on their generated algebra. This proves
 formal unramifiedness, and existing finite type gives unramifiedness of
-\(E/B\). This argument does not first identify a tensor-product component
-and does not infer flatness or etaleness of \(E/B\).
+$E/B$. This argument does not first identify a tensor-product component
+and does not infer flatness or etaleness of $E/B$.
 
 ### Geometric construction planned at this checkpoint
 
 The following was the audited next route. It is implemented in the
 target-open checkpoint below:
 
-1. Unramifiedness and finite type make \(E/B\) quasi-finite.
-2. Since \(B\) is Noetherian and \(E\) is finite over its fixed subalgebra,
+1. Unramifiedness and finite type make $E/B$ quasi-finite.
+2. Since $B$ is Noetherian and $E$ is finite over its fixed subalgebra,
    [Artin–Tate (Stacks, Tag 00IS)](https://stacks.math.columbia.edu/tag/00IS)
-   makes \(E^G/B\) finite type.
-3. The integral inclusion \(E^G\hookrightarrow E\) gives a surjection on
-   spectra. Thus quasi-finiteness descends to \(E^G/B\), as in
+   makes $E^G/B$ finite type.
+3. The integral inclusion $E^G\hookrightarrow E$ gives a surjection on
+   spectra. Thus quasi-finiteness descends to $E^G/B$, as in
    [Stacks, Tag 0GWS](https://stacks.math.columbia.edu/tag/0GWS).
 4. Apply the existing
    `isOpenImmersion_integralClosure_of_quasiFinite` from
    [OpenImmersion.lean](../../../General/Normalization/OpenImmersion.lean).
-   The fraction-field comparison and normality of \(B\) identify the
-   relative integral closure with \(B\), yielding the desired open
-   immersion \(\operatorname{Spec}(E^G)\hookrightarrow\operatorname{Spec}B\).
+   The fraction-field comparison and normality of $B$ identify the
+   relative integral closure with $B$, yielding the desired open
+   immersion $\mathrm{Spec}(E^G)\hookrightarrow\mathrm{Spec}B$.
 
 This route needs neither scheme-theoretic freeness nor the stronger
 selected-etale-component identification merely to construct the target
 open. Those comparisons remain available for the stronger torsor picture.
-It also does not require assuming that \(E^G\) is normal: normality of
-the target \(B\), already available from the finite function-field data,
+It also does not require assuming that $E^G$ is normal: normality of
+the target $B$, already available from the finite function-field data,
 is sufficient here.
 
 The remaining construction after the open immersion is its actual reduced
 boundary and principal presentation. Proving the two Keller-specific
 conormal components vanish is still a separate open theorem. None of the
-new algebraic results identifies \(E^G\) with \(B\) or proves planar
+new algebraic results identifies $E^G$ with $B$ or proves planar
 obstruction vanishing.
 
 The target-field module passed its targeted build (2586 jobs), and the
@@ -1022,13 +1022,13 @@ The preceding fraction-field/unramifiedness checkpoint was committed as
 `121fb56`. Those two results now enter the actual open-immersion proof:
 
 1. [ConjugateInvariantFiniteType.lean](../../../General/Galois/ConjugateInvariantFiniteType.lean)
-   applies Artin–Tate to the existing \(B\subset E^G\subset E\), proving
-   finite type of \(E^G/B\). Neither Keller nor separability is needed
+   applies Artin–Tate to the existing $B\subset E^G\subset E$, proving
+   finite type of $E^G/B$. Neither Keller nor separability is needed
    for this step.
 2. [QuasiFiniteDescent.lean](../../../General/Normalization/QuasiFiniteDescent.lean)
    proves the reusable finite-fiber descent along an integral injective
-   extension. Applying it to \(E^G\subset E\), Keller unramifiedness of
-   \(E/B\) gives quasi-finiteness of \(E^G/B\).
+   extension. Applying it to $E^G\subset E$, Keller unramifiedness of
+   $E/B$ gives quasi-finiteness of $E^G/B$.
 3. [BirationalOpen.lean](../../../General/Normalization/BirationalOpen.lean)
    identifies the relative integral closure with the normal base for an
    intermediate algebra in its fraction field. The existing affine
@@ -1037,25 +1037,25 @@ The preceding fraction-field/unramifiedness checkpoint was committed as
    intermediate algebra.
 4. [ConjugateInvariantOpen.lean](../../../General/Keller/ConjugateInvariantOpen.lean)
    applies these lemmas to the actual fixed algebra and its proved
-   target-field embedding. Under Keller and separability of \(N/K\), it
+   target-field embedding. Under Keller and separability of $N/K$, it
    proves
-   \[
-   \operatorname{Spec}(E^G)\hookrightarrow\operatorname{Spec}B.
-   \]
+   ```math
+   \mathrm{Spec}(E^G)\hookrightarrow\mathrm{Spec}B.
+   ```
    `polynomialConjugateInvariantTargetOpen` is the standard
    `Scheme.Hom.opensRange` of this map, and
    `polynomialConjugateInvariantTargetOpen_isAffineOpen` proves that this
-   actual \(U_F\) is affine.
+   actual $U_F$ is affine.
 
 The fixed algebra has not been replaced by a second quotient, and no
-open-model hypothesis was introduced. Neither flatness of \(E/B\) nor
+open-model hypothesis was introduced. Neither flatness of $E/B$ nor
 scheme-theoretic freeness is needed for this construction. Its next step
 is the actual radical ideal
-\(\mathfrak b_F=I(\operatorname{Spec}B\setminus U_F)\) and its principal
-reduced presentation. The stronger etale/torsor and \(H\)-invariant
+$\mathfrak b_F=I(\mathrm{Spec}B\setminus U_F)$ and its principal
+reduced presentation. The stronger etale/torsor and $H$-invariant
 localization comparisons remain separate. Proving the Keller-specific
 conormal classes vanish remains the substantive open theorem; the open
-immersion does not assert \(U_F=\operatorname{Spec}B\).
+immersion does not assert $U_F=\mathrm{Spec}B$.
 
 The generic descent leaf passed 2001 jobs and its default-setting external
 client; the birational leaf passed 2678 jobs and two independent clients.
@@ -1089,9 +1089,9 @@ checkpoint remains uncommitted, with no push or submission.
 The next construction uses the same target open, without selecting an
 equation or supplying a new boundary model:
 
-\[
-\mathfrak b_F=I(\operatorname{Spec}B\setminus U_F)\subset B.
-\]
+```math
+\mathfrak b_F=I(\mathrm{Spec}B\setminus U_F)\subset B.
+```
 
 [AffineOpenBoundary.lean](../../../General/Normalization/AffineOpenBoundary.lean)
 reuses Mathlib's `PrimeSpectrum.vanishingIdeal`. It proves radicality, the
@@ -1099,7 +1099,7 @@ exact complement as zero locus, and the unit-ideal/full-open equivalence.
 Its nonzero-ideal lemma needs only a nonempty open, not a domain assumption.
 [ConjugateInvariantBoundary.lean](../../../General/Keller/ConjugateInvariantBoundary.lean)
 applies this API to the actual target open, proves that open nonempty, and
-proves \(\mathfrak b_F\) nonzero and finitely generated. A nonzero ideal
+proves $\mathfrak b_F$ nonzero and finitely generated. A nonzero ideal
 does not assert a nonempty boundary: the empty boundary has the unit ideal.
 
 [PolynomialConormal.lean](../../../General/Normalization/PolynomialConormal.lean)
@@ -1107,23 +1107,23 @@ transports polynomial-coordinate derivations through an algebra equivalence
 and transfers the existing characteristic-zero conormal criterion to any
 algebra with that polynomial presentation.
 [ConjugateInvariantConormal.lean](../../../General/Keller/ConjugateInvariantConormal.lean)
-uses the existing injective target-polynomial presentation of \(B\).
+uses the existing injective target-polynomial presentation of $B$.
 `polynomialImageCoordinatePartial_rangeRestrict` verifies that the partial
 is taken before target evaluation; it is not the ordinary source partial
 of the evaluated polynomial. No new frame, quotient, or obstruction is
 introduced.
 
-The actual conormal module \(\mathfrak b_F/\mathfrak b_F^2\) is finitely
-generated over \(B\). In characteristic zero the actual criterion is
+The actual conormal module $\mathfrak b_F/\mathfrak b_F^2$ is finitely
+generated over $B$. In characteristic zero the actual criterion is
 
-\[
+```math
 \left(\forall i,\ [d_i]:\mathfrak b_F/\mathfrak b_F^2\to B/\mathfrak b_F
 \text{ is zero}\right)
-\quad\Longleftrightarrow\quad U_F=\operatorname{Spec}B.
-\]
+\quad\Longleftrightarrow\quad U_F=\mathrm{Spec}B.
+```
 
 There are two component maps in the planar specialization. This criterion
-does not require the principal presentation \(\mathfrak b_F=(s)\), so
+does not require the principal presentation $\mathfrak b_F=(s)$, so
 that separate formalization no longer blocks stating the actual finite
 conormal target. Without selecting a generator, these are two maps on a
 finitely generated module, not two chosen element classes or a claim of
@@ -1131,7 +1131,7 @@ cyclicity. The principal reduced presentation remains useful for the
 rank-one simple-pole formulation.
 
 The substantive gap is unchanged: prove the actual Keller-specific
-component maps vanish (equivalently, preserve \(\mathfrak b_F\)).
+component maps vanish (equivalently, preserve $\mathfrak b_F$).
 The new equivalence establishes neither side for every Keller map. No
 principal-equation assumption, flatness/freeness assertion, or boundary
 vanishing hypothesis is introduced into the construction.
@@ -1177,19 +1177,19 @@ The actual finite test is now connected to the existing planar endpoint:
    reduces a conormal component to derivatives of any finite ideal
    generating set, by Leibniz and span induction. The actual-boundary
    wrappers supply such a set and identify the successful test with
-   \(U_F=\operatorname{Spec}B\). No principal equation is required.
+   $U_F=\mathrm{Spec}B$. No principal equation is required.
 2. [FullOpenAlgebra.lean](../../../General/Normalization/FullOpenAlgebra.lean)
    converts a full affine open immersion into a bijective algebra map.
    [ConjugateInvariantFiniteness.lean](../../../General/Keller/ConjugateInvariantFiniteness.lean)
-   applies this to \(B\to E^G\), then uses finiteness of \(E/E^G\)
-   and the embedded source \(A\subset E\) to prove finiteness of
-   \(E/B\) and \(A/B\). Noetherianity of \(B\) supplies submodule
+   applies this to $B\to E^G$, then uses finiteness of $E/E^G$
+   and the embedded source $A\subset E$ to prove finiteness of
+   $E/B$ and $A/B$. Noetherianity of $B$ supplies submodule
    finiteness; source finiteness is derived, not assumed in this bridge.
 3. [FiniteSource.lean](../../../General/Normalization/FiniteSource.lean)
    proves that a finite source fills its intermediate normalization.
    [FiniteBoundary.lean](FiniteBoundary.lean) then excludes hidden inertia
    and uses the existing no-ramification endpoint to conclude
-   \(\operatorname{Obs}(F)=0\). `BranchPurityA2` and
+   $\mathrm{Obs}(F)=0$. `BranchPurityA2` and
    `AffinePlaneFiniteEtaleRigidity` are explicit inputs. The model is
    constructed from the Keller map; no model-existence premise or custom
    literature-axiom import is added.
@@ -1202,7 +1202,7 @@ endpoint is in the research tree. The focused degree-two theorem is
 unchanged.
 
 The remaining theorem is the generator membership itself:
-\(\partial_Pf_j,\partial_Qf_j\in\mathfrak b_F\) for generators of
+$\partial_Pf_j,\partial_Qf_j\in\mathfrak b_F$ for generators of
 the actual reduced boundary. Neither finite generation nor preservation
 after localization proves it. The
 [proper-open negative control](OBJECT-BENCH.md#finite-generator-endpoint-audit-2026-09-20)
@@ -1240,16 +1240,16 @@ checkpoints remain uncommitted; no push or submission was made.
 
 The next source-specific comparison is the classical intersection
 property, proved internally rather than added as a literature input:
-\[
+```math
 A\cap K=B\qquad\text{inside }L.
-\]
+```
 
 [SourceIntersection.lean](../../../General/Keller/SourceIntersection.lean)
-first reflects divisibility by a prime \(p\in B\), using an existing
-visible source divisor contracting to \((p)\). UFD factorization and
+first reflects divisibility by a prime $p\in B$, using an existing
+visible source divisor contracting to $(p)$. UFD factorization and
 cancellation handle arbitrary divisors, including zero and units. A
-fraction in \(K\) that is polynomial on the source then has its
-denominator dividing its numerator already in \(B\). Neither
+fraction in $K$ that is polynomial on the source then has its
+denominator dividing its numerator already in $B$. Neither
 characteristic zero nor separability is required for these three
 theorems. The targeted build passed all 2915 jobs without warnings or
 increased elaboration budgets.
@@ -1262,8 +1262,8 @@ map. No new intersection ring, source copy, or theorem-target predicate
 is defined.
 
 This is useful source information, not a vanishing argument:
-\(E^G\cap\iota(A)=\iota(B)\) does not imply
-\(E^G\subseteq\iota(A)\). The generator derivative memberships remain
+$E^G\cap\iota(A)=\iota(B)$ does not imply
+$E^G\subseteq\iota(A)$. The generator derivative memberships remain
 open. The [object-bench audit](OBJECT-BENCH.md#what-the-full-polynomial-source-does-supply-2026-09-20)
 records the classical attribution and explains why unit reflection and
 separate visible sheets do not furnish the missing regularity assertion.
@@ -1299,15 +1299,15 @@ changed in this checkpoint. Earlier uncommitted changes are preserved.
 combines the pointwise source-intersection theorem with the existing
 actual target open and boundary. Its three declarations identify:
 
-1. Regularity on the marked source of every element of \(E^G\) with
-   surjectivity of the canonical map \(B\to E^G\).
-2. That surjectivity with \(\mathfrak b_F=B\).
+1. Regularity on the marked source of every element of $E^G$ with
+   surjectivity of the canonical map $B\to E^G$.
+2. That surjectivity with $\mathfrak b_F=B$.
 3. Source regularity directly with empty target boundary.
 
 The reverse boundary implication uses the same injective base map and
 the affine spectrum isomorphism; no equality between incompatible Lean
 subtypes is asserted. Together with the earlier intersection theorem,
-this formalizes \(E^G\subseteq A\iff E^G=B\iff\mathfrak b_F=B\)
+this formalizes $E^G\subseteq A\iff E^G=B\iff\mathfrak b_F=B$
 under the established embeddings.
 
 This checkpoint consolidates exact criteria and their existing
@@ -1327,7 +1327,7 @@ in the later direct-closure checkpoint below. It characterizes vanishing
 by normality of the original
 extension, or equivalently by surjectivity of the marked embedding into
 its normal closure. The field-theoretic fixing-subgroup criterion reuses
-the same \(H\) as Paper I; it is not an inertia-group assertion.
+the same $H$ as Paper I; it is not an inertia-group assertion.
 
 Verification: the fixed-algebra criterion passed its 2946-job targeted
 build; the closure/vanishing additions passed their 2637-job targeted
@@ -1353,22 +1353,22 @@ was made.
 The reverse implication is now intrinsic to the collision construction,
 not an application of Ax--Grothendieck. In
 [ConjugateInvariantObstruction.lean](../../../General/Keller/ConjugateInvariantObstruction.lean),
-vanishing gives \(I_R=I_\Delta\). Every Galois collision pair therefore
+vanishing gives $I_R=I_\Delta$. Every Galois collision pair therefore
 annihilates the diagonal generators, so all conjugate source coordinates
-equal the marked coordinates. Adjoin generation places \(E\), and hence
-\(E^G\), in the marked polynomial source. This first implication needs
+equal the marked coordinates. Adjoin generation places $E$, and hence
+$E^G$, in the marked polynomial source. This first implication needs
 neither Keller nor separability. The second applies the existing actual
-boundary criterion, with Keller and separability, to give \(\mathfrak b_F=B\).
+boundary criterion, with Keller and separability, to give $\mathfrak b_F=B$.
 
 [BoundaryCriterion.lean](BoundaryCriterion.lean) combines this direct
 reverse with the existing finite-boundary endpoint. Its central theorem
 and two corollaries package
 
-\[
-\operatorname{Obs}(F)=0\iff\mathfrak b_F=B
+```math
+\mathrm{Obs}(F)=0\iff\mathfrak b_F=B
 \iff E^G\subseteq\iota(A)
 \iff\text{both target-coordinate conormal components vanish}.
-\]
+```
 
 Only `BranchPurityA2` and `AffinePlaneFiniteEtaleRigidity` are theorem
 inputs, and only from boundary emptiness to obstruction vanishing.

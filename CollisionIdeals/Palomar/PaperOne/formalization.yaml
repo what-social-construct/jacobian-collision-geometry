@@ -34,12 +34,20 @@ sources:
     location: "https://doi.org/10.1007/BF02764906"
     relationship: "background"
     note: "One source for the classical Keller--Galois rigidity input, which remains an explicit hypothesis in the submitted theorem."
+  - title: "The Stacks Project in Lean"
+    authors:
+      - "Axiom Math contributors"
+    type: "formalization"
+    location: "https://github.com/AxiomMath/Stacks/blob/f8e70c5dd04bfabcb423d5e325461f527c85a5d6/StacksCore/FieldTheory/Normal/Closure.lean"
+    relationship: "adapts"
+    note: "The reviewed StacksCore proof of normal-closure finiteness (tag 09DT) is selectively adapted to the project's Mathlib version, with source attribution and Apache-2.0 terms retained."
 
 status:
   scope: >-
     The submitted declaration is conditional on a plainly stated
-    Keller--Galois rigidity hypothesis and on supplied finite normal-closure
-    data. It reconstructs separability, a cubic power basis, generic-source
+    Keller--Galois rigidity hypothesis and on supplied normal-closure
+    data. Finiteness of that closure follows internally from cubic degree.
+    It reconstructs separability, a cubic power basis, generic-source
     surjectivity, and nonnormality internally, proves a diagonal-compatible
     collision product with the normal closure, obtains Galois group S3, and
     proves nonvanishing of the affine obstruction. It makes no existence claim
@@ -86,7 +94,12 @@ review:
   status: "self-assessed"
   reviewers:
     - "Chloe van der Vlugt (author self-review)"
-  notes: "The statement was checked against the manuscript object dictionary and the Solution was compiled with warnings treated as errors."
+  notes: >-
+    The independent Challenge and proved Solution expose the same statement.
+    The intentional Challenge sorry is the proof-comparison target; the zero
+    counts above refer to the Solution. Removing the redundant finiteNormal
+    parameter strengthens the previously checked declaration; the release
+    preflight must be rerun for the updated commit.
 
 alignment:
   namespace: "CollisionIdeals.Palomar.PaperOne"
@@ -95,6 +108,12 @@ alignment:
       lean: "CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision"
       module: "CollisionIdeals.Palomar.PaperOne.Solution"
       status: "proved"
-      note: "The wrapper exposes the literature input while deriving the implementation-level cubic and normal-closure data used by the project theorem."
+      note: >-
+        The wrapper proves the Keller specialization of Theorem 3.3. It
+        receives the rigidity hypothesis and a supplied normal closure,
+        derives that closure's finiteness, separability of the cubic
+        extension, a power basis, generic-source surjectivity, and
+        nonnormality. The canonical project endpoint also constructs the
+        normal closure internally.
 
 acknowledgements: "Lean 4, Mathlib, and OpenAI Codex supported the formalization and manuscript workflow."

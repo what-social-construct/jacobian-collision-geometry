@@ -1,21 +1,31 @@
-# Palomar entries
+# Palomar submission entries
 
-This directory contains exactly two proposed Palomar entries, one for each
-active manuscript.
+Two proposed entries correspond to the two active manuscripts:
 
-| Entry | Compared theorem | Files |
-|---|---|---|
-| Paper I | `CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision` | `PaperOne/Challenge.lean`, `PaperOne/Solution.lean`, `PaperOne/comparator.json`, `PaperOne/formalization.yaml` |
-| Paper II | `CollisionIdeals.Palomar.PaperTwo.explicitPlanarSecantProjector`; `CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity` | `PaperTwo/Challenge.lean`, `PaperTwo/Solution.lean`, `PaperTwo/comparator.json`, `PaperTwo/formalization.yaml` |
+- **Paper I:** generic-degree-three collision geometry and Galois group
+  $S_3$. [Challenge](PaperOne/Challenge.lean) ·
+  [Solution](PaperOne/Solution.lean) · [Comparator](PaperOne/comparator.json) ·
+  [Metadata](PaperOne/formalization.yaml).
+- **Paper II:** the explicit planar secant projector and generic-degree-two
+  collision rigidity. [Challenge](PaperTwo/Challenge.lean) ·
+  [Solution](PaperTwo/Solution.lean) · [Comparator](PaperTwo/comparator.json) ·
+  [Metadata](PaperTwo/formalization.yaml).
 
-Each Challenge is Mathlib-only and restates the required transparent
-definitions locally. Each Solution connects that statement surface to the
-project's substantive modules. The duplicate definitions denote the same
-objects and use the canonical manuscript notation recorded in
-`SEMANTIC-PARITY.md`; they exist only because a Palomar Challenge may not
-transitively import the project implementation.
+Each **Challenge** states the theorem using only Mathlib. Its **Solution**
+reuses the project's proofs. The transparent definitions repeated in these
+independent surfaces denote the same shared objects, not competing
+constructions; their notation and canonical owners are recorded in the
+[semantic parity dictionary](../../SEMANTIC-PARITY.md).
 
-The repository pins Lean 4.28.0 and Mathlib v4.28.0, satisfying Palomar's
-current toolchain minimum. Both challenge/solution pairs build locally;
-Palomar's protected Comparator and NanoDa replay remains the authoritative
-submission check.
+The Challenge's `sorry` is the intentional proof-comparison placeholder.
+The Paper I Solution and canonical endpoint have been audited with
+only `propext`, `Classical.choice`, and `Quot.sound` as axioms.
+
+## Verification status
+
+The main development pins Lean 4.28.0 and Mathlib v4.28.0. The targeted
+Paper I build passed on November 4, 2026. Removing its redundant
+`finiteNormal` parameter strengthened the compared statement, so the earlier
+release preflight does not cover the current version. A fresh release
+preflight and protected Comparator/NanoDa replay remain pending before
+submission.

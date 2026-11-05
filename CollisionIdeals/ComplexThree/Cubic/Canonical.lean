@@ -1,4 +1,5 @@
 import CollisionIdeals.ComplexThree.Cubic.Criteria
+import CollisionIdeals.ComplexThree.Cubic.ResidualCriteria
 import CollisionIdeals.ComplexThree.Cubic.Main
 import CollisionIdeals.General.Galois.CanonicalNormalClosure
 import Mathlib.FieldTheory.PrimitiveElement

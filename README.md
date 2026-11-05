@@ -2,12 +2,29 @@
 
 **[Paper I (PDF)](paper/paper1.pdf)** · **[Paper II (PDF)](paper/paper2.pdf)** · [LaTeX sources](paper/) · [semantic parity](SEMANTIC-PARITY.md) · [manuscript archive](manuscript-archive/)
 
-This repository contains two companion manuscripts and a Lean 4
-formalization of collision geometry beyond the diagonal. Paper I identifies
+We study the scheme of pairs with the same image under a polynomial map,
+and the ideal measuring its departure from the diagonal. This repository
+contains two companion manuscripts and their Lean 4 formalization. Paper I identifies
 the $S_3$ normal-closure symmetry of generic-degree-three counterexamples to
 $JC(3)$. Paper II constructs an explicit planar secant projector and uses
 Keller--Galois rigidity to exclude generic degree two for Keller maps in
 $JC(2)$.
+
+## Start here
+
+- **Paper I:** [main Lean theorem](CollisionIdeals/ComplexThree/Cubic/Canonical.lean)
+  and its independent [submission statement](CollisionIdeals/Palomar/PaperOne/Challenge.lean)
+  / [proved solution](CollisionIdeals/Palomar/PaperOne/Solution.lean).
+- **Paper II:** [quadratic collision theorem](CollisionIdeals/Planar/GenericDegreeTwo/Main.lean)
+  and [explicit secant projector](CollisionIdeals/Planar/ExplicitSecant.lean).
+- **Object tracing:** the [notation and proof-status dictionary](SEMANTIC-PARITY.md)
+  identifies the shared objects; the [Palomar crosswalk](SEMANTIC-PARITY.md#palomar-submission-surface-crosswalk)
+  explains their repeated submission definitions.
+
+The Keller--Galois rigidity theorem is an **explicit literature input**:
+`ComplexKellerGaloisRigidity n` is a proposition, not an installed axiom or a
+theorem proved here. Results using it take its proof as a parameter. The
+full planar Jacobian conjecture remains outside the completed degree-two result.
 
 ## Shared collision objects
 
@@ -37,7 +54,7 @@ Since $I_R(F)\subseteq I_\Delta$, the quotient map
 $q_F:S\twoheadrightarrow C_F:=S/I_R(F)$ carries $I_\Delta$ to
 
 ```math
-\operatorname{Obs}(F)
+\mathrm{Obs}(F)
 =q_F(I_\Delta)
 \cong I_\Delta/I_R(F)
 =\ker(\bar\mu_F),
@@ -50,7 +67,7 @@ F\text{ is a polynomial automorphism}
 \quad\Longleftrightarrow\quad
 I_R(F)=I_\Delta
 \quad\Longleftrightarrow\quad
-\operatorname{Obs}(F)=0
+\mathrm{Obs}(F)=0
 ```
 
 over $\mathbb C$, with the reverse implication using Ax--Grothendieck.
@@ -60,8 +77,8 @@ Writing
 
 ```math
 B=\mathbb C[F_1,\ldots,F_n]\subseteq A,
-\qquad K=\operatorname{Frac}(B),
-\qquad L=\operatorname{Frac}(A),
+\qquad K=\mathrm{Frac}(B),
+\qquad L=\mathrm{Frac}(A),
 ```
 
 finite generic degree gives a compatible identification
@@ -85,7 +102,7 @@ $N$ of $L/K$, and
 ```math
 K\otimes_BC_F\simeq_K L\times N,
 \qquad
-\operatorname{Gal}(N/K)\cong S_3.
+\mathrm{Gal}(N/K)\cong S_3.
 ```
 
 The first factor is the diagonal. The second is the residual generic factor.
@@ -100,7 +117,7 @@ determinant $\delta_F$ and the canonical off-diagonal projector
 ```math
 p_F=1-c^{-1}q_F(\delta_F)\in C_F,
 \qquad
-\operatorname{Obs}(F)=C_Fp_F.
+\mathrm{Obs}(F)=C_Fp_F.
 ```
 
 Generic degree two yields
@@ -109,9 +126,9 @@ Generic degree two yields
 K\otimes_BC_F\simeq_KL\times L,
 ```
 
-so the residual factor forces $\operatorname{Obs}(F)\ne0$ and $p_F\ne0$.
+so the residual factor forces $\mathrm{Obs}(F)\ne0$ and $p_F\ne0$.
 But a separable quadratic extension is Galois; Keller--Galois rigidity makes
-the map an automorphism, forcing $\operatorname{Obs}(F)=0$ and $p_F=0$.
+the map an automorphism, forcing $\mathrm{Obs}(F)=0$ and $p_F=0$.
 Hence no planar Keller map has generic degree two.
 
 This is the generic-degree-two case, not a proof of all of $JC(2)$.
@@ -124,17 +141,14 @@ The stable public modules follow the same ownership split as the manuscripts:
 
 | Layer | Modules | Role |
 |---|---|---|
-| collision geometry | `CollisionIdeals.General.Collision` | $I_R$, $I_\Delta$, $C_F$, $\operatorname{Obs}(F)$, and diagonal evaluation |
-| generic fiber | `CollisionIdeals.General.GenericFiber` | $B\subseteq A$, $K\subseteq L$, generic base change, and marked-root decompositions |
-| automorphism interfaces | `CollisionIdeals.General.Automorphism` | automorphism criteria and the named Keller--Galois rigidity input |
-| cubic specialization | `CollisionIdeals.ComplexThree.Cubic` | nonnormal cubic residual factor, normal closure, and $S_3$ |
-| planar secant | `CollisionIdeals.Planar.ExplicitSecant` | canonical divided differences, $\delta_F$, and $p_F$ |
-| quadratic specialization | `CollisionIdeals.Planar.GenericDegreeTwo` | nonvanishing, rigidity vanishing, and the final contradiction |
+| collision geometry | [General/Collision](CollisionIdeals/General/Collision/) | $I_R$, $I_\Delta$, $C_F$, $\mathrm{Obs}(F)$, and diagonal evaluation |
+| generic fiber | [General/GenericFiber](CollisionIdeals/General/GenericFiber/) | $B\subseteq A$, $K\subseteq L$, generic base change, and marked-root decompositions |
+| automorphism interfaces | [General/Automorphism](CollisionIdeals/General/Automorphism/) | automorphism criteria and the named Keller--Galois rigidity input |
+| cubic specialization | [ComplexThree/Cubic](CollisionIdeals/ComplexThree/Cubic/) | nonnormal cubic residual factor, normal closure, and $S_3$ |
+| planar secant | [Planar/ExplicitSecant](CollisionIdeals/Planar/ExplicitSecant.lean) | canonical divided differences, $\delta_F$, and $p_F$ |
+| quadratic specialization | [Planar/GenericDegreeTwo](CollisionIdeals/Planar/GenericDegreeTwo/) | nonvanishing, rigidity vanishing, and the final contradiction |
 
-`ComplexKellerGaloisRigidity n` is a proposition representing the classical
-literature theorem. It is neither installed as an axiom nor proved in this
-repository; every theorem using it receives a proof explicitly. The focused
-Paper II spine uses no normalization, boundary, inertia, purity, or
+The focused Paper II spine uses no normalization, boundary, inertia, purity, or
 finite-étale assumptions.
 
 The previous full-$JC(2)$ boundary/inertia manuscript is retained in
@@ -152,14 +166,24 @@ paper:
 - `CollisionIdeals.Palomar.PaperTwo`
 
 Each has a Mathlib-only `Challenge.lean`, a project-backed `Solution.lean`, a
-`comparator.json`, and `formalization.yaml`. The repository is pinned to
-Lean 4.28.0 and Mathlib v4.28.0, satisfying Palomar's current minimum.
-Both challenge/solution pairs build locally; Palomar's protected Comparator
-and NanoDa replay remains the authoritative submission check.
+`comparator.json`, and `formalization.yaml`. Their repeated transparent
+definitions are intentional: the independent statement must not import the
+project implementation. See the [submission guide](CollisionIdeals/Palomar/README.md).
+
+The main development pins Lean 4.28.0 and Mathlib v4.28.0. The updated Paper I
+Solution and canonical endpoint passed a 2579-job local build and
+standard-axiom audit on November 4, 2026. A **fresh release preflight is pending** for the strengthened statement;
+the earlier protected run does not cover this version.
 
 ## Build
 
-From the repository root:
+From the repository root, check the Paper I proof and manuscript-facing endpoint:
+
+```bash
+lake build CollisionIdeals.Palomar.PaperOne.Solution CollisionIdeals.ComplexThree.Cubic.Canonical
+```
+
+Or build the full development:
 
 ```bash
 lake build
@@ -174,6 +198,9 @@ latexmk -pdf paper2.tex
 
 ## License
 
-Lean source and other software are licensed under the [MIT License](LICENSE).
+Lean source and other software are licensed under the [MIT License](LICENSE),
+except for the credited AXIOM adaptation in
+[`FiniteNormalClosure.lean`](CollisionIdeals/General/Galois/FiniteNormalClosure.lean),
+which retains [Apache-2.0 terms](CollisionIdeals/General/Galois/AXIOM-STACKS-LICENSE).
 The active manuscripts in [`paper/`](paper/) are licensed under
 [CC BY 4.0](paper/LICENSE).

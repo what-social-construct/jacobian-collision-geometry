@@ -10,7 +10,7 @@ This directory contains the two active papers:
 Paper II uses exactly the shared notation
 
 ```math
-A,S,I_R,I_\Delta,C_F,R_F,\operatorname{Obs}(F),\bar\mu_F,B,K,L,q_F
+A,S,I_R,I_\Delta,C_F,R_F,\mathrm{Obs}(F),\bar\mu_F,B,K,L,q_F
 ```
 
 from Paper I. It briefly restates the needed dimension-independent theorem
@@ -22,7 +22,7 @@ off-diagonal projector.
 Paper II also records a separate finite first-order boundary target for
 the broader planar problem. Its reduced target-base ideal is
 $\mathfrak b_F=(s)\subset B$; this is not the collision obstruction
-$\operatorname{Obs}(F)\subset C_F$ or the secant denominator in the
+$\mathrm{Obs}(F)\subset C_F$ or the secant denominator in the
 normalization. The algebraic simple-pole/conormal criterion is proved;
 the Keller-specific vanishing remains open and is not an input to the
 completed generic-degree-two proof.
