@@ -100,7 +100,7 @@ Until then, classify the object as `retain`, `compatibility`, or
 | P1 | The intrinsic generic residual quotient is $N$ | Exact via the product-annihilator calculation | Retain. Do not strengthen it to $K\otimes_BC_F^\circ\simeq N$ without a localization--colon theorem. |
 | P1 | Residual product data imply $\mathrm{Obs}(F)\ne0$ and $I_R\subsetneq I_\Delta$ | Exact in the generic parameterized API; `complexThreeCubicS3Collision` constructs the residual equivalence from nonnormality, and `complexThreeGenericDegreeThreeS3Collision` packages both conclusions from Keller, finrank three, and the rigidity input | Retain. The standalone degree-only nonautomorphism/counterexample criteria are separately packaged in `ComplexThree.Cubic.Criteria`. |
 | P1 | $G/H\simeq\mathrm{Hom}_K(L,N)$ | Core-free action and related consequences are proved, but the displayed bijection is not packaged | Add the restriction/coset equivalence only if a downstream theorem consumes it. |
-| P2 | Hidden inertia on a conjugate sheet | Parameterized by a normalization diagram and ramification realization; the Keller--étale certificate is now proved | Keep in Further Directions and the optional cubic module; do not make it a dependency of the cubic core. |
+| P2 | Hidden inertia on a conjugate sheet | Parameterized by a normalization diagram and ramification realization; the Keller--étale certificate is now proved | Retain as optional research in the cubic hidden-inertia module; do not make it a dependency of the cubic core or the active manuscripts. |
 
 Canonical-endpoint verification (2026-09-29): the repository, planar research,
 and both Palomar solution targets passed the combined 3843-job build, with
@@ -212,13 +212,15 @@ retain exactly the meanings in the Paper I dictionary above.
 | The quadratic projector is both nonzero and zero under the hypothetical Keller hypotheses | `planarGenericDegreeTwo_explicitProjectorContradiction` in `Planar.GenericDegreeTwo.Main` | Exact collision-native contradiction relative to `ComplexKellerGaloisRigidity 2`. |
 | No planar Keller map has $d_F=2$ | `planarGenericDegreeTwo_not_keller` in `Planar.GenericDegreeTwo.Main` | Exact relative to `ComplexKellerGaloisRigidity 2`. |
 | $C_F\simeq A\times C_Fp_F$ and $\mathrm{Ann}_{C_F}(\mathrm{Obs}(F))=C_Fe_F$ | general projector product and annihilator lemmas in `General.ResidualCollision.Algebra`, applied to `collisionProjector_isProjector` | Exact ingredients, but not bundled as an explicit-projector theorem in the focused quadratic folder. |
+| $p_F=0\iff\mathrm{Obs}(F)=0\iff L/K\text{ normal}\iff N=\iota(L)\iff H=1$ | `planarObstructionIdeal_eq_bot_iff_normal` and the marked-closure equivalence in `Planar.Research.Vanishing.GaloisDescent`; subgroup equivalence in `General.Galois.NormalClosure` | Proved components of retained manuscript Proposition 6.1, with rigidity explicit; no degree restriction. Separate from the two protected compared declarations. |
 
 The focused theorem does **not** prove the full planar Jacobian conjecture:
 nonnormal generic degrees at least three remain outside its scope.  The
 boundary program below concerns that separate full-`JC(2)` problem and must
 not be presented as a dependency or unfinished step of the degree-two
-theorem. Paper II now records a separate prospective finite-boundary
-section without changing that theorem's hypotheses.
+theorem. Paper II retains the concise marked-normal-closure criterion but
+omits the target-boundary and conormal development. The latter remains in
+the research modules and the [preserved prose](CollisionIdeals/Planar/Research/Vanishing/BOUNDARY-CRITERIA.tex).
 
 ## Separate future research: full planar boundary reduction
 

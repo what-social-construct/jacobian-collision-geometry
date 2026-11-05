@@ -16,7 +16,9 @@ $JC(2)$.
   and its independent [submission statement](CollisionIdeals/Palomar/PaperOne/Challenge.lean)
   / [proved solution](CollisionIdeals/Palomar/PaperOne/Solution.lean).
 - **Paper II:** [quadratic collision theorem](CollisionIdeals/Planar/GenericDegreeTwo/Main.lean)
-  and [explicit secant projector](CollisionIdeals/Planar/ExplicitSecant.lean).
+  and [explicit secant projector](CollisionIdeals/Planar/ExplicitSecant.lean),
+  with an independent [submission statement](CollisionIdeals/Palomar/PaperTwo/Challenge.lean)
+  / [proved solution](CollisionIdeals/Palomar/PaperTwo/Solution.lean).
 - **Object tracing:** the [notation and proof-status dictionary](SEMANTIC-PARITY.md)
   identifies the shared objects; the [Palomar crosswalk](SEMANTIC-PARITY.md#palomar-submission-surface-crosswalk)
   explains their repeated submission definitions.

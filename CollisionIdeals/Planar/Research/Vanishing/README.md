@@ -1,5 +1,10 @@
 # Planar vanishing
 
+The [preserved Paper II boundary excerpt](BOUNDARY-CRITERIA.tex) retains the
+target-boundary, source-regularity, and conormal discussion removed from the
+limited-scope manuscript. It uses the complex characteristic-zero setup;
+it is not a characteristic-two statement or a standalone paper.
+
 The research goal is the original obstruction-vanishing statement:
 
 ```math

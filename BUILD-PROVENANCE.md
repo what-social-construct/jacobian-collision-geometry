@@ -1,6 +1,23 @@
 # Build provenance
 
-## Verified build: 2026-07-30
+## Protected two-paper preflight: 2026-11-04
+
+Both Palomar entries passed at release commit
+`ccbba1356d6e737e1e7dd336a7014360e2f52251`, using Lean 4.35.0 and
+Mathlib v4.35.0. Comparator, Lean, NanoDa, and con-ron accepted the selected
+declarations; both mechanical reports contain no errors or warnings.
+
+- [Verification run and reports](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280)
+- [Exact submission paths and scope](CollisionIdeals/Palomar/README.md)
+
+This evidence applies to the immutable release above, not to later commits.
+The main development uses Lean 4.28.0 and Mathlib v4.28.0. Neither a local
+build nor a protected preflight constitutes Palomar registration.
+
+## Historical full-development build: 2026-07-30
+
+The following record is retained in place for historical provenance. Its
+Lean 4.24.0 toolchain and source commit are not the current submission.
 
 - Result: **success** (`lake build` exited with code `0`)
 - Lake report: `Build completed successfully (2726 jobs).`

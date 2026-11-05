@@ -19,13 +19,17 @@ planar notation is $\delta_F$ for the ordered secant determinant,
 $e_F$ for the diagonal projector, and $p_F=1-e_F$ for the
 off-diagonal projector.
 
-Paper II also records a separate finite first-order boundary target for
-the broader planar problem. Its reduced target-base ideal is
-$\mathfrak b_F=(s)\subset B$; this is not the collision obstruction
-$\mathrm{Obs}(F)\subset C_F$ or the secant denominator in the
-normalization. The algebraic simple-pole/conormal criterion is proved;
-the Keller-specific vanishing remains open and is not an input to the
-completed generic-degree-two proof.
+Paper II retains the marked-normal-closure criterion
+$p_F=0\iff\mathrm{Obs}(F)=0\iff L/K\text{ normal}\iff H=1$,
+with Keller--Galois rigidity explicit. This criterion has no generic-degree
+restriction; normality closes its degree-two application. Universal planar
+vanishing is not asserted.
+
+The longer target-boundary and conormal development is retained in the
+[planar research folder](../CollisionIdeals/Planar/Research/Vanishing/README.md),
+including its [preserved manuscript excerpt](../CollisionIdeals/Planar/Research/Vanishing/BOUNDARY-CRITERIA.tex).
+It is not part of the limited-scope Paper II proof or the protected comparison
+of Theorems 3.2 and 5.3.
 
 Build both papers from this directory:
 
