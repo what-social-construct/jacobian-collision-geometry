@@ -633,8 +633,6 @@ and Wright \cite{Campbell1973,Razar1979,Wright1981}.
 \end{proof}
 
 \begin{leanfiles}
-The following paths refer to the full repository; the focused Paper~I
-release retains only the dependencies of the cubic endpoints.
 \leanpath{CollisionIdeals/General/Collision/Diagonal.lean},
 \leanpath{CollisionIdeals/General/Collision/Ideal.lean},
 \leanpath{CollisionIdeals/General/Collision/CollisionDiagonal.lean},
@@ -826,6 +824,47 @@ Since \(\id_L\times\varphi_\alpha\) leaves the first factor unchanged,
 the same description of \(\mu_L\) holds under \(\Psi_\alpha\).
 \end{proof}
 
+\begin{remark}[Ordered roots]
+Let
+\[
+  m_\alpha(T)=T^3+a_2T^2+a_1T+a_0
+\]
+have roots \(\alpha_1,\alpha_2,\alpha_3\) in \(N\).  For distinct
+\(i,j,k\),
+\[
+  \alpha_k=-a_2-\alpha_i-\alpha_j,
+  \qquad
+  K(\alpha_i,\alpha_j)
+  =
+  K(\alpha_1,\alpha_2,\alpha_3)
+  =
+  N.
+\]
+In the nonnormal branch, the residual factor marks two distinct roots
+and is therefore already the ordered-root normal closure.
+\end{remark}
+
+\begin{leanfiles}
+\leanpath{CollisionIdeals/ComplexThree/Cubic/ResidualCriteria.lean} proves the
+four-way equivalence of Proposition~\ref{prop:cubic-tensor-decomposition}
+as \leanpath{cubicResidual_tfae}, independently of Keller or rigidity.
+\leanpath{CollisionIdeals/ComplexThree/Cubic/Canonical.lean} packages the
+Keller specialization of Theorem~\ref{thm:cubic-s3-collision} as
+\leanpath{complexThreeGenericDegreeThreeS3Collision}.
+From Keller, generic degree three, and the explicit input
+\leanpath{ComplexKellerGaloisRigidity}~\texttt{3}, it constructs the
+marked normal closure and cubic data, and proves diagonal compatibility,
+obstruction nonvanishing, and the \(S_3\) identification for the same
+residual field.
+\leanpath{CollisionIdeals/ComplexThree/Cubic/Criteria.lean} proves the
+Keller/counterexample equivalence in generic degree three.
+Finiteness of a supplied normal closure is derived in
+\leanpath{CollisionIdeals/General/Galois/FiniteNormalClosure.lean},
+adapted from the reviewed \texttt{StacksCore} proof of tag~09DT
+\cite{AxiomStacks2026}.
+Object-level parity is recorded in \leanpath{SEMANTIC-PARITY.md}.
+\end{leanfiles}
+
 \begin{corollary}[The generic-degree-three counterexample locus]
 \label{cor:cubic-counterexample-locus}
 The map \(F\) is not a polynomial automorphism.  Equivalently, on this
@@ -920,7 +959,7 @@ This would contradict the displayed kernel.  Thus
 For the Galois group, Proposition
 \ref{prop:cubic-tensor-decomposition} identifies \(N\) with the
 degree-two field \(D_\alpha\) over \(L\).  The fixed-field degree formula
-therefore gives
+\cite{StacksFundamentalGaloisTheory} gives
 \[
   |H|=[N:L]=2,
   \qquad
@@ -928,50 +967,11 @@ therefore gives
 \]
 The normal-closure identities recalled above give \(\core_G(H)=1\).
 Thus the action on the three cosets of \(H\) embeds \(G\) into \(S_3\).
-But
+Since \(|G|=[G:H]|H|=3\cdot2=6\), the faithful action is an isomorphism:
 \[
-  |G|=[G:H]|H|=3\cdot2=6,
+  \Gal(N/K)\cong S_3.
 \]
-so this embedding is an isomorphism \(G\cong S_3\).  We use here the
-fixed-field degree formula from the fundamental theorem of Galois theory
-\cite{StacksFundamentalGaloisTheory}.
 \end{proof}
-
-\begin{remark}[Ordered roots]
-Let
-\[
-  m_\alpha(T)=T^3+a_2T^2+a_1T+a_0
-\]
-have roots \(\alpha_1,\alpha_2,\alpha_3\) in \(N\).  For distinct
-\(i,j,k\),
-\[
-  \alpha_k=-a_2-\alpha_i-\alpha_j,
-  \qquad
-  K(\alpha_i,\alpha_j)
-  =
-  K(\alpha_1,\alpha_2,\alpha_3)
-  =
-  N.
-\]
-Thus the residual factor, which marks two distinct roots, is already
-the ordered-root normal closure.
-\end{remark}
-
-\begin{leanfiles}
-\leanpath{CollisionIdeals/ComplexThree/Cubic/Canonical.lean} packages the
-Keller specialization of Theorem~\ref{thm:cubic-s3-collision} as
-\leanpath{complexThreeGenericDegreeThreeS3Collision}.  Its inputs are
-a three-dimensional Keller map of generic degree three and the explicit
-rigidity hypothesis \leanpath{ComplexKellerGaloisRigidity}~\texttt{3}.
-The marked normal closure, primitive power basis, and generic-source
-surjectivity are constructed internally; nonnormality follows from
-rigidity.  The conclusion includes diagonal compatibility, obstruction
-nonvanishing, and the \(S_3\) identification for the same residual field.
-The generic-degree-three equivalence between Keller and counterexample
-conditions is proved in
-\leanpath{CollisionIdeals/ComplexThree/Cubic/Criteria.lean}.
-Object-level parity is recorded in \leanpath{SEMANTIC-PARITY.md}.
-\end{leanfiles}
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -1003,6 +1003,14 @@ Theorem~\ref{thm:cubic-s3-collision} applies to it.  Van den Essen
 prescribing one component and seeking the other two linear in one source
 variable.
 
+Tao's exposition realizes this example through multiplication of a linear
+and a quadratic binary form \cite{Tao2026Digestion}.  Generic collisions
+are pairs of such factorizations of the same cubic.  Repeating the marked
+linear factor gives the diagonal factor \(L\); choosing either remaining
+root gives \(D_\alpha\).  This is the marked-root decomposition underlying
+our generic collision algebra, with \(D_\alpha\simeq_LN\) in the
+nonnormal branch.
+
 We distinguish three objects: an individual map \(F\) of generic degree
 three; a collection of candidate maps specified by a coordinate ansatz;
 and the normal closure attached to each Keller member of generic degree
@@ -1017,7 +1025,7 @@ not a parameter space of maps.  The three cosets \(G/H\) index the
 \(K\)-embeddings of this fixed \(L\) into \(N\): they are the geometric
 generic sheets of one map, not members of the ansatz-defined collection.
 
-The Paper~I release uses Lean~4.35.0 and Mathlib~v4.35.0
+The formalization uses Lean~4.28.0 and Mathlib~v4.28.0
 \cite{Lean4,Mathlib}.  Its Palomar-facing declaration is
 \leanpath{CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision},
 checked by

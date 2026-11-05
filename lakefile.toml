@@ -1,6 +1,6 @@
-name = "collision-ideals-paper-one"
+name = "jacobian-collision-geometry-submission"
 version = "0.1.0"
-defaultTargets = ["CollisionIdeals.ComplexThree.Cubic.Canonical", "CollisionIdeals.Palomar.PaperOne.Solution"]
+defaultTargets = ["CollisionIdeals.ComplexThree.Cubic.Canonical", "CollisionIdeals.Palomar.PaperOne.Solution", "CollisionIdeals.Palomar.PaperTwo.Solution"]
 
 [leanOptions]
 autoImplicit = false

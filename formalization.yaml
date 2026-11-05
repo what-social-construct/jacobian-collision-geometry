@@ -24,7 +24,7 @@ sources:
     authors:
       - "Chloe van der Vlugt"
     type: "paper"
-    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/3806bdc8358322b31f5a96d70680e361d0cf0d36/paper/paper1.pdf"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/b11f8a7691550887360163cecfffec6e59b5afd0/paper/paper1.pdf"
     relationship: "formalizes"
     note: "Versioned manuscript stating and proving the submitted collision theorem."
   - title: "Polynomial maps with constant Jacobian"
@@ -34,12 +34,20 @@ sources:
     location: "https://doi.org/10.1007/BF02764906"
     relationship: "background"
     note: "One source for the classical Keller--Galois rigidity input, which remains an explicit hypothesis in the submitted theorem."
+  - title: "The Stacks Project in Lean"
+    authors:
+      - "Axiom Math contributors"
+    type: "formalization"
+    location: "https://github.com/AxiomMath/Stacks/blob/f8e70c5dd04bfabcb423d5e325461f527c85a5d6/StacksCore/FieldTheory/Normal/Closure.lean"
+    relationship: "adapts"
+    note: "The reviewed StacksCore proof of normal-closure finiteness (tag 09DT) is selectively adapted to the project's Mathlib version, with source attribution and Apache-2.0 terms retained."
 
 status:
   scope: >-
     The submitted declaration is conditional on a plainly stated
-    Keller--Galois rigidity hypothesis and on supplied finite normal-closure
-    data. It reconstructs separability, a cubic power basis, generic-source
+    Keller--Galois rigidity hypothesis and on supplied normal-closure
+    data. Finiteness of that closure follows internally from cubic degree.
+    It reconstructs separability, a cubic power basis, generic-source
     surjectivity, and nonnormality internally, proves a diagonal-compatible
     collision product with the normal closure, obtains Galois group S3, and
     proves nonvanishing of the affine obstruction. It makes no existence claim
@@ -87,14 +95,11 @@ review:
   reviewers:
     - "Chloe van der Vlugt (author self-review)"
   notes: >-
-    The Lean 4.35.0 release builds the Challenge, canonical cubic endpoint,
-    and Solution. A downstream audit checks public declarations and reports
-    only propext, Classical.choice, and Quot.sound for the proved endpoints.
-    The intentional sorry in the Challenge is the proof-comparison target;
-    the zero counts above refer to the Solution and its proof dependencies.
-    The protected Linux Comparator and external-kernel preflight is tracked
-    separately by the release branch's GitHub Actions run. The local build
-    has nonblocking linter and deprecation warnings.
+    The independent Challenge and proved Solution expose the same statement.
+    The intentional Challenge sorry is the proof-comparison target; the zero
+    counts above refer to the Solution. Removing the redundant finiteNormal
+    parameter strengthens the previously checked declaration; the release
+    preflight must be rerun for the updated commit.
 
 alignment:
   namespace: "CollisionIdeals.Palomar.PaperOne"
@@ -105,9 +110,10 @@ alignment:
       status: "proved"
       note: >-
         The wrapper proves the Keller specialization of Theorem 3.3. It
-        receives the rigidity hypothesis and a supplied finite normal
-        closure, and derives separability, a cubic power basis, generic-source
-        surjectivity, and nonnormality. The separate canonical project
-        endpoint also constructs the normal closure internally.
+        receives the rigidity hypothesis and a supplied normal closure,
+        derives that closure's finiteness, separability of the cubic
+        extension, a power basis, generic-source surjectivity, and
+        nonnormality. The canonical project endpoint also constructs the
+        normal closure internally.
 
 acknowledgements: "Lean 4, Mathlib, and OpenAI Codex supported the formalization and manuscript workflow."

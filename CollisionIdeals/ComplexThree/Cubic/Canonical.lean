@@ -1,6 +1,7 @@
 module
 
 public import CollisionIdeals.ComplexThree.Cubic.Criteria
+public import CollisionIdeals.ComplexThree.Cubic.ResidualCriteria
 public import CollisionIdeals.ComplexThree.Cubic.Main
 public import CollisionIdeals.General.Galois.CanonicalNormalClosure
 public import Mathlib.FieldTheory.PrimitiveElement

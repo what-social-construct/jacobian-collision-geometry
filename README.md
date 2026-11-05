@@ -1,70 +1,74 @@
-# Generic Degree Three in JC(3)
+# Jacobian collision geometry: two-paper submission release
 
-[Paper I (PDF)](paper/paper1.pdf) · [LaTeX source](paper/paper1.tex) · [object correspondence](SEMANTIC-PARITY.md)
+[Paper I (PDF)](paper/paper1.pdf) · [Paper II (PDF)](paper/paper2.pdf) · [Object correspondence](SEMANTIC-PARITY.md)
 
-This focused release contains Paper I and the Lean dependencies of its cubic
-collision theorem. For a three-dimensional Keller map of generic degree three,
-classical Keller--Galois rigidity excludes the normal branch; the residual
-generic collision factor is the normal closure, with Galois group $S_3$.
-Rigidity is an explicit theorem hypothesis, not an additional Lean axiom.
+This focused release contains two companion manuscripts and the Lean dependencies
+of their compared theorems. Paper I identifies the residual generic collision
+factor and its $S_3$ normal-closure symmetry in generic degree three and ambient
+dimension three. Paper II constructs the explicit planar secant projector and
+excludes generic degree two using Keller--Galois rigidity.
 
-The [full repository at the source revision](https://github.com/what-social-construct/jacobian-collision-geometry/tree/135e601649a056b0512443972d5246e872836638)
-contains the shared development, Paper II, and optional research modules.
-They are not part of this focused release. The manuscript includes the latest
-explicit example and release-specific toolchain notes.
+Rigidity is an explicit literature-theorem parameter, not an installed Lean
+axiom or a theorem proved here. The full planar Jacobian conjecture is not
+claimed. The broader boundary research is not part of this release.
 
-## Compared theorem
+## Two independent entries
 
-`CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision` receives a
-Keller map, generic degree three, the rigidity hypothesis, and a supplied finite
-normal closure. It derives the diagonal-compatible generic collision product,
-obstruction nonvanishing, and the $S_3$ identification.
+- **Paper I:** [Challenge](CollisionIdeals/Palomar/PaperOne/Challenge.lean) /
+  [Solution](CollisionIdeals/Palomar/PaperOne/Solution.lean) /
+  [Comparator](CollisionIdeals/Palomar/PaperOne/comparator.json) /
+  [Metadata](formalization.yaml).
+  The compared declaration is
+  `CollisionIdeals.Palomar.PaperOne.genericDegreeThreeS3Collision`.
+- **Paper II:** [Challenge](CollisionIdeals/Palomar/PaperTwo/Challenge.lean) /
+  [Solution](CollisionIdeals/Palomar/PaperTwo/Solution.lean) /
+  [Comparator](CollisionIdeals/Palomar/PaperTwo/comparator.json) /
+  [Metadata](CollisionIdeals/Palomar/PaperTwo/formalization.yaml).
+  The compared declarations are
+  `CollisionIdeals.Palomar.PaperTwo.explicitPlanarSecantProjector` and
+  `CollisionIdeals.Palomar.PaperTwo.quadraticPlanarCollisionRigidity`.
 
-The separate canonical endpoint,
-`CollisionIdeals.complexThreeGenericDegreeThreeS3Collision`, constructs the
-normal closure internally. These are distinct interfaces to the same cubic
-construction. The compared statement is the Keller specialization of
-Theorem 3.3, not every statement in the manuscript.
+Each Mathlib-only Challenge deliberately restates the shared objects and leaves
+an intentional `sorry` comparison placeholder. Each Solution reuses the common
+proof development. These are independent statement surfaces, not competing
+constructions.
 
-## Build and verification
+Paper I accepts an arbitrary supplied normal closure and derives its finiteness.
+Its [canonical endpoint](CollisionIdeals/ComplexThree/Cubic/Canonical.lean)
+constructs the closure internally. Both retain diagonal compatibility.
+
+## Toolchain and verification
 
 This release pins Lean 4.35.0 and Mathlib commit
 `56a005855ea17e0b0958f73ec801ae140b0a1679` (v4.35.0).
 
 ```bash
-lake build CollisionIdeals.Palomar.PaperOne.Challenge \
-  CollisionIdeals.ComplexThree.Cubic.Canonical \
-  CollisionIdeals.Palomar.PaperOne.Solution
+lake build
 lake check-build
 lake env lean MigrationAudit.lean
 ```
 
-These checks passed locally. The audit reports only `propext`,
-`Classical.choice`, and `Quot.sound` for the proved endpoints.
-The Challenge's intentional `sorry` is the comparison target; the Solution
-and its proof dependencies contain no proof holes. Nonblocking linter and
-deprecation warnings remain.
+The refreshed release passed the combined 2751-job local build, `lake check-build`,
+and the downstream declaration audits on November 4, 2026. The proved endpoints
+use only `propext`, `Classical.choice`, and `Quot.sound`.
+The earlier Paper I protected preflight does not cover the strengthened
+statement or the newly added Paper II entry.
 
-On Linux with Bubblewrap installed, the direct comparison command is:
+The [two-entry workflow](.github/workflows/papers-palomar-preflight.yml) invokes
+the official verifier at an immutable revision, with a separate Comparator
+configuration and metadata path for each entry. A new protected comparison and
+independent-kernel replay are still required. Running this workflow is not a
+Palomar submission or registration.
 
-```bash
-lake comparator --config CollisionIdeals/Palomar/PaperOne/comparator.json
-```
-
-The branch workflow invokes Palomar's pinned official reusable workflow in
-full mode, including the protected statement comparison and external-kernel
-checks. Its GitHub Actions report determines the preflight result.
-Running this workflow does not submit or register the paper with Palomar.
-The root `formalization.yaml` is the metadata entry for this release.
-
-To rebuild the manuscript:
-
-```bash
-cd paper
-latexmk -pdf paper1.tex
-```
+The manuscripts are copied unchanged from the
+[reviewed main snapshot](https://github.com/what-social-construct/jacobian-collision-geometry/tree/b11f8a7691550887360163cecfffec6e59b5afd0),
+which documents the main Lean 4.28 development. This branch ports the same
+mathematical constructions to Lean 4.35 for submission. The main snapshot also
+contains the optional research modules omitted here.
 
 ## License
 
-The Lean code and repository software use the [MIT License](LICENSE).
-The manuscript uses [CC BY 4.0](paper/LICENSE).
+The repository software uses the [MIT License](LICENSE), except the credited
+[normal-closure finiteness adaptation](CollisionIdeals/General/Galois/FiniteNormalClosure.lean),
+which retains [Apache-2.0 terms](CollisionIdeals/General/Galois/AXIOM-STACKS-LICENSE).
+The manuscripts use [CC BY 4.0](paper/LICENSE).

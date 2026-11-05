@@ -33,12 +33,9 @@ def canonicalNormalClosureData [FiniteDimensional K L] :
     NormalClosureData K L (CanonicalNormalClosure K L) := by
   let φ : L →ₐ[K] AlgebraicClosure K := IsAlgClosed.lift
   letI : Nonempty (L →ₐ[K] AlgebraicClosure K) := ⟨φ⟩
-  exact
-    { embedding := φ.codRestrict _ fun x =>
-        φ.fieldRange_le_normalClosure ⟨x, rfl⟩
-      normalClosure := inferInstance
-      finiteIntermediate := inferInstance
-      finiteNormal := inferInstance }
+  exact NormalClosureData.ofIsNormalClosure
+    (φ.codRestrict _ fun x => φ.fieldRange_le_normalClosure ⟨x, rfl⟩)
+    inferInstance
 
 /-- The canonical normal closure of a separable extension remains separable. -/
 theorem canonicalNormalClosure_isSeparable [Algebra.IsSeparable K L] :

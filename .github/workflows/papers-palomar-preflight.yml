@@ -1,0 +1,32 @@
+name: Two-paper Palomar preflight
+
+on:
+  push:
+    branches:
+      - submission/both-papers-lean435
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  paper-one:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ github.sha }}
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: paper1pre001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"comparator_config_path":"CollisionIdeals/Palomar/PaperOne/comparator.json","authorization_relationship":"I am a responsible author or maintainer"}'
+  paper-two:
+    uses: PalomarRegistry/PalomarSubmission/.github/workflows/submission.yml@14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+    with:
+      repository: ${{ github.repository }}
+      commit: ${{ github.sha }}
+      pipeline_commit: 14aa8d6b3c2f14a8540605e37144560b9a00e7e7
+      request_id: paper2pre001
+      mode: full
+      execution_profile: palomar-standard-v1
+      options: '{"comparator_config_path":"CollisionIdeals/Palomar/PaperTwo/comparator.json","formalization_metadata_path":"CollisionIdeals/Palomar/PaperTwo/formalization.yaml","authorization_relationship":"I am a responsible author or maintainer"}'

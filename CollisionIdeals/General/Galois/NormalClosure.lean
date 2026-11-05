@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Group.Subgroup.Pointwise
 public import Mathlib.FieldTheory.Galois.Basic
-public import Mathlib.FieldTheory.Normal.Closure
+public import CollisionIdeals.General.Galois.FiniteNormalClosure
 public import Mathlib.FieldTheory.Perfect
 
 @[expose] public section
@@ -38,6 +38,16 @@ namespace NormalClosureData
 variable {K : Type uK} {L : Type uL} {N : Type uN}
 variable [Field K] [Field L] [Field N]
 variable [Algebra K L] [Algebra K N]
+
+/-- Marked normal-closure data for a finite extension, with finiteness of the
+supplied closure derived rather than required as an additional input. -/
+def ofIsNormalClosure [FiniteDimensional K L]
+    (embedding : L →ₐ[K] N) (hclosure : IsNormalClosure K L N) :
+    NormalClosureData K L N :=
+  { embedding := embedding
+    normalClosure := hclosure
+    finiteIntermediate := inferInstance
+    finiteNormal := finiteDimensional_of_isNormalClosure K L N hclosure }
 
 /-- A supplied normal closure is normal over its base field. -/
 theorem normal

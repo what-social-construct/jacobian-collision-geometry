@@ -170,7 +170,6 @@ theorem genericDegreeThreeS3Collision
     [IsScalarTower (BaseFunctionField F) SourceFunctionField N]
     (normalClosure :
       IsNormalClosure (BaseFunctionField F) SourceFunctionField N)
-    (finiteNormal : FiniteDimensional (BaseFunctionField F) N)
     (hdegree :
       Module.finrank (BaseFunctionField F) SourceFunctionField = 3) :
     IsJacobianCounterexample F ∧
@@ -223,10 +222,8 @@ theorem genericDegreeThreeS3Collision
     CollisionIdeals.polynomialGenericSourceTensorMap_surjective_of_finrank_pos
       F hpos
   let D : CollisionIdeals.NormalClosureData K L N :=
-    { embedding := IsScalarTower.toAlgHom K L N
-      normalClosure := normalClosure
-      finiteIntermediate := inferInstance
-      finiteNormal := finiteNormal }
+    CollisionIdeals.NormalClosureData.ofIsNormalClosure
+      (IsScalarTower.toAlgHom K L N) normalClosure
   have hmarked : D.embedding = IsScalarTower.toAlgHom K L N :=
     rfl
   have hKeller' : CollisionIdeals.IsComplexThreeKeller F := by
