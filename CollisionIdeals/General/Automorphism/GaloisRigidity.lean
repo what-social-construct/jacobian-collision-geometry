@@ -25,6 +25,7 @@ This proposition is a theorem target.  It packages the classical external
 input separately from the elementary collision and cubic Galois arguments.
 -/
 def ComplexKellerGaloisRigidity (n : ℕ) : Prop :=
+  letI : IsDomain ℂ := Field.isDomain
   ∀ F : ComplexPolynomialSelfMap n,
     IsKeller F →
       Normal

@@ -19,6 +19,7 @@ generic locus this is the usual degree `[L : K]`; the generic-degree-two API
 uses the explicit positive hypothesis that it equals two.
 -/
 def planarGenericDegree (F : PlanarPolynomialMap) : ℕ :=
+  letI : IsDomain ℂ := Field.isDomain
   Module.finrank
     (PolynomialBaseFunctionField F)
     (PolynomialSourceFunctionField (R := ℂ) (ι := Fin 2))

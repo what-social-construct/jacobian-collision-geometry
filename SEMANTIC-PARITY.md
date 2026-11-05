@@ -147,6 +147,13 @@ from matching names. The normal closure and residual algebra are reused from
 the shared API, not redefined in the submission layer. Both papers follow
 this same [submission layout](CollisionIdeals/Palomar/README.md).
 
+Independent statement copies must match the elaborated declarations as well as
+their mathematical meaning. Preserve the owner's binder list and instance
+names rather than adding unused `IsDomain` arguments. The local
+`Field.isDomain` choices in planar degree and complex rigidity keep the same
+standard coefficient-domain proof explicit across files; they add neither a
+new object nor a theorem hypothesis and avoid file-specific auxiliary names.
+
 ### Paper I naming discipline
 
 - Use $C_F$ for the collision ring and $R_F=\mathrm{Spec}C_F$
