@@ -170,10 +170,13 @@ Each has a Mathlib-only `Challenge.lean`, a project-backed `Solution.lean`, a
 definitions are intentional: the independent statement must not import the
 project implementation. See the [submission guide](CollisionIdeals/Palomar/README.md).
 
-The main development pins Lean 4.28.0 and Mathlib v4.28.0. The updated Paper I
-Solution and canonical endpoint passed a 2579-job local build and
-standard-axiom audit on November 4, 2026. A **fresh release preflight is pending** for the strengthened statement;
-the earlier protected run does not cover this version.
+The main development pins Lean 4.28.0 and Mathlib v4.28.0. The separate
+[submission release at `ccbba13`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/ccbba1356d6e737e1e7dd336a7014360e2f52251)
+pins Lean 4.35.0. **Both protected preflights passed** on November 4, 2026:
+[verification run](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280).
+The reports contain no errors or warnings; Comparator, Lean, NanoDa, and
+con-ron accepted both entries. This is verification evidence, not Palomar
+registration.
 
 ## Build
 

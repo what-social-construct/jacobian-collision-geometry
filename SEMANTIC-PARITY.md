@@ -117,7 +117,17 @@ passed for the finiteness adapter, marked closure API, independent Palomar
 Challenge and Solution, and canonical cubic endpoint. Both statement surfaces
 now omit the redundant `finiteNormal` parameter; closure finiteness is derived
 from cubic degree. Rigidity remains explicit. The earlier release preflight
-does not cover this strengthened statement and must be rerun before submission.
+did not cover this strengthened statement; fresh verification is recorded below.
+
+Protected two-entry verification (2026-11-04): both entries passed at release
+commit `ccbba1356d6e737e1e7dd336a7014360e2f52251`, using Lean 4.35.0 and the
+separate configuration and metadata paths in the
+[submission guide](CollisionIdeals/Palomar/README.md#submission-inputs).
+Both [mechanical reports](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280)
+have zero errors and warnings; Comparator, Lean, NanoDa, and con-ron accepted.
+Their recorded source and configuration hashes match the committed blobs.
+The completed release is distinct from the main Lean 4.28 development and
+does not constitute registry submission or registration.
 
 ### Palomar submission-surface crosswalk
 
