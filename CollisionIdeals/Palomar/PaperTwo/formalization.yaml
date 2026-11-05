@@ -4,12 +4,11 @@ version: "v0.4"
 project:
   name: "Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity"
   description: >-
-    The formalization constructs the explicit ordered divided-difference
-    collision projector for a planar Keller map, proves that it is the unique
-    idempotent generating the collision obstruction, and identifies its
-    complementary annihilator. It then proves that generic degree two forces this obstruction
-    to be nonzero and, conditional on classical Keller--Galois rigidity,
-    excludes the Keller condition.
+    In this sequel to our study of generic-degree-three collision geometry
+    in JC(3), we apply the same construction to planar Keller maps. An
+    explicit divided-difference projector separates the diagonal and
+    residual collision factors. Using classical Keller–Galois rigidity,
+    we prove that no planar Keller map has generic degree two.
   authors:
     - "Chloe van der Vlugt"
   license: "MIT"

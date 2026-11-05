@@ -4,11 +4,13 @@ version: "v0.4"
 project:
   name: "Generic Degree Three in JC(3): Collision Geometry and Galois Group S3"
   description: >-
-    For a complex three-dimensional Keller map of generic degree three,
-    conditional on classical Keller--Galois rigidity, the formalization
-    identifies the generic collision algebra with the product of the source
-    function field and its normal closure, proves compatibility with the
-    diagonal factor, and identifies the normal-closure Galois group with S3.
+    Motivated by Alpöge's generic-degree-three counterexample to JC(3), we
+    formalize the collision geometry of complex three-dimensional Keller
+    maps of that degree. Using classical Keller–Galois rigidity, we identify
+    the residual generic collision factor with the normal closure of the
+    induced function-field extension, whose Galois group is S3. The
+    decomposition separates the diagonal and proves nonvanishing of the
+    collision obstruction.
   authors:
     - "Chloe van der Vlugt"
   license: "MIT"
@@ -27,6 +29,20 @@ sources:
     location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/15bfc1e6a19ece495e159f931d53defc0ca2edcc/paper/paper1.pdf"
     relationship: "formalizes"
     note: "Versioned manuscript stating and proving the submitted collision theorem."
+  - title: "Post announcing an explicit counterexample to the Jacobian conjecture"
+    authors:
+      - "Levent Alpöge"
+    type: "web post"
+    location: "https://x.com/__alpoge__/status/2079028340955197566"
+    relationship: "background"
+    note: "The motivating three-dimensional counterexample, cited as Alpoge2026 in the manuscript bibliography. Its generic degree is documented in Gao's Theorem 3.3; the explicit example itself is not constructed or verified by the submitted Lean theorem."
+  - title: "Counterexamples to the Jacobian conjecture in dimensions greater than two"
+    authors:
+      - "Shuhong Gao"
+    type: "paper"
+    location: "https://arxiv.org/abs/2608.00222"
+    relationship: "background"
+    note: "arXiv:2608.00222v1, Theorem 3.3. Documents the nonzero constant Jacobian and generic degree three of Alpöge's example; cited as Gao2026Counterexamples in the manuscript bibliography."
   - title: "Polynomial maps with constant Jacobian"
     authors:
       - "Michael J. Razar"
