@@ -172,20 +172,15 @@ Each has a Mathlib-only `Challenge.lean`, a project-backed `Solution.lean`, a
 definitions are intentional: the independent statement must not import the
 project implementation. See the [submission guide](CollisionIdeals/Palomar/README.md).
 
-The main development pins Lean 4.28.0 and Mathlib v4.28.0. The separate
-[submission release at `ccbba13`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/ccbba1356d6e737e1e7dd336a7014360e2f52251)
-pins Lean 4.35.0. **Both protected preflights passed** on November 4, 2026:
-[verification run](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280).
-The reports contain no errors or warnings; Comparator, Lean, NanoDa, and
-con-ron accepted both entries. This is verification evidence, not Palomar
-registration.
+The main development pins Lean 4.28.0 and Mathlib v4.28.0; the separate
+submission release pins Lean 4.35.0. Both entries passed the
+[protected preflight at `70eaa4c`](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
+on November 5, 2026. This is verification evidence, not Palomar registration.
 
-The reviewed manuscripts and metadata are now synchronized in the
-[refreshed release `70eaa4c`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c).
-Its [exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
-tracks that newer commit. The Lean proofs, toolchain, and Comparator
-configurations remain identical to `ccbba13`; verification evidence is
-commit-specific.
+The [submission guide](CollisionIdeals/Palomar/README.md#submission-inputs)
+records the current release commit, metadata paths, and exact-package
+preflight. Consult it for the final public-abstract version; verification
+evidence applies only to the commit named by each report.
 
 ## Build
 

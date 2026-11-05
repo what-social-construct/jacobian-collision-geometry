@@ -24,25 +24,30 @@ only `propext`, `Classical.choice`, and `Quot.sound` as axioms.
 ## Verification status
 
 The main development pins Lean 4.28.0 and Mathlib v4.28.0. For submission, use
-the separate [Lean 4.35 release](https://github.com/what-social-construct/jacobian-collision-geometry/tree/ccbba1356d6e737e1e7dd336a7014360e2f52251),
-not the main branch's older toolchain.
+the separate Lean 4.35 release at the exact commit listed below, not the main
+branch's older toolchain.
 
 Both entries passed the [fresh protected preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280)
 on November 4, 2026, with no errors or warnings. Comparator, Lean, NanoDa,
 and con-ron accepted both entries. The compared statements retain their
 explicit literature inputs. No submission or registration has been made.
 
-The reviewed manuscripts and metadata are synchronized in the refreshed
-release [`70eaa4c`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c).
-Its [exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
-is the verification record to consult for this package; the November 4 pass
-above applies specifically to `ccbba13`. The Lean proofs, toolchain, and
-Comparator configurations are unchanged between those release commits.
+The reviewed manuscript package at release
+[`70eaa4c`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c)
+also [passed its exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
+on November 5, 2026.
+
+The final public abstracts and matching Alpöge/Gao background references are
+in release [`67872a1`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/67872a1b3e6c6a85e6c93ac0079b023282bc1510).
+Its [exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42132640389)
+is the verification record for this metadata refresh. No Lean proofs,
+manuscripts, toolchain files, or Comparator configurations changed from
+`70eaa4c`; verification evidence remains commit-specific.
 
 ## Submission inputs
 
 Use repository `what-social-construct/jacobian-collision-geometry`, commit
-`70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c`, and the repository-root project
+`67872a1b3e6c6a85e6c93ac0079b023282bc1510`, and the repository-root project
 for both entries. Confirm that its exact-package preflight has accepted both
 entries before submitting. Submit the configurations separately:
 
