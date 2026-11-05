@@ -14,6 +14,12 @@ This evidence applies to the immutable release above, not to later commits.
 The main development uses Lean 4.28.0 and Mathlib v4.28.0. Neither a local
 build nor a protected preflight constitutes Palomar registration.
 
+The reviewed manuscripts and metadata were subsequently synchronized at
+release `70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c`, without changing Lean
+proofs, toolchain, or Comparator configurations. Its
+[exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
+is separate evidence from the November 4 result above.
+
 ## Historical full-development build: 2026-07-30
 
 The following record is retained in place for historical provenance. Its

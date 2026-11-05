@@ -180,6 +180,13 @@ The reports contain no errors or warnings; Comparator, Lean, NanoDa, and
 con-ron accepted both entries. This is verification evidence, not Palomar
 registration.
 
+The reviewed manuscripts and metadata are now synchronized in the
+[refreshed release `70eaa4c`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c).
+Its [exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
+tracks that newer commit. The Lean proofs, toolchain, and Comparator
+configurations remain identical to `ccbba13`; verification evidence is
+commit-specific.
+
 ## Build
 
 From the repository root, check the Paper I proof and manuscript-facing endpoint:

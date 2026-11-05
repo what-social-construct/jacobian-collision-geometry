@@ -32,11 +32,19 @@ on November 4, 2026, with no errors or warnings. Comparator, Lean, NanoDa,
 and con-ron accepted both entries. The compared statements retain their
 explicit literature inputs. No submission or registration has been made.
 
+The reviewed manuscripts and metadata are synchronized in the refreshed
+release [`70eaa4c`](https://github.com/what-social-construct/jacobian-collision-geometry/tree/70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c).
+Its [exact-package preflight](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
+is the verification record to consult for this package; the November 4 pass
+above applies specifically to `ccbba13`. The Lean proofs, toolchain, and
+Comparator configurations are unchanged between those release commits.
+
 ## Submission inputs
 
 Use repository `what-social-construct/jacobian-collision-geometry`, commit
-`ccbba1356d6e737e1e7dd336a7014360e2f52251`, and the repository-root project
-for both entries. Submit the configurations separately:
+`70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c`, and the repository-root project
+for both entries. Confirm that its exact-package preflight has accepted both
+entries before submitting. Submit the configurations separately:
 
 | Entry | Comparator configuration | Metadata in the release |
 |---|---|---|

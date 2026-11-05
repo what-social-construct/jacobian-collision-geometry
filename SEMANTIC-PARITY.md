@@ -129,6 +129,14 @@ Their recorded source and configuration hashes match the committed blobs.
 The completed release is distinct from the main Lean 4.28 development and
 does not constitute registry submission or registration.
 
+Manuscript/package refresh (2026-11-05): the reviewed manuscripts at
+`15bfc1e6a19ece495e159f931d53defc0ca2edcc` and their pinned metadata are
+synchronized in release `70eaa4cf78444e6a634b5ba0d95e4ff0a6903c8c`.
+No Lean proofs, toolchain files, or Comparator configurations changed from
+`ccbba13`. The [new exact-package run](https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/42102758671)
+records the refreshed package's checks; do not attribute the older report
+to a different commit.
+
 ### Palomar submission-surface crosswalk
 
 The independent [Challenge](CollisionIdeals/Palomar/PaperOne/Challenge.lean)
