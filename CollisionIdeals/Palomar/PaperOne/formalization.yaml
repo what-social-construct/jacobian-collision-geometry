@@ -24,7 +24,7 @@ sources:
     authors:
       - "Chloe van der Vlugt"
     type: "paper"
-    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/b11f8a7691550887360163cecfffec6e59b5afd0/paper/paper1.pdf"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/15bfc1e6a19ece495e159f931d53defc0ca2edcc/paper/paper1.pdf"
     relationship: "formalizes"
     note: "Versioned manuscript stating and proving the submitted collision theorem."
   - title: "Polynomial maps with constant Jacobian"
@@ -97,9 +97,14 @@ review:
   notes: >-
     The independent Challenge and proved Solution expose the same statement.
     The intentional Challenge sorry is the proof-comparison target; the zero
-    counts above refer to the Solution. Removing the redundant finiteNormal
-    parameter strengthens the previously checked declaration; the release
-    preflight must be rerun for the updated commit.
+    counts above refer to the Solution. Both entries passed the protected
+    preflight on 2026-11-04 at release commit
+    ccbba1356d6e737e1e7dd336a7014360e2f52251, in workflow run
+    https://github.com/what-social-construct/jacobian-collision-geometry/actions/runs/41967486280.
+    That pass covers the strengthened declaration without a redundant
+    finiteNormal parameter. Verification evidence is commit-specific; the
+    final package is identified by its frozen release commit and matching
+    workflow report.
 
 alignment:
   namespace: "CollisionIdeals.Palomar.PaperOne"
