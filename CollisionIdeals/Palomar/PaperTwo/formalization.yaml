@@ -25,14 +25,14 @@ sources:
     authors:
       - "Chloe van der Vlugt"
     type: "paper"
-    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/92701395df3ff424666e7319f286e831a851a6f8/paper/paper2.pdf"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/b11f8a7691550887360163cecfffec6e59b5afd0/paper/paper2.pdf"
     relationship: "formalizes"
     note: "Versioned companion manuscript for the explicit projector and collision-theoretic degree-two exclusion."
   - title: "Generic Degree Three in JC(3): Collision Geometry and Galois Group S3"
     authors:
       - "Chloe van der Vlugt"
     type: "paper"
-    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/92701395df3ff424666e7319f286e831a851a6f8/paper/paper1.pdf"
+    location: "https://github.com/what-social-construct/jacobian-collision-geometry/blob/b11f8a7691550887360163cecfffec6e59b5afd0/paper/paper1.pdf"
     relationship: "background"
     note: "Supplies the dimension-independent collision construction and the stated classical rigidity input used by Paper II."
   - title: "Polynomial maps with constant Jacobian"
@@ -48,7 +48,7 @@ sources:
     type: "paper"
     location: "https://arxiv.org/abs/2407.13795"
     relationship: "independently-proves"
-    note: "Proves a broader prime-degree exclusion; the submitted result gives an independent collision-projector proof of its quadratic case."
+    note: "Proves a broader planar prime-degree exclusion; the submitted result gives an independent collision-projector proof of its quadratic case."
   - title: "Bézoutians and injectivity of polynomial maps"
     authors:
       - "Stephen McKean"
@@ -116,7 +116,12 @@ review:
   status: "self-assessed"
   reviewers:
     - "Chloe van der Vlugt (author self-review)"
-  notes: "The statement was checked against the focused Paper II proof and the Solution was compiled with warnings treated as errors."
+  notes: >-
+    The independent Challenge and proved Solution were checked against the
+    focused Paper II statements. The intentional Challenge sorry is the
+    proof-comparison placeholder; the zero counts above refer to the Solution.
+    Both papers' proved submission targets passed the combined local build
+    on 2026-11-04. A fresh release preflight remains required before submission.
 
 alignment:
   namespace: "CollisionIdeals.Palomar.PaperTwo"
