@@ -109,7 +109,11 @@ The [fractional-normalization test](PROOF-SPINE.md#fractional-normalization-and-
 constructs finite candidates $s^{-m}T$ from the original normalization
 and proves their valuation bounds, also modulo $B$. A separate local
 transverse-derivative calculation constructs successive unit numerators,
-giving exact pole growth at a supplied target DVR. The quotient rule
+and is now [instantiated at the constructed target DVR](PROOF-SPINE.md#target-pole-calculation-at-the-constructed-divisor).
+Both the transverse target partial and the initial unit-numerator
+presentation are derived. The resulting field iterates agree with the
+original invariant Keller-frame iterates and remain nonregular in the
+same local ring at every order. The quotient rule
 rules out obtaining preservation merely by enlarging a power shift.
 Containment of the actual Keller orbit in one finite candidate remains
 the required polynomial-geometric step; preserving the entire candidate
@@ -129,7 +133,7 @@ representative from a hypothetical nonzero quotient class. It also
 identifies $\mathrm{Spec}E$ with the finite normalization restricted to
 $U_F$, and tests point membership by regularity of every conjugate
 coordinate in the same local ring. No boundary divisor is supplied as
-an extra input. The resulting coordinate pole is not automatically a
+an extra input. The resulting coordinate nonregularity is not automatically a
 ramification or inertia witness; the uniform orbit bound remains open.
 
 The [original multiplier comparison](PROOF-SPINE.md#original-multiplier-comparison-in-the-common-ambient-quotient)

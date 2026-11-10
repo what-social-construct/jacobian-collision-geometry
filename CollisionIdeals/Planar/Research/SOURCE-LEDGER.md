@@ -401,6 +401,24 @@ Keller-specific containment of an entire orbit in a fixed candidate.
 A target-field DVR pole tower and an inertia-moved sheet at a
 normalization divisor remain different objects.
 
+[PolynomialTransverseLocalization.lean](../../General/Normalization/PolynomialTransverseLocalization.lean)
+derives a transverse target-coordinate partial at the extracted prime,
+constructs its localization extension, and proves compatibility with
+the fraction-field extension. Its only geometric comparison is
+Mathlib's proved formally étale Kähler differential isomorphism.
+[DVRPolePresentation.lean](../../General/Normalization/DVRPolePresentation.lean)
+derives a uniformizer and unit-numerator presentation from local
+nonmembership, using DVR factorization of the inverse. The
+[generic local composition](../../General/Normalization/LocalizedPoleTower.lean)
+assembles these with the existing derivative calculation; the
+[actual adapter](Vanishing/TargetPoleTower.lean) supplies the derived
+target data. Denominator clearing in
+[TargetFrameCompatibility.lean](Vanishing/TargetFrameCompatibility.lean)
+identifies the field action with the original invariant Keller frame.
+These are native algebraic proofs, not new literature inputs or
+regularity assumptions on an upstairs boundary local ring. The uniform
+orbit bound remains separate.
+
 [TraceStageAudit.lean](TraceStageAudit.lean) proves that trace-integral
 elements already in the target field lie in the base image when the
 extension degree is a base unit. Its characteristic-zero field-algebra

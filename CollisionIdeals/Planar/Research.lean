@@ -61,6 +61,7 @@ import CollisionIdeals.Planar.Research.Vanishing.ConjugateNormalizationOpen
 import CollisionIdeals.General.Keller.ConjugateInvariantPole
 import CollisionIdeals.Planar.Research.Vanishing.InvariantNormalizationBaseChange
 import CollisionIdeals.Planar.Research.Vanishing.ConjugateCommonOpen
+import CollisionIdeals.Planar.Research.Vanishing.TargetPoleTower
 import CollisionIdeals.Planar.KellerFrame
 import CollisionIdeals.Planar.Research.SecantFrameDenominator
 import CollisionIdeals.Planar.Research.FiniteDenominatorCounterexample
@@ -214,6 +215,14 @@ This umbrella keeps the experimental modules separate from the public
   coordinate in the same normalization local ring; outside this open,
   one coordinate is nonregular. No ramification or differential-orbit
   bound is asserted;
+* at the constructed target DVR, a target-coordinate partial and a
+  transverse parameter are derived from the polynomial base. The polar
+  representative has a unit numerator over a positive power of that
+  parameter. Its successive derivatives have unit numerators and
+  denominator exponents increasing by one; each stays outside that same
+  local ring. The canonical field partial agrees with the original
+  invariant Keller frame at every order. This proves the pole-growth
+  calculation, not containment in a fixed finite stage;
 * fixed fractional images of the actual finite normalization are finite
   base modules and have a common valuation bound, also modulo the base.
   A regular transverse derivative at a supplied target local ring

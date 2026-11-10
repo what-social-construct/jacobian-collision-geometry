@@ -559,9 +559,9 @@ pole growth without completion or a supplied orbit sequence. The
 coefficient-field hypothesis makes every positive integer a unit;
 characteristic zero of $R$ alone would not suffice. The preceding
 quotient construction now extracts a target boundary DVR and polar
-invariant representative from $q\ne0$. Instantiating the transverse
-derivative and unit-numerator presentation there is a separate step,
-as is the Keller-specific uniform bound. These target-field statements
+invariant representative from $q\ne0$. The next section instantiates the
+transverse derivative and unit-numerator presentation there. The
+Keller-specific uniform bound remains separate. These target-field statements
 remain distinct from inertia-moved coordinates at a ramified
 normalization divisor.
 
@@ -600,6 +600,74 @@ basic-denominator tests, and successive unit numerators at the same
 maximal ideal. The fractional-rule client's redundant zero-exponent
 example has two scratch-only linter warnings. The full research umbrella
 was not rebuilt.
+
+## Target pole calculation at the constructed divisor
+
+[TargetPoleTower.lean](TargetPoleTower.lean) applies the local calculation
+to the actual target DVR constructed from a hypothetical nonzero class
+$q\in E^G/B$. Neither the divisor nor the transverse data are extra
+inputs. There are three steps.
+
+[PolynomialTransverseLocalization.lean](../../../General/Normalization/PolynomialTransverseLocalization.lean)
+extends the original target-coordinate partials to localizations, using
+Mathlib's formally étale Kähler differential comparison. Uniqueness
+proves compatibility through the local-ring/fraction-field tower. At
+the nonzero target prime $p$, the existing polynomial conormal criterion
+constructs an index $i$ and $b\in p$ with $\partial_i b\notin p$.
+Thus the localized parameter $f=b/1\in B_p$ has unit derivative.
+
+[DVRPolePresentation.lean](../../../General/Normalization/DVRPolePresentation.lean)
+proves that a local element with unit derivative cannot factor into two
+nonunits. Hence $f$ is a uniformizer of this DVR. Since the embedded
+invariant representative $r$ is outside $B_p$, its inverse lies in
+$B_p$; DVR factorization then gives
+
+```math
+r=\frac{u}{f^m},\qquad u\in B_p^\times,\quad m>0.
+```
+
+The numerator and positive exponent are derived from the pole, not
+supplied. The existing iterated calculation now yields
+
+```math
+\partial_i^n r=\frac{u_n}{f^{m+n}},\qquad
+u_n\in B_p^\times\quad(n\ge0).
+```
+
+Each iterate is outside that same local ring: otherwise clearing the
+denominator would put the unit $u_n$ in its maximal ideal. Thus no
+successive numerator cancellation removes these poles.
+
+[LocalizedPoleTower.lean](../../../General/Normalization/LocalizedPoleTower.lean)
+assembles these local steps over an arbitrary target domain. The actual
+adapter supplies the constructed divisor, polar representative, and
+transverse target partial to this generic theorem.
+
+[TargetFrameCompatibility.lean](TargetFrameCompatibility.lean) identifies
+this canonical target-field derivative with the existing invariant
+Keller frame. The proof clears one rational denominator and uses the
+already proved base and Leibniz identities. Iteration gives the same
+formula for the images of the original invariant-frame iterates; the
+prime and coordinate index are fixed for all orders.
+
+This completes the target-field pole-growth calculation. A uniform
+bound placing this orbit in one finite fractional normalization stage
+is still missing. Target-local regularity of the derivative does not
+assert preservation of a normalization boundary local ring, and the
+constructed target pole is not a ramification or inertia witness.
+
+Verification (2026-11-09, Lean 4.28.0): the five new leaves pass focused
+builds (1922, 1508, 1938, 2941, and 3002 jobs), and the updated
+`CollisionIdeals.Planar.Research` import passes 3873 jobs. Five independent
+importing clients pass, including a concrete polynomial-ring test of the
+generic composition and the original quotient/frame adapter. All seventeen
+audited public declarations use only `propext`, `Classical.choice`, and
+`Quot.sound`. The clients pin canonical scalar actions; an additional
+localization-module control checks the exact module presentations used
+by the generic derivative theorem. The new leaves have no warnings;
+the full import replays existing linter warnings. Paper I, both active
+manuscripts, public theorem imports, and submission configurations are
+unchanged.
 
 ## Original multiplier comparison in the common ambient quotient
 
@@ -1765,10 +1833,12 @@ it is not a full-plane polynomial Keller example. Exact secant denominator
 ideals and the conormal interpretation remain mathematical audits, not
 additional Lean claims.
 
-The active boundary target is now explicitly finite: two generator tests
+At this checkpoint the boundary target was explicitly finite: two generator tests
 or two remainders modulo the reduced boundary equation, without an entire
 pole tower. Actual Keller-specific preservation and the Lean construction
-of the all-conjugate base boundary remain open. All 116 local documentation
+of the all-conjugate base boundary remained open. The later boundary
+construction and target pole calculation are recorded above; uniform
+Keller-specific control remains open. All 116 local documentation
 links checked exist, and the 118-module local import graph checked is
 acyclic. This is not a full-repository build; no manuscript change, commit,
 push, or submission was made.
@@ -1783,12 +1853,14 @@ examples also verified the existing finite-generation instances for
 duplicate quotient, universal theorem-target predicate, axiom, or `sorry`
 was introduced.
 
-Paper II now records the all-conjugate target open, reduced boundary,
+At this checkpoint Paper II recorded the all-conjugate target open, reduced boundary,
 finite simple-pole/conormal criterion, and the Galois origin of the secant
-relation in a separate research section. Its degree-two theorem is
-unchanged. The actual boundary remains uninstantiated in Lean, and no
-Keller-specific vanishing or comparison from secants to its conormal
-classes is claimed. The semantic-parity table records these distinctions.
+relation in a separate research section. Its degree-two theorem was
+unchanged. The actual boundary was not yet instantiated in Lean. The
+subsequent target-open and divisor constructions are recorded above;
+universal Keller-specific vanishing and the comparison from secants to
+its conormal classes remain separate. The semantic-parity table records
+these distinctions.
 No research object was pruned, archived, committed, or pushed in this step.
 
 ## All-conjugate algebra and dependency audit (2026-09-19)

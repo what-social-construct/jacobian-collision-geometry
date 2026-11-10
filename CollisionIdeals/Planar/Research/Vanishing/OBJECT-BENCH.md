@@ -51,8 +51,12 @@ not supply this bound over $B$.
 [TransversePoleStep.lean](../../../General/Normalization/TransversePoleStep.lean)
 constructs successive unit numerators at a supplied local ring with a
 transverse derivative. For a target DVR this gives exact pole growth.
-It does not construct that DVR or place the actual Keller orbit in a
-finite stage. The characteristic-zero coefficient field, not just
+The [actual target adapter](TargetPoleTower.lean) now derives that DVR,
+its transverse target partial, and the unit-numerator presentation from
+the hypothetical nonzero class. The resulting derivatives are the
+original invariant-frame iterates under their target-field embedding.
+Every order remains outside the same target local ring. This does not
+place the orbit in a finite stage. The characteristic-zero coefficient field, not just
 characteristic zero of the local ring, is needed for the unit integers.
 
 The exact numerator in
