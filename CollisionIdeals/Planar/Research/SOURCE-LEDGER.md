@@ -5,7 +5,7 @@ construction, and the separate characteristic-two investigation. This ledger
 records what a source can support, which hypotheses must be matched, and
 whether its proposed use is a direct dependency or an analogy.
 
-Last updated: 2026-11-09. This initial inventory covers the five recent papers
+Last updated: 2026-11-10. This initial inventory covers the five recent papers
 and selected existing inputs; it is not a complete audit of the bibliography.
 
 The [bibliography](../../../paper/references.bib) owns citation metadata.
@@ -227,6 +227,57 @@ Other Stacks tags in the bibliography remain source pointers, not an
 automatic assertion that their proofs or all project specializations have
 been imported. Add a precise entry when using one for a new implication.
 
+## Regular pairs and the affine target boundary
+
+The Hodge sibling's `RegularPairBoundary.lean`, recorded in its source
+ledger under SP68, proves a generic cancellation criterion in a
+Noetherian domain: $f,g\in J$, $f\ne0$, and injective multiplication by
+$g$ on $T/(f)$ exclude every height-one prime containing $J$.
+[TargetBoundaryRegularPair.lean](Vanishing/TargetBoundaryRegularPair.lean)
+adapts that proof using this project's height-one denominator API. The
+specified-element helper is factored from
+[HeightOneBoundaryPole.lean](HeightOneBoundaryPole.lean), preserving its
+previous existential endpoint. No Hodge project dependency is imported.
+The actual target-boundary specialization uses the existing nonzero-class
+polar-prime extraction. Its pair witnesses remain hypotheses, as in the
+Hodge consumer. The injectivity condition is the nonzerodivisor part of
+[Stacks, Definition 10.68.1](https://stacks.math.columbia.edu/tag/00LF);
+the local theorem permits units and does not require a nonzero final
+quotient, so it is not stated as a regular sequence in the full source
+sense.
+
+The constructive check also uses these exact geometric sources:
+
+| Source | Hypotheses and conclusion | Application status |
+| --- | --- | --- |
+| [Stacks, Lemma 31.17.5, 0BCV](https://stacks.math.columbia.edu/tag/0BCV) | In a separated locally Noetherian scheme, every complement component of a dense affine open has a generic local ring of dimension one. | Statement and proof inspected. The actual target is affine Noetherian integral, and its nonempty affine open is proved in Lean. The source specialization is not imported or packaged here. |
+| [Stacks, Lemma 31.17.6, 0BCW](https://stacks.math.columbia.edu/tag/0BCW) | A dense affine open in a Noetherian separated scheme, locally factorial along its complement, is the complement of an effective Cartier divisor. | Statement and proof inspected. Global factoriality of the polynomial target further makes its reduced boundary principal; this deduction is mathematical, not a new Lean principal-presentation theorem. |
+
+Specifically the finitely many height-one boundary primes have distinct
+prime equations $s_j$ in $B$. Their product $s$ gives
+$\mathfrak b_F=(s)$, $U_F=D(s)$, and $E^G\simeq_B B[1/s]$; the empty
+product is one. Separately, the new Lean leaf proves that a principal
+ideal containing a nonzero regular pair has a unit generator. Thus the
+certificate does not make boundary elimination automatic.
+
+The Hodge ledger's SP66 trace-dual bounds were adapted from this project's
+[NormalizationTraceBound.lean](NormalizationTraceBound.lean); they are
+not an independent all-section landing input. Its effective de Rham
+reference, [Scheiblechner, Theorem 1.1](https://arxiv.org/html/1203.5706v2#S1.SS3),
+bounds representatives modulo exact forms. It does not bound the actual
+frame orbit modulo $B$. A suitable derivative of a squarefree boundary
+element can be coprime to that element, but membership of the derivative
+in the actual boundary ideal is still the missing Keller-specific step.
+
+The accompanying diagonal-evaluation diagnostic is a native polynomial
+proof in [CollisionFrameRelations.lean](Vanishing/CollisionFrameRelations.lean).
+Collapsing all sheet variables onto the marked source kills
+$J_{\mathrm{same}}$. An inverse certificate modulo that ideal therefore
+already inverts the source polynomial. No kernel equality or new
+diagonal quotient is introduced. The statement restricts inverse
+certificates, not arbitrary finite derivative reductions; it does not
+prove that a target nonunit stays nonunit in the actual $E$.
+
 ## Coherent derivation analogy
 
 This is a project argument inspired by Steklov's contradiction mechanism,
@@ -419,6 +470,37 @@ These are native algebraic proofs, not new literature inputs or
 regularity assumptions on an upstairs boundary local ring. The uniform
 orbit bound remains separate.
 
+[DVRPoleEscape.lean](../../General/Normalization/DVRPoleEscape.lean)
+uses Mathlib's finite denominator-clearing lemma and DVR factorization
+to construct a pole-order bound for a finite base stage, even modulo
+the local ring. The derived pole tower eventually exceeds it. This is
+a native denominator argument, not an additional valuation-growth
+assumption or an application of the recent comparison papers.
+[TargetFiniteStage.lean](Vanishing/TargetFiniteStage.lean) pulls actual
+finite stages in $N$ back along the original $B$-linear field inclusion.
+Existing Mathlib finite-generation and comap lemmas suffice; no new
+pullback object or generic adapter definition is introduced. The fixed
+fractional normalization images use their existing finiteness theorem.
+This proves the conditional finite-stage escape certificate, not a
+Keller-specific upper bound, ramification exclusion, or vanishing.
+
+[CollisionFrameRelations.lean](Vanishing/CollisionFrameRelations.lean)
+reuses the actual ground-polynomial evaluation and the existing source
+and normal-closure Keller frames. Polynomial Leibniz and source duality
+prove horizontal same-image generators, stability of their ideal,
+containment in the actual evaluation kernel, and stability of that
+kernel. No complete kernel presentation or quotient equivalence is
+added as an input.
+[RelationReductionControl.lean](Vanishing/RelationReductionControl.lean)
+uses the existing polynomial automorphism from
+[LeadingFaceDiagnostic.lean](Vanishing/LeadingFaceDiagnostic.lean).
+Ring identities give its collision-ideal certificates, and the checked
+inverse gives membership in one finite target-degree stage. Generic
+stage preservation follows from the existing target-coordinate frame
+identities. These are native polynomial proofs, not new literature
+inputs. They establish a positive control and sound reductions, not the
+missing arbitrary-map descent or uniform upper bound.
+
 [TraceStageAudit.lean](TraceStageAudit.lean) proves that trace-integral
 elements already in the target field lie in the base image when the
 extension degree is a base unit. Its characteristic-zero field-algebra
@@ -427,6 +509,26 @@ of this old bounded stage has zero class in $E^G/B$; its original role in
 the $N/T$ trace strategy is unchanged. The degree in this test is $[N:K]$,
 not the generic degree $[L:K]$ or the ambient dimension. No broader
 coprimality or polynomial-invertibility conclusion is asserted.
+
+[VisibleSourcePole.lean](Vanishing/VisibleSourcePole.lean) reuses the
+original invariant coefficient certificate and
+[DivisorVisibility.lean](../../General/Keller/DivisorVisibility.lean).
+Contraction of the constructed source prime preserves numerator
+avoidance and denominator membership. The identity transports through
+the existing $K\to L$ map and the generic fraction-localization
+exclusion proves the source-local pole. No new faithful-flatness
+theorem, valuation extension, normal-closure local ring, or source
+regularity assumption is added. The calculation gives nonregularity
+at the visible source divisor, not cancellation of mixed-sheet terms.
+Its individual foreign factors generally lie in $N$, not $L$.
+An independent importing calculation also specializes
+[BaseFrame.lean](Vanishing/BaseFrame.lean), the canonical localization
+derivation, and
+[TransversePoleStep.lean](../../General/Normalization/TransversePoleStep.lean)
+to the actual source Keller frame at $Q$. It verifies the next
+unit-numerator formula using a separately chosen transverse target
+polynomial, not the original reduced denominator. This adds no source
+theorem assumption or duplicate production derivation API.
 
 Use the existing [conormal module and components](../../General/Keller/ConjugateInvariantConormal.lean),
 [support local cohomology](../Boundary/PrincipalParts.lean), and

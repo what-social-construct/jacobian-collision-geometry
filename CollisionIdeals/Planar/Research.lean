@@ -62,6 +62,11 @@ import CollisionIdeals.General.Keller.ConjugateInvariantPole
 import CollisionIdeals.Planar.Research.Vanishing.InvariantNormalizationBaseChange
 import CollisionIdeals.Planar.Research.Vanishing.ConjugateCommonOpen
 import CollisionIdeals.Planar.Research.Vanishing.TargetPoleTower
+import CollisionIdeals.Planar.Research.Vanishing.TargetFiniteStage
+import CollisionIdeals.Planar.Research.Vanishing.CollisionFrameRelations
+import CollisionIdeals.Planar.Research.Vanishing.RelationReductionControl
+import CollisionIdeals.Planar.Research.Vanishing.TargetBoundaryRegularPair
+import CollisionIdeals.Planar.Research.Vanishing.VisibleSourcePole
 import CollisionIdeals.Planar.KellerFrame
 import CollisionIdeals.Planar.Research.SecantFrameDenominator
 import CollisionIdeals.Planar.Research.FiniteDenominatorCounterexample
@@ -154,6 +159,28 @@ This umbrella keeps the experimental modules separate from the public
   the two geometric inputs above. No Ax--Grothendieck or Keller--Galois
   rigidity input is needed for that boundary characterization.
   Actual Keller-specific conormal vanishing remains open;
+* a regular pair in the actual target-boundary ideal excludes the
+  height-one prime extracted from a nonzero invariant quotient class.
+  The resulting quotient-vanishing implication is conditional on the
+  pair. A separate algebraic diagnostic proves that a principal ideal
+  containing such a pair has a unit generator. The affine-open/UFD
+  argument identifying the actual boundary as principal is recorded in
+  the source ledger, not yet packaged in Lean; choosing two existing
+  boundary generators does not construct the missing pair;
+* native diagonal evaluation kills the same-image relation ideal, so an
+  inverse relation modulo that ideal already inverts the marked source
+  polynomial. An inverse of a source nonunit in the actual conjugate
+  algebra would therefore require additional marked-kernel relations.
+  This restricts inverse certificates, not all finite derivative
+  reductions modulo the same-image ideal;
+* the original polar invariant representative remains polar at a
+  constructed visible source divisor over the same target prime. The
+  numerator is a unit and the denominator lies in the source-local
+  maximal ideal. The original coefficient identity transports through
+  K into L; neither faithful-flatness input nor source regularity is
+  assumed. Foreign conjugate coordinates need not lie in L, so this
+  does not evaluate the mixed-sheet expression term by term in that
+  source localization or prove its poles cancel;
 * visible source divisors imply divisibility reflection and the classical
   source/base-field intersection property. A fixed-algebra element regular
   on the marked polynomial source therefore belongs to the target base.
@@ -223,6 +250,24 @@ This umbrella keeps the experimental modules separate from the public
   local ring. The canonical field partial agrees with the original
   invariant Keller frame at every order. This proves the pole-growth
   calculation, not containment in a fixed finite stage;
+* the same selected invariant-frame ray eventually escapes every fixed
+  finite base submodule of the original normal closure, even modulo
+  base additions. A common local denominator constructs a pole-order
+  bound for each stage; the exact increasing pole orders violate that
+  bound. Pullback along the original field inclusion transfers the test
+  to the target field. Every fixed scalar image of the original finite
+  normalization is covered. This is a conditional escape certificate,
+  not the missing Keller-specific upper bound or planar vanishing;
+* the actual lifted polynomial frame kills each mixed-sheet same-image
+  relation exactly. Their generated ideal lies in the existing evaluation
+  kernel, and both ideals are preserved by the frame. No equality of
+  those two ideals or replacement presentation of `E` is assumed;
+* target-polynomial degree stages are preserved by the actual source
+  Keller frames in arbitrary total degree. For the existing degree-four
+  automorphism control, explicit division-free collision certificates
+  recover the source coordinates and put every frame word on them in
+  one finite target-degree-four stage. This is a concrete positive
+  control, not a reduction of arbitrary mixed-sheet invariant elements;
 * fixed fractional images of the actual finite normalization are finite
   base modules and have a common valuation bound, also modulo the base.
   A regular transverse derivative at a supplied target local ring

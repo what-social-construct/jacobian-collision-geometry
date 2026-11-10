@@ -67,6 +67,101 @@ of the whole shifted lattice by a transverse target partial. This rejects
 that preservation argument, not containment of a particular orbit in a
 fixed lattice. Such containment is the remaining constructive target.
 
+The [eventual-escape result](TargetFiniteStage.lean) now tests every
+fixed finite $B$-stage in the original $N$, including every scalar image
+of $T$. The selected ray from a hypothetical nonzero class eventually
+misses each stage even modulo $B$. Its direct denominator proof uses
+the exact pole presentations, not merely nonregularity at each order
+or a supplied unbounded valuation. This formalizes the obstruction to
+containment; it does not supply the required Keller-specific bound.
+
+A separate conditional-spine cleanup remains to be packaged. If
+$U_F=Y$, the [Cartesian comparison](InvariantNormalizationBaseChange.lean)
+makes $\mathrm{Spec}E\to\mathrm{Spec}T$ an isomorphism. The proved
+[finite étale cover](../ConjugateCover.lean), after identifying $E^G$ with
+$B$, should therefore give étaleness of $T/B$ directly. This matches
+the normalization-specific `AffinePlaneFiniteEtaleRigidity` interface
+without a purity step. The reduced Lean endpoint has not yet been
+packaged, and this route still requires boundary emptiness; it does
+not establish it.
+
+## Relation-aware finite-stage search
+
+[CollisionFrameRelations.lean](CollisionFrameRelations.lean) uses the
+existing mixed-coordinate evaluation and its standard kernel. The
+lifted actual Keller frames kill the same-image generators exactly;
+their span ideal and the full evaluation kernel are both stable. Only
+containment of the relation ideal in that kernel is proved. Repeated
+sheets and component selection must not be silently discarded by
+identifying the two ideals.
+
+The positive [reduction control](RelationReductionControl.lean) reuses
+the existing higher-degree automorphism. Its explicit collision
+identities recover coordinate differences without division, and its
+target normal forms put both source coordinates in one finite stage
+$W_4(F)$ preserved by all frame words. The generic preservation lemma
+works for $W_m(F)\subset B$ for every Keller map; the control is where
+membership of the source coordinates is actually established.
+
+For the general invariant representative, the next certificate must
+contain actual polynomial reductions with $B$-coefficients. A generic
+field basis gives rational coefficients and possible poles, not that
+certificate. Likewise a global finite monic normal form for every
+mixed-sheet polynomial would already prove $E$ finite over $B$.
+Keep this distinction explicit: the new control demonstrates a method,
+not a uniform bound for arbitrary Keller maps.
+
+## Regular pairs in the target boundary
+
+[TargetBoundaryRegularPair.lean](TargetBoundaryRegularPair.lean)
+checks the Hodge sibling's finite cancellation certificate on the
+actual target ideal $\mathfrak b_F$: a nonzero $f\in\mathfrak b_F$
+and $g\in\mathfrak b_F$ regular modulo $f$ exclude the actual
+height-one polar prime. Pair existence is not supplied by finite
+generation, relation-kernel stability, or the Keller frame identities.
+
+The [affine-open source check](../SOURCE-LEDGER.md#regular-pairs-and-the-affine-target-boundary)
+has an important consequence: mathematically the actual reduced
+boundary is principal, $\mathfrak b_F=(s)$, because the target is a
+polynomial UFD and $U_F$ is affine. This geometric identification is
+not yet packaged in Lean. The principal-ideal obstruction is proved:
+every such pair in $(s)$ forces $s$ to be a unit. All existing boundary
+generators otherwise retain the common divisor $s$.
+
+Over $\mathbb C$, for a squarefree candidate $f$, generic directional differentiation
+can give $\gcd(f,\partial_vf)=1$; it does not give
+$\partial_vf\in\mathfrak b_F$. Test that exact descent rather than
+assuming a regular pair exists. The comparison algebra $B[1/x]$
+preserves target partials and has boundary $(x)$ but no regular pair
+there. It is not the polynomial-source Keller construction; it
+isolates the extra source geometry required by a successful argument.
+
+The diagonal-evaluation check in
+[CollisionFrameRelations.lean](CollisionFrameRelations.lean) sharpens
+this test. Any inverse relation $s(Z_1)P-1\in J_{\mathrm{same}}$
+already makes $s$ a unit in the polynomial source. If an actual source
+nonunit becomes a unit in $E$, its inverse certificate must therefore
+use additional marked-kernel relations. This does not invalidate all
+derivative reductions modulo $J_{\mathrm{same}}$.
+
+## Source-local coefficient test
+
+[VisibleSourcePole.lean](VisibleSourcePole.lean) carries the selected
+invariant's original pole to a visible source divisor over the same
+target prime. Its numerator remains a unit and its denominator lies
+in the source-local maximal ideal. Thus source-divisor visibility
+does not make the chosen invariant regular: the actual coefficient
+identity proves the opposite under the nonzero-class hypothesis.
+
+The invariant itself lies in $L$, but foreign coordinate factors of
+its mixed-sheet expression need not. A termwise computation needs a
+common local ring in $N$ centered over that source point. Neither
+polynomial evaluation in $A_Q$ nor visibility of every conjugate sheet
+is implicit in the source-pole endpoint. A complete cancellation
+argument must kill the final normalized residue, not merely reduce
+larger individual monomial poles. The ordinary transverse derivative
+has a nonzero next numerator and does not provide that cancellation.
+
 ## Root-factorization comparison
 
 [Tao's account of the cubic example](https://terrytao.wordpress.com/2026/07/21/a-digestion-of-the-jacobian-conjecture-counterexample/comment-page-1/)

@@ -669,6 +669,318 @@ the full import replays existing linter warnings. Paper I, both active
 manuscripts, public theorem imports, and submission configurations are
 unchanged.
 
+## Eventual escape from every fixed finite stage
+
+Nonregularity at each order alone does not exclude containment in a
+fixed fractional stage. The exact unit-numerator presentations give the
+stronger result in [DVRPoleEscape.lean](../../../General/Normalization/DVRPoleEscape.lean).
+For a finite $B$-submodule of $K$, finite denominator clearing constructs
+$0\ne c\in B_p$ sending the entire stage into $B_p$. Write
+$c=w f^s$ with $w$ a unit. If a unit-numerator fraction $u/f^l$ belongs
+to the stage plus $B_p$, clearing denominators gives $f^l\mid c$,
+hence $l\le s$. Thus the pole ray with orders $m+n$ misses that stage
+modulo $B$ for every $n\ge s+1$. The bound is derived from the finite
+stage; no valuation-unboundedness premise is supplied.
+
+[TargetFiniteStage.lean](TargetFiniteStage.lean) applies this to the
+original normal-closure field $N$. For a finite $B$-stage
+$\Lambda\subset N$, use the existing inclusion $j:K\hookrightarrow N$
+and the standard pullback $\Lambda_K=\Lambda\cap K$. Since $B$ is
+Noetherian and $j$ is injective, Mathlib's finite-generation lemmas prove
+that $\Lambda_K$ is finite over $B$. The base maps commute, so a
+decomposition of an orbit element in $\Lambda+B$ would give a
+decomposition of its target-field representative in $\Lambda_K+B$.
+No valuation extension to $N$ or new normalization model is required.
+
+For the chosen representative $z$ of a hypothetical nonzero class,
+write $z_n$ for the image in $N$ of its $n$-fold selected invariant-frame
+iterate. One divisor $p$ and index $i$ work for every finite stage:
+
+```math
+\forall\,\Lambda\subset N\text{ finite over }B,\quad
+\exists n_0\quad\forall n\ge n_0,\qquad z_n\notin\Lambda+B.
+```
+
+The cutoff may depend on $\Lambda$. The
+[existing fractional-normalization theorem](../../../General/Normalization/FractionalNormalization.lean)
+makes $aT$ a finite $B$-stage for every fixed $a\in N$. The same
+representative, divisor, and index therefore give eventual escape from
+every $aT+B$, in particular every $s^{-l}T+B$. These remain the original
+standard linear-map images, not replacement stage objects.
+
+This is the finite-stage obstruction supplied by the pole calculation,
+conditional on a nonzero class in $E^G/B$. It proves neither existence
+of that class nor the missing polynomial-geometric upper bound.
+Abstract non-finiteness of a nonzero differential orbit was already
+available from the annihilator argument; the new certificate specifies
+the target divisor, one repeated direction, and eventual escape from
+each actual fractional-normalization candidate. No planar vanishing or
+exclusion of nonnormal Keller maps follows without the upper bound.
+
+Verification (2026-11-10, Lean 4.28.0): both new leaves pass their
+focused builds without warnings (1939 and 3006 jobs); the full research
+import passes 3875 jobs, replaying only existing linter warnings. Both
+importing clients pass, including concrete polynomial/DVR controls and
+the actual normal-closure/fractional-stage adapter. A separate importing
+control checks finite comap and modulo-base transport using the existing
+Mathlib lemmas. All seven new public declarations have axiom audits
+using only `propext`, `Classical.choice`, and `Quot.sound`. The 443 local
+documentation links checked resolve. Paper I, both active manuscripts,
+public theorem imports, and submission configurations are unchanged.
+
+## Reduction using the actual same-image relations
+
+The ground-polynomial presentation remains the existing map
+$\Phi_D:\mathbb C[Z_{g,j}]\to N$ with range $E$. Write
+
+```math
+J_{\mathrm{same}}=
+  \bigl(F_j(Z_g)-F_j(Z_1):g\in G,\ j\in\{1,2\}\bigr),
+\qquad \mathfrak k_D=\ker\Phi_D.
+```
+
+These names refer to ideals in the many-sheet presentation; no
+identification with the original two-sheet $I_R(F)$ is being made.
+[CollisionFrameRelations.lean](CollisionFrameRelations.lean)
+constructs the actual lifted polynomial frame $\widetilde\delta_i$ by
+renaming each source-frame generator value onto its own sheet. The
+Keller duality identities give exact cancellation:
+
+```math
+\widetilde\delta_i\bigl(F_j(Z_g)-F_j(Z_1)\bigr)=0.
+```
+
+Consequently $J_{\mathrm{same}}$ is preserved by the frame. Evaluation
+intertwines this lift with the original normal-closure frame, so
+$\mathfrak k_D$ is preserved too. The proved comparison is only
+$J_{\mathrm{same}}\subseteq\mathfrak k_D$. The same-image equations
+alone do not specify the marked component, and no identification of
+$\mathbb C[Z]/J_{\mathrm{same}}$ with $E$ is asserted. Nevertheless,
+an explicit polynomial combination of verified relations gives a
+sound reduction, without needing a complete kernel presentation.
+
+[RelationReductionControl.lean](RelationReductionControl.lean) also
+proves a uniform stage statement for every planar Keller map, with an
+essential membership restriction. For
+
+```math
+W_m(F)=\{h(F_1,F_2):\deg h\le m\}\subseteq B\subseteq A,
+```
+
+where degree is total degree in the target variables before composition,
+both actual source frames preserve the same finite-dimensional
+$\mathbb C$-space $W_m(F)$. The proof is
+$\delta_i(h(F))=(\partial_i h)(F)$; target differentiation does not
+increase degree. This does not place an arbitrary mixed-sheet
+invariant representative in $W_m(F)$ or even in the marked source.
+
+The explicit positive control reuses
+$P=x+y^2$, $Q=y+P^2$ from
+[LeadingFaceDiagnostic.lean](LeadingFaceDiagnostic.lean). For two sheets
+write $\Delta P=P_g-P_1$, $\Delta Q=Q_g-Q_1$,
+$u=y_g+y_1$, and $v=P_g+P_1$. The checked division-free certificates are
+
+```math
+\Delta y=\Delta Q-v\Delta P,\qquad
+\Delta x=(1+uv)\Delta P-u\Delta Q.
+```
+
+They directly put both coordinate differences in the original
+$I_R(F)$, proving $I_R(F)=I_\Delta$ for this map. The normal forms
+$y=Q-P^2$ and $x=P-(Q-P^2)^2$ put both source coordinates in $W_4(F)$.
+Every word in the two actual Keller frames therefore remains in that
+same finite space. This shows that relation-aware reduction can give
+a genuine uniform bound beyond the low-total-degree filtration test,
+but only for this already verified automorphism.
+
+The unresolved general task is an actual finite reduction certificate
+for the selected mixed-sheet representative. One can test finitely
+many polynomial identities closing a finite family under the frame,
+with coefficients in $B$ and remainders in verified relation ideals.
+No such certificate has been derived for an arbitrary planar Keller
+map. Assuming a global finite monic normal form for all of $E$ would
+assume the substantive finiteness step, not prove it. Neither relation
+stability nor the control example supplies the missing general upper
+bound or planar vanishing.
+
+Verification (2026-11-10, Lean 4.28.0): both new leaves pass focused
+builds without warnings (2631 and 2649 jobs), and the complete research
+import passes 3877 jobs. Both independent importing clients pass,
+including actual representative congruence, kernel stability, the
+generic target-degree stage, and all-word control on both source
+coordinates. A separate arbitrary-ring control checks the triangular
+division-free ideal certificates. All twenty-two new theorem audits
+use only `propext`, `Classical.choice`, and `Quot.sound`. The full import
+replays existing linter warnings. No general finite normal form, new
+bound assumption, manuscript change, or submission change is added.
+
+## Regular pairs in the actual target boundary
+
+[TargetBoundaryRegularPair.lean](TargetBoundaryRegularPair.lean) adapts
+the Hodge sibling's regular-pair cancellation to this project's existing
+height-one denominator construction. For a Noetherian domain and ideal
+$J$, the certificate is
+
+```math
+f,g\in J,\qquad f\ne0,\qquad
+g:T/(f)\longrightarrow T/(f)\text{ injective}.
+```
+
+It excludes every height-one prime containing $J$. Specializing to
+$T=B$ and the actual $J=\mathfrak b_F$, the existing polar-prime
+extraction therefore forces each class in $E^G/B$ to vanish. The
+original quotient and boundary ideal are unchanged; the pair remains
+an explicit hypothesis. This is not an application to the different
+fixed--moving boundary ideal in the normalization.
+
+There is a structural restriction on constructing the pair here.
+$U_F=\mathrm{Spec}(E^G)$ is already a nonempty affine open of the
+Noetherian integral target $\mathrm{Spec}B$. By
+[Stacks, Lemma 31.17.5](https://stacks.math.columbia.edu/tag/0BCV),
+every irreducible component of its complement has height one. Since
+$B$ is a polynomial UFD, its finitely many boundary components have
+distinct prime equations $s_j$. Their squarefree product gives
+
+```math
+\mathfrak b_F=(s),\qquad U_F=D(s),\qquad E^G\simeq_B B[1/s].
+```
+
+The empty product is $s=1$. This is a mathematical consequence of the
+proved affine-open construction and the source theorem, not a Lean
+principal-presentation theorem installed by this checkpoint. The local
+factorial version is
+[Stacks, Lemma 31.17.6](https://stacks.math.columbia.edu/tag/0BCW).
+
+The new leaf does independently prove the algebraic obstruction for a
+principal ideal: if $f=sa\ne0$ and $g=sb$, regularity of $g$ modulo
+$f$ forces $s$ to be a unit. Indeed $g\bar a=0$ modulo $f$;
+injectivity gives $a\in(f)$, and cancellation of $f$ then gives an
+inverse for $s$. Thus a regular pair cannot be manufactured by
+selecting two generators of a nonempty principal boundary.
+
+A precise derivative candidate is still available mathematically over
+$\mathbb C$. For squarefree $f\in\mathfrak b_F$, a suitable constant directional
+derivative $g=\partial_vf$ is coprime to $f$ and hence regular modulo
+$f$. Its membership $g\in\mathfrak b_F$ is the missing assertion.
+The Keller frame identities compute that derivative but do not prove
+boundary-ideal membership. Likewise, differentiating a unit-ideal
+identity in $E^G$ supplies coefficients in $E^G$, potentially with
+poles at the excluded divisor, not regular coefficients in $B_p$.
+
+Consequently this route gives a finite sufficient certificate and a
+checked obstruction to obtaining it automatically. It does not
+construct a pair for arbitrary Keller maps. In the principal
+description, the remaining geometric issue is preventing a
+nonconstant target polynomial $s$ from becoming invertible in $E$.
+Its noninvertibility in the marked polynomial source alone does not
+give noninvertibility in the larger conjugate algebra.
+
+The same-image presentation does give a precise restriction on inverse
+certificates. Diagonal evaluation $\psi(Z_{g,j})=x_j$ kills
+$J_{\mathrm{same}}$. The two new endpoints in
+[CollisionFrameRelations.lean](CollisionFrameRelations.lean) prove
+
+```math
+J_{\mathrm{same}}\subseteq\ker\psi,\qquad
+s(Z_1)P-1\in J_{\mathrm{same}}\ \Longrightarrow\ s\in A^\times.
+```
+
+Indeed evaluation gives $s(x)\psi(P)=1$. Thus a source nonunit cannot
+become invertible using only these relations. If its actual image in
+$E$ is invertible, a polynomial representative of that inverse instead
+gives a relation in $\mathfrak k_D$ outside $J_{\mathrm{same}}$.
+This is a conditional distinction between the two ideals, not an
+assertion of strict containment for every map, nor an exclusion of all
+finite derivative reductions using same-image relations.
+
+Verification (2026-11-10, Lean 4.28.0): the regular-pair and
+diagonal-evaluation leaves pass focused builds (3004 and 2631 jobs)
+without new warnings. Independent importing clients pass six
+regular-pair checks and five inverse-certificate checks, including the
+proper principal ideal, unit-ideal/zero-quotient, no-Noetherianity,
+actual quotient, and source-coordinate controls. All seven new theorem
+audits use only `propext`, `Classical.choice`, and `Quot.sound`. The
+full research import passes 3880 jobs, replaying existing linter warnings;
+the diagonal client emits one style hint. The affine-open source deduction
+and directional-derivative candidate remain mathematical analyses, not
+additional formalized theorems. No pair-existence assumption is hidden
+as a construction or promoted to a universal conclusion.
+
+## The selected pole on a visible source divisor
+
+[VisibleSourcePole.lean](VisibleSourcePole.lean) combines the original
+invariant polar certificate with the proved source-divisor visibility
+theorem. A hypothetical $0\ne q\in E^G/B$ constructs the same target
+prime $p$, representative $z$, and $a,b\in B$ with $a=bz$,
+$a\notin p$, and $b\in p$. It also constructs a height-one source
+prime $Q$ contracting to $p$, unramified over $B$. Write $a_A,b_A$
+for the images under the existing inclusion $B\hookrightarrow A$;
+these are not a second composition with $F$. Contraction gives
+
+```math
+a_A\notin Q,\qquad b_A\in Q.
+```
+
+The image of $a_A$ is therefore a unit in $A_Q$, while that of $b_A$
+lies in its maximal ideal. Transporting the original identity through
+$K\hookrightarrow L$ proves $z_L\notin A_Q$. No general
+faithful-flatness comparison is required: if $z_L$ were regular, the
+identity would put a unit in the maximal ideal. The same argument
+works for any source prime contracting to this $p$; the public endpoint
+constructs one visible height-one prime internally.
+
+This is a lower-bound calculation, not the requested source regularity.
+The selected invariant lies in $K\subseteq L$, but its foreign
+conjugate coordinate factors generally lie only in $N$. Consequently
+their polynomial expression cannot be evaluated term by term in
+$A_Q$ without a common local ring upstairs. One possible comparison
+reuses the existing intermediate and full normalizations: map $Q$
+to its intermediate-normalization center and lift that prime to $T$
+by lying-over. The open-immersion stalk comparison then makes the
+marked coordinates regular at that chosen full-normalization point.
+This source-centered comparison is not constructed by the new leaf.
+A polar invariant there would force a coordinate pole on a different
+sheet, not merely a different representative of the same $gH$.
+It would not by itself give ramification or an inertia-moved sheet.
+
+The first-derivative coefficient explains why source-local
+differentiation alone supplies no cancellation. Choose the already
+available transverse target $f\in p$, $\partial_i f\notin p$.
+This is a separately chosen parameter, not the original reduced
+denominator $b$, whose derivative need not be a unit.
+Write $f_A$ for its image under the same inclusion. The actual source
+Keller frame sends $f_A$ to a unit at $Q$ and
+extends to $A_Q$. In a unit-numerator presentation
+$z_L=u/f_A^m$ with $m>0$, its next numerator is
+
+```math
+u_1=f_A\,\delta(u)-m\,u\,\delta(f_A).
+```
+
+Modulo the source-local maximal ideal this is
+$-m\bar u\,\overline{\delta(f_A)}$, which is nonzero over
+$\mathbb C$. The existing generic transverse-pole lemma proves this
+unit-numerator mechanism. It gives the next pole, not an upper bound.
+Cancellation among mixed monomials can reduce worse individual poles
+to the certified pole of $z$. The coefficient certificate fixes a
+nonzero final normalized residue; an independent geometric argument
+would have to force its vanishing. No existing marked-component,
+secant, projector, or trace formula supplies that identity here.
+
+Verification (2026-11-10, Lean 4.28.0): the new source-pole leaf passes
+a focused build (2990 jobs) without new warnings. An independent
+importing client passes three checks on the original quotient, exact
+source contraction, unramifiedness, coefficient units, and localization
+nonmembership. A separate importing calculation constructs the actual
+localized source Keller frame, proves the transverse parameter's
+derivative is a unit, and applies the existing next-numerator lemma;
+it passes without warnings. Both audited endpoints use only `propext`,
+`Classical.choice`, and `Quot.sound`. The complete research import
+passes 3881 jobs, replaying existing linter warnings. The common
+normal-closure local-ring construction and a final-residue vanishing
+identity remain absent; no general source-regularity or vanishing
+conclusion is added.
+
 ## Original multiplier comparison in the common ambient quotient
 
 The earlier trace route uses the actual normalization section quotient,

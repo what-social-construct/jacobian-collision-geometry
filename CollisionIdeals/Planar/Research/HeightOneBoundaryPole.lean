@@ -25,13 +25,13 @@ section Algebra
 variable {T : Type*} [CommRing T] [IsDomain T] [IsNoetherianRing T]
 
 /-- A height-one prime containing `J` gives an ideal-power denominator
-whose numerator is outside that prime. -/
-theorem exists_heightOne_boundary_denominator
-    (J : Ideal T) (hJ : J ≠ ⊥) (p : PrimeSpectrum T)
-    (hp : p.asIdeal.primeHeight = 1) (hJp : J ≤ p.asIdeal) :
-    ∃ (f t : T) (n : ℕ), f ∈ J ∧ f ≠ 0 ∧ t ∉ p.asIdeal ∧
+for any specified nonzero `f`. The numerator avoids that same prime. -/
+theorem exists_heightOne_boundary_denominator_of_ne_zero
+    (J : Ideal T) (p : PrimeSpectrum T)
+    (hp : p.asIdeal.primeHeight = 1) (hJp : J ≤ p.asIdeal)
+    (f : T) (hf0 : f ≠ 0) :
+    ∃ (t : T) (n : ℕ), t ∉ p.asIdeal ∧
       ∀ x ∈ J ^ n, t * x ∈ Ideal.span {f} := by
-  obtain ⟨f, hf, hf0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hJ
   let A := Localization.AtPrime p.asIdeal
   have hdim : ringKrullDim A = 1 := by
     rw [IsLocalization.AtPrime.ringKrullDim_eq_height p.asIdeal A,
@@ -55,6 +55,18 @@ theorem exists_heightOne_boundary_denominator
   obtain ⟨t, ht, hclear⟩ := exists_denominator_mul_mem_of_map_le
     (S := A) p.asIdeal.primeCompl (J ^ n) (Ideal.span {f})
     (IsNoetherian.noetherian _) hmap
+  exact ⟨t, n, ht, hclear⟩
+
+/-- A height-one prime containing `J` gives an ideal-power denominator
+whose numerator is outside that prime. -/
+theorem exists_heightOne_boundary_denominator
+    (J : Ideal T) (hJ : J ≠ ⊥) (p : PrimeSpectrum T)
+    (hp : p.asIdeal.primeHeight = 1) (hJp : J ≤ p.asIdeal) :
+    ∃ (f t : T) (n : ℕ), f ∈ J ∧ f ≠ 0 ∧ t ∉ p.asIdeal ∧
+      ∀ x ∈ J ^ n, t * x ∈ Ideal.span {f} := by
+  obtain ⟨f, hf, hf0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hJ
+  obtain ⟨t, n, ht, hclear⟩ :=
+    exists_heightOne_boundary_denominator_of_ne_zero J p hp hJp f hf0
   exact ⟨f, t, n, hf, hf0, ht, hclear⟩
 
 end Algebra

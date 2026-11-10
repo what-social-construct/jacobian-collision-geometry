@@ -119,6 +119,14 @@ Containment of the actual Keller orbit in one finite candidate remains
 the required polynomial-geometric step; preserving the entire candidate
 is stronger than needed.
 
+The [finite-stage escape certificate](PROOF-SPINE.md#eventual-escape-from-every-fixed-finite-stage)
+now shows that the same selected ray eventually leaves every finite
+$B$-stage in $N$, even modulo the base. This includes every fixed
+fractional-normalization image. The cutoff is derived from a common
+local denominator, and pullback along $K\hookrightarrow N$ transfers
+the test without choosing an upstairs valuation. This completes the
+conditional escape side, not the missing Keller-specific upper bound.
+
 The [scheme comparison](PROOF-SPINE.md#source-restriction-and-normalization-comparison)
 proves that the original polynomial source is finite étale over the
 existing invariant open. It also places the all-conjugate scheme as an
@@ -135,6 +143,31 @@ $U_F$, and tests point membership by regularity of every conjugate
 coordinate in the same local ring. No boundary divisor is supplied as
 an extra input. The resulting coordinate nonregularity is not automatically a
 ramification or inertia witness; the uniform orbit bound remains open.
+
+The [relation-aware reduction step](PROOF-SPINE.md#reduction-using-the-actual-same-image-relations)
+now makes the actual same-image generators horizontal under the lifted
+Keller frame and proves stability of their ideal and of the evaluation
+kernel. The relation ideal is not identified with the full marked
+kernel. A higher-degree positive control gives explicit division-free
+reductions and one fixed finite stage for every frame word on its
+source coordinates. The general preserved target-degree stages contain
+only known functions of $F$; descent of arbitrary mixed-sheet invariant
+representatives to such stages remains open.
+
+The [regular-pair test](PROOF-SPINE.md#regular-pairs-in-the-actual-target-boundary)
+now excludes the actual polar boundary prime if the target boundary
+contains a suitable pair. Its existence remains open. A checked
+principal-ideal diagnostic explains why choosing two existing boundary
+generators cannot supply it automatically. The source-based affine-open
+argument identifying this boundary as principal is recorded separately
+from the Lean results.
+
+The [source-local calculation](PROOF-SPINE.md#the-selected-pole-on-a-visible-source-divisor)
+now carries the actual invariant pole to a constructed visible source
+divisor. Unit numerator and nonunit denominator prove nonregularity
+directly. This is not a cancellation result; foreign-sheet factors
+need a common local ring in the normal closure before a termwise
+calculation is meaningful.
 
 The [original multiplier comparison](PROOF-SPINE.md#original-multiplier-comparison-in-the-common-ambient-quotient)
 now places $R_C/T$, $T^\dagger/T$, and $E^G/B$ in the same ambient $N/T$.
