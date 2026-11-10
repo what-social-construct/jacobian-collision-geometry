@@ -19,6 +19,965 @@ $K=\mathrm{Frac}(B)$, $L=\mathrm{Frac}(A)$,
 $N$ for the marked normal closure of $L/K$, and $T$ for the integral
 closure of $B$ in $N$. These are the shared objects, not new planar copies.
 
+## Coherent derivation exclusion
+
+[DerivationAnnihilator.lean](../../../General/Normalization/DerivationAnnihilator.lean)
+formalizes the first coherent-analogy checkpoint. An additive operator
+satisfying a base derivation's Leibniz rule preserves the module
+annihilator under that derivation. For an algebra isomorphic to a
+characteristic-zero polynomial ring, compatible operators for all target
+partials give
+
+```math
+\mathrm{Ann}_B(M)\ne0\quad\Longrightarrow\quad M=0.
+```
+
+The main result needs neither finite generation nor commuting operators.
+Its finite-torsion corollary obtains the nonzero annihilator from
+Mathlib's existing theorem. The index type of the polynomial variables is
+arbitrary, and no new connection structure or quotient is introduced.
+
+This supplies an exclusion mechanism for a given action, not an action or
+finiteness theorem for the actual boundary module. The section-side
+construction and actual quotient action below provide the setting in
+which to test preserved finite stages. The normalization field action is not
+assumed to descend to $N/T$.
+
+Verification (2026-11-08, Lean 4.28.0): the targeted module builds, and a
+separate importing client checks the transported and finite-torsion
+endpoints, infinite and empty coordinate families, and the zero-annihilator
+regular-module control. The generic annihilator lemma uses only
+`propext` and `Quot.sound`; the two characteristic-zero endpoints
+also use `Classical.choice`, with no custom mathematical axioms.
+The broader `CollisionIdeals.Planar.Research` build was stopped during a
+slow dependency rebuild, after 3799 of 3812 jobs and without reported
+errors; umbrella verification is not recorded as complete.
+
+## Actual target sections modulo the base
+
+[ConjugateInvariantSections.lean](../../../General/Keller/ConjugateInvariantSections.lean)
+identifies the existing fixed algebra over the original base with sections
+on its actual target open:
+
+```math
+E^G\simeq_B\Gamma(U_F,\mathcal O),\qquad
+E^G/B\simeq_B\Gamma(U_F,\mathcal O)/B.
+```
+
+Both quotients are standard module quotients by the image of
+`Algebra.linearMap`, not quotient rings or new quotient structures.
+This target-section quotient is not a redefinition of
+$\mathrm{Obs}(F)\subseteq C_F$.
+The section equivalence respects the original restriction map, using the
+generic [affine-open section comparison](../../../General/Normalization/AffineOpenSections.lean).
+The same module detects the actual boundary:
+
+```math
+E^G/B=0\quad\Longleftrightarrow\quad\mathfrak b_F=B.
+```
+
+Its torsion theorem needs only the existing separable normal-closure data,
+not the Keller condition. The target-field embedding clears a denominator
+for each class, by the generic
+[fractional quotient lemma](../../../General/Normalization/FractionalQuotient.lean).
+It supplies no uniform annihilator or finite generation.
+
+This completes the section-side bridge, not the comparison with
+`BoundaryPrincipalParts`. That comparison requires an adapter between
+Mathlib's filtered-Ext functor and the newer AXIOM derived/Čech model,
+including the Ext transition maps. It need not block the direct quotient
+route: the actual target-partial action is constructed below, while
+preservation of a finite stage containing the boundary class under study
+remains to be proved.
+
+Verification (2026-11-08, Lean 4.28.0): all three new leaves pass the
+focused build (2950 jobs). A separate importing client checks base-map
+compatibility, quotient representatives and round trips, fractional
+torsion, and the actual-map specialization. All seven audited
+declarations use only `propext`, `Classical.choice`, and `Quot.sound`.
+The generic section leaf has one unused-simp-argument warning; there are
+no build errors. The full research umbrella was not rerun for this
+checkpoint.
+
+## Actual quotient Leibniz action
+
+[InvariantFrame.lean](../InvariantFrame.lean) restricts the existing
+normal-closure Keller frames to the same fixed algebra. Adjoin induction
+proves preservation of $E$ from the conjugate-polynomial identities.
+Differentiating fractions proves preservation of the embedded $K$.
+Characteristic-zero separability then identifies their intersection with
+$E^G$; no normality assumption on $L/K$ is added.
+
+[InvariantQuotientAction.lean](../InvariantQuotientAction.lean) descends
+these additive operators through the original base image, using the
+generic [quotient operator](../../../General/Normalization/DerivationQuotient.lean).
+For $q\in E^G/B$, the constructed operators satisfy
+
+```math
+\nabla_i([z])=[\delta_i(z)],\qquad
+\nabla_i(bq)=\partial_i(b)q+b\nabla_i(q),\qquad i=0,1,
+```
+
+where $\delta_0,\delta_1$ are the existing first and second normal-closure
+Keller frames and $\partial_i$ is the existing transported target partial.
+The existence theorem
+`planarKellerInvariantQuotient_exists_leibniz` takes only marked
+normal-closure data and the Keller condition. Operator existence and
+fixed-algebra preservation are proved, not supplied.
+
+The remaining finite-stage target is a finite $B$-submodule of this
+quotient containing the class under study and preserved by both actual
+operators. Elementwise torsion does not give that preservation or a
+uniform annihilator of the whole quotient. No action on $N/T$,
+normalization boundary regularity, or filtered-Ext comparison is asserted.
+
+Verification (2026-11-08, Lean 4.28.0): all four new leaves build without
+warnings; the focused quotient-action target passes 2942 jobs. A separate
+client imports both the section comparison and quotient action, checks
+the original quotient type, representatives, both normal-closure frame
+identities, base representatives mapping to zero, all four target-coordinate
+Leibniz rules, and existence from Keller. All thirteen audited declarations
+use only `propext`, `Classical.choice`, and `Quot.sound`.
+The full research umbrella was not rerun for this checkpoint.
+
+## Concrete finite-stage tests
+
+The first candidate is the standard finite cyclic stage $Bq\subseteq E^G/B$.
+[CyclicStage.lean](CyclicStage.lean), using the generic
+[cyclic escape lemma](../../../General/Normalization/DerivationCyclicStage.lean),
+proves
+
+```math
+q\ne0\quad\Longrightarrow\quad
+\exists i\in\{0,1\},\quad \nabla_i(q)\notin Bq.
+```
+
+The proof uses an annihilator $a$ of $q$ transverse to a target partial:
+$a\nabla_i(q)=-\partial_i(a)q\ne0$, whereas $a$ kills every element of $Bq$.
+Finiteness of this concrete span is automatic; preservation fails for a
+nonzero class. The theorem does not assert that such a class exists.
+
+The old trace-integral stage is a different candidate.
+[TraceStageAudit.lean](../TraceStageAudit.lean) tests an element already
+in the embedded target field against $1\in T$:
+
+```math
+\iota(r)\in T^\dagger
+\quad\Longrightarrow\quad
+\mathrm{Tr}_{N/K}(\iota(r))=[N:K]\,r\in B.
+```
+
+If $[N:K]$ is a unit in $B$, then $r\in B$. The characteristic-zero
+field-algebra corollary proves this unit condition internally. Thus an
+element of $E^G$ whose normal-closure value is trace-integral has zero
+class in $E^G/B$. The degree here is $[N:K]$, not $[L:K]$.
+This tests the fixed-field part only; it does not invalidate the original
+$N/T$ trace strategy or prove that the entire target quotient vanishes.
+
+Neither candidate supplies the missing finite control. The existing
+evaluated secant lattice is a $T$-span in $N$, not already a stage of
+$E^G/B$. The ambient comparisons below place the old and new quotients
+in $N/T$; using the lattice still requires a map on the relevant
+section domain and detection of the boundary class under study.
+Finite denominator clearing supplies neither that detection nor
+derivative closure.
+
+Verification (2026-11-08, Lean 4.28.0): the generic cyclic leaf and both
+research specializations build; the combined actual/trace target passes
+2993 jobs. The new leaves have no warnings; an older unused-simp warning
+is replayed from `AffineOpenSections`. A separate client checks the
+actual cyclic escape, finiteness of its standard span, the zero-class
+control, both trace hypotheses, and zero image for an actual trace-integral
+invariant element using the existing normalization ring. All six audited
+declarations use only `propext`, `Classical.choice`, and `Quot.sound`
+(the single-operator escape lemma does not need choice).
+No full research-umbrella build was run for this checkpoint.
+
+## Differential orbit and finite jet denominator test
+
+The coherent-subsheaf route can be tested on the existing module
+$M=E^G/B$, without choosing a new sheaf or local-cohomology model.
+For a class $q$, [DerivationOrbit.lean](../../../General/Normalization/DerivationOrbit.lean)
+uses finite words in the existing frame operators and their standard
+$B$-module span:
+
+```math
+\nabla_{i::w}q=\nabla_i(\nabla_w q),\qquad
+M_q=B\langle\nabla_wq:w\text{ a finite word}\rangle.
+```
+
+Leibniz makes this span invariant. A single nonzero scalar annihilating
+all words is therefore equivalent to $q=0$, by the existing annihilator
+theorem. Coherence of a preserved stage would supply such a scalar, but
+neither coherence nor that scalar is assumed to exist.
+
+[DerivationJetTest.lean](../../../General/Normalization/DerivationJetTest.lean)
+sharpens the test to a finite order. Write a proposed denominator as
+$s=f(P,Q)$, using the existing injective target-polynomial presentation
+of $B$. If $f\ne0$ and
+
+```math
+s\nabla_wq=0\quad\text{for every }|w|\le r,
+\qquad \deg f\le r,
+```
+
+then $q=0$. Here $\deg f$ is total degree in the target variables, not
+generic map degree or a source-weighted degree. The proof is strong
+degree induction: Leibniz transfers a jet test for $f$ to one for a
+nonzero partial derivative of smaller degree; a nonzero constant
+annihilator is a unit. No commutation hypothesis on the module
+operators is needed.
+
+[DifferentialOrbit.lean](DifferentialOrbit.lean) applies both tests to
+the actual quotient and its constructed Keller-frame operators. In
+particular, a hypothetical nonzero class defeats any proposed
+denominator $f(P,Q)$ by a word of length at most $\deg f$. This does not
+assert that such a class exists.
+
+The automatic finite-order estimate is weaker.
+[DerivationOrbitStages.lean](../../../General/Normalization/DerivationOrbitStages.lean)
+proves, using only Leibniz,
+
+```math
+aq=0\quad\Longrightarrow\quad
+a^{r+1}\nabla_wq=0\quad (|w|\le r).
+```
+
+The actual torsion theorem supplies one initial $a\ne0$. Its powers
+give denominators at every finite order, not one denominator for all
+orders. If $a=g(P,Q)$ has positive total target degree $d$, the supplied
+denominator has degree $(r+1)d>r$, so it does not meet the finite jet
+criterion. A constant nonzero $a$ already implies $q=0$.
+
+A separate importing client verifies sharpness in the ordinary rational
+quotient $\mathbb C(x,y)/\mathbb C[x,y]$. The class $q=[1/x]$ is nonzero,
+and $x^{r+1}$ kills every word through order $r$, while $x^r$ fails on a
+word of exactly length $r$. This is a generic simple-pole control, not
+the actual Keller invariant quotient or a counterexample.
+
+The remaining Keller-specific estimate is to find a denominator
+clearing a jet at least as long as its own target degree, or to give a
+uniform annihilator by another geometric argument. The one-step
+weighted target-shear budget does not bound iterated frame derivatives
+and is not promoted to this estimate.
+
+One concrete stage construction is the
+[all-conjugate polynomial-degree filtration](OBJECT-BENCH.md#coherent-stage-from-total-polynomial-degree).
+The low-total-degree case is formalized below. In higher total degree
+the same ordinary degree calculation permits growth.
+
+Verification (2026-11-09, Lean 4.28.0): all four new leaves pass focused
+builds; the actual-quotient target passes 2965 jobs. The new leaves have
+no warnings; the older unused-simp warning in `AffineOpenSections` is
+replayed. Two independent importing clients pass without warnings and
+check finite-order bounds without a commuting-operator assumption,
+two-operator words, unit annihilators, the zero-class uniform test,
+the finite jet criterion and degree-bounded escape, and the numerical
+gap $r<(r+1)d$ for $d\ge1$, together with the concrete simple-pole
+nonvanishing and sharp-order failure. All nineteen audited declarations use only
+`propext`, `Classical.choice`, and `Quot.sound`.
+The full research umbrella was not rebuilt for this checkpoint.
+
+## Constructed finite stages in low total degree
+
+[ConjugatePolynomialPresentation.lean](../../../General/Galois/ConjugatePolynomialPresentation.lean)
+presents the existing all-conjugate algebra over the ground field, not
+only as a $B$-algebra. Write $\xi_{g,j}=\varphi_g(x_j)$ and let $\Phi_D$
+evaluate polynomials in this finite coordinate family. Its range is
+exactly the original $E$ restricted to $\mathbb C$. No extra generators
+for $B$ are needed: base coefficients are already polynomials on the
+marked source sheet.
+
+[FilteredPolynomialDerivation.lean](../../../General/Normalization/FilteredPolynomialDerivation.lean)
+uses Mathlib's standard bounded-total-degree submodule to define
+
+```math
+E_{\le m}=\Phi_D\bigl(\mathbb C[Z_{g,j}]_{\le m}\bigr)\subseteq N.
+```
+
+Every stage is finite-dimensional over $\mathbb C$, even when the
+coordinate generators have relations. The stages exhaust $E$. A
+derivation whose generator values have affine-linear polynomial
+representatives preserves each stage; this is proved by an explicit
+polynomial lift and the partial-derivative degree bound.
+
+[LowTotalDegreeFrame.lean](LowTotalDegreeFrame.lean) derives those
+affine representatives for the actual normal-closure Keller frames
+when both $F_0,F_1$ have total polynomial degree at most two. The
+inverse-Jacobian coefficients are scalar multiples of their partials,
+so they have degree at most one. The representatives on a conjugate
+sheet are the renamed source-frame polynomials, using the already
+proved normal-closure compatibility.
+
+For a chosen invariant representative, pull a suitable stage back
+through the original inclusion $E^G\hookrightarrow N$, then map it to
+$M=E^G/B$. Its quotient image is a finite-dimensional coefficient-field
+subspace preserved by both operators. Its standard $B$-span is finite
+over $B$ and preserved by Leibniz.
+[DerivationFiniteStage.lean](../../../General/Normalization/DerivationFiniteStage.lean)
+then applies the existing finite-torsion annihilator theorem. A
+different stage may be chosen for each representative; no coherence
+or finite generation of the whole quotient is assumed.
+
+The actual endpoint in [TotalDegreeTwoStage.lean](TotalDegreeTwoStage.lean)
+therefore proves
+
+```math
+J(F)=c\ne0,\quad \deg F_j\le2\ (j=0,1)
+\quad\Longrightarrow\quad E^G/B=0.
+```
+
+This is a bound on **total coordinate-polynomial degree**, not generic
+degree. The construction takes marked normal-closure data and derives
+finite-stage preservation internally. It uses no purity, finite-étale
+rigidity, supplied uniform denominator, or local-cohomology comparison.
+The already available boundary and vanishing endpoints remain separate.
+
+On the Noetherian affine base, the finite $B$-stage has the usual
+coherent-sheaf interpretation ([Stacks, Tag 01XZ](https://stacks.math.columbia.edu/tag/01XZ)).
+The new implementation works with that module, without constructing a
+new sheaf model or importing a coherence premise.
+
+For higher total degree the ordinary filtration need not be preserved.
+The triangular Keller control $F=(x,y-x^3/3)$ has first frame sending
+$y$ to $x^2$, outside the ordinary degree-one source stage. This tests
+the particular ambient filtration, not nonvanishing of the actual
+quotient or impossibility of an adapted stage. The general degree-shift
+estimate remains the separate mathematical audit on the bench.
+Similarly, the signed boundary weights from the earlier residue
+comparison cannot be substituted into this finite-dimensional argument
+without checking finiteness: nonpositive weights may give infinite
+bounded-weight spaces.
+
+Verification (2026-11-09, Lean 4.28.0): all five new leaves pass their
+focused builds; the final target completes its 2965-job dependency
+graph. The new leaves emit no warnings; an existing unused-simp warning
+in `AffineOpenSections.lean` is replayed. Two independent clients also
+pass: they check finite pullback and quotient images, zero stages, the
+original-algebra presentation, translation and Euler frames, dependent
+coordinate generators, the actual quotient endpoint, and nonlinear and
+cubic Keller controls. Their 21 axiom checks cover 20 distinct
+declarations and report only `propext`, `Classical.choice`, and
+`Quot.sound`. The full research umbrella was not rebuilt.
+
+## Source restriction and normalization comparison
+
+The inclusion problem can be located on the original schemes without
+assuming a bounded orbit. Write $A=\mathbb C[x,y]$, $Y=\mathrm{Spec}B$,
+$Z=\mathrm{Spec}T$, and $U_F=\mathrm{Spec}(E^G)$ with its existing open
+immersion into $Y$.
+
+[ConjugateSourceBaseChange.lean](../../../General/Keller/ConjugateSourceBaseChange.lean)
+constructs the canonical map
+
+```math
+E^G\otimes_B A\longrightarrow E,\qquad c\otimes a\longmapsto c\,\iota(a).
+```
+
+It is injective: Keller flatness preserves the injection $E^G\hookrightarrow K$
+after tensoring with $A$, and the existing generic-source map embeds the
+result into $L\hookrightarrow N$. Since $E$ is finite over the Noetherian
+ring $E^G$, the source of this map is finite over $E^G$. Its étaleness is
+the base change of the original Keller étaleness. Thus the original map
+is finite étale over this particular invariant target open. The proof is
+dimension-independent and retains the same separable-normal-closure
+hypothesis as the target-open construction. It does not yet identify
+$U_F$ as the maximal finite locus.
+
+[ConjugateNormalizationOpen.lean](ConjugateNormalizationOpen.lean) gives
+the planar comparison with the original finite model. The open immersion
+$U_F\hookrightarrow Y$ identifies its local rings with localizations of
+the normal base; this proves normality of $E^G$. The existing delta frame
+then reconstructs every $z\in N$ from finitely many field traces. If $z$
+is integral over $E^G$, those trace coefficients are integral and lie in
+$K$, hence belong to $E^G$. Reconstruction puts $z$ in $E$. Integral
+transitivity proves normality of $E$ as well.
+
+In particular the original normalization has a canonical inclusion
+$T\hookrightarrow E$. Birational quasi-finite Zariski main constructs
+the induced open immersion, commuting with the maps to the original
+target:
+
+```math
+\begin{array}{ccc}
+\mathrm{Spec}E & \hookrightarrow & Z=\mathrm{Spec}T\\
+\downarrow && \downarrow\\
+U_F & \hookrightarrow & Y=\mathrm{Spec}B.
+\end{array}
+```
+
+The left vertical map is finite étale over $U_F$; the right vertical map
+is finite over $Y$. No normality or orbit-containment premise is added.
+The Cartesian comparison and the pointwise common-regularity criterion
+are treated in the next section.
+
+The direction of the ring inclusion matters: $T\subseteq E$ does not
+bound poles of $E$ at $Z\setminus\mathrm{Spec}E$. The existing
+[divisor-visibility theorem](../../../General/Keller/DivisorVisibility.lean)
+gives one visible unramified source divisor over each target divisor,
+not simultaneous regularity of all conjugate source coordinates. Likewise
+the existing source-intersection criterion makes regularity of every
+fixed element on the marked source equivalent to $E^G=B$; it cannot be
+assumed to transfer regularity across the boundary.
+
+The requested inclusion still requires one fixed fractional
+normalization stage containing the lifted orbit of the class under
+study. These scheme comparisons locate that remaining extension problem
+without proving it.
+
+Verification (2026-11-09, Lean 4.28.0): both new leaves pass their focused
+builds without warnings (2846 and 2943 jobs), and their combined target
+passes 2944 jobs. Eleven audited public endpoints use only `propext`,
+`Classical.choice`, and `Quot.sound`. Both independent importing clients
+pass without warnings. They check étaleness without a normal-extension
+separability premise, the marked pure-tensor formula, injectivity and
+finiteness with separability, both normality statements, actual
+normalization membership, coefficient compatibility of the canonical
+ring map, and the open immersion. The full research umbrella was not
+rebuilt.
+
+## Constructed target divisor and common regularity
+
+A hypothetical nonzero class $q\in E^G/B$ now supplies its own target
+boundary divisor. [TargetPoleWitness.lean](../../../General/Normalization/TargetPoleWitness.lean)
+starts with a rational function outside a Noetherian UFD. A prime factor
+of its reduced denominator constructs a height-one prime $p$ and
+coefficients $a,b$ with $a\notin p$, $b\in p$, $b\ne0$, and $a=br$.
+Cross multiplication excludes membership in the actual local ring
+$B_p\subset K$.
+
+[ConjugateInvariantPole.lean](../../../General/Keller/ConjugateInvariantPole.lean)
+applies this to an invariant representative $z$ of the original quotient
+class. Its canonical coefficient identity holds already in $E^G$:
+
+```math
+[z]=q,\qquad a=bz,\qquad
+\mathrm{ht}(p)=1,\quad a\notin p,\quad b\in p.
+```
+
+If a prime of $E^G$ lay over $p$, that identity would put $a$ in it
+because $b$ is in it, contradicting contraction to $p$. Thus $p\notin U_F$.
+The same construction proves that $B_p$ is a DVR and the embedded
+representative is not in $B_p$. The divisor and polar representative are
+derived from $q\ne0$, not supplied as additional assumptions. The result
+is dimension-independent under the existing normal-extension separability
+hypothesis; it does not assert that a nonzero class exists.
+
+[InvariantNormalizationBaseChange.lean](InvariantNormalizationBaseChange.lean)
+constructs the canonical Cartesian comparison
+
+```math
+W=\mathrm{Spec}E\simeq Z\times_Y U_F.
+```
+
+Both projection identities are proved, as is
+$W=\pi^{-1}(U_F)$ for the existing finite normalization map $\pi:Z\to Y$.
+The proof uses the previously constructed open immersions and finite map
+$W\to U_F$: the comparison is finite and open, so its image is nonempty
+and clopen in the integral pullback, hence is all of it. No new open or
+normalization model is chosen.
+
+[ConjugateCommonOpen.lean](ConjugateCommonOpen.lean) tests an actual point
+$Q\in Z$ in its original local ring, embedded in $N$:
+
+```math
+Q\in W\quad\Longleftrightarrow\quad
+\varphi_g(x_i)\in\mathcal O_{Z,Q}\quad\hbox{for every }g,i.
+```
+
+The local ring is Mathlib's existing localization subalgebra. The forward
+direction uses the stalk isomorphism of the open immersion; the reverse
+direction uses generation of $E$ by these same coordinates. Consequently
+$Q\notin W$ produces a conjugate coordinate nonregular at that same point;
+at a divisorial $Q$, this is a pole. A separate generation-only lemma
+derives a nonregular coordinate from any nonregular element of $E$,
+without a Keller or ramification premise.
+
+Combining the comparisons, every normalization center over the extracted
+$p$ is outside $W$ and has a nonregular conjugate coordinate. This does not make
+$p$, or a center above it, a ramification divisor; no inertia conclusion is
+drawn. The remaining polynomial-geometric task is a bound on the selected
+orbit across this actual boundary. The target DVR and its polar class no
+longer have to be supplied independently.
+
+Verification (2026-11-09, Lean 4.28.0): all four new leaves pass their
+focused builds (2014, 2989, 2950, and 2944 jobs); the combined target
+passes 3015 jobs. The new leaves have no warnings; the combined build
+replays an older unused-simp warning in `AffineOpenSections.lean`.
+Four independent importing clients pass, and all fourteen audited public
+declarations use only `propext`, `Classical.choice`, and `Quot.sound`.
+The Cartesian client pins the canonical base scalar actions explicitly.
+The full research umbrella was not rebuilt.
+
+## Fractional normalization and local pole growth
+
+The general construction already uses schemes.
+[Keller/Normalization.lean](../../../General/Keller/Normalization.lean)
+constructs $X=\mathbb A^2\hookrightarrow\bar X\to Y$, where
+$\bar X$ is the intermediate normalization finite over $Y$, and the
+finite normal-closure model $Z\to\bar X\to Y$. The source is an open
+in the finite model, not already finite over $Y$. Likewise the
+[all-conjugate finite étale cover](../ConjugateCover.lean) is finite over
+$U_F$, not yet over all of $Y$. A module structure alone does not supply
+module-finiteness over the target base.
+
+The fixed-lattice candidate uses the original normalization
+$T=\overline B^{\,N}$, not a second section ring.
+[FractionalNormalization.lean](../../../General/Normalization/FractionalNormalization.lean)
+constructs its scalar image as a standard linear-map range. For a fixed
+nonzero $s\in N$ and $m\ge0$, write this image as
+
+```math
+\Lambda_{s,m}=s^{-m}T\subset N.
+```
+
+It is finite over $B$ by the already proved normalization finiteness.
+Membership is exactly $s^m z$ integral over $B$. No derivative-orbit
+containment is a premise of this construction or a conclusion of it.
+
+[ValuationFiniteStage.lean](../../../General/Normalization/ValuationFiniteStage.lean)
+proves that every finite $B$-submodule of $N$ has one common bound at a
+valuation with $v(B)\le1$. The bound still holds after arbitrary additions
+from $B$. Thus passage to classes modulo $B$ cannot hide an unbounded pole
+tower. The fractional-normalization specialization constructs the finite
+candidate before applying this bound.
+
+The opposite side of the contradiction is constructive.
+[TransversePoleStep.lean](../../../General/Normalization/TransversePoleStep.lean)
+works in a local algebra $R$ over a characteristic-zero field. Suppose
+$f$ lies in its maximal ideal, $d(f)$ is a unit, and $d_K$ extends $d$
+to a field containing $R$. For a unit $u$ and $m>0$, it produces
+
+```math
+d_K(u/f^m)=u'/f^{m+1},\qquad
+u'=f\,d(u)-m\,u\,d(f)\in R^\times.
+```
+
+Iteration constructs a unit numerator for every exponent $m+n$.
+If $R$ is a target boundary DVR and $f$ its uniformizer, this is exact
+pole growth without completion or a supplied orbit sequence. The
+coefficient-field hypothesis makes every positive integer a unit;
+characteristic zero of $R$ alone would not suffice. The preceding
+quotient construction now extracts a target boundary DVR and polar
+invariant representative from $q\ne0$. Instantiating the transverse
+derivative and unit-numerator presentation there is a separate step,
+as is the Keller-specific uniform bound. These target-field statements
+remain distinct from inertia-moved coordinates at a ramified
+normalization divisor.
+
+[DerivationFractionalStage.lean](../../../General/Normalization/DerivationFractionalStage.lean)
+tests the direct preservation argument through the exact identity
+
+```math
+s^{m+1}\delta(s^{-m}t)
+   =s\,\delta(t)-m\,\delta(s)t.
+```
+
+One-step clearing of $\delta(T)$ therefore gives a next-exponent bound,
+not a bound uniform in derivative order. If the whole shifted lattice
+were preserved, testing $t=1$ would force
+$m\,\delta(s)/s\in T$. For $s\in B$, positive $m$, and the complex
+coefficient field, $T\cap K=B$ would then force $s\mid\delta(s)$.
+A transverse target partial violates that condition. Enlarging a
+positive power shift does not repair this preservation test.
+
+The remaining target is weaker: contain the chosen Keller orbit in one
+finite lattice, without requiring that entire lattice to be preserved.
+Its orbit submodule would then be finite by Noetherianity and already
+stable by Leibniz. Scaling a transverse derivative by a vanishing
+denominator is not a substitute: it loses the target-partial action used
+by the annihilator argument.
+
+Verification (2026-11-09, Lean 4.28.0): all four new leaves pass focused
+builds without warnings. The actual fractional-normalization target
+completes 2580 jobs; the valuation, fractional-derivation, and transverse
+pole targets complete 1309, 1325, and 1420 jobs respectively. All sixteen
+public declarations have axiom audits using only `propext`,
+`Classical.choice`, and `Quot.sound`. Four independent clients pass and
+check normalization-image finiteness, zero-exponent and unit-denominator
+controls, the zero-stage and modulo-base bound, the quotient-rule and
+basic-denominator tests, and successive unit numerators at the same
+maximal ideal. The fractional-rule client's redundant zero-exponent
+example has two scratch-only linter warnings. The full research umbrella
+was not rebuilt.
+
+## Original multiplier comparison in the common ambient quotient
+
+The earlier trace route uses the actual normalization section quotient,
+not $E^G/B$. [BoundaryMultiplierComparison.lean](../BoundaryMultiplierComparison.lean)
+recovers its conditional map
+
+```math
+\lambda_{C,s}:R_C/T\longrightarrow T^\dagger/T,\qquad
+[r]\longmapsto[sr],\qquad sR_C\subseteq T^\dagger.
+```
+
+Both quotients inject into the same $N/T$. Under these inclusions,
+$\lambda_{C,s}$ is multiplication by $s$. The normalization image is
+contained in both modules: restriction gives $T\subseteq R_C$, and
+Mathlib's `Submodule.one_le_traceDual_one` gives $T\subseteq T^\dagger$
+from integrality and normality of $B$. The generic
+[multiplier comparison](../../../General/Normalization/MultiplierQuotient.lean)
+uses only standard submodule quotients. The multiplier map need not be
+injective; its landing condition is still explicit.
+
+[ConjugateInvariantNormalizationQuotient.lean](../../../General/Keller/ConjugateInvariantNormalizationQuotient.lean)
+also puts the newer quotient in this ambient space:
+
+```math
+E^G/B\hookrightarrow N/T.
+```
+
+Injectivity follows from the original embeddings and $K\cap T=B$.
+The map is $B$-linear; the old maps are $T$-linear and can be compared
+after restricting scalars. This does not identify $E^G/B$ with $R_C/T$
+or prove $E^G\subseteq R_C$. A local section-domain adapter may suffice;
+global containment is not imposed as a new requirement. The
+filtered-Ext identification $R_C/T\simeq H^1_{\mathfrak J_C}(T)$
+remains separate.
+
+The collision ring already supplies the actual conjugate pair maps,
+their off-diagonal lifts, and
+[local collision rigidity](LocalCollision.lean). If an inertia-moved
+sheet is regular in the selected valuation ring, inertia gives residue
+agreement and the collision relations force the sheets to coincide.
+[InertiaCoordinates.lean](InertiaCoordinates.lean) proves the
+contrapositive. Thus the local contradiction is available; regularity
+at that same divisor is the remaining input. A pair evaluation on
+$U_g\cap U_{\sigma g}$ does not yet extend arbitrary sections on
+$U_C$ or prove uniform trace landing.
+
+Verification (2026-11-08, Lean 4.28.0): the two generic leaves and the
+actual boundary specialization pass their focused builds; the latter
+passes 3079 jobs. An independent importing client checks the ambient
+inclusions, multiplier representatives and compatibility, the zero
+multiplier, the actual invariant-quotient injection, and Mathlib's
+scalar-restriction equivalence on representatives and scalar products.
+All nine audited declarations use only `propext`, `Classical.choice`,
+and `Quot.sound`. The new leaves have no warnings; an existing
+unused-section-variable warning in `LocalBaseChange` is replayed.
+The full research umbrella was not rebuilt for this checkpoint.
+
+## Full Jacobian constraint on weighted components
+
+[WeightedJacobian.lean](WeightedJacobian.lean) uses the full polynomial
+Jacobian identity $J(P,Q)=c\in\mathbb C^\times$ for $F=(P,Q)$.
+Let $w=(w_x,w_y)\in\mathbb Z^2$ be maximum-weight
+grading weights, and let $m,n$ bound the weights in the supports of
+$P,Q$. Write
+$P_m=\mathrm{wcomp}_{w,m}(P)$ and
+$Q_n=\mathrm{wcomp}_{w,n}(Q)$ for Mathlib's existing weighted components.
+Then
+
+```math
+J(P_m,Q_n)=
+\begin{cases}
+c,&m+n=w_x+w_y,\\
+0,&m+n\ne w_x+w_y.
+\end{cases}
+```
+
+The generic [component lemmas](../../../General/Normalization/WeightedComponents.lean)
+prove the derivative shift, derivative support bound, and highest-product
+component formula for signed integer weights. The
+[signed Euler identity](../../../General/Normalization/WeightedEuler.lean)
+extends the existing natural-weight statement without imposing positive
+coordinate weights.
+
+In the balanced case $m+n=w_x+w_y$, a common zero $z$ of $P_m,Q_n$
+must satisfy $(w_i z_i)_{i=0,1}=0$: Euler puts that vector in the kernel
+of the leading Jacobian matrix, whose determinant is $c\ne0$.
+Thus a common torus zero is impossible if some $w_i\ne0$.
+The formal evaluation field can be any field extension of $\mathbb C$,
+including the relevant residue-field setting.
+
+This excludes a balanced common-zero configuration, not every pole.
+It does not show that a ramified divisor gives balanced weights. The
+actual initial-residue comparison below supplies the tuple and its
+zero evaluations when the corresponding target degrees are positive.
+
+The strict case $m+n>w_x+w_y$ has a genuine global Keller negative control in
+[LeadingFaceDiagnostic.lean](LeadingFaceDiagnostic.lean):
+
+```math
+P=x+y^2,\qquad Q=y+P^2,\qquad J(P,Q)=1.
+```
+
+This is a polynomial automorphism. At weights $(2,1)$, its leading
+components are $P$ and $P^2$, with the common torus zero $(-1,1)$.
+Here $m+n=6>3=w_x+w_y$ and the leading Jacobian is zero.
+Substituting $y=t^{-1}$, $x=u-t^{-2}$ gives
+$P=u$, $Q=t^{-1}+u^2$. In the Laurent interpretation with $t$ a
+uniformizer and $u$ regular, both leading components cancel, but a lower
+polar term survives. The example is not an inertia model or a pole
+above an affine target point. It shows why common leading zeros and the
+full Keller identity cannot alone finish the proposed contradiction.
+
+The remaining strict-case task is to control successive lower terms,
+keeping the actual valuation and polynomial coordinate changes.
+Vanishing of the leading bracket is a necessary relation, not a
+termination or regularity theorem.
+
+Verification (2026-11-09, Lean 4.28.0): all four new leaves pass their
+focused builds; the weighted-Jacobian target passes 1601 jobs.
+The new leaves have no warnings. A separate importing client checks
+signed and negative weights, the strict-case formula on the diagnostic,
+the balanced criterion over arbitrary field extensions, and the
+zero-weight/common-zero control where the radial hypothesis fails.
+It also checks the diagnostic's polynomial-automorphism and substitution
+endpoints. All twelve audited declarations use only `propext`,
+`Classical.choice`, and `Quot.sound`.
+The full research umbrella was not rebuilt for this checkpoint.
+
+## Weighted cancellation budget and target shears
+
+[PolynomialSubtraction.lean](PolynomialSubtraction.lean) specializes the
+existing second-frame identity in [BaseFrame.lean](BaseFrame.lean):
+$\partial_Q=c^{-1}J(P,-)$ differentiates arbitrary target polynomials.
+Thus
+
+```math
+R=Q^r-\lambda P^s\in B,\qquad
+J(P,R)=rQ^{r-1}c.
+```
+
+This reuses the earlier frame calculus; it is not a new Jacobian
+identity. General power subtraction is proved to lie in the same
+original image algebra, without asserting that $(P,R)$ generates $B$.
+
+[CancellationBudget.lean](CancellationBudget.lean) supplies the new
+weighted comparison. Use the existing signed weighted degree
+`weightedTotalDegree'`, with values in `WithBot ℤ`; finite integer
+degrees are sharp maxima, not just support bounds. Suppose
+$\deg_w P=m$, $\deg_w Q=n$, $r\ge1$, and
+
+```math
+Q_n^r=\lambda P_m^s,\qquad rn=sm,
+\qquad \lambda\in\mathbb C.
+```
+
+The leading-polynomial relation is an explicit input, not a consequence
+of a common residue zero. The Jacobian identity proves $R\ne0$,
+then the theorem derives its finite degree $k$ and the bound
+
+```math
+0<rn-k\le D,\qquad D=m+n-w_x-w_y.
+```
+
+The generic [sharp-degree lemmas](../../../General/Normalization/WeightedDegreeBounds.lean)
+identify finite degree with a support bound and a nonzero component,
+and prove product and power formulas over a domain. No positivity
+restriction on the source weights or on $k$ is imposed.
+
+When $r=1$, the actual target shear
+$(u,v)\mapsto(u,v-\lambda u^s)$ has inverse obtained by replacing
+$\lambda$ with $-\lambda$. It preserves Keller and the existing
+coordinate-image subalgebra inside the original polynomial source.
+The new defect satisfies
+
+```math
+0\le D'=m+k-w_x-w_y<D.
+```
+
+This is one proved descent step. With the same fixed weights $w$, a
+continuing sequence of such legal steps has a strictly decreasing
+nonnegative integer, but existence of the next leading relation or of
+an exponent-one branch is not proved.
+For $r>1$, the Jacobian factor $rQ^{r-1}$ is retained and the new pair
+is not assumed Keller. Application to the actual moved-sheet pole also
+uses the initial-residue comparison below; that comparison supplies
+residue vanishing, not the polynomial leading-power relation.
+
+Verification (2026-11-09, Lean 4.28.0): all three new leaves pass their
+focused builds without warnings; the cancellation-budget target passes
+2641 jobs. An independent importing client passes without warnings and
+checks the baseline residual, two successive legal subtractions with
+second-coordinate degrees $4\to2\to1$ and defects $3\to1\to0$,
+negative residual degree, and a power-subtraction control with $r=2$.
+That control has residual degree $5>4$ but virtual drop $8-5=3$,
+and retains the factor $2Q$ in its Jacobian. The client also checks the
+excluded exponent-zero case, the actual Keller and image-range
+endpoints, and the sharp-degree API. All ten audited declarations use
+only `propext`, `Classical.choice`, and `Quot.sound`.
+The full research umbrella was not rebuilt for this checkpoint.
+
+## Actual boundary weights and initial residues
+
+[BoundaryValuation.lean](BoundaryValuation.lean) separates the geometric
+inputs already used by [PolarCancellation.lean](PolarCancellation.lean):
+the center map puts ground constants and target values in the actual DVR
+$V$, while nontrivial inertia supplies a moved sheet with a source
+coordinate outside that same ring. The older finite-support certificate
+now reuses these lemmas.
+
+[DivisorialWeights.lean](../../../General/Normalization/DivisorialWeights.lean)
+normalizes the value group without changing $V$ or its maximal ideal.
+Write $v_{\mathbb Z}(\varphi_g(x_i))=\exp(w_i)$, with a pole corresponding
+to $w_i>0$. Evaluated nonzero monomials have exactly their exponent
+weights. The valuation of a polynomial sum need not equal its maximum
+term value.
+
+[BoundaryInitialResidue.lean](BoundaryInitialResidue.lean) derives finite
+sharp degrees $m,n$ for the actual target pair, with at least one of them
+positive. If a target component has positive degree $d$, its evaluated
+weighted top part has value strictly below $\exp(d)$; division by a
+top-valued monomial gives an element of $V$ with zero residue.
+
+Equivalently, choose a uniformizer $\pi$ with value $\exp(-1)$ and put
+
+```math
+u_i=\varphi_g(x_i)\pi^{w_i}\in V^\times,
+\qquad z_i=\overline{u_i}\ne0.
+```
+
+The signed homogeneous-scaling theorem in
+[WeightedInitialEvaluation.lean](../../../General/Normalization/WeightedInitialEvaluation.lean)
+identifies evaluation at $u$ with multiplication by $\pi^d$.
+Reduction takes place in the residue field of the original $V$, and
+gives
+
+```math
+d=\deg_w F_j>0\quad\Longrightarrow\quad
+\mathrm{wcomp}_{w,d}(F_j)(z)=0.
+```
+
+This supplies the actual initial tuple required by the leading-Jacobian
+test. A zero weighted degree does not meet the positive-degree premise,
+and the argument does not assert that both target degrees are positive.
+When both degrees are positive, a polar source coordinate supplies a
+nonzero weighted radial direction. The actual-divisor wrapper then
+rules out $m+n=w_x+w_y$ by the existing balanced common-zero theorem.
+
+## Availability of the next legal reduction
+
+[TwoSidedCancellation.lean](TwoSidedCancellation.lean) allows either
+$(P,Q-\lambda P^s)$ or $(P-\lambda Q^s,Q)$. Both preserve the original
+Jacobian constant and image algebra. They also preserve regular target
+values in the same $V$, leaving the source map $\varphi_g$ and its weights
+unchanged. A supplied leading-power relation in the corresponding
+orientation therefore gives a genuine decrease of the same defect $D$.
+The swapped diagnostic has degrees $(4,2)$: only the first-coordinate
+subtraction is available in that orientation.
+
+The remaining task is to derive a relation with an exponent one, or
+exclude the state using the full Keller identity. Evaluated residue
+vanishing alone is not a polynomial identity. Even zero leading
+Jacobian and a common-power relation do not force an elementary shear:
+the non-Keller leading-form pair $(H^2,H^3)$ has degrees $(4,6)$ when
+$\deg_w H=2$, and neither degree is an integer multiple of the other.
+It is a control for the leading-form inference, not a Keller
+counterexample or a ramified-divisor example.
+
+[OppositeDegreeExclusion.lean](OppositeDegreeExclusion.lean) narrows one
+branch independently. Nonzero weighted-homogeneous polynomials of
+strictly opposite signed degrees cannot have zero Jacobian: Euler's
+identity would make a positive-power product a nonzero constant. Thus
+opposite signs for a constant-Jacobian pair force the balanced degree.
+They are not excluded universally; the identity pair at weights
+$(1,-1)$ is balanced. This does not settle the nonpositive-degree or
+positive-degree branches of the next-reduction problem.
+
+Verification (2026-11-09, Lean 4.28.0): all seven new leaves and the
+refactored finite polar-cancellation leaf pass focused builds without
+warnings; the combined planar targets pass 2946 jobs. An independent
+importing client passes without warnings. It checks the swapped
+diagnostic's unavailable second-coordinate balance and legal opposite
+shear, Keller and image-range preservation, regularity in the same
+valuation ring, signed coordinate normalization and residue vanishing,
+the balanced opposite-sign identity control, and the non-Keller
+$(H^2,H^3)$ control. All twenty-two audited declarations use only
+`propext`, `Classical.choice`, and `Quot.sound`.
+All 359 local links in the research notes and parity table resolve.
+The full research umbrella was not rebuilt for this checkpoint.
+
+## Construction checkpoint: evaluated projectors and fixed loci
+
+The canonical projector is now evaluated on actual collision pairs in
+[`EvaluatedProjector.lean`](../EvaluatedProjector.lean). It takes value zero
+on identical sheets and one on distinct sheets in a domain. Its evaluated
+coordinate-ideal membership turns the second value into a unit-ideal
+certificate, using the supplied nonzero constant Jacobian.
+
+[`ConjugateFixedLocus.lean`](../ConjugateFixedLocus.lean) corestricts the
+existing conjugate source maps into the same $E\subset N$. Faithfulness of
+the existing action supplies a conjugate sheet moved by any $\sigma\ne1$.
+The evaluated projector then proves
+
+```math
+(\sigma(z)-z:z\in E)=E.
+```
+
+This is an empty scheme-theoretic fixed-locus certificate, also packaged as
+a trivial quotient and `Ideal.inertia` equal to the trivial subgroup at
+every proper ideal of $E$. It needs Keller and marked normal-closure data,
+but no rigidity, purity, or generic-degree restriction.
+
+This is a construction step toward the Galois-cover comparison, not a
+vanishing step: it neither fills the target open nor asserts trivial
+inertia at primes of the omitted normalization boundary. Setwise prime
+stabilizers may be nontrivial. The cover comparison below retains this
+boundary; its target has not been identified with the maximal finite locus.
+
+## Finite étale cover and canonical tensor comparison
+
+[`ConjugateCover.lean`](../ConjugateCover.lean) works over the existing
+invariant algebra $E^G$, with no new quotient model. For planar Keller
+maps it proves
+
+```math
+E/E^G\text{ finite étale and faithfully flat},\qquad
+E\otimes_{E^G}E\simeq_{E^G}\prod_{g\in G}E,
+\quad a\otimes b\longmapsto(g\longmapsto a\,g(b)).
+```
+
+The unit difference ideals make the action-graph kernels pairwise
+comaximal. Chinese remainders give a tensor mapping to the identity delta
+function. Its finite pure-tensor expansion supplies a trace-dual frame,
+making $E$ a direct summand of a finite free $E^G$-module. That proves
+projectivity and flatness; the existing module-finiteness supplies finite
+presentation. Existing Keller formal unramifiedness over $B$ passes to
+$E^G$ and yields étaleness. Integral injectivity supplies faithful flatness.
+The same frame reconstructs every tensor from its graph values, proving
+that the canonical map is an equivalence, not just surjective.
+
+The generic proof leaves are `GaloisTensor`, `GaloisTrace`, and
+`GaloisTensorEquiv`, all in the research tree. Neither a trace frame nor
+flatness is taken as a new premise in the actual-map endpoints. This
+affine algebraic torsor certificate does not introduce a bundled
+scheme-level torsor object. No degree, rigidity, purity, or extra
+separability premise is added. In particular it does not imply $E^G=B$
+or fill the target boundary.
+
+## Planar Galois rigidity from the geometric endgame
+
+[`GaloisRigidity.lean`](GaloisRigidity.lean) packages the implication
+`BranchPurityA2 → AffinePlaneFiniteEtaleRigidity → ComplexKellerGaloisRigidity 2`.
+The geometric results remain explicit inputs, not new proved literature
+theorems or installed axioms.
+
+The proof order is
+
+```math
+L/K\text{ normal}\Longrightarrow H=1
+\Longrightarrow\text{no height-one ramification of }T/B
+\Longrightarrow T/B\text{ finite étale}
+\Longrightarrow N=K\Longrightarrow L=K.
+```
+
+[`NormalRamification.lean`](NormalRamification.lean) proves the first
+ramification bridge: a visible inertia-fixed sheet and $H=1$ force trivial
+inertia. Its canonical endpoint constructs all normalization and local-index
+data. Only the next two arrows use purity and affine-plane finite-etale
+rigidity. [`BirationalAutomorphism.lean`](BirationalAutomorphism.lean) then
+uses $A\cap K=B$ to obtain $A=B$ and polynomial invertibility, without
+Ax--Grothendieck. The existing flat generic-degree-one theorem gives
+$\mathrm{Obs}(F)=0$ as well.
+
+This discharges the *planar* rigidity input relative to those two geometric
+theorems, not unconditionally. It does not prove absence of ramification
+for a general nonnormal $L/K$ or replace Paper I's dimension-three input.
+The independently constructed $E/E^G$ cover is not a prerequisite here.
+
 ## Current finding: exact characterizations
 
 Identify the rings with their images in the marked normal closure. The
@@ -45,8 +1004,9 @@ no universal source regularity or empty boundary. The conormal test
 below is an equivalent alternative in characteristic zero.
 
 The separate coordinate-descent characterization identifies normality
-of $L/K$, after which the explicit Keller--Galois input gives
-automorphy and $\mathrm{Obs}(F)=0$. The empty-boundary endpoint
+of $L/K$, after which Keller--Galois rigidity gives automorphy and
+$\mathrm{Obs}(F)=0$. Its planar value can now be derived from the two
+geometric inputs above. The empty-boundary endpoint
 instead uses source finiteness and its explicit geometric inputs.
 The boundary ideal $\mathfrak b_F\subset B$ is not the obstruction
 ideal $\mathrm{Obs}(F)\subset C_F$.
@@ -361,6 +1321,58 @@ $\mathrm{IntCl}_B(gL)\subseteq gA$, not the reverse inclusion.
 Extending the residual projector alone is insufficient; the collision
 evaluation must extend on the source-coordinate generators. See the
 [closure and pole-order audit](OBJECT-BENCH.md#local-collision-and-closure-audit-2026-09-19).
+
+## Finite polynomial cancellation at a pole
+
+[ValuationCancellation.lean](../../../General/Keller/ValuationCancellation.lean)
+derives a necessary condition from the actual polynomial supports.
+If a source coordinate is polar, some Keller component has a nonzero
+linear occurrence of it. That summand is polar when the valuation is
+trivial on the coefficient field. If the whole component is regular,
+the maximal monomial value must therefore be attained at least twice.
+The generic [finite-sum lemma](../../../General/Normalization/ValuationCancellation.lean)
+uses Mathlib's `Valuation.map_sum_eq_of_lt`.
+
+[PolarCancellation.lean](PolarCancellation.lean) applies this at a supplied
+ramified divisor of the actual planar normalization diagram. The existing
+center map $T\to V$ derives regularity of every target coordinate and
+value one for nonzero complex coefficients. Core-freeness supplies an
+inertia-moved sheet, and local collision rigidity supplies its coordinate
+pole. No source-regularity or no-cancellation premise is added.
+
+Write $\varphi_g$ for the existing conjugate source map and use
+Mathlib's multiplicative valuation $v$, where a pole has value greater
+than $1$, and put $c_m=\mathrm{coeff}_m(F_j)$.
+The conclusion supplies $a\ne b$ in the support of some $F_j$,
+on that same moved sheet, with
+
+```math
+v\bigl(\varphi_g(c_a x^a)\bigr)
+=v\bigl(\varphi_g(c_b x^b)\bigr)
+=\max_{m\in\mathrm{supp}(F_j)}
+ v\bigl(\varphi_g(c_m x^m)\bigr)>1.
+```
+
+The pair witnesses repeated dominance; the cancellation may involve more
+than those two terms. Since nonzero coefficients have value one, these
+values depend only on the source-coordinate values and the finite
+exponent supports. This is the necessary Newton-support resonance,
+not an exclusion of all resonant valuations.
+
+The generic polynomial step uses only the nonsingular linear Jacobian
+at the origin. The remaining target is to use the full constant-Jacobian
+identity to exclude the possible higher-order cancellations. Neither the
+finite certificate nor the existing first-jet denominator bound supplies
+that argument.
+
+Verification (2026-11-09, Lean 4.28.0): all three new leaves pass their
+focused builds; the actual-divisor target passes 2878 jobs with no
+warnings. A separate importing client checks a genuine cancelling sum,
+the monomial-value product formula, the no-polar-tie contrapositive,
+and extraction from the actual diagram theorem without additional
+regularity premises. All three audited declarations use only
+`propext`, `Classical.choice`, and `Quot.sound`.
+The full research umbrella was not rebuilt for this checkpoint.
 
 ## First local step: a regular transverse derivation
 

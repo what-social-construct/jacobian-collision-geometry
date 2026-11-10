@@ -10,6 +10,59 @@ This bench records mathematical roles; the latest verification results are
 recorded in the proof spine. Keep the existing Lean implementations; do not
 duplicate objects or move files merely to classify them here.
 
+The [source ledger](../SOURCE-LEDGER.md) records external theorem statements,
+their hypotheses and review status, and research analogies. It also records
+the proposed coherent derivation argument separately from its source of
+inspiration and from the missing Keller-specific application.
+
+## Fixed fractional normalization test
+
+The [source and normalization comparison](PROOF-SPINE.md#source-restriction-and-normalization-comparison)
+connects this test to the original schemes. The existing source restricted
+to $U_F$ is finite étale, by its canonical injection
+$E^G\otimes_B A\hookrightarrow E$. In the planar construction the
+original finite normalization embeds as $T\hookrightarrow E$, inducing
+an open immersion $\mathrm{Spec}E\hookrightarrow Z$ over $Y$.
+Neither statement removes the omitted boundary or proves the reverse
+bounded-orbit inclusion. The
+[constructed-divisor and common-regularity comparison](PROOF-SPINE.md#constructed-target-divisor-and-common-regularity)
+now identifies $W=Z\times_YU_F$ and characterizes its points by regularity
+of all conjugate coordinates in the same normalization local ring.
+Maximality of the finite locus remains separate.
+
+From a hypothetical nonzero class in $E^G/B$, the same comparison starts
+with an actual target height-one boundary prime and polar invariant
+representative, supplied by reduced-fraction extraction. Its local ring
+$B_p$ is a constructed DVR. Every normalization center over $p$ lies
+outside the common open and has a nonregular conjugate coordinate. At a
+divisorial center this is a pole. This is
+not a ramification or inertia assertion, and it does not construct a
+uniformly bounded derivative orbit.
+
+[FractionalNormalization.lean](../../../General/Normalization/FractionalNormalization.lean)
+constructs $s^{-m}T$ as a standard linear-map range of the same finite
+normalization. The candidates are finite over $B$; membership means
+integrality after multiplying by the fixed denominator power.
+[ValuationFiniteStage.lean](../../../General/Normalization/ValuationFiniteStage.lean)
+gives a common valuation bound on every finite base stage, also modulo
+the base. Finite generation of an algebra or finiteness over $E^G$ does
+not supply this bound over $B$.
+
+[TransversePoleStep.lean](../../../General/Normalization/TransversePoleStep.lean)
+constructs successive unit numerators at a supplied local ring with a
+transverse derivative. For a target DVR this gives exact pole growth.
+It does not construct that DVR or place the actual Keller orbit in a
+finite stage. The characteristic-zero coefficient field, not just
+characteristic zero of the local ring, is needed for the unit integers.
+
+The exact numerator in
+[DerivationFractionalStage.lean](../../../General/Normalization/DerivationFractionalStage.lean)
+shows why a one-step clearing denominator only raises the allowed pole
+exponent. Testing the basic denominator element obstructs preservation
+of the whole shifted lattice by a transverse target partial. This rejects
+that preservation argument, not containment of a particular orbit in a
+fixed lattice. Such containment is the remaining constructive target.
+
 ## Root-factorization comparison
 
 [Tao's account of the cubic example](https://terrytao.wordpress.com/2026/07/21/a-digestion-of-the-jacobian-conjecture-counterexample/comment-page-1/)
@@ -25,10 +78,22 @@ vanishing. This comparison is research motivation, not an added Lean premise.
 | Object / source | Established contribution | Remaining use or test |
 | --- | --- | --- |
 | All-conjugate algebra and invariants in [ConjugateAlgebra.lean](../../../General/Galois/ConjugateAlgebra.lean), [ConjugateFractionField.lean](../../../General/Galois/ConjugateFractionField.lean), and [ConjugateInvariants.lean](../../../General/Galois/ConjugateInvariants.lean) | Constructs the same $E\subset N$, identifies its fraction field, and restricts the faithful Galois action. $E$ is finite over Mathlib's fixed algebra $E^G$; separability identifies fixed elements with $E\cap K$ inside $N$. | These feed the target-open theorem below. Finiteness over $E^G$ is not finiteness over $B$; faithfulness is not scheme-theoretic freeness. |
+| Evaluated canonical projector and fixed-locus certificate in [EvaluatedProjector.lean](../EvaluatedProjector.lean) and [ConjugateFixedLocus.lean](../ConjugateFixedLocus.lean) | The same $p_F$ evaluates to zero/one on identical/distinct domain-valued collision sheets. In the actual $E$ of a planar Keller map, $(\sigma(z)-z:z\in E)=E$ for every $\sigma\ne1$; the fixed quotient is zero and proper-ideal inertia is trivial. No rigidity or degree input is used. | Feeds the cover comparison below. Setwise stabilizers and inertia on the omitted normalization boundary are not excluded. |
+| Finite étale cover and tensor comparison in [ConjugateCover.lean](../ConjugateCover.lean), using `GaloisTensor`, `GaloisTrace`, and `GaloisTensorEquiv` | Chinese remainders and a finite trace-dual frame prove projectivity, étaleness, faithful flatness, and the canonical equivalence $E\otimes_{E^G}E\simeq\prod_GE$. Actual-map endpoints assume only Keller and marked normal-closure data; the frame and flatness are derived. | An affine algebraic torsor certificate, not a bundled scheme-level torsor object. Identify the invariant target open with the maximal finite locus. Neither $E^G=B$ nor finiteness over $B$ or obstruction vanishing follows yet. |
+| Planar Galois rigidity from geometry in [GaloisRigidity.lean](GaloisRigidity.lean), using [NormalRamification.lean](NormalRamification.lean) and [BirationalAutomorphism.lean](BirationalAutomorphism.lean) | Normality gives $H=1$; a visible inertia-fixed sheet excludes every ramified divisor. Purity and affine-plane finite-etale rigidity give $L=K$, and $A\cap K=B$ then gives polynomial invertibility without Ax--Grothendieck. Also packages obstruction vanishing. | The two geometric theorems remain explicit inputs; `ComplexKellerGaloisRigidity 2` is derived rather than a third premise. Neither full planar vanishing nor dimension-three rigidity is proved. No boundary-emptiness or uniform trace-landing premise is inserted. |
 | Target-field realization in [ConjugateInvariantField.lean](../../../General/Galois/ConjugateInvariantField.lean) | The subalgebra pullback along $K\hookrightarrow N$ is canonically equivalent to $E^G$ under separability, and its fraction field is $K$. Both base and normal-closure embeddings are compatible. | This supplies birationality, not the open immersion or $E^G=B$. It introduces no new quotient or boundary ideal. |
 | Keller unramifiedness in [ConjugateUnramified.lean](../../../General/Keller/ConjugateUnramified.lean) | Uniqueness of infinitesimal lifts on the conjugate source sheets passes to their generated algebra $E$; finite type upgrades this to unramifiedness over $B$. | Now used for quasi-finite descent and the target open. This does not assert unramifiedness of the whole finite normalization or control its boundary. |
 | Fixed-algebra finite type in [ConjugateInvariantFiniteType.lean](../../../General/Galois/ConjugateInvariantFiniteType.lean) | Artin–Tate applies to the existing inclusion $E^G\subset E$ over Noetherian $B$. No Keller or separability hypothesis is used. | Supplies the finite-type hypothesis for quasi-finite descent; not module-finiteness over $B$. |
 | Actual target open in [ConjugateInvariantOpen.lean](../../../General/Keller/ConjugateInvariantOpen.lean) | Uses [QuasiFiniteDescent.lean](../../../General/Normalization/QuasiFiniteDescent.lean) and [BirationalOpen.lean](../../../General/Normalization/BirationalOpen.lean) to prove the open immersion under Keller and separability. $U_F$ is its standard open range and is affine. | Supplies the actual reduced boundary below. Scheme-theoretic freeness, flatness of $E/B$, and boundary emptiness are not inferred. |
+| Actual target sections modulo the base in [ConjugateInvariantSections.lean](../../../General/Keller/ConjugateInvariantSections.lean) | Canonically identifies $E^G$ with $\Gamma(U_F,\mathcal O)$ over the original $B$, and induces the standard module-quotient equivalence. $E^G/B$ is torsion and vanishes iff the actual boundary is empty. | Use the actual quotient action below to test a preserved finite stage. Torsion is elementwise, not a uniform annihilator; the filtered-Ext cohomology comparison is separate infrastructure, not a new premise. |
+| Actual Keller-frame quotient action in [InvariantFrame.lean](../InvariantFrame.lean) and [InvariantQuotientAction.lean](../InvariantQuotientAction.lean) | The existing field frames preserve $E$ and embedded $K$, hence $E^G$, and descend through the original base image. The two additive quotient operators satisfy the existing target-partial Leibniz rules. Existence follows from Keller and marked normal-closure data, without a supplied action or original-extension normality. | Prove preservation of a finite $B$-stage containing the class under study. This does not supply normalization boundary regularity, a uniform annihilator, or vanishing. |
+| Cyclic stage test in [CyclicStage.lean](CyclicStage.lean), using [DerivationCyclicStage.lean](../../../General/Normalization/DerivationCyclicStage.lean) | For a nonzero actual quotient class, one constructed coordinate derivative leaves its standard finite span $Bq$. Only the already proved elementwise torsion is used. | The smallest finite candidate fails; no nonzero class or larger-stage bound is asserted. Do not replace the failed test with an assumed preservation condition. |
+| Differential orbit and finite jet test in [DifferentialOrbit.lean](DifferentialOrbit.lean), using [DerivationOrbit.lean](../../../General/Normalization/DerivationOrbit.lean) and [DerivationJetTest.lean](../../../General/Normalization/DerivationJetTest.lean) | The standard span of all frame words is preserved by Leibniz. One nonzero all-orders annihilator forces $q=0$. More sharply, a fixed $f(P,Q)$ clearing all words through order $r\ge\deg f$ forces $q=0$, using total target-polynomial degree. | Derive a denominator meeting that finite degree threshold from the global Keller geometry. The criterion does not construct a coherent stage or assume that a nonzero class exists. No commuting-operator premise is used. |
+| Finite-order denominator growth in [DerivationOrbitStages.lean](../../../General/Normalization/DerivationOrbitStages.lean), specialized to the same actual quotient | From $aq=0$, proves $a^{r+1}\nabla_wq=0$ for every $|w|\le r$. The actual torsion theorem supplies a single initial $a$, independently of $r$. | The exponent grows with derivative order. For a nonconstant target denominator of degree $d$, its supplied degree $(r+1)d$ exceeds $r$ and does not satisfy the jet criterion. This is not a uniform bound or a consequence of the weighted target-shear budget. |
+| Constructed low-total-degree stages in [TotalDegreeTwoStage.lean](TotalDegreeTwoStage.lean), using [LowTotalDegreeFrame.lean](LowTotalDegreeFrame.lean), [FilteredPolynomialDerivation.lean](../../../General/Normalization/FilteredPolynomialDerivation.lean), and [DerivationFiniteStage.lean](../../../General/Normalization/DerivationFiniteStage.lean) | For total coordinate degree at most two, derives affine generator values for both actual Keller frames, constructs finite coefficient-field stages of the original all-conjugate algebra, pulls them to invariants and the actual quotient, and proves every quotient class zero by the finite-torsion annihilator argument. No preserved-stage premise is supplied. | Extend to a suitable finite stage in higher total degree, possibly after passing to the quotient or choosing an adapted filtration. This is not the generic-degree-two theorem or a general planar-vanishing result. A failed ambient degree stage does not imply a failed quotient stage. |
+| Fixed-field trace-dual test in [TraceStageAudit.lean](../TraceStageAudit.lean) | Evaluating trace integrality at $1$ gives $[N:K]r\in B$ for an embedded target-field element $r$. Degree invertibility gives $r\in B$; characteristic zero over a field supplies invertibility internally. | The fixed-field part contributes only zero classes to $E^G/B$. Keep the old trace object for the distinct $N/T$ route; an actual secant-to-target-quotient comparison and class detection remain unproved. |
+| Common normalization quotient in [ConjugateInvariantNormalizationQuotient.lean](../../../General/Keller/ConjugateInvariantNormalizationQuotient.lean) | The original fixed-algebra embedding descends to a $B$-linear injection $E^G/B\hookrightarrow N/T$, using $K\cap T=B$. | Compare section domains locally or on an appropriate pullback. This neither identifies $E^G/B$ with $R_C/T$ nor supplies an inclusion $E^G\subseteq R_C$. |
+| Original multiplier map in [BoundaryMultiplierComparison.lean](../BoundaryMultiplierComparison.lean), using [MultiplierQuotient.lean](../../../General/Normalization/MultiplierQuotient.lean) | Proves $T\subseteq R_C,T^\dagger$, embeds their standard quotients in $N/T$, and constructs $\lambda_{C,s}([r])=[sr]$ for the existing trace-transporter condition. Its ambient composite is multiplication by $s$. | Prove landing for a prescribed nonzero multiplier on all actual sections. The map itself need not be injective; the fixed-field trace test does not rule it out because $s$ may lie outside $K$. |
 | Actual reduced boundary in [ConjugateInvariantBoundary.lean](../../../General/Keller/ConjugateInvariantBoundary.lean) | Reuses the generic complement construction in [AffineOpenBoundary.lean](../../../General/Normalization/AffineOpenBoundary.lean). The ideal $\mathfrak b_F$ is radical, nonzero, and finitely generated; its zero locus is the complement of $U_F$, and it is the unit ideal iff that complement is empty. | The principal presentation is not yet packaged. Nonzero is not the same as proper: it does not assert a nonempty boundary. |
 | Actual conormal criterion in [ConjugateInvariantConormal.lean](../../../General/Keller/ConjugateInvariantConormal.lean) | Uses [PolynomialConormal.lean](../../../General/Normalization/PolynomialConormal.lean) to transport target partials and applies the existing conormal component to the same $\mathfrak b_F$. In characteristic zero, componentwise vanishing is equivalent to $U_F=\mathrm{Spec}B$, without principality. | Prove the actual Keller-specific vanishing. A principal equation is needed for the one-generator simple-pole presentation, not for this intrinsic criterion. |
 | Finite generator test in [FiniteConormalTest.lean](../../../General/Normalization/FiniteConormalTest.lean) | Leibniz and ideal-span induction reduce each conormal component to derivatives of any finite generating set. The actual boundary supplies such a finite set, and its successful test is equivalent to the target open being full. | Prove these generator memberships from the full polynomial source; finite generation alone does not prove them. No new quotient or universal target predicate is introduced. |
@@ -42,9 +107,17 @@ vanishing. This comparison is research motivation, not an added Lean premise.
 | Source-regularity characterization in [ConjugateInvariantCriterion.lean](../../../General/Keller/ConjugateInvariantCriterion.lean) | Packages $E^G\subseteq A\iff E^G=B\iff\mathfrak b_F=B$ via the existing source embedding and base-map surjectivity. The criterion uses neither characteristic zero nor a rigidity/purity hypothesis. | Present as an exact criterion. Do not claim source regularity or empty boundary for every Keller map; retain the separate inputs of its conditional vanishing consequence. |
 | Visible conjugate center in [General/Normalization/VisibleConjugateCenter.lean](../../../General/Normalization/VisibleConjugateCenter.lean) | Proves center realization by lying-over and Galois transitivity; transports the source divisor into the actual conjugate-center family. With the supplied local-index realization, inertia fixes some sheet. All four declarations passed the targeted build. | Control the other sheets. No center-surjectivity or visibility premise is assumed; the existing diagram/index realization remains explicit in the fixed-sheet corollary. |
 | Direct local collision exclusion in [LocalCollision.lean](LocalCollision.lean) and [InertiaCoordinates.lean](InertiaCoordinates.lean) | Residue agreement forces equality of local Keller collision maps. Actual valuation inertia moving a sheet forces some source coordinate outside the valuation ring, without an index realization. | Prove regularity on a moved sheet at each nontrivial-inertia divisor. Neither closure nor regularity of the residual projector supplies this. |
+| Finite polynomial cancellation in [ValuationCancellation.lean](../../../General/Keller/ValuationCancellation.lean), specialized in [PolarCancellation.lean](PolarCancellation.lean) | A coordinate pole with regular target forces two distinct equally dominant polar terms in one actual component support. At a supplied ramified divisor, the center map derives target regularity and trivial coefficient values; core-freeness selects a moved sheet and the existing local theorem forces its pole. | Exclude the possible support resonances using the full constant-Jacobian identity. The generic polynomial step uses only its nonsingular linear part; equal dominant values certify collective cancellation, not cancellation of the chosen pair alone. |
+| Full leading-Jacobian test in [WeightedJacobian.lean](WeightedJacobian.lean), using the generic signed component and Euler lemmas | For support bounds $m,n$, the component pair has Jacobian $c$ at $m+n=w_x+w_y$, and zero otherwise. In the balanced case a common zero must have zero weighted radial vector, over any coefficient-field extension. | Excludes the balanced common-torus-zero configuration, not all ramified valuations. The actual tuple below supplies zeros for positive-degree target components; positivity of both degrees and exclusion of successive cancellation are not assumed. |
+| Global polynomial negative control in [LeadingFaceDiagnostic.lean](LeadingFaceDiagnostic.lean) | The actual polynomial automorphism $(x+y^2,y+(x+y^2)^2)$ has Jacobian one and common leading zeros at weights $(2,1)$. The displayed substitution cancels both leading forms but leaves a lower polar term. | The strict case genuinely survives the full Keller identity at leading order. Do not identify this with a pole above the affine target or a nontrivial-inertia example. |
+| Weighted cancellation budget in [CancellationBudget.lean](CancellationBudget.lean), using [WeightedDegreeBounds.lean](../../../General/Normalization/WeightedDegreeBounds.lean) and [PolynomialSubtraction.lean](PolynomialSubtraction.lean) | Given sharp degrees and the actual leading relation $Q_n^r=\lambda P_m^s$, derives a nonzero residual $R$, its degree $k$, and $0<rn-k\le D$. The exponent-one target shear preserves Keller and the same original image algebra, and gives $0\le D'<D$. | Derive the polynomial leading relation in a legal orientation, rather than only its evaluated residue. Do not assume positive residual degree, a next exponent-one step, or Keller preservation for $r>1$. The exact Jacobian formula is reused frame calculus, not new infrastructure. |
+| Actual weighted initial residues in [BoundaryInitialResidue.lean](BoundaryInitialResidue.lean), using [DivisorialWeights.lean](../../../General/Normalization/DivisorialWeights.lean), [ValuationInitialResidue.lean](../../../General/Normalization/ValuationInitialResidue.lean), and [WeightedInitialEvaluation.lean](../../../General/Normalization/WeightedInitialEvaluation.lean) | Normalizes the value group without changing the boundary DVR. The actual moved sheet supplies a positive coordinate weight, finite sharp target degrees with at least one positive, and a nonzero residue-coordinate tuple. Every positive-degree target initial form vanishes at that tuple. | This is an evaluated residue equation, not a polynomial leading-power identity. The valuation of an output sum is not identified with its maximal monomial value, and neither degree is silently required positive. |
+| Either target-shear orientation in [TwoSidedCancellation.lean](TwoSidedCancellation.lean) | Adds $(P-\lambda Q^s,Q)$ with inverse, original Jacobian constant, same image algebra, and weighted defect descent. Both orientations keep regular target values in the same supplied valuation ring and leave the source map and weights unchanged. | Prove that at least one orientation is available for the actual boundary state, or exclude that state by the full Keller identity. The swapped diagnostic already rules out using only the second-coordinate orientation. |
+| Opposite signed leading degrees in [OppositeDegreeExclusion.lean](OppositeDegreeExclusion.lean) | Euler contraction shows that nonzero opposite-degree homogeneous forms cannot have zero Jacobian. For constant Jacobian, opposite signs therefore force the balanced degree. | Does not exclude opposite signs in the balanced case: the identity at weights $(1,-1)$ is a control. Does not give an exponent-one power relation. |
 | Monomial support weights in [General/Keller/MonomialWeights.lean](../../../General/Keller/MonomialWeights.lean) | Each source variable occurs linearly in a Keller component; nonnegative integer weights on all supported monomials imply nonnegative coordinate weights, in every dimension over any field. | The mathematical monomial-valuation application uses the no-cancellation rule. General boundary valuations need not satisfy it; their cancellation is not excluded. |
 | Shared local inertia and conjugate-index API in [General/Normalization](../../../General/Normalization) and [General/Galois/RamificationIndex.lean](../../../General/Galois/RamificationIndex.lean) | Supplies the actual local rings and ramification/inertia comparisons for the boundary/conjugate-sheet route; ramification implies nontrivial inertia. The characteristic-zero model/index assembly is verified. | Use the constructed model where this route needs it; it is not a prerequisite of the smaller direct endpoint. These comparisons do not prove inertia trivial. |
 | Base transversality in [General/Normalization/BaseTransversality.lean](../../../General/Normalization/BaseTransversality.lean) | Proves that every nonzero proper polynomial ideal in characteristic zero contains an element with some coordinate partial outside the ideal. Targeted build and all six axiom audits passed. | Transfer the contracted base prime through the target polynomial presentation and use the corresponding Keller frame. This dimension-independent fact supplies no boundary regularity. |
+| Coherent derivation exclusion in [DerivationAnnihilator.lean](../../../General/Normalization/DerivationAnnihilator.lean) | A supplied additive Leibniz action preserves the module annihilator. For all coordinate partials on a characteristic-zero polynomial algebra, a nonzero annihilator forces the module to be zero; a finite-torsion corollary supplies that annihilator. | Combine the constructed quotient action with genuinely preserved finite-stage control. Neither coherence of the full pole module nor descent to a normalization quotient is asserted. |
 | Target-polynomial frame identities in [BaseFrame.lean](BaseFrame.lean) | Prove that the existing first and second Keller frames act as target partial derivatives on arbitrary target polynomials, including on each conjugate sheet in the normal closure. Targeted build and all four axiom audits passed. | Use the frame matching the coordinate selected by base transversality. These identities do not restrict a field derivation to a boundary local ring. |
 | Derivation denominator criterion in [FrameDenominator.lean](FrameDenominator.lean) | Clearing generator derivatives is equivalent to clearing all of the finite order, by Leibniz. Nonzero denominators for one frame or a pair are proved. Targeted build and all three axiom audits passed. | Establish local membership of those derivatives; finite local clearing then produces a denominator outside the prime. The existing secant family is not automatically a family of normalization-generator derivatives. |
 | Regular transverse derivation in [General/Normalization/DerivationCriterion.lean](../../../General/Normalization/DerivationCriterion.lean) | Proves that a base element in the contracted prime with unit derivative under a derivation of the actual local ring forces local index one. Generic and local criteria passed a targeted Lean build. | Exhibit such a derivation from the actual Keller frame at each boundary divisor. Field-level extension does not prove local regularity. |
@@ -496,6 +569,44 @@ the argument. The formal-series calculation and degree estimate are
 mathematical audits, not conclusions of `InertiaCoordinates.lean` or of
 the existing supplied `CompletedTameRamificationData`.
 
+### Coherent stage from total polynomial degree
+
+The low-total-degree construction is now formalized in
+[TotalDegreeTwoStage.lean](TotalDegreeTwoStage.lean). Let
+$d=\max(\deg P,\deg Q)$ be total polynomial degree, and filter the
+existing all-conjugate algebra $E$ by the spans $E_{\le m}$ of monomials
+of degree at most $m$ in its finitely many conjugate source-coordinate
+generators. Each stage is finite-dimensional over $\mathbb C$; relations
+among the generators do not affect that finiteness.
+
+For $d\le2$, [LowTotalDegreeFrame.lean](LowTotalDegreeFrame.lean)
+proves that the actual inverse-Jacobian frames send each generator to
+an affine-linear polynomial on the same sheet. The generic bounded-degree
+evaluation theorem then preserves every stage. Intersecting a stage
+with $E^G$ and taking its image modulo $B$ gives a finite-dimensional
+space preserved by both frames. Its $B$-span is finite over $B$ and
+preserved by the target-coordinate Leibniz rules. The existing torsion
+and annihilator argument kills that stage. Its inclusion of each chosen
+representative is derived from the ground-polynomial presentation of
+the original $E$, with no replacement algebra or independence assumption.
+
+This supplies a concrete positive test for constructing coherent stages
+from the global polynomial frame, in the low **total-degree** regime;
+it is not the generic-degree-two theorem. On the affine Noetherian base,
+the finite $B$-module stage has the standard coherent-sheaf interpretation;
+the code uses the module directly.
+
+The higher-degree estimate remains a mathematical audit: inverse-Jacobian
+coefficients have degree at most $d-1$, giving degree shift at most
+$d-2$ on nonconstant monomials. For $d\ge3$ this permits iterated degree
+$m+r(d-2)$, rather than a fixed stage. The triangular Keller map
+$(x,y-x^3/3)$ illustrates the limitation: its first frame sends $y$ to
+$x^2$ and fails to preserve the ordinary degree-one source stage. This
+does not rule out an adapted stage or stability after passage modulo $B$.
+The signed valuation weights do not automatically define finite stages
+either: a bounded-weight space may be infinite-dimensional when weights
+are nonpositive. No general planar vanishing is inferred.
+
 ### Original-extension pole test (2026-09-19)
 
 The smaller geometric target uses $S=\mathrm{IntCl}_B(L)\subseteq A$.
@@ -579,6 +690,32 @@ global argument forcing regularity. Neither the class-group calculation
 nor the local two-form equality supplies that exclusion. The geometric
 diagnostics and valuation applications in this section are mathematical
 audits, separate from the formal weighted-support calculation.
+
+### Characteristic three control for the global polynomial input
+
+The following calculation is independently checked algebra, not an
+additional Lean theorem or a characteristic-zero example. Over an
+algebraically closed field $k$ of characteristic three,
+
+```math
+F(x,y)=(x-yx^3,y),\qquad \det JF=1.
+```
+
+At the target divisor $y=0$, the equation
+$yX^3-X+u=0$ has a regular root
+$x_0\in k(u)[[y]]$ with $x_0\equiv u$ by Hensel's lemma.
+The other roots are $x_0\pm t^{-1}$ with $t^2=y$:
+subtracting the equation for $x_0$ gives
+$\delta-y\delta^3=0$. The splitting completion is $k(u)((t))$;
+its tame inertia has order two, fixes the regular root, and exchanges
+the two pole roots.
+
+Thus full polynomial-source structure, the Keller identity, a visible
+fixed sheet, and tame inertia coexist with moved poles in positive
+characteristic. A general pole exclusion needs an essential
+characteristic-zero step; tameness or source-unit reflection alone
+cannot supply it. The new finite cancellation certificate is consistent
+with this control and does not by itself supply that step.
 
 ## Marked-field Galois descent (2026-09-19)
 

@@ -1,6 +1,7 @@
 import CollisionIdeals.General.Normalization.BaseTransversality
 import CollisionIdeals.General.Normalization.SimplePole
 import CollisionIdeals.General.Normalization.ConormalDerivation
+import CollisionIdeals.General.Normalization.DerivationAnnihilator
 import CollisionIdeals.General.Galois.ConjugateAlgebra
 import CollisionIdeals.General.Galois.ConjugateFractionField
 import CollisionIdeals.General.Galois.ConjugateInvariants
@@ -8,6 +9,8 @@ import CollisionIdeals.General.Galois.ConjugateInvariantField
 import CollisionIdeals.General.Keller.ConjugateUnramified
 import CollisionIdeals.General.Keller.ConjugateInvariantOpen
 import CollisionIdeals.General.Keller.ConjugateInvariantBoundary
+import CollisionIdeals.General.Keller.ConjugateInvariantSections
+import CollisionIdeals.General.Keller.ConjugateInvariantNormalizationQuotient
 import CollisionIdeals.General.Keller.ConjugateInvariantConormal
 import CollisionIdeals.General.Keller.ConjugateInvariantFiniteness
 import CollisionIdeals.General.Normalization.DerivationCriterion
@@ -18,6 +21,12 @@ import CollisionIdeals.General.Keller.ConjugateInvariantCriterion
 import CollisionIdeals.General.Keller.MonomialWeights
 import CollisionIdeals.General.Normalization.VisibleConjugateCenter
 import CollisionIdeals.Planar.Research.Vanishing.BaseFrame
+import CollisionIdeals.Planar.Research.Vanishing.CyclicStage
+import CollisionIdeals.Planar.Research.Vanishing.DifferentialOrbit
+import CollisionIdeals.Planar.Research.Vanishing.TotalDegreeTwoStage
+import CollisionIdeals.General.Normalization.FractionalNormalization
+import CollisionIdeals.General.Normalization.DerivationFractionalStage
+import CollisionIdeals.General.Normalization.TransversePoleStep
 import CollisionIdeals.Planar.Research.Vanishing.FrameDenominator
 import CollisionIdeals.Planar.Research.Vanishing.SecantReduction
 import CollisionIdeals.Planar.Research.Vanishing.ConductorComparison
@@ -26,20 +35,39 @@ import CollisionIdeals.Planar.Research.Vanishing.GeneratorDerivative
 import CollisionIdeals.Planar.Research.Vanishing.LocalizedJacobianDiagnostic
 import CollisionIdeals.Planar.Research.Vanishing.LocalCollision
 import CollisionIdeals.Planar.Research.Vanishing.InertiaCoordinates
+import CollisionIdeals.Planar.Research.Vanishing.PolarCancellation
+import CollisionIdeals.Planar.Research.Vanishing.BoundaryInitialResidue
+import CollisionIdeals.Planar.Research.Vanishing.WeightedJacobian
+import CollisionIdeals.Planar.Research.Vanishing.LeadingFaceDiagnostic
+import CollisionIdeals.Planar.Research.Vanishing.CancellationBudget
+import CollisionIdeals.Planar.Research.Vanishing.TwoSidedCancellation
+import CollisionIdeals.Planar.Research.Vanishing.OppositeDegreeExclusion
 import CollisionIdeals.Planar.Research.Vanishing.GaloisDescent
 import CollisionIdeals.Planar.Research.Vanishing.Ramification
+import CollisionIdeals.Planar.Research.Vanishing.GaloisRigidity
 import CollisionIdeals.Planar.Research.Vanishing.FiniteBoundary
 import CollisionIdeals.Planar.Research.Vanishing.BoundaryCriterion
 import CollisionIdeals.Planar.Research.PrincipalPartsStrategy
+import CollisionIdeals.Planar.Research.TraceStageAudit
 import CollisionIdeals.Planar.Research.FixedMovingBoundaryPrincipalParts
 import CollisionIdeals.Planar.Research.FinitePrincipalPartsControl
 import CollisionIdeals.Planar.ConjugateSecantEvaluation
 import CollisionIdeals.Planar.ExplicitSecant
+import CollisionIdeals.Planar.Research.EvaluatedProjector
+import CollisionIdeals.Planar.Research.ConjugateFixedLocus
+import CollisionIdeals.Planar.Research.ConjugateCover
+import CollisionIdeals.General.Keller.ConjugateSourceBaseChange
+import CollisionIdeals.Planar.Research.Vanishing.ConjugateNormalizationOpen
+import CollisionIdeals.General.Keller.ConjugateInvariantPole
+import CollisionIdeals.Planar.Research.Vanishing.InvariantNormalizationBaseChange
+import CollisionIdeals.Planar.Research.Vanishing.ConjugateCommonOpen
 import CollisionIdeals.Planar.KellerFrame
 import CollisionIdeals.Planar.Research.SecantFrameDenominator
 import CollisionIdeals.Planar.Research.FiniteDenominatorCounterexample
 import CollisionIdeals.Planar.Research.KellerFrameExtension
+import CollisionIdeals.Planar.Research.InvariantQuotientAction
 import CollisionIdeals.Planar.Research.BoundarySections
+import CollisionIdeals.Planar.Research.BoundaryMultiplierComparison
 import CollisionIdeals.Planar.Research.BoundarySectionLocalization
 import CollisionIdeals.Planar.Research.LocalizationDenominator
 import CollisionIdeals.Planar.Research.HeightOneBoundaryPole
@@ -81,6 +109,19 @@ This umbrella keeps the experimental modules separate from the public
   algebra use Mathlib's existing invariant-ring objects; the algebra is
   module-finite over its fixed algebra, not necessarily over the
   coordinate-image base;
+* the canonical explicit off-diagonal projector evaluates to zero on
+  identical collision sheets and one on distinct sheets in a domain.
+  Applied in the actual all-conjugate algebra of a planar Keller map,
+  these identities make the difference ideal of every nonidentity Galois
+  element the unit ideal. Its scheme-theoretic fixed quotient is the zero
+  ring, and the existing inertia subgroup is trivial at every proper ideal
+  of that algebra. These certificates feed a Chinese-remainder graph
+  comparison and a finite trace-dual frame. The all-conjugate algebra is
+  finite etale and faithfully flat over its existing fixed algebra, and
+  the canonical action-graph tensor map is an algebra equivalence.
+  This is an affine algebraic torsor certificate, not a bundled
+  scheme-level torsor object. It does not exclude setwise-stable primes,
+  fill the target open, or eliminate omitted-boundary inertia;
 * under separability the fixed algebra is realized
   inside the target function field and has that field as its fraction
   field. The Keller condition makes the all-conjugate algebra unramified
@@ -89,6 +130,12 @@ This umbrella keeps the experimental modules separate from the public
   an actual affine target open. Its reduced boundary ideal is constructed,
   radical, nonzero, and finitely generated. A principal presentation is not
   yet packaged; boundary emptiness is not inferred;
+* the same fixed algebra is canonically the section algebra of that actual
+  target open, over the original base. The induced module quotients by the
+  base image are equivalent. The fixed-algebra quotient is torsion and
+  vanishes exactly when the actual target boundary is empty. This supplies
+  neither a uniform annihilator nor a comparison with filtered-Ext local
+  cohomology;
 * an alternative boundary criterion uses two components of Mathlib's existing
   conormal module. Their vanishing is equivalent to ideal preservation,
   hence to the unit ideal over a characteristic-zero polynomial base. The
@@ -121,6 +168,66 @@ This umbrella keeps the experimental modules separate from the public
   transverse coordinate partial; the actual Keller frames recover target
   partial derivatives on arbitrary target polynomials, also after extension
   to the normal closure. Regularity at a boundary prime is not supplied;
+* additive operators satisfying the target-coordinate Leibniz rules preserve
+  the module annihilator under every target partial. In a characteristic-zero
+  polynomial algebra, a nonzero annihilator therefore forces the module to
+  vanish. The existing normal-closure Keller frames preserve the actual
+  fixed algebra and descend to additive operators on its standard module
+  quotient by the target base. Their target-coordinate Leibniz rules are
+  proved, with no operator-existence or frame-preservation premise.
+  An arbitrary-degree preserved finite stage or uniform annihilator is
+  not constructed;
+* the same quotient now has a differential-word denominator test. One
+  scalar annihilating the entire orbit is equivalent to vanishing of
+  the class. More sharply, a fixed target-polynomial denominator clearing
+  words through its own total degree already forces vanishing. Ordinary
+  torsion gives only powers `a^(r+1)` at derivative order `r`, not that
+  degree threshold or an all-orders uniform bound;
+* in total polynomial degree at most two, finite preserved stages are now
+  constructed in the actual quotient. The ground-polynomial presentation
+  uses the same finite conjugate-coordinate family and original algebra.
+  Affine frame generator values preserve finite coefficient-field degree
+  stages; invariant pullback and quotient image then give a finite
+  preserved base-module stage. The annihilator argument proves every
+  class zero. This is a total-degree benchmark, not the generic-degree-two
+  result or a stage bound for arbitrary planar maps;
+* the original polynomial source, base changed to the same invariant
+  algebra, embeds in the all-conjugate algebra and is finite over that
+  invariant base. Keller étaleness persists under this base change. This
+  comparison is dimension-independent and belongs to the general folder;
+* in the planar construction, stalk isomorphisms prove normality of the
+  invariant target open. The existing finite trace frame then proves
+  normality of the all-conjugate algebra and puts the original finite
+  normalization inside it. The resulting scheme map is an open immersion
+  over the original target. This is the inclusion `T` into `E`, not
+  containment of a Keller orbit in a fixed fractional `T`-stage;
+* a hypothetical nonzero class in the original invariant quotient now
+  constructs a target height-one boundary point, its DVR, and a polar
+  invariant representative. Reduced numerator/denominator data supply
+  the point; no boundary divisor is supplied separately. This target
+  pole does not assert ramification or nontrivial inertia;
+* the all-conjugate open is canonically the finite normalization over
+  the existing invariant target open. The actual pullback comparison is
+  an isomorphism, compatible with both projections. This identifies the
+  omitted normalization points with the inverse image of the target
+  boundary. Membership is equivalent to regularity of every conjugate
+  coordinate in the same normalization local ring; outside this open,
+  one coordinate is nonregular. No ramification or differential-orbit
+  bound is asserted;
+* fixed fractional images of the actual finite normalization are finite
+  base modules and have a common valuation bound, also modulo the base.
+  A regular transverse derivative at a supplied target local ring
+  constructs unit numerators at every successive pole order. The exact
+  quotient rule explains why one-step denominator clearing gives growing
+  stages, not a fixed one. Containment of the actual Keller orbit in one
+  finite image remains unproved; preserving the whole shifted lattice is
+  stronger and is obstructed by its basic denominator element;
+* the concrete cyclic finite stage of a nonzero quotient class is not
+  preserved by both coordinate operators: one derivative escapes its span.
+  The older trace-integral stage also supplies no nonzero target-field
+  class when the normal-closure degree is a base unit, as it is over a
+  characteristic-zero field algebra. These are candidate tests, not a
+  finite-stage construction or a planar-vanishing theorem;
 * preserving the cyclic simple-pole module with denominator `s` is
   equivalent to preserving the principal ideal `(s)`. This tests a proposed
   boundary invariant; finite clearing of secant first jets does not prove
@@ -146,6 +253,30 @@ This umbrella keeps the experimental modules separate from the public
 * two local Keller collision maps with equal coordinate residues coincide.
   Applied directly to valuation inertia, this forces a nonregular source
   coordinate on every inertia-moved sheet, without an index realization.
+  At a supplied actual ramified divisor, centeredness and core-freeness
+  now give a moved sheet with two distinct equally dominant polar terms
+  in one component's polynomial support. This finite cancellation
+  certificate assumes no source regularity; excluding the resonance by
+  the full constant-Jacobian identity in general remains open. A signed
+  weighted-component calculation now gives its exact leading Jacobian:
+  the Keller constant in the balanced degree, zero off that balance.
+  Signed Euler excludes balanced common zeros with nonzero weighted
+  radial vector, also over coefficient-field extensions. An actual
+  polynomial automorphism supplies a strict-degree negative control:
+  both leading forms cancel, while a lower polar output remains.
+  Reusing the earlier frame calculus now bounds a supplied leading-power
+  cancellation by the weighted Jacobian defect. The actual residual is
+  proved nonzero and its sharp degree is derived, including negative
+  degrees. Exponent-one target subtraction preserves Keller and the
+  same image range, and strictly decreases a nonnegative defect; no
+  further legal step or general power-map Keller property is assumed.
+  The actual boundary DVR now supplies signed coordinate weights and
+  nonzero initial residues on the same moved sheet. Every positive-degree
+  target initial form vanishes at that tuple. Both target-shear
+  orientations preserve regular target values in the same ring, but
+  existence of a polynomial leading-power relation with an exponent one
+  remains open. Zero leading Jacobian excludes opposite strict degree
+  signs, not the balanced identity-map control.
   Closure does not supply the missing source-coordinate regularity;
 * in every dimension, each source variable occurs as a nonzero linear
   coefficient of some Keller component. Nonnegative integer weights on
@@ -165,6 +296,13 @@ This umbrella keeps the experimental modules separate from the public
 * the direct no-ramification endgame uses the canonical finite normalized
   cover constructed from the Keller condition, without requiring the larger
   collision model's conjugate-center and inertia-index realization;
+* normality of the original function-field extension makes the marked
+  fixing subgroup trivial. A visible inertia-fixed sheet then rules out
+  divisorial ramification. Purity and affine-plane finite-etale rigidity
+  yield field triviality and obstruction vanishing. The source-intersection
+  theorem gives polynomial invertibility without Ax--Grothendieck, deriving
+  `ComplexKellerGaloisRigidity 2` from those two explicit geometric inputs.
+  Neither universal planar vanishing nor dimension-three rigidity follows;
 * a removed height-one fixed--moving prime produces an actual section
   outside the normalization ring, by localized ideal-power containment and
   finite denominator clearing;
