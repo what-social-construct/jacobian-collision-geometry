@@ -10,7 +10,7 @@
 \titleformat{\subsection}{\normalfont\Large\bfseries}{\thesubsection}{1em}{}
 
 \hypersetup{
-  pdftitle={Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity},
+  pdftitle={Planar Secant Projectors and Galois Fixed Loci},
   pdfauthor={Chloe van der Vlugt},
   colorlinks=true,
   linkcolor=blue!55!black,
@@ -36,10 +36,9 @@
   {\par\endgroup\medskip}
 
 \title{\texorpdfstring
-  {Generic Degree Two in \(JC(2)\):\\
-   Secant Projectors and Galois Rigidity}
-  {Generic Degree Two in JC(2): Secant Projectors and Galois Rigidity}}
-\author{Chloe van der Vlugt}\date{November 5, 2026}
+  {Planar Secant Projectors and\\ Galois Fixed Loci}
+  {Planar Secant Projectors and Galois Fixed Loci}}
+\author{Chloe van der Vlugt}\date{November 10, 2026}
 
 \begin{document}
 
@@ -51,34 +50,26 @@ image.  For
 \[
   F=(P,Q)\colon\A^2_{\C}\longrightarrow\A^2_{\C},
 \]
-put \(A=\C[x_1,x_2]\), let \(I_R(F)\) be the collision ideal in the
-pair ring \(S=\C[x_1,x_2,y_1,y_2]\), and let \(I_\Delta\) be the diagonal
-ideal.  Set \(C_F=S/I_R(F)\).  Their quotient
-\[
-  \Obs(F)=I_\Delta/I_R(F)\subseteq C_F
-\]
-is the ideal of the diagonal in the collision ring.  When \(F\) is Keller,
-an ordered divided-difference matrix produces an explicit idempotent
-\(p_F\in C_F\) with \(\Obs(F)=C_Fp_F\).  Using classical Galois
-rigidity, we characterize obstruction vanishing by normality of the induced
-function-field extension.
+put \(A=\C[x_1,x_2]\), \(S=\C[x_1,x_2,y_1,y_2]\), and let
+\(I_R(F)\subseteq I_\Delta\subset S\) be the collision and diagonal ideals.
+Their quotient \(\Obs(F)=I_\Delta/I_R(F)\) is the diagonal ideal in
+\(C_F=S/I_R(F)\).  For a Keller map, ordered divided differences give an
+explicit idempotent \(p_F\in C_F\) with \(\Obs(F)=C_Fp_F\).  Evaluating
+this projector on distinct collision sheets over a domain yields a
+unit-ideal certificate for their coordinate differences.
 
-Writing \(B=\C[P,Q]\subseteq A\), \(K=\Frac(B)\), and
-\(L=\Frac(A)\), suppose that the induced extension \(L/K\) has degree
-two.  Then the generic collision algebra decomposes compatibly with the
-diagonal as
-\[
-  K\otimes_BC_F\simeq_K L\times L,
-\]
-where diagonal evaluation is first projection.  The second factor forces
-\(\Obs(F)\neq0\); when \(F\) is Keller, the secant identity
-\(\Obs(F)=C_Fp_F\) then gives \(p_F\neq0\).  On the other hand, a separable
-quadratic extension is Galois, and classical Keller--Galois rigidity makes
-a hypothetical generic-degree-two Keller map a polynomial automorphism.  Then
-\(\Obs(F)=0\) and \(p_F=0\), a contradiction.  Thus no planar Keller map
-has generic degree two.  The collision and secant arguments are formalized
-in Lean; the classical rigidity theorem is isolated there as the sole
-external mathematical input to the degree-two exclusion.
+Write \(B=\C[P,Q]\subseteq A\), \(K=\Frac(B)\), \(L=\Frac(A)\), and let
+\(N/K\) be the normal closure with marked embedding
+\(\iota\colon L\hookrightarrow N\) and Galois group \(G\).  In the
+all-conjugate algebra \(E=B[g(\iota(A)):g\in G]\subseteq N\), the
+certificate makes \((\sigma(e)-e:e\in E)=E\) for every \(\sigma\ne1\).
+Consequently \(E/E^G\) is finite \'etale and the action-graph map
+\(E\otimes_{E^G}E\simeq\prod_{g\in G}E\) is an isomorphism.  Its base is
+\(E^G\), not necessarily \(B\); this does not prove planar obstruction
+vanishing.  As an application, a generic-degree-two Keller map would have
+\(p_F\ne0\) from its residual generic collision factor, but \(p_F=0\)
+from classical Keller--Galois rigidity.  Hence no planar Keller map has
+generic degree two.
 \end{abstract}
 
 \begin{center}
@@ -142,17 +133,27 @@ with base-changed diagonal evaluation equal to tensor multiplication.
 
 Paper~I already uses classical Galois rigidity to exclude counterexamples
 of generic degrees one and two in every dimension
-\cite[Corollary~4.1]{VanDerVlugt2026CubicCollision}.  The purpose here is to
-realize the quadratic exclusion explicitly in the planar collision ring.
-Moskowicz states a broader planar prime-degree exclusion
-\cite{Moskowicz2024PrimeDegree}; we do not use that argument.  Our focus is
-the explicit collision certificate and its formal verification.
+\cite[Corollary~4.1]{VanDerVlugt2026CubicCollision}.  Here we construct an
+explicit planar collision projector and evaluate it on the conjugate
+source sheets of the normal closure.  This gives a scheme-theoretic
+fixed-locus certificate and a finite \(G\)-cover over the algebra of
+invariants.  The quadratic exclusion is an application, not the sole
+result.  Moskowicz states a broader planar prime-degree exclusion
+\cite{Moskowicz2024PrimeDegree}; we do not use that argument.
 
-The planar projector construction has no generic-degree restriction.  Its
-application to \(d_F=2\) uses two complementary descriptions of the
-collision obstruction.  Ordered divided differences give the planar
-multivariate B\'ezoutian determinant and an idempotent \(p_F\) generating
-\(\Obs(F)\).  At the generic point, a separable quadratic extension gives
+The projector construction has no generic-degree restriction.  Ordered
+divided differences give the planar multivariate B\'ezoutian determinant
+and an idempotent \(p_F\) generating \(\Obs(F)\).  On any two distinct
+collision sheets over a domain, its evaluation is \(1\), forcing their
+coordinate differences to generate the unit ideal.  For the
+all-conjugate algebra \(E\subseteq N\), this excludes the
+scheme-theoretic fixed locus of every nonidentity element of
+\(G=\Gal(N/K)\) and identifies \(E/E^G\) as a finite \(G\)-cover.  Its
+base is \(E^G\), which is not identified with \(B\) here.
+
+The application to \(d_F=2\) uses two complementary descriptions of the
+collision obstruction.  At the generic point, a separable quadratic
+extension gives
 \[
   L\otimes_KL\simeq_L L\times L,
 \]
@@ -175,7 +176,8 @@ cubic construction.
 
 Section~\ref{sec:collision-inputs} recalls, without reproving, the general
 construction needed here.  Section~\ref{sec:secant-projector} constructs
-the planar projector.  Section~\ref{sec:quadratic-collision} proves
+the planar projector, and Section~\ref{sec:conjugate-cover} evaluates it on
+conjugate sheets.  Section~\ref{sec:quadratic-collision} proves
 quadratic collision nonvanishing, and
 Section~\ref{sec:rigidity-contradiction} combines it with Galois rigidity.
 Section~\ref{sec:vanishing-criterion} gives the marked-closure vanishing
@@ -184,8 +186,8 @@ the formalization.
 
 The degree-two exclusion is not a proof of all of \(JC(2)\).  Remaining
 possible counterexamples have nonnormal function-field extensions of
-generic degree at least three.  No normalization, boundary, or inertia
-construction enters the degree-two proof.
+generic degree at least three.  The finite cover over \(E^G\) does not
+show that \(E^G=B\) or eliminate the boundary over \(\Spec B\).
 
 \section{Inputs from Paper I}
 \label{sec:collision-inputs}
@@ -469,6 +471,117 @@ supplies the explicit B\'ezoutian representative and identifies the ideal it
 generates.  The uniqueness just proved shows that the resulting \(p_F\) is
 independent of the ordering used to write the divided differences.
 
+\section{Conjugate-sheet fixed loci}
+\label{sec:conjugate-cover}
+
+Keep the planar Keller hypothesis, but impose no condition on \(d_F\).
+Let \(N/K\) be the marked normal closure of \(L/K\), with inclusion
+\(\iota\colon L\hookrightarrow N\), and put \(G=\Gal(N/K)\).  For
+\(g\in G\), the conjugate source sheet is the \(\C\)-algebra map
+\[
+  \rho_g\colon A\longrightarrow N,\qquad a\longmapsto g(\iota(a)).
+\]
+All these maps agree on \(B\).  Define the all-conjugate algebra and its
+invariant subalgebra by
+\[
+  E:=B[\rho_g(x_i):g\in G,\ i=1,2]\subseteq N,
+  \qquad
+  E^G:=\{e\in E:\sigma(e)=e\text{ for every }\sigma\in G\}.
+\]
+Thus \(B\subseteq E^G\subseteq E\), and the conjugate fields
+\(g(\iota(L))\) generate \(\Frac(E)=N\).  The next result evaluates the
+same projector as Theorem~\ref{thm:planar-secant-projector}, now on actual
+collision pairs rather than solely in \(C_F\).
+
+\begin{proposition}[Evaluated secant certificate]
+\label{prop:evaluated-projector}
+Let \(T\) be a complex integral domain and let
+\(u,v\colon A\to T\) be distinct \(\C\)-algebra maps satisfying
+\(u(P)=v(P)\) and \(u(Q)=v(Q)\).  They induce an evaluation
+\(\operatorname{ev}_{u,v}\colon C_F\to T\).  Then
+\[
+  \operatorname{ev}_{u,v}(p_F)=1,
+  \qquad
+  \bigl(u(x_1)-v(x_1),\ u(x_2)-v(x_2)\bigr)=T.
+\]
+\end{proposition}
+
+\begin{proof}
+Since \(u\ne v\), one coordinate difference is nonzero.  Evaluating
+\(\delta_FI_\Delta\subseteq I_R(F)\) on the collision pair gives its
+product with that difference equal to zero.  As \(T\) is a domain,
+\(\operatorname{ev}_{u,v}(\bar\delta_F)=0\), and therefore
+\(\operatorname{ev}_{u,v}(p_F)=1\).  But \(p_F\in\Obs(F)\), whose
+evaluation lies in the ideal generated by the two coordinate
+differences.  That ideal contains \(1\).
+\end{proof}
+
+For \(\sigma\in G\), write
+\[
+  J_\sigma:=\bigl(\sigma(e)-e:e\in E\bigr)\subseteq E.
+\]
+This ideal defines the scheme-theoretic fixed locus of \(\sigma\) on
+\(\Spec E\).
+
+\begin{theorem}[Fixed-locus certificate]
+\label{thm:conjugate-fixed-locus}
+If \(\sigma\in G\) is nonidentity, then \(J_\sigma=E\).  In particular,
+\(\Spec(E/J_\sigma)=\varnothing\), and the inertia subgroup
+\[
+  \{\sigma\in G:\sigma(e)-e\in\mathfrak a\text{ for all }e\in E\}
+\]
+is trivial for every proper ideal \(\mathfrak a\subset E\).
+\end{theorem}
+
+\begin{proof}
+The action of \(G\) on \(E\) is faithful because \(\Frac(E)=N\).
+Hence some conjugate sheet \(\rho_g\) differs from
+\(\rho_{\sigma g}=\sigma\circ\rho_g\).  The two sheets agree on \(B\),
+so Proposition~\ref{prop:evaluated-projector} makes their coordinate
+differences generate \(E\).  Each such difference lies in
+\(J_\sigma\), up to sign.  Thus \(J_\sigma=E\).  If the displayed
+inertia subgroup contained a nonidentity \(\sigma\), then
+\(J_\sigma\subseteq\mathfrak a\), contradicting properness.
+\end{proof}
+
+The assertion concerns scheme-theoretic fixed loci: a prime of \(E\)
+may still be preserved setwise by a nonidentity automorphism, whose
+action on its residue field is nontrivial.  Nor does the theorem describe
+points on a boundary omitted from \(\Spec E\).
+
+\begin{corollary}[Finite \(G\)-cover over the invariant algebra]
+\label{cor:conjugate-cover}
+The inclusion \(E^G\subseteq E\) is finite \'etale and
+faithfully flat.  Its canonical action-graph map is an isomorphism
+\[
+  \Theta\colon E\otimes_{E^G}E\xrightarrow{\ \sim\ }
+    \prod_{\sigma\in G}E,
+  \qquad
+  \Theta(a\otimes b)_\sigma=a\,\sigma(b).
+\]
+\end{corollary}
+
+\begin{proof}
+Each \(e\in E\) is integral over \(E^G\), by the polynomial
+\(\prod_{\sigma\in G}(T-\sigma(e))\).  The displayed finite family of
+conjugate coordinates generates \(E\) over \(B\subseteq E^G\), so
+\(E\) is module-finite over \(E^G\).  The unit difference ideals of
+Theorem~\ref{thm:conjugate-fixed-locus} separate the action graphs.
+The finite-group cover argument gives \(\Theta\) and finite projectivity
+over \(E^G\); compare the free-quotient criterion
+\cite{StacksFiniteFreeQuotient}.  The Keller condition makes
+each conjugate source sheet formally unramified over \(B\).  Since those
+sheets generate \(E\), formal unramifiedness passes to \(E/B\), hence
+to \(E/E^G\).  Finite projectivity now makes \(E/E^G\) \'etale.
+Finally, integrality makes \(\Spec E\to\Spec E^G\) surjective, so the
+flat extension is faithfully flat.
+\end{proof}
+
+The base in Corollary~\ref{cor:conjugate-cover} is \(E^G\), not the
+polynomial target ring \(B\).  In particular, neither finiteness over
+\(B\) nor \(E^G=B\) follows from this cover.  The certificate does not
+by itself prove \(\Obs(F)=0\) or \(JC(2)\).
+
 \section{Quadratic generic collisions}
 \label{sec:quadratic-collision}
 
@@ -710,8 +823,17 @@ For a planar Keller map, the divided-difference determinant gives
   C_F\simeq A\times C_Fp_F,\qquad
   \Obs(F)=C_Fp_F,
 \]
-where \(p_F\) is the explicit off-diagonal collision projector.  Its
-vanishing has the marked-closure description
+where \(p_F\) is the explicit off-diagonal collision projector.  On
+distinct conjugate sheets its evaluation is \(1\).  Consequently every
+nonidentity \(\sigma\in G\) has \(J_\sigma=E\), and the same
+all-conjugate algebra satisfies
+\[
+  E\otimes_{E^G}E\simeq\prod_{\sigma\in G}E
+\]
+as a finite \'etale \(G\)-cover over \(E^G\).  These are
+degree-independent, scheme-theoretic consequences of the projector.
+
+Projector vanishing has the separate marked-closure description
 \[
   p_F=0
   \quad\Longleftrightarrow\quad\Obs(F)=0
@@ -725,9 +847,10 @@ In generic degree two, the residual factor forces \(p_F\neq0\), while
 normality and Keller--Galois rigidity force \(p_F=0\).  The incompatibility
 excludes that degree.  Remaining possible counterexamples to \(JC(2)\)
 have nonnormal function-field extensions of generic degree at least three.
-Uniform planar vanishing beyond the quadratic case is a separate research
-problem; no boundary or ramification criterion is needed for the exclusion
-proved here.
+The finite cover is over \(E^G\), not \(B\); it neither proves
+\(E^G=B\) nor removes a possible boundary over \(\Spec B\).
+This is why the fixed-locus certificate is not a proof of full
+planar obstruction vanishing.
 
 \section{Lean formalization status}
 \label{sec:lean-status}
@@ -750,6 +873,17 @@ for Theorem~\ref{thm:no-planar-keller-degree-two}.
 The product splitting in Theorem~\ref{thm:planar-secant-projector} is the
 standard consequence of the complementary idempotents, not a separately
 compared declaration.
+
+Proposition~\ref{prop:evaluated-projector},
+Theorem~\ref{thm:conjugate-fixed-locus}, and
+Corollary~\ref{cor:conjugate-cover} are proved in the main development in
+\leanpath{CollisionIdeals/Planar/Research/EvaluatedProjector.lean},
+\leanpath{CollisionIdeals/Planar/Research/ConjugateFixedLocus.lean},
+and \leanpath{CollisionIdeals/Planar/Research/ConjugateCover.lean}.
+The last file constructs the action-graph equivalence over the actual
+invariant algebra and proves finiteness, \'etaleness, and faithful
+flatness there.  These results are not among the two Comparator-selected
+declarations just named.
 
 At release commit
 \href{https://github.com/what-social-construct/jacobian-collision-geometry/tree/ccbba1356d6e737e1e7dd336a7014360e2f52251}
@@ -777,6 +911,9 @@ equations, using
 \leanpath{CollisionIdeals/General/Galois/CollisionVanishing.lean};
 only the converse uses Galois rigidity.  The general automorphism
 equivalence quoted from Paper~I retains its Ax--Grothendieck input.
+Separate Planar research modules establish conditional pole-growth and
+visible-source-pole consequences of a nonzero class in \(E^G/B\); they
+are not used to assert vanishing here.
 \end{leanfiles}
 
 \paragraph{Acknowledgment.}
