@@ -19,6 +19,189 @@ $K=\mathrm{Frac}(B)$, $L=\mathrm{Frac}(A)$,
 $N$ for the marked normal closure of $L/K$, and $T$ for the integral
 closure of $B$ in $N$. These are the shared objects, not new planar copies.
 
+## Finite separable comparison square
+
+[FiniteSeparableComparison.lean](FiniteSeparableComparison.lean) compares
+the actual affine projector with the finite separable decomposition. For
+a marked primitive element $\alpha$, put
+$D_\alpha=L[T]/(m_\alpha(T)/(T-\alpha))$. The generic collision bridge
+and marked-root decomposition give
+
+```math
+\begin{array}{ccc}
+K\otimes_B C_F &\xrightarrow{\ \Psi_\alpha\ }& L\times D_\alpha\\
+{\scriptstyle (1\otimes p_F)\cdot(-)}\downarrow
+&&\downarrow{\scriptstyle (0,1)\cdot(-)}\\
+K\otimes_B C_F &\xrightarrow{\ \Psi_\alpha\ }& L\times D_\alpha.
+\end{array}
+```
+
+Both horizontal maps are algebra isomorphisms. The first projection
+is the original diagonal map, and the comparison sends
+$1\otimes p_F$ to $(0,1)$, including when $D_\alpha$ is the zero ring.
+The theorem applies to every affine off-diagonal projector and hence to
+the explicit ordered secant projector, with its original Keller constant.
+It does not depend on the choice of a new secant presentation.
+
+The existing generic residual dimension and injectivity of the affine
+residual into its generic fiber now give the proved equivalence
+
+```math
+\mathrm{Obs}(F)=0\quad\Longleftrightarrow\quad d_F=1.
+```
+
+Indeed, the generic residual is finite-dimensional of dimension
+$d_F(d_F-1)$, and $d_F>0$. No purity, Ax--Grothendieck, or
+Keller--Galois rigidity input is used. Finite separability completes
+this comparison; proving $d_F=1$ for every planar Keller map remains
+the vanishing problem.
+
+Verification (2026-11-25, Lean 4.28.0): the targeted module compiles
+without warnings. A separate importing client checks obstruction and
+explicit-projector nonvanishing when $d_F>1$. The projector comparison,
+commuting square, degree-one criterion, and universal reduction use only
+`propext`, `Classical.choice`, and `Quot.sound`; no custom mathematical
+axioms occur in their dependency audits.
+
+The descendant `galois-obstruction-theory` supplies the useful distinction
+between **projector extension** and **residual vanishing**. On the actual
+Keller collision ring the diagonal projector $e_\Delta=1-p_F$ already
+extends. Its extension quotient $C_F[e_\Delta]/C_F$ is therefore zero,
+independently of whether $p_F$ is zero. Thus the descendant's extension
+obstruction cannot replace $\mathrm{Obs}(F)$ here. Its realization
+squares preserve the complementary pieces; they do not annihilate them.
+The new module uses the existing local APIs and imports no descendant
+declarations.
+
+For a closing geometric outlook, the precise concern is extension across
+the **omitted normalization boundary**. At a height-one target prime,
+use the finite normalization in $L$, not the original open source.
+For its local collision algebra $C$ and diagonal kernel $J$, the contact
+quotient is $C/(J+\operatorname{Ann}J)$, equivalently the quotient by
+the Noether different on the source. Its support detects ramification
+([Stacks, Tag 0BVU](https://stacks.math.columbia.edu/tag/0BVU)).
+This can detect failure of the generic projector to extend at a missing
+center even though it extends on the original Keller source.
+More explicitly, an inertia group $I_w$ can fix a visible sheet $gH$
+while moving another sheet $hH$: $I_w\subseteq gHg^{-1}$ but
+$I_w\nsubseteq hHh^{-1}$. Keller local rigidity applies when both
+coordinate maps are regular in the same local ring; the moved sheet
+may have an omitted center. A coordinate pole alone is not an inertia
+witness. Excluding this boundary situation is an additional geometric
+step. A possible
+characteristic-class refinement would first specify a perfect complex exact
+off that boundary, then study its localized class. The generic
+zero-dimensional Chern character records ranks and does not supply
+that boundary comparison.
+
+## Degree-one tests from the sources
+
+The [degree-one source audit](../SOURCE-LEDGER.md#degree-one-arguments-source-audit-2026-11-25)
+records the hypotheses and exact passages for the birational, finite,
+Galois, one-generator, differential, and curve-boundary arguments.
+The birational endpoint is already formalized. The other routes require
+their own input before they can force degree one.
+
+[DerivativeDegreeOne.lean](../../../General/GenericFiber/DerivativeDegreeOne.lean)
+isolates an elementary field test. For a primitive element $\alpha$ of a
+characteristic-zero extension and its minimal polynomial $m$,
+
+```math
+m'(\alpha)\in K\quad\Longrightarrow\quad [L:K]=1.
+```
+
+Here $m'$ means formal differentiation in the primitive-element variable.
+If $m'(\alpha)=c\in K$, minimality gives $m\mid(m'-c)$; the degree drop
+forces $m'=c$, hence $\deg m=1$. Combined with the finite separable
+comparison above, this is a sufficient test for obstruction vanishing.
+The criterion needs descent of one particular field element, beyond its
+nonvanishing or invertibility in a localization.
+
+The leaf and an importing planar client pass Lean 4.28.0 checks; the
+source ledger records the dependency audit.
+
+For a source-coordinate application, the objects must be the actual
+relation of $x$ over $B$ and its evaluated derivative. The field-generation
+claim that $x$ is primitive is the cited Formanek theorem, still an
+explicit premise in the generic secant-rank API. Clearing $m$ by a nonzero
+base coefficient does not change the derivative-descent test. The abstract
+field lemma does not construct the relation; the two-coordinate construction
+below now does so without needing a primitive source coordinate. The
+derivative descent remains open. This relation is different from an eliminant
+of a moved coordinate over the left-source ring on a residual component.
+
+The marked-sheet comparison gives a concrete expression to investigate.
+For $\Sigma=\operatorname{Hom}_K(L,N)$ and marked embedding $\iota$,
+factorization of $m$ in $N[T]$ gives
+
+```math
+\iota\bigl(m'(\alpha)\bigr)
+ =\prod_{\sigma\in\Sigma\setminus\{\iota\}}
+       \bigl(\iota(\alpha)-\sigma(\alpha)\bigr).
+```
+
+The Galois group permutes these products as the marked sheet changes.
+The required descent says that this particular product is fixed; its
+norm being fixed is automatic and insufficient. The factorization is
+a mathematical comparison, not an additional Lean theorem or a proved
+consequence of the affine secant equations.
+
+The other particularly relevant source route controls degrees of maps
+on dicritical boundary components; the source audit states its extra
+compactification hypotheses. A positive signed weight in the constructed
+DVR does not assert that the corresponding boundary map has degree one.
+These two comparisons give concrete next targets without adding a
+universal regularity, local-nilpotence, or boundary-emptiness premise.
+
+## Constructed coordinate relations and the affine secant
+
+[CoordinateRelations.lean](CoordinateRelations.lean) constructs primitive
+relations $H_i\in B[T]$ for both original coordinates $x_i$. Clearing the
+generic minimal polynomial and taking its primitive part gives
+
+```math
+\ker(B[T]\xrightarrow{T\mapsto x_i}A)=(H_i),\qquad
+H_i=u_i m_i\text{ in }K[T],\qquad u_i\in K^\times.
+```
+
+This uses the UFD structure on $B$ transported by the injective Keller
+coordinate map. [PrimitiveCoordinateRelation.lean](../../../General/Normalization/PrimitiveCoordinateRelation.lean)
+proves the construction and kernel statement over a general fraction-field
+tower. In particular, $j_i=H_i'(x_i)=u_i m_i'(x_i)$ in $L$.
+If both $j_i$ lie in $B$, the characteristic-zero derivative test puts
+both $x_i$ in $K$. The existing intersection theorem $A\cap K=B$ then
+gives $A=B$ and $\mathrm{Obs}(F)=0$. Testing both coordinates avoids
+assuming either one generates $L$ over $K$.
+
+[CoordinateRelationSecant.lean](CoordinateRelationSecant.lean) evaluates
+the coefficientwise divided differences at the two actual source copies
+in $C_F$, giving $\Theta_i$. It proves, without localization,
+
+```math
+\Theta_i\Delta_i=0,\qquad
+\Theta_0\Theta_1=\operatorname{left}(j_0j_1)(1-p_F).
+```
+
+The product annihilates the diagonal ideal; its diagonal value is
+$j_0j_1$. The existing explicit secant projector therefore gives this
+identity on the original affine collision ring. It retains the source
+coefficient and does not prove its base-field descent. In particular,
+multiplication by $1-p_F$ is injective **if and only if** $p_F=0$.
+Cancelling that factor would assume the desired vanishing. Nor does
+descent of $j_0j_1$ alone supply descent of each $j_i$.
+
+The remaining target is now concrete: prove the two actual derivative
+values descend, or obtain a stronger independent boundary argument.
+The relation construction and secant comparison establish neither
+Galois invariance of those values nor exclusion of hidden inertia.
+
+Verification (2026-11-25, Lean 4.28.0): all fifteen modules in the new
+dependency closure compile from source. A separate importing client
+constructs the relation family and composes its conditional derivative
+test with the finite separable degree-one criterion. The seven audited
+construction, secant, cancellation, square, and endpoint declarations use
+only `propext`, `Classical.choice`, and `Quot.sound`.
+
 ## Coherent derivation exclusion
 
 [DerivationAnnihilator.lean](../../../General/Normalization/DerivationAnnihilator.lean)

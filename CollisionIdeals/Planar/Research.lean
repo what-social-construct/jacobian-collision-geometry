@@ -42,6 +42,8 @@ import CollisionIdeals.Planar.Research.Vanishing.LeadingFaceDiagnostic
 import CollisionIdeals.Planar.Research.Vanishing.CancellationBudget
 import CollisionIdeals.Planar.Research.Vanishing.TwoSidedCancellation
 import CollisionIdeals.Planar.Research.Vanishing.OppositeDegreeExclusion
+import CollisionIdeals.Planar.Research.Vanishing.FiniteSeparableComparison
+import CollisionIdeals.Planar.Research.Vanishing.CoordinateRelations
 import CollisionIdeals.Planar.Research.Vanishing.GaloisDescent
 import CollisionIdeals.Planar.Research.Vanishing.Ramification
 import CollisionIdeals.Planar.Research.Vanishing.GaloisRigidity

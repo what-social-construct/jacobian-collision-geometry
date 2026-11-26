@@ -5,7 +5,7 @@ construction, and the separate characteristic-two investigation. This ledger
 records what a source can support, which hypotheses must be matched, and
 whether its proposed use is a direct dependency or an analogy.
 
-Last updated: 2026-11-10. This initial inventory covers the five recent papers
+Last updated: 2026-11-25. This initial inventory covers the five recent papers
 and selected existing inputs; it is not a complete audit of the bibliography.
 
 The [bibliography](../../../paper/references.bib) owns citation metadata.
@@ -164,7 +164,7 @@ read from the individual theorem, not inferred from an umbrella import.
 | --- | --- | --- |
 | `BranchPurityA2` | Explicit input to the current normalized-cover endgame; also supplied by a named axiom in older wrappers. No local proof of the interface. | [Stacks 0BMB](https://stacks.math.columbia.edu/tag/0BMB), statement and proof inspected. Its normal-source, regular-base, quasi-finite, dimension, and codimension-one hypotheses must be matched by a formal adapter. |
 | `AffinePlaneFiniteEtaleRigidity` | Explicit input asserting that an étale finite normal-closure cover of the complex affine plane has trivial extension; also a named axiom in older wrappers. | `SGA1` in the bibliography is a background reference. An exact theorem locator and proof adapter are not recorded here as verified. |
-| `ComplexKellerGaloisRigidity n` | A theorem-target proposition in [General/Automorphism/GaloisRigidity.lean](../../General/Automorphism/GaloisRigidity.lean), not itself an installed axiom. The planar value is derived from the two inputs above in [Vanishing/GaloisRigidity.lean](Vanishing/GaloisRigidity.lean); dimension three remains separate. | Existing bibliography entries include Campbell, Razar, and Wright. Their exact theorem-to-interface attribution requires a separate source check. |
+| `ComplexKellerGaloisRigidity n` | A theorem-target proposition in [General/Automorphism/GaloisRigidity.lean](../../General/Automorphism/GaloisRigidity.lean), not itself an installed axiom. The planar value is derived from the two inputs above in [Vanishing/GaloisRigidity.lean](Vanishing/GaloisRigidity.lean); dimension three remains separate. | BCW, I, Theorem 2.1(g), gives the matching classical statement; p. 297 attributes the first proof to Campbell and algebraic proofs to Razar and Wright. See the degree-one source audit below; those original proofs were not directly checked. |
 | `PlanarAxGrothendieck` | A named axiom in older automorphism wrappers. The new planar normal-case proof instead uses the proved source-intersection theorem. | `Ax1969` in the bibliography; no imported proof is recorded here. |
 
 The named axioms are visible in
@@ -670,6 +670,151 @@ given. [OppositeDegreeExclusion.lean](Vanishing/OppositeDegreeExclusion.lean)
 uses signed Euler and the existing derivative-zero criterion to exclude
 opposite strict degrees from the zero-leading-Jacobian branch. Neither
 imports the automorphism Division Lemma under the Keller hypothesis.
+
+## Finite separable comparison and descendant audit (2026-11-25)
+
+The local descendant
+[`galois-obstruction-theory`](../../../../galois-obstruction-theory/PROOF-SPINE.md)
+was inspected at its proof spine, manuscript §§2–4, and the Lean modules
+`Hodge/Collision/FiniteSeparableDecomposition`,
+`Hodge/Collision/IdempotentComparison`,
+`Hodge/Boundary/ProjectorExtension`, and
+`Jacobian/General/GenericFiber/ResidualBaseChange`.
+The applicable lesson is the separation of an extended decomposition
+from vanishing of its residual image. The algebraic idempotent square
+does not require the descendant's Chow, Betti, or characteristic-class
+realizations. No descendant declarations are imported into this project.
+
+The local adaptation in
+[FiniteSeparableComparison.lean](Vanishing/FiniteSeparableComparison.lean)
+uses the original generic collision and marked-root equivalences. Its
+comparison sends the actual affine projector to $(0,1)$ and intertwines
+the multiplication projectors. The degree-one criterion uses the
+existing dimension $d(d-1)$ and affine generic-detection theorem. All
+finite and separable instances are derived from Keller; no new geometric
+input is installed.
+
+The targeted module and a separate importing client were checked with
+Lean 4.28.0 on 2026-11-25. The client verifies nonvanishing when $d>1$;
+the four audited comparison and reduction declarations use only
+`propext`, `Classical.choice`, and `Quot.sound`.
+
+[Stacks, §49.6, Tag 0BVK](https://stacks.math.columbia.edu/tag/0BVK)
+defines the Noether different as $\mu(\operatorname{Ann}\ker\mu)$.
+[Lemma 49.6.8, Tag 0BVU](https://stacks.math.columbia.edu/tag/0BVU)
+identifies its support with the non-unramified locus for finite-type
+ring maps. These passages were read for the closing boundary outlook,
+not imported as new Lean assumptions. The normalization at a height-one
+target prime is a different model from the original open source.
+Applying this contact test there requires that model and its local
+comparison; it cannot be inferred from the already extended affine
+Keller projector. The generic Chern-character square in descendant §4
+records componentwise ranks. A boundary-localized class still needs a
+specified complex, support, and a comparison theorem.
+
+## Degree-one arguments: source audit (2026-11-25)
+
+Use $A=\mathbb C[x,y]$, $B=\mathbb C[P,Q]$, $K=\operatorname{Frac}B$,
+and $L=\operatorname{Frac}A$. The distinction is between a theorem that
+finishes **after** $L=K$ and a theorem with another sufficient hypothesis.
+
+| Source and exact passage | Hypothesis and conclusion | Fit to the current project |
+| --- | --- | --- |
+| [Bass–Connell–Wright (1982), I, Theorem 2.1, pp. 294–297](https://doi.org/10.1090/S0273-0979-1982-15032-7) | For a characteristic-zero Keller map, birationality, source finiteness/properness, and a Galois original field extension each imply automorphy. | The birational proof uses $A\cap K=B$. It already appears in [BirationalAutomorphism.lean](Vanishing/BirationalAutomorphism.lean). Finiteness and normality still need proofs when used as routes to degree one. |
+| Same paper, I, Proposition 2.3, p. 297, citing Wright, Proposition 2.2 | Local nilpotence of the normalized inverse-Jacobian derivations on the source forces $A=B$. | The actual Keller frames are available. Their polynomial coefficients and commutation do not establish local nilpotence. |
+| Formanek (1987), Theorem 1; (1994), Theorem 2, as restated in [Moskowicz, §2](https://arxiv.org/pdf/1606.00426v2) | Ring generation $A=B[w]$ implies automorphy; the field theorem gives $L=K(x)=K(y)$ for planar complex Keller maps. | Keep ring generation separate from field generation. Original publisher copies were inaccessible; the precise restatements were read, not the original proofs. The field theorem remains an explicit premise in the current generic secant-rank API. |
+| [Moskowicz (2016), Theorem 3.1, Proposition 3.3, Theorem 4.2](https://arxiv.org/pdf/1606.00426v2) | For $y=u/v$ with $u\in B[x]$ and $0\ne v\in B$, set $R=B[x,1/v]=A[1/v]$. The condition $R^\times\subset K$ yields degree one and is equivalent to automorphy. It suffices that the irreducible factors of $v$ in $B$ remain irreducible in $A$. | A finite denominator-factor test worth examining. Divisor visibility supplies a source factor, not preservation of irreducibility. The proof isolates one evaluated relation derivative; its descent is still required. |
+| [Nguyen Van Chau (2008), Theorem 2 and Lemma 1, pp. 248–250](https://www.impan.pl/shop/en/publication/transaction/download/product/85382) | A Keller map is invertible if one component is simple: on a suitable resolved compactification its restrictions to boundary components have degree zero or one. | This concerns degrees of boundary maps, not $[L:K]$. The proof excludes dicritical components using the shape of their non-proper images, then proves properness. Our signed DVR weights do not establish simplicity. |
+| [Nguyen Van Chau (2011), Theorems 1–2, pp. 47–48](https://www.impan.pl/shop/en/publication/transaction/download/product/85398) | Irreducibility and rationality of every member of the specified target-line pencil, together with finite fibres and a regular center value, force invertibility. | A geometric route through generic curve fibres. Keller supplies finite fibres and regularity, but not the pencil hypotheses. |
+| [Neumann–Norbury (1998), Theorem 2 and the horizontal-component count](https://researchers.ms.unimelb.edu.au/~norbury%40unimelb/papers/rational.pdf) | A rational polynomial with every fibre irreducible is a coordinate; the proof counts horizontal components of a compactification. | This strengthens the familiar Razar sufficient case. Generic irreducibility alone does not meet its hypothesis. |
+
+The BCW statement and proof passages were read in a university-hosted scan
+of the original paper; the AMS PDF endpoint was inaccessible. They also
+attribute the Galois case to Campbell, with algebraic proofs by Razar and
+Wright. Those original proofs were not independently checked in this audit.
+The two Chau papers and the Neumann–Norbury proof were read directly.
+No cited theorem was installed as a Lean axiom or a new universal premise.
+
+### A single derivative value
+
+The elementary field step can be checked independently. In characteristic
+zero, let $\alpha$ be integral over $K$, with minimal polynomial $m$.
+If $m'(\alpha)=c\in K$, then $m$ divides $m'-c$. The latter has degree
+less than $\deg m$, so it is zero. Characteristic zero now forces
+$\deg m=1$. If $\alpha$ generates $L$, this gives $[L:K]=1$.
+For a cleared relation $H=a m$ with $0\ne a\in K$, descent of
+$H'(\alpha)$ is equivalent to descent of $m'(\alpha)$.
+This is an independently checked consequence of minimality, not a claim
+that Keller or separability supplies descent. It is implemented in
+[DerivativeDegreeOne.lean](../../General/GenericFiber/DerivativeDegreeOne.lean).
+An Artin–Schreier polynomial has constant derivative in positive
+characteristic, explaining why finite separability alone does not give
+the same criterion there.
+
+Verification (2026-11-25, Lean 4.28.0): the leaf module compiles without
+warnings. A separate importing client derives actual planar obstruction
+vanishing from the supplied primitive-derivative descent and checks its
+incompatibility with degree two. The three field declarations and the
+client endpoint use only `propext`, `Classical.choice`, and `Quot.sound`.
+This verifies the conditional implication, not the derivative descent.
+
+### What the descendant contributes
+
+The descendant's `PROOF-SPINE.md`, `research/Alpoge-Automorphisms.md`,
+`Hodge/Boundary/Sheets/InertiaSaturation.lean`, and
+`Hodge/Realization/Chow/MultiplicativeResidualRigidity.lean` were read.
+They expose the sheet stabilizers and the hypotheses on realization
+maps; they do not prove planar degree one. In particular
+$\operatorname{Aut}_K(L)=1$ does not imply $L=K$: for the nonnormal cubic
+sheet action, $G=S_3$ and an order-two stabilizer $H$ is self-normalizing,
+although $[G:H]=3$. Likewise an inertia group contained in one sheet
+stabilizer can move another sheet. These are group-theoretic diagnostics,
+not polynomial Keller counterexamples. The existing normal-case and
+boundary endpoints retain their actual geometric inputs.
+
+The derivative test has a direct sheet expression: after splitting $m$,
+$\iota(m'(\alpha))$ is the product of
+$\iota(\alpha)-\sigma(\alpha)$ over the other embeddings $\sigma$.
+Galois evaluation therefore identifies the candidate with one specific
+marked-sheet product. This factorization is independently checked
+algebra, not a newly formalized comparison. Its invariance under the
+whole Galois group is stronger than invariance of its norm or of
+the discriminant of $m$, which is automatic. The existing secant identities do
+not yet prove the required invariance.
+
+The most direct source-driven next tests are the evaluated derivative of
+the actual $B[x]$ relation, and degree-one restrictions on actual
+dicritical components. The former must be connected to the chosen
+coordinate presentation; the latter requires a compactification and
+comparison with our constructed normalization DVRs. Neither comparison
+is supplied by changing notation or selecting a primitive element.
+
+### Actual coordinate comparison
+
+The next independent algebraic step is implemented in
+[PrimitiveCoordinateRelation.lean](../../General/Normalization/PrimitiveCoordinateRelation.lean)
+and [CoordinateRelations.lean](Vanishing/CoordinateRelations.lean).
+For each actual source coordinate, integer normalization of its minimal
+polynomial followed by primitive part constructs $H_i\in B[T]$ and a
+nonzero $u_i\in K$ with $H_i=u_i m_i$ over $K$. Gauss's lemma gives the
+original evaluation kernel $(H_i)$. No coordinate kernel or Formanek
+field-generation conclusion is supplied as an extra premise.
+
+[CoordinateRelationSecant.lean](Vanishing/CoordinateRelationSecant.lean)
+compares their divided differences in the actual affine collision ring:
+$\Theta_0\Theta_1=\operatorname{left}(j_0j_1)(1-p_F)$, where
+$j_i=H_i'(x_i)$. This is an independently proved identity, rather than
+an application of a cited geometric theorem. Both individual memberships
+$j_i\in B$ imply vanishing by the field lemma and source intersection.
+The identity does not establish those memberships. Multiplication by
+$1-p_F$ is injective precisely when $p_F=0$, so cancellation cannot
+provide a vanishing argument. The marked-sheet expression above uses
+the embeddings of $K(x_i)$ for $m_i$; if $x_i$ is not primitive for $L$,
+enumerating all embeddings of $L$ would repeat factors.
+
+The source build and importing-client checks pass on Lean 4.28.0;
+the [proof spine](Vanishing/PROOF-SPINE.md#constructed-coordinate-relations-and-the-affine-secant)
+records their scope and the seven standard-axiom dependency audits.
 
 ## Ledger maintenance
 

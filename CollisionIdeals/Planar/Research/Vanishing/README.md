@@ -18,6 +18,27 @@ target, not an axiom or a proved theorem. There is no generic-degree restriction
 in this target. Generic degree two is a settled special case conditional on
 the stated Keller--Galois rigidity input, not the scope of the full program.
 
+The [finite separable comparison square](PROOF-SPINE.md#finite-separable-comparison-square)
+now identifies the actual secant projector with the generic residual
+unit $(0,1)$ and proves $\mathrm{Obs}(F)=0\iff d_F=1$ for every planar
+Keller map, without geometric rigidity inputs. Finite separability
+establishes this comparison, rather than universal vanishing. The
+descendant's projector-extension obstruction already vanishes on the
+Keller collision ring; extension across omitted normalization centers
+is the separate boundary question.
+The [degree-one source audit](../SOURCE-LEDGER.md#degree-one-arguments-source-audit-2026-11-25)
+compares the classical sufficient hypotheses with our current objects.
+Its [derivative test](PROOF-SPINE.md#degree-one-tests-from-the-sources)
+isolates one field element whose descent would force degree one; the
+descent itself remains to be proved.
+The [coordinate-relation comparison](PROOF-SPINE.md#constructed-coordinate-relations-and-the-affine-secant)
+now constructs primitive relations for both original coordinates and
+identifies the product of their divided differences with the diagonal
+projector times the product of their evaluated derivatives. Descent of
+both derivatives suffices for vanishing, without a primitive-coordinate
+premise. Cancelling the diagonal projector already requires vanishing;
+the comparison does not establish that descent.
+
 The current findings are exact characterizations. Identifying the shared
 rings with their images in the marked normal closure gives
 

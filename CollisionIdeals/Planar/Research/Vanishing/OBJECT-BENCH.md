@@ -1254,8 +1254,39 @@ source-regularity/boundary equivalence, independently of this attempt.
 
 ## Alternative routes and presentations
 
+The descendant
+[`galois-obstruction-theory`](../../../../../galois-obstruction-theory/PROOF-SPINE.md)
+has two relevant comparisons. Its idempotent square transports a generic
+diagonal projector to the equal-sheet indicator. Its extension quotient
+$C[e_\Delta]/C$ identifies with diagonal contact, under the stated
+torsion-free model and compatible generic product hypotheses. These are
+useful comparisons, not vanishing inputs: a nonempty residual is allowed
+in both. For the actual planar Keller collision ring, $e_\Delta=1-p_F$
+already belongs to $C_F$, so that extension quotient is zero. A
+normalization model at an omitted center is a different ring and can
+still have diagonal contact. The local
+[finite separable comparison](FiniteSeparableComparison.lean) retains the
+actual projector and proves its generic image is $(0,1)$; no copied
+descendant hierarchy is needed. A localized characteristic-class
+construction remains a possible outlook, requiring its own complex,
+support, and comparison to the actual boundary.
+
+A concrete control is the open source $\operatorname{Spec}\mathbb C[t,t^{-1},u]$
+with $P=t^2$ and $Q=u/(2t)$. Its Jacobian in $(t,u)$ is one, but its
+function-field degree is two: $t^2=P$ and $u=2Qt$, while the nontrivial
+involution $(t,u)\mapsto(-t,-u)$ fixes $P,Q$. The evaluated derivative
+of $T^2-P$ is $2t$, which that involution negates. Thus finite
+separability, the Jacobian equation on an open source, and the projector
+comparison do not supply derivative invariance. The finite normalization
+is $\operatorname{Spec}\mathbb C[t,Q]\to\operatorname{Spec}\mathbb C[P,Q]$;
+its ramification divisor $t=0$ has been omitted from the original source.
+This is a direct algebraic control, not a Lean theorem or a polynomial-plane
+Keller counterexample: its source has the nonconstant unit $t$.
+
 | Object / source | Role | Promotion criterion |
 | --- | --- | --- |
+| [Degree-one source audit](../SOURCE-LEDGER.md#degree-one-arguments-source-audit-2026-11-25) and [DerivativeDegreeOne.lean](../../../General/GenericFiber/DerivativeDegreeOne.lean) | The field lemma turns descent of an evaluated minimal-polynomial derivative of a primitive element into degree one in characteristic zero. The audit compares the other classical sufficient inputs with the objects already constructed. | Prove derivative descent, or construct the boundary geometry needed for the dicritical route. A localized unit is not automatically a base-field element. |
+| [Actual coordinate relations](CoordinateRelations.lean) and [affine secant comparison](CoordinateRelationSecant.lean) | Construct both primitive coordinate kernels and their generic derivative scales; identify the product of the actual divided differences with $\operatorname{left}(j_0j_1)(1-p_F)$. Descent of both $j_i$ yields vanishing without a primitive-coordinate premise. | Prove both derivative values lie in $B$. Cancelling $1-p_F$ already requires $p_F=0$; the product identity does not establish individual descent. |
 | $\Omega_{T/B}$ and `PlanarRamificationRigidity` in [Rigidity/Statements.lean](../../Rigidity/Statements.lean) | Finite length is a sufficient divisorial criterion; the support bridge is an explicit input. | Prove the finite-length or height-one-vanishing assertion from the Keller condition, and supply the formal bridge. Finite generation is not enough. |
 | `PlanarBoundaryCoherence` in the same file | Alternative global-boundary route using local cohomology. | Establish its Keller-specific premise and the explicit boundary-coherence bridge; do not infer either from normalization finiteness. |
 | `MonogenicOrder`, `MonogenicTraceDual`, `TateReconstruction`, [MonogenicLanding.lean](../MonogenicLanding.lean), [ConductorComparison.lean](ConductorComparison.lean), [ConductorLocalization.lean](ConductorLocalization.lean), and [GeneratorDerivative.lean](GeneratorDerivative.lean) | Give the monogenic/conductor trace presentation, cancel a supplied local-unit conductor, and isolate the exact coefficientwise divisibility needed for generator derivatives. The bounded-overring lemma still supports the concrete trace-bound route. | Prove that the actual Keller frame satisfies this divisibility for a locally adapted generator. The local generator constructor is separate formalization work; do not treat its existence as the missing Keller theorem. Retain shared lemmas without promoting an unused presentation into the spine. |
